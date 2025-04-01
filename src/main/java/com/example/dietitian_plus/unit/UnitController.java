@@ -33,7 +33,7 @@ public class UnitController {
         UnitDto createdUnitDto = unitService.createUnit(createUnitDto);
         return ResponseEntity
                 .created(URI.create("/api/uints/" + createdUnitDto.getUnitId()))
-                .build();
+                .body(createdUnitDto);
     }
 
     @PutMapping("/{id}")

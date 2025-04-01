@@ -33,7 +33,7 @@ public class ProductController {
         ProductDto createdProductDto = productService.createProduct(createProductDto);
         return ResponseEntity
                 .created(URI.create("/api/products/" + createdProductDto.getProductId()))
-                .build();
+                .body(createdProductDto);
     }
 
     @PutMapping("/{id}")

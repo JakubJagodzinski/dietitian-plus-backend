@@ -33,7 +33,7 @@ public class DiseaseController {
         DiseaseDto createdDiseaseDto = diseaseService.createDisease(diseaseDto);
         return ResponseEntity
                 .created(URI.create("/api/diseases/" + createdDiseaseDto.getDiseaseId()))
-                .build();
+                .body(createdDiseaseDto);
     }
 
     @PutMapping("/{id}")

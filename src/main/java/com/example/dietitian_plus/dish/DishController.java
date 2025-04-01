@@ -33,7 +33,7 @@ public class DishController {
         DishDto createdDishDto = dishService.createDish(createDishDto);
         return ResponseEntity
                 .created(URI.create("/api/dishes/" + createdDishDto.getDishId()))
-                .build();
+                .body(createdDishDto);
     }
 
     @PutMapping("/{id}")
