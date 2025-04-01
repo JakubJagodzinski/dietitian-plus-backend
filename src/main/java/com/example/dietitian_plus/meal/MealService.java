@@ -19,15 +19,18 @@ public class MealService {
     private final UserRepository userRepository;
     private final DietitianRepository dietitianRepository;
 
+    private final MealMapper mealMapper;
+
     private final String MEAL_NOT_FOUND_MESSAGE = "Meal not found";
     private final String USER_NOT_FOUND_MESSAGE = "User not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public MealService(MealRepository mealRepository, UserRepository userRepository, DietitianRepository dietitianRepository) {
+    public MealService(MealRepository mealRepository, UserRepository userRepository, DietitianRepository dietitianRepository, MealMapper mealMapper) {
         this.mealRepository = mealRepository;
         this.userRepository = userRepository;
         this.dietitianRepository = dietitianRepository;
+        this.mealMapper = mealMapper;
     }
 
     public List<MealDto> getMeals() {
@@ -35,7 +38,7 @@ public class MealService {
         List<MealDto> mealsDto = new ArrayList<>();
 
         for (Meal meal : meals) {
-            mealsDto.add(mapToDto(meal));
+            mealsDto.add(mealMapper.toDto(meal));
         }
 
         return mealsDto;
@@ -46,7 +49,7 @@ public class MealService {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
         }
 
-        return mapToDto(mealRepository.getReferenceById(id));
+        return mealMapper.toDto(mealRepository.getReferenceById(id));
     }
 
     @Transactional
@@ -67,7 +70,7 @@ public class MealService {
         Dietitian dietitian = dietitianRepository.getReferenceById(createMealDto.getDietitianId());
         meal.setDietitian(dietitian);
 
-        return mapToDto(mealRepository.save(meal));
+        return mealMapper.toDto(mealRepository.save(meal));
     }
 
     @Transactional
@@ -80,7 +83,7 @@ public class MealService {
 
         meal.setDatetime(updateMealDto.getDatetime());
 
-        return mapToDto(mealRepository.save(meal));
+        return mealMapper.toDto(mealRepository.save(meal));
     }
 
     @Transactional
@@ -90,16 +93,6 @@ public class MealService {
         }
 
         mealRepository.deleteById(id);
-    }
-
-    private MealDto mapToDto(Meal meal) {
-        MealDto mealDto = new MealDto();
-
-        mealDto.setDatetime(meal.getDatetime());
-        mealDto.setUserId(meal.getUser().getUserId());
-        mealDto.setDietitianId(meal.getDietitian().getDietitianId());
-
-        return mealDto;
     }
 
 }

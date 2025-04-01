@@ -13,11 +13,14 @@ public class DiseaseService {
 
     private final DiseaseRepository diseaseRepository;
 
+    private final DiseaseMapper diseaseMapper;
+
     private final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
 
     @Autowired
-    public DiseaseService(DiseaseRepository diseaseRepository) {
+    public DiseaseService(DiseaseRepository diseaseRepository, DiseaseMapper diseaseMapper) {
         this.diseaseRepository = diseaseRepository;
+        this.diseaseMapper = diseaseMapper;
     }
 
     public List<DiseaseDto> getDiseases() {
@@ -25,7 +28,7 @@ public class DiseaseService {
         List<DiseaseDto> diseasesDto = new ArrayList<>();
 
         for (var disease : diseases) {
-            diseasesDto.add(mapToDto(disease));
+            diseasesDto.add(diseaseMapper.toDto(disease));
         }
 
         return diseasesDto;
@@ -36,7 +39,7 @@ public class DiseaseService {
             throw new EntityNotFoundException(this.DISEASE_NOT_FOUND_MESSAGE);
         }
 
-        return mapToDto(diseaseRepository.getReferenceById(id));
+        return diseaseMapper.toDto(diseaseRepository.getReferenceById(id));
     }
 
     @Transactional
@@ -45,7 +48,7 @@ public class DiseaseService {
 
         disease.setDiseaseName(diseaseDto.getDiseaseName());
 
-        return mapToDto(diseaseRepository.save(disease));
+        return diseaseMapper.toDto(diseaseRepository.save(disease));
     }
 
     @Transactional
@@ -60,7 +63,7 @@ public class DiseaseService {
             disease.setDiseaseName(diseaseDto.getDiseaseName());
         }
 
-        return mapToDto(diseaseRepository.save(disease));
+        return diseaseMapper.toDto(diseaseRepository.save(disease));
     }
 
     @Transactional
@@ -70,15 +73,6 @@ public class DiseaseService {
         }
 
         diseaseRepository.deleteById(id);
-    }
-
-    private DiseaseDto mapToDto(Disease disease) {
-        DiseaseDto diseaseDto = new DiseaseDto();
-
-        diseaseDto.setDiseaseId(disease.getDiseaseId());
-        diseaseDto.setDiseaseName(disease.getDiseaseName());
-
-        return diseaseDto;
     }
 
 }

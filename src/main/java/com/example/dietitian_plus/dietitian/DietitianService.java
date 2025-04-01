@@ -1,5 +1,11 @@
 package com.example.dietitian_plus.dietitian;
 
+import com.example.dietitian_plus.dish.DishDto;
+import com.example.dietitian_plus.dish.DishMapper;
+import com.example.dietitian_plus.dish.DishRepository;
+import com.example.dietitian_plus.user.UserDto;
+import com.example.dietitian_plus.user.UserMapper;
+import com.example.dietitian_plus.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +18,23 @@ import java.util.List;
 public class DietitianService {
 
     private final DietitianRepository dietitianRepository;
+    private final UserRepository userRepository;
+
+    private final DietitianMapper dietitianMapper;
+    private final UserMapper userMapper;
+    private final DishMapper dishMapper;
 
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
+    private final DishRepository dishRepository;
 
     @Autowired
-    public DietitianService(DietitianRepository dietitianRepository) {
+    public DietitianService(DietitianRepository dietitianRepository, UserRepository userRepository, DietitianMapper dietitianMapper, UserMapper userMapper, DishMapper dishMapper, DishRepository dishRepository) {
         this.dietitianRepository = dietitianRepository;
+        this.userRepository = userRepository;
+        this.dietitianMapper = dietitianMapper;
+        this.userMapper = userMapper;
+        this.dishMapper = dishMapper;
+        this.dishRepository = dishRepository;
     }
 
     public List<DietitianDto> getDietitians() {
@@ -25,7 +42,7 @@ public class DietitianService {
         List<DietitianDto> dietitiansDto = new ArrayList<>();
 
         for (var dietitian : dietitians) {
-            dietitiansDto.add(mapToDto(dietitian));
+            dietitiansDto.add(dietitianMapper.toDto(dietitian));
         }
 
         return dietitiansDto;
@@ -36,7 +53,23 @@ public class DietitianService {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        return mapToDto(dietitianRepository.getReferenceById(id));
+        return dietitianMapper.toDto(dietitianRepository.getReferenceById(id));
+    }
+
+    public List<UserDto> getDietitianUsers(Long id) throws EntityNotFoundException {
+        if (!dietitianRepository.existsById(id)) {
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+        }
+
+        return userMapper.toDtoList(userRepository.findByDietitian(dietitianRepository.getReferenceById(id)));
+    }
+
+    public List<DishDto> getDietitianDishes(Long id) throws EntityNotFoundException {
+        if (!dietitianRepository.existsById(id)) {
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+        }
+
+        return dishMapper.toDtoList(dishRepository.findByDietitian(dietitianRepository.getReferenceById(id)));
     }
 
     @Transactional
@@ -49,7 +82,7 @@ public class DietitianService {
         dietitian.setFirstName(createDietitianDto.getFirstName());
         dietitian.setLastName(createDietitianDto.getLastName());
 
-        return mapToDto(dietitianRepository.save(dietitian));
+        return dietitianMapper.toDto(dietitianRepository.save(dietitian));
     }
 
     @Transactional
@@ -80,7 +113,7 @@ public class DietitianService {
             dietitian.setLastName(dietitianDto.getLastName());
         }
 
-        return mapToDto(dietitianRepository.save(dietitian));
+        return dietitianMapper.toDto(dietitianRepository.save(dietitian));
     }
 
     @Transactional
@@ -90,19 +123,6 @@ public class DietitianService {
         }
 
         dietitianRepository.deleteById(id);
-    }
-
-    private DietitianDto mapToDto(Dietitian dietitian) {
-        DietitianDto dto = new DietitianDto();
-
-        dto.setDietitianId(dietitian.getDietitianId());
-        dto.setEmail(dietitian.getEmail());
-        dto.setPassword(dietitian.getPassword());
-        dto.setTitle(dietitian.getTitle());
-        dto.setFirstName(dietitian.getFirstName());
-        dto.setLastName(dietitian.getLastName());
-
-        return dto;
     }
 
 }

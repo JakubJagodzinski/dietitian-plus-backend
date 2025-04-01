@@ -21,15 +21,18 @@ public class NoteService {
     private final UserRepository userRepository;
     private final DietitianRepository dietitianRepository;
 
+    private final NoteMapper noteMapper;
+
     private final String NOTE_NOT_FOUND_MESSAGE = "Note not found";
     private final String USER_NOT_FOUND_MESSAGE = "User not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public NoteService(NoteRepository noteRepository, UserRepository userRepository, DietitianRepository dietitianRepository) {
+    public NoteService(NoteRepository noteRepository, UserRepository userRepository, DietitianRepository dietitianRepository, NoteMapper noteMapper) {
         this.noteRepository = noteRepository;
         this.userRepository = userRepository;
         this.dietitianRepository = dietitianRepository;
+        this.noteMapper = noteMapper;
     }
 
     public List<NoteDto> getNotes() {
@@ -37,7 +40,7 @@ public class NoteService {
         List<NoteDto> notesDto = new ArrayList<>();
 
         for (Note note : notes) {
-            notesDto.add(mapToDto(note));
+            notesDto.add(noteMapper.toDto(note));
         }
 
         return notesDto;
@@ -48,7 +51,7 @@ public class NoteService {
             throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);
         }
 
-        return mapToDto(noteRepository.getReferenceById(id));
+        return noteMapper.toDto(noteRepository.getReferenceById(id));
     }
 
     @Transactional
@@ -71,7 +74,7 @@ public class NoteService {
         note.setUser(user);
         note.setDietitian(dietitian);
 
-        return mapToDto(noteRepository.save(note));
+        return noteMapper.toDto(noteRepository.save(note));
     }
 
     @Transactional
@@ -87,7 +90,7 @@ public class NoteService {
             note.setDatetime(LocalDateTime.now());
         }
 
-        return mapToDto(noteRepository.save(note));
+        return noteMapper.toDto(noteRepository.save(note));
     }
 
     @Transactional
@@ -97,18 +100,6 @@ public class NoteService {
         }
 
         noteRepository.deleteById(id);
-    }
-
-    private NoteDto mapToDto(Note note) {
-        NoteDto noteDto = new NoteDto();
-
-        noteDto.setNoteId(note.getNoteId());
-        noteDto.setText(note.getText());
-        noteDto.setDatetime(note.getDatetime());
-        noteDto.setDietitianId(note.getDietitian().getDietitianId());
-        noteDto.setUserId(note.getUser().getUserId());
-
-        return noteDto;
     }
 
 }

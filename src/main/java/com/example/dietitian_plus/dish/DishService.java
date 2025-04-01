@@ -16,13 +16,16 @@ public class DishService {
     private final DishRepository dishRepository;
     private final DietitianRepository dietitianRepository;
 
+    private final DishMapper dishMapper;
+
     private final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public DishService(DishRepository dishRepository, DietitianRepository dietitianRepository) {
+    public DishService(DishRepository dishRepository, DietitianRepository dietitianRepository, DishMapper dishMapper) {
         this.dishRepository = dishRepository;
         this.dietitianRepository = dietitianRepository;
+        this.dishMapper = dishMapper;
     }
 
     public List<DishDto> getDishes() {
@@ -30,7 +33,7 @@ public class DishService {
         List<DishDto> dishesDto = new ArrayList<>();
 
         for (Dish dish : dishes) {
-            dishesDto.add(mapToDto(dish));
+            dishesDto.add(dishMapper.toDto(dish));
         }
 
         return dishesDto;
@@ -41,7 +44,7 @@ public class DishService {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
         }
 
-        return mapToDto(dishRepository.getReferenceById(id));
+        return dishMapper.toDto(dishRepository.getReferenceById(id));
     }
 
     @Transactional
@@ -57,7 +60,7 @@ public class DishService {
         dish.setDietitian(dietitian);
         dish.setDishName(createDishDto.getDishName());
 
-        return mapToDto(dishRepository.save(dish));
+        return dishMapper.toDto(dishRepository.save(dish));
     }
 
     @Transactional
@@ -94,7 +97,7 @@ public class DishService {
             dish.setIsPublic(updateDishDto.getIsPublic());
         }
 
-        return mapToDto(dishRepository.save(dish));
+        return dishMapper.toDto(dishRepository.save(dish));
     }
 
     @Transactional
@@ -104,23 +107,6 @@ public class DishService {
         }
 
         dishRepository.deleteById(id);
-    }
-
-    private DishDto mapToDto(Dish dish) {
-        DishDto dishDto = new DishDto();
-
-        dishDto.setDishId(dish.getDishId());
-        dishDto.setDishName(dish.getDishName());
-        dishDto.setIsVisible(dish.getIsVisible());
-        dishDto.setIsPublic(dish.getIsPublic());
-        dishDto.setKcal(dish.getKcal());
-        dishDto.setFats(dish.getFats());
-        dishDto.setCarbs(dish.getCarbs());
-        dishDto.setProtein(dish.getProtein());
-        dishDto.setFiber(dish.getFiber());
-        dishDto.setRecipe(dish.getRecipe());
-
-        return dishDto;
     }
 
 }

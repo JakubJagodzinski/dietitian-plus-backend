@@ -12,12 +12,15 @@ import java.util.List;
 public class UnitService {
 
     private final UnitRepository unitRepository;
+    
+    private final UnitMapper unitMapper;
 
     private final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";
 
     @Autowired
-    public UnitService(UnitRepository unitRepository) {
+    public UnitService(UnitRepository unitRepository, UnitMapper unitMapper) {
         this.unitRepository = unitRepository;
+        this.unitMapper = unitMapper;
     }
 
     public List<UnitDto> getUnits() {
@@ -25,7 +28,7 @@ public class UnitService {
         List<UnitDto> unitsDto = new ArrayList<>();
 
         for (Unit unit : units) {
-            unitsDto.add(mapToDto(unit));
+            unitsDto.add(unitMapper.toDto(unit));
         }
 
         return unitsDto;
@@ -36,7 +39,7 @@ public class UnitService {
             throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);
         }
 
-        return mapToDto(unitRepository.getReferenceById(id));
+        return unitMapper.toDto(unitRepository.getReferenceById(id));
     }
 
     @Transactional
@@ -46,7 +49,7 @@ public class UnitService {
         unit.setUnitName(createUnitDto.getUnitName());
         unit.setGrams(createUnitDto.getGrams());
 
-        return mapToDto(unitRepository.save(unit));
+        return unitMapper.toDto(unitRepository.save(unit));
     }
 
     @Transactional
@@ -65,7 +68,7 @@ public class UnitService {
             unit.setGrams(updateUnitDto.getGrams());
         }
 
-        return mapToDto(unitRepository.save(unit));
+        return unitMapper.toDto(unitRepository.save(unit));
     }
 
     @Transactional
@@ -75,16 +78,6 @@ public class UnitService {
         }
 
         unitRepository.deleteById(id);
-    }
-
-    private UnitDto mapToDto(Unit unit) {
-        UnitDto unitDto = new UnitDto();
-
-        unitDto.setUnitId(unit.getUnitId());
-        unitDto.setUnitName(unit.getUnitName());
-        unitDto.setGrams(unit.getGrams());
-
-        return unitDto;
     }
 
 }

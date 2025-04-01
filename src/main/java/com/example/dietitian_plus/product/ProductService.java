@@ -13,20 +13,22 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    private final ProductMapper productMapper;
+
     private final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
-
 
     public List<ProductDto> getProducts() {
         List<Product> products = productRepository.findAll();
         List<ProductDto> productsDto = new ArrayList<>();
 
         for (Product product : products) {
-            productsDto.add(mapToDto(product));
+            productsDto.add(productMapper.toDto(product));
         }
 
         return productsDto;
@@ -37,7 +39,7 @@ public class ProductService {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
 
-        return mapToDto(productRepository.getReferenceById(id));
+        return productMapper.toDto(productRepository.getReferenceById(id));
     }
 
     @Transactional
@@ -50,7 +52,7 @@ public class ProductService {
         product.setCarbs(createProductDto.getCarbs());
         product.setProtein(createProductDto.getProtein());
 
-        return mapToDto(productRepository.save(product));
+        return productMapper.toDto(productRepository.save(product));
     }
 
     @Transactional
@@ -77,7 +79,7 @@ public class ProductService {
             product.setProtein(updateProductDto.getProtein());
         }
 
-        return mapToDto(productRepository.save(product));
+        return productMapper.toDto(productRepository.save(product));
     }
 
     @Transactional
@@ -87,19 +89,6 @@ public class ProductService {
         }
 
         productRepository.deleteById(id);
-    }
-
-    private ProductDto mapToDto(Product product) {
-        ProductDto productDto = new ProductDto();
-
-        productDto.setProductName(product.getProductName());
-        productDto.setKcal(product.getKcal());
-        productDto.setFats(product.getFats());
-        productDto.setCarbs(product.getCarbs());
-        productDto.setProtein(product.getProtein());
-        productDto.setFiber(product.getFiber());
-
-        return productDto;
     }
 
 }

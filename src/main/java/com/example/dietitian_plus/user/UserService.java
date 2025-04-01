@@ -16,13 +16,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final DietitianRepository dietitianRepository;
 
+    private final UserMapper userMapper;
+
     private final String USER_NOT_FOUND_MESSAGE = "User not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public UserService(UserRepository userRepository, DietitianRepository dietitianRepository) {
+    public UserService(UserRepository userRepository, DietitianRepository dietitianRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.dietitianRepository = dietitianRepository;
+        this.userMapper = userMapper;
     }
 
     public List<UserDto> getUsers() {
@@ -30,7 +33,7 @@ public class UserService {
         List<UserDto> usersDto = new ArrayList<>();
 
         for (User user : users) {
-            usersDto.add(mapToDto(user));
+            usersDto.add(userMapper.toDto(user));
         }
 
         return usersDto;
@@ -41,7 +44,7 @@ public class UserService {
             throw new EntityNotFoundException(USER_NOT_FOUND_MESSAGE);
         }
 
-        return mapToDto(userRepository.getReferenceById(id));
+        return userMapper.toDto(userRepository.getReferenceById(id));
     }
 
     @Transactional
@@ -64,7 +67,7 @@ public class UserService {
         user.setIsActive(Boolean.TRUE);
         user.setDietitian(dietitian);
 
-        return mapToDto(userRepository.save(user));
+        return userMapper.toDto(userRepository.save(user));
     }
 
     @Transactional
@@ -108,7 +111,7 @@ public class UserService {
             user.setDietitian(dietitian);
         }
 
-        return mapToDto(userRepository.save(user));
+        return userMapper.toDto(userRepository.save(user));
     }
 
     @Transactional
@@ -118,23 +121,6 @@ public class UserService {
         }
 
         userRepository.deleteById(id);
-    }
-
-    private UserDto mapToDto(User user) {
-        UserDto userDto = new UserDto();
-
-        userDto.setUserId(user.getUserId());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setHeight(user.getHeight());
-        userDto.setStartingWeight(user.getStartingWeight());
-        userDto.setCurrentWeight(user.getCurrentWeight());
-        userDto.setIsActive(user.getIsActive());
-        userDto.setDietitianId(user.getDietitian().getDietitianId());
-
-        return userDto;
     }
 
 }

@@ -33,7 +33,7 @@ public class UserController {
         UserDto createdUser = userService.createUser(createUserDto);
         return ResponseEntity
                 .created(URI.create("/api/users/" + createdUser.getUserId()))
-                .build();
+                .body(createdUser);
     }
 
     @PutMapping("/{id}")
