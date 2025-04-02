@@ -2,6 +2,8 @@ package com.example.dietitian_plus.meal;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dietitian.DietitianRepository;
+import com.example.dietitian_plus.dish.DishDto;
+import com.example.dietitian_plus.dish.DishMapper;
 import com.example.dietitian_plus.user.User;
 import com.example.dietitian_plus.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,17 +23,19 @@ public class MealService {
     private final DietitianRepository dietitianRepository;
 
     private final MealMapper mealMapper;
+    private final DishMapper dishMapper;
 
     private final String MEAL_NOT_FOUND_MESSAGE = "Meal not found";
     private final String USER_NOT_FOUND_MESSAGE = "User not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public MealService(MealRepository mealRepository, UserRepository userRepository, DietitianRepository dietitianRepository, MealMapper mealMapper) {
+    public MealService(MealRepository mealRepository, UserRepository userRepository, DietitianRepository dietitianRepository, MealMapper mealMapper, DishMapper dishMapper) {
         this.mealRepository = mealRepository;
         this.userRepository = userRepository;
         this.dietitianRepository = dietitianRepository;
         this.mealMapper = mealMapper;
+        this.dishMapper = dishMapper;
     }
 
     public List<MealDto> getMeals() {
@@ -42,6 +47,13 @@ public class MealService {
         }
 
         return mealsDto;
+    }
+
+    public List<DishDto> getDishesByMealId(Long mealId) {
+        return dishMapper
+                .toDtoList(mealRepository.findById(mealId)
+                        .map(Meal::getDishes)
+                        .orElse(Collections.emptyList()));
     }
 
     public MealDto getMealById(Long id) throws EntityNotFoundException {
