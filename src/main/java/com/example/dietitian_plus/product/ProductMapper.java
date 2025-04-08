@@ -2,6 +2,9 @@ package com.example.dietitian_plus.product;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ProductMapper {
 
@@ -16,6 +19,12 @@ public class ProductMapper {
         dto.setFiber(product.getFiber());
 
         return dto;
+    }
+
+    public List<ProductDto> toDtoList(List<Product> products) {
+        return products.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
 }

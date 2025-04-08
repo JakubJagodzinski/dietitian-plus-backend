@@ -2,6 +2,9 @@ package com.example.dietitian_plus.dish;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dietitian.DietitianRepository;
+import com.example.dietitian_plus.product.ProductDto;
+import com.example.dietitian_plus.product.ProductMapper;
+import com.example.dietitian_plus.product.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +18,21 @@ public class DishService {
 
     private final DishRepository dishRepository;
     private final DietitianRepository dietitianRepository;
+    private final ProductRepository productRepository;
 
     private final DishMapper dishMapper;
+    private final ProductMapper productMapper;
 
     private final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public DishService(DishRepository dishRepository, DietitianRepository dietitianRepository, DishMapper dishMapper) {
+    public DishService(DishRepository dishRepository, DietitianRepository dietitianRepository, ProductRepository productRepository, DishMapper dishMapper, ProductMapper productMapper) {
         this.dishRepository = dishRepository;
         this.dietitianRepository = dietitianRepository;
+        this.productRepository = productRepository;
         this.dishMapper = dishMapper;
+        this.productMapper = productMapper;
     }
 
     public List<DishDto> getDishes() {
@@ -45,6 +52,14 @@ public class DishService {
         }
 
         return dishMapper.toDto(dishRepository.getReferenceById(id));
+    }
+
+    public List<ProductDto> getDishProducts(Long id) throws EntityNotFoundException {
+        if (!dishRepository.existsById(id)) {
+            throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
+        }
+
+        return productMapper.toDtoList(productRepository.findByDishes_dishId(id));
     }
 
     @Transactional

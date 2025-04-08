@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.dish;
 
+import com.example.dietitian_plus.product.ProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,11 @@ public class DishController {
     @GetMapping("/{id}")
     public ResponseEntity<DishDto> getDishById(@PathVariable Long id) {
         return ResponseEntity.ok(dishService.getDishById(id));
+    }
+
+    @GetMapping("/{id}/products")
+    public ResponseEntity<List<ProductDto>> getDishProducts(@PathVariable Long id) {
+        return ResponseEntity.ok(dishService.getDishProducts(id));
     }
 
     @PostMapping("/")
