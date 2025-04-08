@@ -47,10 +47,26 @@ public class ProductService {
         Product product = new Product();
 
         product.setProductName(createProductDto.getProductName());
-        product.setKcal(createProductDto.getKcal());
-        product.setFats(createProductDto.getFats());
-        product.setCarbs(createProductDto.getCarbs());
-        product.setProtein(createProductDto.getProtein());
+
+        if (createProductDto.getKcal() != null) {
+            product.setKcal(createProductDto.getKcal());
+        }
+
+        if (createProductDto.getFats() != null) {
+            product.setFats(createProductDto.getFats());
+        }
+
+        if (createProductDto.getCarbs() != null) {
+            product.setCarbs(createProductDto.getCarbs());
+        }
+
+        if (createProductDto.getProtein() != null) {
+            product.setProtein(createProductDto.getProtein());
+        }
+
+        if (createProductDto.getFiber() != null) {
+            product.setFiber(createProductDto.getFiber());
+        }
 
         return productMapper.toDto(productRepository.save(product));
     }
@@ -77,6 +93,9 @@ public class ProductService {
         }
         if (product.getProtein() != null) {
             product.setProtein(updateProductDto.getProtein());
+        }
+        if (product.getFiber() != null) {
+            product.setFiber(updateProductDto.getFiber());
         }
 
         return productMapper.toDto(productRepository.save(product));
