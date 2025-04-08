@@ -9,6 +9,7 @@ public class MealMapper {
     public MealDto toDto(Meal meal) {
         MealDto dto = new MealDto();
 
+        dto.setMealId(meal.getMealId());
         dto.setDatetime(meal.getDatetime());
         dto.setUserId(meal.getUser().getUserId());
         dto.setDietitianId(meal.getDietitian().getDietitianId());
