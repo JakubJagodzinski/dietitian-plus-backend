@@ -2,6 +2,9 @@ package com.example.dietitian_plus.user;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dietitian.DietitianRepository;
+import com.example.dietitian_plus.meal.MealDto;
+import com.example.dietitian_plus.meal.MealMapper;
+import com.example.dietitian_plus.meal.MealRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +18,21 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final DietitianRepository dietitianRepository;
+    private final MealRepository mealRepository;
 
     private final UserMapper userMapper;
+    private final MealMapper mealMapper;
 
     private final String USER_NOT_FOUND_MESSAGE = "User not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public UserService(UserRepository userRepository, DietitianRepository dietitianRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, DietitianRepository dietitianRepository, MealRepository mealRepository, UserMapper userMapper, MealMapper mealMapper) {
         this.userRepository = userRepository;
         this.dietitianRepository = dietitianRepository;
+        this.mealRepository = mealRepository;
         this.userMapper = userMapper;
+        this.mealMapper = mealMapper;
     }
 
     public List<UserDto> getUsers() {
@@ -45,6 +52,14 @@ public class UserService {
         }
 
         return userMapper.toDto(userRepository.getReferenceById(id));
+    }
+
+    public List<MealDto> getUserMeals(Long id) throws EntityNotFoundException {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException(USER_NOT_FOUND_MESSAGE);
+        }
+
+        return mealMapper.toDtoList(mealRepository.findByUser(userRepository.getReferenceById(id)));
     }
 
     @Transactional
