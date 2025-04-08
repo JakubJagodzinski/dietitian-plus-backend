@@ -11,6 +11,7 @@ public class ProductMapper {
     public ProductDto toDto(Product product) {
         ProductDto dto = new ProductDto();
 
+        dto.setProductId(product.getProductId());
         dto.setProductName(product.getProductName());
         dto.setKcal(product.getKcal());
         dto.setFats(product.getFats());
