@@ -50,10 +50,7 @@ public class MealService {
     }
 
     public List<DishDto> getDishesByMealId(Long mealId) {
-        return dishMapper
-                .toDtoList(mealRepository.findById(mealId)
-                        .map(Meal::getDishes)
-                        .orElse(Collections.emptyList()));
+        return dishMapper.toDtoList(mealRepository.findById(mealId).map(Meal::getDishes).orElse(Collections.emptyList()));
     }
 
     public MealDto getMealById(Long id) throws EntityNotFoundException {

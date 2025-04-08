@@ -43,17 +43,13 @@ public class PatientController {
     @PostMapping("/")
     public ResponseEntity<PatientDto> createPatient(@RequestBody CreatePatientDto createPatientDto) {
         PatientDto createdPatient = patientService.createPatient(createPatientDto);
-        return ResponseEntity
-                .created(URI.create("/api/patients/" + createdPatient.getPatientId()))
-                .body(createdPatient);
+        return ResponseEntity.created(URI.create("/api/patients/" + createdPatient.getPatientId())).body(createdPatient);
     }
 
     @PostMapping("/{patientId}/diseases/{diseaseId}")
     public ResponseEntity<List<DiseaseDto>> assignDiseaseToPatient(@PathVariable Long patientId, @PathVariable Long diseaseId) {
         List<DiseaseDto> patientDiseases = patientService.assignDiseaseToPatient(patientId, diseaseId);
-        return ResponseEntity
-                .created(URI.create("/api/patients/" + patientId + "/diseases/" + diseaseId))
-                .body(patientDiseases);
+        return ResponseEntity.created(URI.create("/api/patients/" + patientId + "/diseases/" + diseaseId)).body(patientDiseases);
     }
 
     @PutMapping("/{id}")

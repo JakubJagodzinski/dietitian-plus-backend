@@ -43,9 +43,7 @@ public class DietitianController {
     @PostMapping("/")
     public ResponseEntity<DietitianDto> createDietitian(@RequestBody CreateDietitianDto createDietitianDto) {
         DietitianDto createdDietitianDto = dietitianService.createDietitian(createDietitianDto);
-        return ResponseEntity
-                .created(URI.create("/api/dietitians/" + createdDietitianDto.getDietitianId()))
-                .body(createdDietitianDto);
+        return ResponseEntity.created(URI.create("/api/dietitians/" + createdDietitianDto.getDietitianId())).body(createdDietitianDto);
     }
 
     @PutMapping("/{id}")

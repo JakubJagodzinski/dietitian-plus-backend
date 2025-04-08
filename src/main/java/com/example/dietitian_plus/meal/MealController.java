@@ -37,9 +37,7 @@ public class MealController {
     @PostMapping("/")
     public ResponseEntity<MealDto> createMeal(@RequestBody CreateMealDto createMealDto) {
         MealDto createdMeal = mealService.createMeal(createMealDto);
-        return ResponseEntity
-                .created(URI.create("api/meals/" + createdMeal.getMealId()))
-                .body(createdMeal);
+        return ResponseEntity.created(URI.create("api/meals/" + createdMeal.getMealId())).body(createdMeal);
     }
 
     @PutMapping("/{id}")

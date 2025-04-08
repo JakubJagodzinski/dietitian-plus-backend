@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -23,18 +25,20 @@ public class Note {
     @Column(name = "note_id")
     private Long noteId;
 
-    private String text;
+    private String text = "";
 
     private LocalDateTime datetime = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "patient_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
     @ToString.Exclude
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "dietitian_id")
+    @JoinColumn(name = "dietitian_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
     @ToString.Exclude
     private Dietitian dietitian;

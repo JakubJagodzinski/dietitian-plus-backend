@@ -41,7 +41,7 @@ public class DietitianService {
         List<Dietitian> dietitians = dietitianRepository.findAll();
         List<DietitianDto> dietitiansDto = new ArrayList<>();
 
-        for (var dietitian : dietitians) {
+        for (Dietitian dietitian : dietitians) {
             dietitiansDto.add(dietitianMapper.toDto(dietitian));
         }
 

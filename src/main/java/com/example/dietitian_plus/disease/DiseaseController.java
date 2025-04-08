@@ -31,9 +31,7 @@ public class DiseaseController {
     @PostMapping("/")
     public ResponseEntity<DiseaseDto> createDisease(@RequestBody DiseaseDto diseaseDto) {
         DiseaseDto createdDiseaseDto = diseaseService.createDisease(diseaseDto);
-        return ResponseEntity
-                .created(URI.create("/api/diseases/" + createdDiseaseDto.getDiseaseId()))
-                .body(createdDiseaseDto);
+        return ResponseEntity.created(URI.create("/api/diseases/" + createdDiseaseDto.getDiseaseId())).body(createdDiseaseDto);
     }
 
     @PutMapping("/{id}")

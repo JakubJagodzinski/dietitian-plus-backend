@@ -31,9 +31,7 @@ public class UnitController {
     @PostMapping("/")
     public ResponseEntity<UnitDto> createUnit(@RequestBody CreateUnitDto createUnitDto) {
         UnitDto createdUnitDto = unitService.createUnit(createUnitDto);
-        return ResponseEntity
-                .created(URI.create("/api/uints/" + createdUnitDto.getUnitId()))
-                .body(createdUnitDto);
+        return ResponseEntity.created(URI.create("/api/uints/" + createdUnitDto.getUnitId())).body(createdUnitDto);
     }
 
     @PutMapping("/{id}")

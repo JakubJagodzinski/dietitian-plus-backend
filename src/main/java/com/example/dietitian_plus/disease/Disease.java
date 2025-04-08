@@ -23,7 +23,7 @@ public class Disease {
     @Column(name = "disease_id")
     private Long diseaseId;
 
-    @Column(name = "disease_name")
+    @Column(name = "disease_name", nullable = false, unique = true)
     private String diseaseName;
 
     @ManyToMany(mappedBy = "diseases")

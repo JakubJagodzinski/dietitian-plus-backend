@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,15 +28,18 @@ public class Meal {
     @Column(name = "meal_id")
     private Long mealId;
 
+    @Column(nullable = false)
     private LocalDateTime datetime;
 
     @OneToOne
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "patient_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
     private Patient patient;
 
     @OneToOne
-    @JoinColumn(name = "dietitian_id")
+    @JoinColumn(name = "dietitian_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
     private Dietitian dietitian;
 
@@ -44,6 +49,7 @@ public class Meal {
             joinColumns = @JoinColumn(name = "meal_id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id")
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
     @ToString.Exclude
     private final List<Dish> dishes = new ArrayList<>();

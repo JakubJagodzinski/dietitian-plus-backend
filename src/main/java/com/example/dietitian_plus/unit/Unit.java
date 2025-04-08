@@ -23,9 +23,10 @@ public class Unit {
     @Column(name = "unit_id")
     private Long unitId;
 
-    @Column(name = "unit_name")
+    @Column(name = "unit_name", nullable = false)
     private String unitName;
 
+    @Column(nullable = false)
     private Float grams;
 
     @OneToMany(mappedBy = "unit")

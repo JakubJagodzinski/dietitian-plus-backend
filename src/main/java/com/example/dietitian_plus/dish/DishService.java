@@ -2,9 +2,11 @@ package com.example.dietitian_plus.dish;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dietitian.DietitianRepository;
+import com.example.dietitian_plus.dishesproducts.DishesProducts;
+import com.example.dietitian_plus.dishesproducts.DishesProductsRepository;
+import com.example.dietitian_plus.product.Product;
 import com.example.dietitian_plus.product.ProductDto;
 import com.example.dietitian_plus.product.ProductMapper;
-import com.example.dietitian_plus.product.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ public class DishService {
 
     private final DishRepository dishRepository;
     private final DietitianRepository dietitianRepository;
-    private final ProductRepository productRepository;
+    private final DishesProductsRepository dishesProductsRepository;
 
     private final DishMapper dishMapper;
     private final ProductMapper productMapper;
@@ -27,10 +29,10 @@ public class DishService {
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public DishService(DishRepository dishRepository, DietitianRepository dietitianRepository, ProductRepository productRepository, DishMapper dishMapper, ProductMapper productMapper) {
+    public DishService(DishRepository dishRepository, DietitianRepository dietitianRepository, DishesProductsRepository dishesProductsRepository, DishMapper dishMapper, ProductMapper productMapper) {
         this.dishRepository = dishRepository;
         this.dietitianRepository = dietitianRepository;
-        this.productRepository = productRepository;
+        this.dishesProductsRepository = dishesProductsRepository;
         this.dishMapper = dishMapper;
         this.productMapper = productMapper;
     }
@@ -59,7 +61,13 @@ public class DishService {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
         }
 
-        return productMapper.toDtoList(productRepository.findByDishes_dishId(id));
+        List<DishesProducts> dishesProducts = dishesProductsRepository.findByDish_DishId(id);
+
+        List<Product> products = dishesProducts.stream()
+                .map(DishesProducts::getProduct)
+                .toList();
+
+        return productMapper.toDtoList(products);
     }
 
     @Transactional

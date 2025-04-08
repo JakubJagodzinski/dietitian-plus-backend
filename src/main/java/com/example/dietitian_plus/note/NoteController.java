@@ -32,9 +32,7 @@ public class NoteController {
 
     public ResponseEntity<NoteDto> createNote(@RequestBody CreateNoteDto createNoteDto) {
         NoteDto createdNoteDto = noteService.createNote(createNoteDto);
-        return ResponseEntity
-                .created(URI.create("api/notes/" + createdNoteDto.getNoteId()))
-                .body(createdNoteDto);
+        return ResponseEntity.created(URI.create("api/notes/" + createdNoteDto.getNoteId())).body(createdNoteDto);
     }
 
     @PutMapping("/{id}")

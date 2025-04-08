@@ -29,31 +29,34 @@ public class Patient {
     @Column(name = "patient_id")
     private Long patientId;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
     private Float height;
 
-    @Column(name = "starting_weight")
+    @Column(name = "starting_weight", nullable = false)
     private Float startingWeight;
 
-    @Column(name = "current_weight")
+    @Column(name = "current_weight", nullable = false)
     private Float currentWeight;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = false;
 
     @ManyToOne
     @JoinColumn(name = "dietitian_id")
     @JsonManagedReference
-    private Dietitian dietitian;
+    private Dietitian dietitian = null;
 
     @ManyToMany
     @JoinTable(

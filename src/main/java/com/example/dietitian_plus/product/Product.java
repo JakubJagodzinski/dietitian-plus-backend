@@ -1,6 +1,5 @@
 package com.example.dietitian_plus.product;
 
-import com.example.dietitian_plus.dish.Dish;
 import com.example.dietitian_plus.dishesproducts.DishesProducts;
 import com.example.dietitian_plus.patient.Patient;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -27,7 +26,7 @@ public class Product {
     @Column(name = "product_id")
     private Long productId;
 
-    @Column(name = "product_name")
+    @Column(name = "product_name", nullable = false)
     private String productName;
 
     private Float kcal = 0.0f;
@@ -39,11 +38,6 @@ public class Product {
     private Float protein = 0.0f;
 
     private Float fiber = 0.0f;
-
-    @ManyToMany(mappedBy = "products")
-    @JsonBackReference
-    @ToString.Exclude
-    private final List<Dish> dishes = new ArrayList<>();
 
     @ManyToMany(mappedBy = "allergenicProducts")
     @JsonBackReference

@@ -37,9 +37,7 @@ public class DishController {
     @PostMapping("/")
     public ResponseEntity<DishDto> createDish(@RequestBody CreateDishDto createDishDto) {
         DishDto createdDishDto = dishService.createDish(createDishDto);
-        return ResponseEntity
-                .created(URI.create("/api/dishes/" + createdDishDto.getDishId()))
-                .body(createdDishDto);
+        return ResponseEntity.created(URI.create("/api/dishes/" + createdDishDto.getDishId())).body(createdDishDto);
     }
 
     @PutMapping("/{id}")

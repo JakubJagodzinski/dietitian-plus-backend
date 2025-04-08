@@ -27,7 +27,7 @@ public class DiseaseService {
         List<Disease> diseases = diseaseRepository.findAll();
         List<DiseaseDto> diseasesDto = new ArrayList<>();
 
-        for (var disease : diseases) {
+        for (Disease disease : diseases) {
             diseasesDto.add(diseaseMapper.toDto(disease));
         }
 

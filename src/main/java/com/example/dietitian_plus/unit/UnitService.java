@@ -12,7 +12,7 @@ import java.util.List;
 public class UnitService {
 
     private final UnitRepository unitRepository;
-    
+
     private final UnitMapper unitMapper;
 
     private final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";

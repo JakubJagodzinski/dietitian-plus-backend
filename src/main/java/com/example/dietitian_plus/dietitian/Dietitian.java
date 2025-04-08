@@ -25,16 +25,18 @@ public class Dietitian {
     @Column(name = "dietitian_id")
     private Long dietitianId;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     private String title = "";
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @OneToMany(mappedBy = "dietitian")
