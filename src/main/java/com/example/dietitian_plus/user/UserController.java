@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.user;
 
+import com.example.dietitian_plus.disease.DiseaseDto;
 import com.example.dietitian_plus.meal.MealDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,11 @@ public class UserController {
     @GetMapping("/{id}/meals")
     public ResponseEntity<List<MealDto>> getUserMeals(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserMeals(id));
+    }
+
+    @GetMapping("/{id}/diseases")
+    public ResponseEntity<List<DiseaseDto>> getUserDiseases(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserDiseases(id));
     }
 
     @PostMapping("/")

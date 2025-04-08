@@ -2,6 +2,9 @@ package com.example.dietitian_plus.user;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dietitian.DietitianRepository;
+import com.example.dietitian_plus.disease.DiseaseDto;
+import com.example.dietitian_plus.disease.DiseaseMapper;
+import com.example.dietitian_plus.disease.DiseaseRepository;
 import com.example.dietitian_plus.meal.MealDto;
 import com.example.dietitian_plus.meal.MealMapper;
 import com.example.dietitian_plus.meal.MealRepository;
@@ -19,20 +22,24 @@ public class UserService {
     private final UserRepository userRepository;
     private final DietitianRepository dietitianRepository;
     private final MealRepository mealRepository;
+    private final DiseaseRepository diseaseRepository;
 
     private final UserMapper userMapper;
     private final MealMapper mealMapper;
+    private final DiseaseMapper diseaseMapper;
 
     private final String USER_NOT_FOUND_MESSAGE = "User not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public UserService(UserRepository userRepository, DietitianRepository dietitianRepository, MealRepository mealRepository, UserMapper userMapper, MealMapper mealMapper) {
+    public UserService(UserRepository userRepository, DietitianRepository dietitianRepository, MealRepository mealRepository, DiseaseRepository diseaseRepository, UserMapper userMapper, MealMapper mealMapper, DiseaseMapper diseaseMapper) {
         this.userRepository = userRepository;
         this.dietitianRepository = dietitianRepository;
         this.mealRepository = mealRepository;
+        this.diseaseRepository = diseaseRepository;
         this.userMapper = userMapper;
         this.mealMapper = mealMapper;
+        this.diseaseMapper = diseaseMapper;
     }
 
     public List<UserDto> getUsers() {
@@ -60,6 +67,14 @@ public class UserService {
         }
 
         return mealMapper.toDtoList(mealRepository.findByUser(userRepository.getReferenceById(id)));
+    }
+
+    public List<DiseaseDto> getUserDiseases(Long id) throws EntityNotFoundException {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException(USER_NOT_FOUND_MESSAGE);
+        }
+
+        return diseaseMapper.toDtoList(diseaseRepository.findByUsers_userId(id));
     }
 
     @Transactional
