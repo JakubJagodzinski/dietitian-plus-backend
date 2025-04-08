@@ -82,10 +82,6 @@ public class UserService {
             user.setEmail(userDto.getEmail());
         }
 
-        if (userDto.getPassword() != null) {
-            user.setPassword(userDto.getPassword());
-        }
-
         if (userDto.getHeight() != null) {
             user.setHeight(userDto.getHeight());
         }
