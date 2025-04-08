@@ -2,6 +2,7 @@ package com.example.dietitian_plus.patient;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dietitian.DietitianRepository;
+import com.example.dietitian_plus.disease.Disease;
 import com.example.dietitian_plus.disease.DiseaseDto;
 import com.example.dietitian_plus.disease.DiseaseMapper;
 import com.example.dietitian_plus.disease.DiseaseRepository;
@@ -30,6 +31,9 @@ public class PatientService {
 
     private final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
+    private final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
+
+    private final String DISEASE_ALREADY_ASSIGNED_TO_THIS_PATIENT_MESSAGE = "Disease already assigned to this patient";
 
     @Autowired
     public PatientService(PatientRepository patientRepository, DietitianRepository dietitianRepository, MealRepository mealRepository, DiseaseRepository diseaseRepository, PatientMapper patientMapper, MealMapper mealMapper, DiseaseMapper diseaseMapper) {
@@ -75,6 +79,33 @@ public class PatientService {
         }
 
         return diseaseMapper.toDtoList(diseaseRepository.findByPatients_patientId(id));
+    }
+
+    @Transactional
+    public List<DiseaseDto> assignDiseaseToPatient(Long patientId, Long diseaseId) throws EntityNotFoundException, IllegalStateException {
+        if (!patientRepository.existsById(patientId)) {
+            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+        }
+
+        if (!diseaseRepository.existsById(diseaseId)) {
+            throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
+        }
+
+        Patient patient = patientRepository.getReferenceById(patientId);
+
+        Disease disease = diseaseRepository.getReferenceById(diseaseId);
+
+        List<Disease> patientDiseases = patient.getDiseases();
+
+        if (patientDiseases.contains(disease)) {
+            throw new IllegalStateException(DISEASE_ALREADY_ASSIGNED_TO_THIS_PATIENT_MESSAGE);
+        }
+
+        patientDiseases.add(disease);
+
+        patientRepository.save(patient);
+
+        return diseaseMapper.toDtoList(patientDiseases);
     }
 
     @Transactional

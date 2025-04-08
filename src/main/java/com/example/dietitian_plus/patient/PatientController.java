@@ -48,6 +48,14 @@ public class PatientController {
                 .body(createdPatient);
     }
 
+    @PostMapping("/{patientId}/diseases/{diseaseId}")
+    public ResponseEntity<List<DiseaseDto>> assignDiseaseToPatient(@PathVariable Long patientId, @PathVariable Long diseaseId) {
+        List<DiseaseDto> patientDiseases = patientService.assignDiseaseToPatient(patientId, diseaseId);
+        return ResponseEntity
+                .created(URI.create("/api/patients/" + patientId + "/diseases/" + diseaseId))
+                .body(patientDiseases);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<PatientDto> updatePatientById(@PathVariable Long id, @RequestBody PatientDto patientDto) {
         return ResponseEntity.ok(patientService.updatePatientById(id, patientDto));
