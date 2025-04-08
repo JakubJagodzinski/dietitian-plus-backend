@@ -12,7 +12,7 @@ public class NoteMapper {
         dto.setText(note.getText());
         dto.setDatetime(note.getDatetime());
         dto.setDietitianId(note.getDietitian().getDietitianId());
-        dto.setUserId(note.getUser().getUserId());
+        dto.setPatientId(note.getPatient().getPatientId());
 
         return dto;
     }

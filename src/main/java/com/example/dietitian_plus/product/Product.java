@@ -2,7 +2,7 @@ package com.example.dietitian_plus.product;
 
 import com.example.dietitian_plus.dish.Dish;
 import com.example.dietitian_plus.dishesproducts.DishesProducts;
-import com.example.dietitian_plus.user.User;
+import com.example.dietitian_plus.patient.Patient;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,12 +46,12 @@ public class Product {
     @ManyToMany(mappedBy = "allergenicProducts")
     @JsonBackReference
     @ToString.Exclude
-    private final List<User> usersWithAllergy = new ArrayList<>();
+    private final List<Patient> patientsWithAllergy = new ArrayList<>();
 
     @ManyToMany(mappedBy = "dislikedProducts")
     @JsonBackReference
     @ToString.Exclude
-    private final List<User> dislikedUsers = new ArrayList<>();
+    private final List<Patient> dislikedPatients = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
     @JsonBackReference

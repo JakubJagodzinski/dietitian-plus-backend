@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CreateMealDto {
 
-    private Long userId;
+    private Long patientId;
 
     private Long dietitianId;
 

@@ -3,9 +3,9 @@ package com.example.dietitian_plus.dietitian;
 import com.example.dietitian_plus.dish.DishDto;
 import com.example.dietitian_plus.dish.DishMapper;
 import com.example.dietitian_plus.dish.DishRepository;
-import com.example.dietitian_plus.user.UserDto;
-import com.example.dietitian_plus.user.UserMapper;
-import com.example.dietitian_plus.user.UserRepository;
+import com.example.dietitian_plus.patient.PatientDto;
+import com.example.dietitian_plus.patient.PatientMapper;
+import com.example.dietitian_plus.patient.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +18,21 @@ import java.util.List;
 public class DietitianService {
 
     private final DietitianRepository dietitianRepository;
-    private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
 
     private final DietitianMapper dietitianMapper;
-    private final UserMapper userMapper;
+    private final PatientMapper patientMapper;
     private final DishMapper dishMapper;
 
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
     private final DishRepository dishRepository;
 
     @Autowired
-    public DietitianService(DietitianRepository dietitianRepository, UserRepository userRepository, DietitianMapper dietitianMapper, UserMapper userMapper, DishMapper dishMapper, DishRepository dishRepository) {
+    public DietitianService(DietitianRepository dietitianRepository, PatientRepository patientRepository, DietitianMapper dietitianMapper, PatientMapper patientMapper, DishMapper dishMapper, DishRepository dishRepository) {
         this.dietitianRepository = dietitianRepository;
-        this.userRepository = userRepository;
+        this.patientRepository = patientRepository;
         this.dietitianMapper = dietitianMapper;
-        this.userMapper = userMapper;
+        this.patientMapper = patientMapper;
         this.dishMapper = dishMapper;
         this.dishRepository = dishRepository;
     }
@@ -56,12 +56,12 @@ public class DietitianService {
         return dietitianMapper.toDto(dietitianRepository.getReferenceById(id));
     }
 
-    public List<UserDto> getDietitianUsers(Long id) throws EntityNotFoundException {
+    public List<PatientDto> getDietitianPatients(Long id) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(id)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        return userMapper.toDtoList(userRepository.findByDietitian(dietitianRepository.getReferenceById(id)));
+        return patientMapper.toDtoList(patientRepository.findByDietitian(dietitianRepository.getReferenceById(id)));
     }
 
     public List<DishDto> getDietitianDishes(Long id) throws EntityNotFoundException {

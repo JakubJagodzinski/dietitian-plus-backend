@@ -11,7 +11,7 @@ public class CreateNoteDto {
 
     private String text;
 
-    private Long userId;
+    private Long patientId;
 
     private Long dietitianId;
 

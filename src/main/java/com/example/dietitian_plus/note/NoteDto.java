@@ -17,7 +17,7 @@ public class NoteDto {
 
     private LocalDateTime datetime;
 
-    private Long userId;
+    private Long patientId;
 
     private Long dietitianId;
 

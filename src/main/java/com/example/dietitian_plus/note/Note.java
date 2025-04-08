@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.note;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
-import com.example.dietitian_plus.user.User;
+import com.example.dietitian_plus.patient.Patient;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,10 +28,10 @@ public class Note {
     private LocalDateTime datetime = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "patient_id")
     @JsonManagedReference
     @ToString.Exclude
-    private User user;
+    private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "dietitian_id")

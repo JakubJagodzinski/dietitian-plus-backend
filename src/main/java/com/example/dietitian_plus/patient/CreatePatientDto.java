@@ -1,11 +1,11 @@
-package com.example.dietitian_plus.user;
+package com.example.dietitian_plus.patient;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateUserDto {
+public class CreatePatientDto {
 
     private String email;
 

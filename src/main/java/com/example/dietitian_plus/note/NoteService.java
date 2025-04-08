@@ -3,8 +3,8 @@ package com.example.dietitian_plus.note;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dietitian.DietitianRepository;
-import com.example.dietitian_plus.user.User;
-import com.example.dietitian_plus.user.UserRepository;
+import com.example.dietitian_plus.patient.Patient;
+import com.example.dietitian_plus.patient.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +18,19 @@ import java.util.List;
 public class NoteService {
 
     private final NoteRepository noteRepository;
-    private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
     private final DietitianRepository dietitianRepository;
 
     private final NoteMapper noteMapper;
 
     private final String NOTE_NOT_FOUND_MESSAGE = "Note not found";
-    private final String USER_NOT_FOUND_MESSAGE = "User not found";
+    private final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public NoteService(NoteRepository noteRepository, UserRepository userRepository, DietitianRepository dietitianRepository, NoteMapper noteMapper) {
+    public NoteService(NoteRepository noteRepository, PatientRepository patientRepository, DietitianRepository dietitianRepository, NoteMapper noteMapper) {
         this.noteRepository = noteRepository;
-        this.userRepository = userRepository;
+        this.patientRepository = patientRepository;
         this.dietitianRepository = dietitianRepository;
         this.noteMapper = noteMapper;
     }
@@ -58,20 +58,20 @@ public class NoteService {
     public NoteDto createNote(CreateNoteDto createNoteDto) throws EntityNotFoundException {
         Note note = new Note();
 
-        if (!userRepository.existsById(createNoteDto.getUserId())) {
-            throw new EntityNotFoundException(USER_NOT_FOUND_MESSAGE);
+        if (!patientRepository.existsById(createNoteDto.getPatientId())) {
+            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
         if (!dietitianRepository.existsById(createNoteDto.getDietitianId())) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        User user = userRepository.getReferenceById(createNoteDto.getUserId());
+        Patient patient = patientRepository.getReferenceById(createNoteDto.getPatientId());
         Dietitian dietitian = dietitianRepository.getReferenceById(createNoteDto.getDietitianId());
 
         note.setDatetime(LocalDateTime.now());
         note.setText(createNoteDto.getText());
-        note.setUser(user);
+        note.setPatient(patient);
         note.setDietitian(dietitian);
 
         return noteMapper.toDto(noteRepository.save(note));

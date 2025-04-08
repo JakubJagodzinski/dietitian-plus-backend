@@ -2,7 +2,7 @@ package com.example.dietitian_plus.dietitian;
 
 import com.example.dietitian_plus.dish.Dish;
 import com.example.dietitian_plus.note.Note;
-import com.example.dietitian_plus.user.User;
+import com.example.dietitian_plus.patient.Patient;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ public class Dietitian {
     @OneToMany(mappedBy = "dietitian")
     @JsonBackReference
     @ToString.Exclude
-    private final List<User> users = new ArrayList<>();
+    private final List<Patient> patients = new ArrayList<>();
 
     @OneToMany(mappedBy = "dietitian")
     @JsonBackReference

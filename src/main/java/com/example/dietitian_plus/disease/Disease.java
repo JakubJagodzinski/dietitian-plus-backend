@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.disease;
 
-import com.example.dietitian_plus.user.User;
+import com.example.dietitian_plus.patient.Patient;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +29,6 @@ public class Disease {
     @ManyToMany(mappedBy = "diseases")
     @JsonBackReference
     @ToString.Exclude
-    private final List<User> users = new ArrayList<>();
+    private final List<Patient> patients = new ArrayList<>();
 
 }

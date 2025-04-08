@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.user;
+package com.example.dietitian_plus.patient;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.disease.Disease;
@@ -16,16 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "patients")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "patient_id")
+    private Long patientId;
 
     private String email;
 
@@ -55,8 +55,8 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "users_allergenic_products",
-            joinColumns = @JoinColumn(name = "user_id"),
+            name = "patients_allergenic_products",
+            joinColumns = @JoinColumn(name = "patient_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     @JsonManagedReference
@@ -65,8 +65,8 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "users_disliked_products",
-            joinColumns = @JoinColumn(name = "user_id"),
+            name = "patients_disliked_products",
+            joinColumns = @JoinColumn(name = "patient_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     @JsonManagedReference
@@ -75,15 +75,15 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "users_diseases",
-            joinColumns = @JoinColumn(name = "user_id"),
+            name = "patients_diseases",
+            joinColumns = @JoinColumn(name = "patient_id"),
             inverseJoinColumns = @JoinColumn(name = "disease_id")
     )
     @JsonManagedReference
     @ToString.Exclude
     private List<Disease> diseases = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "patient")
     @JsonBackReference
     private final List<Note> notes = new ArrayList<>();
 

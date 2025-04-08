@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.dietitian;
 
 import com.example.dietitian_plus.dish.DishDto;
-import com.example.dietitian_plus.user.UserDto;
+import com.example.dietitian_plus.patient.PatientDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +30,9 @@ public class DietitianController {
         return ResponseEntity.ok(dietitianService.getDietitianById(id));
     }
 
-    @GetMapping("/{id}/users")
-    public ResponseEntity<List<UserDto>> getDietitianUsers(@PathVariable Long id) {
-        return ResponseEntity.ok(dietitianService.getDietitianUsers(id));
+    @GetMapping("/{id}/patients")
+    public ResponseEntity<List<PatientDto>> getDietitianPatients(@PathVariable Long id) {
+        return ResponseEntity.ok(dietitianService.getDietitianPatients(id));
     }
 
     @GetMapping("/{id}/dishes")
