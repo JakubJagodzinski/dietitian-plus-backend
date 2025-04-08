@@ -41,8 +41,8 @@ public class DiseaseController {
         return ResponseEntity.ok(diseaseService.updateDiseaseById(id, diseaseDto));
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<String> deleteDiseaseById(@RequestBody Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteDiseaseById(@PathVariable Long id) {
         diseaseService.deleteDiseaseById(id);
         return ResponseEntity.ok("Disease deleted successfully");
     }
