@@ -79,22 +79,22 @@ public class ProductService {
 
         Product product = productRepository.getReferenceById(id);
 
-        if (product.getProductName() != null) {
+        if (updateProductDto.getProductName() != null) {
             product.setProductName(updateProductDto.getProductName());
         }
-        if (product.getKcal() != null) {
+        if (updateProductDto.getKcal() != null) {
             product.setKcal(updateProductDto.getKcal());
         }
-        if (product.getFats() != null) {
+        if (updateProductDto.getFats() != null) {
             product.setFats(updateProductDto.getFats());
         }
-        if (product.getCarbs() != null) {
+        if (updateProductDto.getCarbs() != null) {
             product.setCarbs(updateProductDto.getCarbs());
         }
-        if (product.getProtein() != null) {
+        if (updateProductDto.getProtein() != null) {
             product.setProtein(updateProductDto.getProtein());
         }
-        if (product.getFiber() != null) {
+        if (updateProductDto.getFiber() != null) {
             product.setFiber(updateProductDto.getFiber());
         }
 
