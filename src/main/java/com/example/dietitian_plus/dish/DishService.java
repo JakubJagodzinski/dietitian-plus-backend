@@ -86,29 +86,19 @@ public class DishService {
 
         Dish dish = dishRepository.getReferenceById(id);
 
-        if (dish.getDietitian() != null) {
-            if (!dietitianRepository.existsById(updateDishDto.getDietitianId())) {
-                throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
-            }
-
-            Dietitian dietitian = dietitianRepository.getReferenceById(updateDishDto.getDietitianId());
-            dish.setDietitian(dietitian);
-        }
-
-
-        if (dish.getDishName() != null) {
+        if (updateDishDto.getDishName() != null) {
             dish.setDishName(updateDishDto.getDishName());
         }
 
-        if (dish.getRecipe() != null) {
+        if (updateDishDto.getRecipe() != null) {
             dish.setRecipe(updateDishDto.getRecipe());
         }
 
-        if (dish.getIsVisible() != null) {
+        if (updateDishDto.getIsVisible() != null) {
             dish.setIsVisible(updateDishDto.getIsVisible());
         }
 
-        if (dish.getIsPublic() != null) {
+        if (updateDishDto.getIsPublic() != null) {
             dish.setIsPublic(updateDishDto.getIsPublic());
         }
 

@@ -13,8 +13,6 @@ public class UpdateDishDto {
 
     private Boolean isPublic;
 
-    private Long dietitianId;
-
     private String dishName;
 
     private String recipe;
