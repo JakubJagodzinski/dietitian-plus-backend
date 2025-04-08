@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -46,12 +48,12 @@ public class Product {
     @ManyToMany(mappedBy = "allergenicProducts")
     @JsonBackReference
     @ToString.Exclude
-    private final List<Patient> patientsWithAllergy = new ArrayList<>();
+    private final Set<Patient> patientsWithAllergy = new HashSet<>();
 
     @ManyToMany(mappedBy = "dislikedProducts")
     @JsonBackReference
     @ToString.Exclude
-    private final List<Patient> dislikedPatients = new ArrayList<>();
+    private final Set<Patient> dislikedPatients = new HashSet<>();
 
     @OneToMany(mappedBy = "product")
     @JsonBackReference

@@ -10,8 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "dietitians")
@@ -40,16 +40,16 @@ public class Dietitian {
     @OneToMany(mappedBy = "dietitian")
     @JsonBackReference
     @ToString.Exclude
-    private final List<Patient> patients = new ArrayList<>();
+    private final Set<Patient> patients = new HashSet<>();
 
     @OneToMany(mappedBy = "dietitian")
     @JsonBackReference
     @ToString.Exclude
-    private final List<Dish> dishes = new ArrayList<>();
+    private final Set<Dish> dishes = new HashSet<>();
 
     @OneToMany(mappedBy = "dietitian")
     @JsonBackReference
     @ToString.Exclude
-    private final List<Note> notes = new ArrayList<>();
+    private final Set<Note> notes = new HashSet<>();
 
 }

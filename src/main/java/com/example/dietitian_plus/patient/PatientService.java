@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PatientService {
@@ -95,7 +96,7 @@ public class PatientService {
 
         Disease disease = diseaseRepository.getReferenceById(diseaseId);
 
-        List<Disease> patientDiseases = patient.getDiseases();
+        Set<Disease> patientDiseases = patient.getDiseases();
 
         if (patientDiseases.contains(disease)) {
             throw new IllegalStateException(DISEASE_ALREADY_ASSIGNED_TO_THIS_PATIENT_MESSAGE);
@@ -105,7 +106,7 @@ public class PatientService {
 
         patientRepository.save(patient);
 
-        return diseaseMapper.toDtoList(patientDiseases);
+        return diseaseMapper.toDtoList(patientDiseases.stream().toList());
     }
 
     @Transactional

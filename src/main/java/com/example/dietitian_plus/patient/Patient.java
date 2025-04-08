@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "patients")
@@ -57,31 +59,34 @@ public class Patient {
     @JoinTable(
             name = "patients_allergenic_products",
             joinColumns = @JoinColumn(name = "patient_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
+            inverseJoinColumns = @JoinColumn(name = "product_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"patient_id", "product_id"})
     )
     @JsonManagedReference
     @ToString.Exclude
-    private List<Product> allergenicProducts = new ArrayList<>();
+    private Set<Product> allergenicProducts = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
             name = "patients_disliked_products",
             joinColumns = @JoinColumn(name = "patient_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
+            inverseJoinColumns = @JoinColumn(name = "product_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"patient_id", "product_id"})
     )
     @JsonManagedReference
     @ToString.Exclude
-    private List<Product> dislikedProducts = new ArrayList<>();
+    private Set<Product> dislikedProducts = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
             name = "patients_diseases",
             joinColumns = @JoinColumn(name = "patient_id"),
-            inverseJoinColumns = @JoinColumn(name = "disease_id")
+            inverseJoinColumns = @JoinColumn(name = "disease_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"patient_id", "disease_id"})
     )
     @JsonManagedReference
     @ToString.Exclude
-    private List<Disease> diseases = new ArrayList<>();
+    private Set<Disease> diseases = new HashSet<>();
 
     @OneToMany(mappedBy = "patient")
     @JsonBackReference
