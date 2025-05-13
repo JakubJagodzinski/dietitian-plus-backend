@@ -1,15 +1,21 @@
-package com.example.dietitian_plus.note;
+package com.example.dietitian_plus.note.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class CreateNoteDto {
+public class NoteResponseDto {
+
+    private Long noteId;
 
     private String text;
+
+    private LocalDateTime datetime;
 
     private Long patientId;
 

@@ -1,5 +1,7 @@
 package com.example.dietitian_plus.disease;
 
+import com.example.dietitian_plus.disease.dto.DiseaseResponseDto;
+import com.example.dietitian_plus.disease.dto.DiseaseDtoMapper;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,57 +15,57 @@ public class DiseaseService {
 
     private final DiseaseRepository diseaseRepository;
 
-    private final DiseaseMapper diseaseMapper;
+    private final DiseaseDtoMapper diseaseDtoMapper;
 
     private final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
 
     @Autowired
-    public DiseaseService(DiseaseRepository diseaseRepository, DiseaseMapper diseaseMapper) {
+    public DiseaseService(DiseaseRepository diseaseRepository, DiseaseDtoMapper diseaseDtoMapper) {
         this.diseaseRepository = diseaseRepository;
-        this.diseaseMapper = diseaseMapper;
+        this.diseaseDtoMapper = diseaseDtoMapper;
     }
 
-    public List<DiseaseDto> getDiseases() {
+    public List<DiseaseResponseDto> getDiseases() {
         List<Disease> diseases = diseaseRepository.findAll();
-        List<DiseaseDto> diseasesDto = new ArrayList<>();
+        List<DiseaseResponseDto> diseasesDto = new ArrayList<>();
 
         for (Disease disease : diseases) {
-            diseasesDto.add(diseaseMapper.toDto(disease));
+            diseasesDto.add(diseaseDtoMapper.toDto(disease));
         }
 
         return diseasesDto;
     }
 
-    public DiseaseDto getDiseaseById(Long id) throws EntityNotFoundException {
+    public DiseaseResponseDto getDiseaseById(Long id) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(id)) {
             throw new EntityNotFoundException(this.DISEASE_NOT_FOUND_MESSAGE);
         }
 
-        return diseaseMapper.toDto(diseaseRepository.getReferenceById(id));
+        return diseaseDtoMapper.toDto(diseaseRepository.getReferenceById(id));
     }
 
     @Transactional
-    public DiseaseDto createDisease(DiseaseDto diseaseDto) {
+    public DiseaseResponseDto createDisease(DiseaseResponseDto diseaseResponseDto) {
         Disease disease = new Disease();
 
-        disease.setDiseaseName(diseaseDto.getDiseaseName());
+        disease.setDiseaseName(diseaseResponseDto.getDiseaseName());
 
-        return diseaseMapper.toDto(diseaseRepository.save(disease));
+        return diseaseDtoMapper.toDto(diseaseRepository.save(disease));
     }
 
     @Transactional
-    public DiseaseDto updateDiseaseById(Long id, DiseaseDto diseaseDto) throws EntityNotFoundException {
+    public DiseaseResponseDto updateDiseaseById(Long id, DiseaseResponseDto diseaseResponseDto) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(id)) {
             throw new EntityNotFoundException(this.DISEASE_NOT_FOUND_MESSAGE);
         }
 
         Disease disease = diseaseRepository.getReferenceById(id);
 
-        if (diseaseDto.getDiseaseName() != null) {
-            disease.setDiseaseName(diseaseDto.getDiseaseName());
+        if (diseaseResponseDto.getDiseaseName() != null) {
+            disease.setDiseaseName(diseaseResponseDto.getDiseaseName());
         }
 
-        return diseaseMapper.toDto(diseaseRepository.save(disease));
+        return diseaseDtoMapper.toDto(diseaseRepository.save(disease));
     }
 
     @Transactional

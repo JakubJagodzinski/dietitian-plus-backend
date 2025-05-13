@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.product;
+package com.example.dietitian_plus.product.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductDto {
+public class ProductResponseDto {
 
     private Long productId;
 

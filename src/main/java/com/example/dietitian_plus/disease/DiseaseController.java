@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.disease;
 
+import com.example.dietitian_plus.disease.dto.DiseaseResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,24 +20,24 @@ public class DiseaseController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<DiseaseDto>> getDiseases() {
+    public ResponseEntity<List<DiseaseResponseDto>> getDiseases() {
         return ResponseEntity.ok(diseaseService.getDiseases());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DiseaseDto> getDiseaseById(@PathVariable Long id) {
+    public ResponseEntity<DiseaseResponseDto> getDiseaseById(@PathVariable Long id) {
         return ResponseEntity.ok(diseaseService.getDiseaseById(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity<DiseaseDto> createDisease(@RequestBody DiseaseDto diseaseDto) {
-        DiseaseDto createdDiseaseDto = diseaseService.createDisease(diseaseDto);
-        return ResponseEntity.created(URI.create("/api/diseases/" + createdDiseaseDto.getDiseaseId())).body(createdDiseaseDto);
+    public ResponseEntity<DiseaseResponseDto> createDisease(@RequestBody DiseaseResponseDto diseaseResponseDto) {
+        DiseaseResponseDto createdDiseaseResponseDto = diseaseService.createDisease(diseaseResponseDto);
+        return ResponseEntity.created(URI.create("/api/diseases/" + createdDiseaseResponseDto.getDiseaseId())).body(createdDiseaseResponseDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DiseaseDto> updateDiseaseById(@PathVariable Long id, @RequestBody DiseaseDto diseaseDto) {
-        return ResponseEntity.ok(diseaseService.updateDiseaseById(id, diseaseDto));
+    public ResponseEntity<DiseaseResponseDto> updateDiseaseById(@PathVariable Long id, @RequestBody DiseaseResponseDto diseaseResponseDto) {
+        return ResponseEntity.ok(diseaseService.updateDiseaseById(id, diseaseResponseDto));
     }
 
     @DeleteMapping("/{id}")

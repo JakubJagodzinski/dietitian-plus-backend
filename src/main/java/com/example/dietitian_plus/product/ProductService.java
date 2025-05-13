@@ -1,5 +1,8 @@
 package com.example.dietitian_plus.product;
 
+import com.example.dietitian_plus.product.dto.CreateProductRequestDto;
+import com.example.dietitian_plus.product.dto.ProductResponseDto;
+import com.example.dietitian_plus.product.dto.ProductDtoMapper;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,66 +16,66 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    private final ProductMapper productMapper;
+    private final ProductDtoMapper productDtoMapper;
 
     private final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductService(ProductRepository productRepository, ProductDtoMapper productDtoMapper) {
         this.productRepository = productRepository;
-        this.productMapper = productMapper;
+        this.productDtoMapper = productDtoMapper;
     }
 
-    public List<ProductDto> getProducts() {
+    public List<ProductResponseDto> getProducts() {
         List<Product> products = productRepository.findAll();
-        List<ProductDto> productsDto = new ArrayList<>();
+        List<ProductResponseDto> productsDto = new ArrayList<>();
 
         for (Product product : products) {
-            productsDto.add(productMapper.toDto(product));
+            productsDto.add(productDtoMapper.toDto(product));
         }
 
         return productsDto;
     }
 
-    public ProductDto getProductById(Long id) throws EntityNotFoundException {
+    public ProductResponseDto getProductById(Long id) throws EntityNotFoundException {
         if (!productRepository.existsById(id)) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
 
-        return productMapper.toDto(productRepository.getReferenceById(id));
+        return productDtoMapper.toDto(productRepository.getReferenceById(id));
     }
 
     @Transactional
-    public ProductDto createProduct(CreateProductDto createProductDto) {
+    public ProductResponseDto createProduct(CreateProductRequestDto createProductRequestDto) {
         Product product = new Product();
 
-        product.setProductName(createProductDto.getProductName());
+        product.setProductName(createProductRequestDto.getProductName());
 
-        if (createProductDto.getKcal() != null) {
-            product.setKcal(createProductDto.getKcal());
+        if (createProductRequestDto.getKcal() != null) {
+            product.setKcal(createProductRequestDto.getKcal());
         }
 
-        if (createProductDto.getFats() != null) {
-            product.setFats(createProductDto.getFats());
+        if (createProductRequestDto.getFats() != null) {
+            product.setFats(createProductRequestDto.getFats());
         }
 
-        if (createProductDto.getCarbs() != null) {
-            product.setCarbs(createProductDto.getCarbs());
+        if (createProductRequestDto.getCarbs() != null) {
+            product.setCarbs(createProductRequestDto.getCarbs());
         }
 
-        if (createProductDto.getProtein() != null) {
-            product.setProtein(createProductDto.getProtein());
+        if (createProductRequestDto.getProtein() != null) {
+            product.setProtein(createProductRequestDto.getProtein());
         }
 
-        if (createProductDto.getFiber() != null) {
-            product.setFiber(createProductDto.getFiber());
+        if (createProductRequestDto.getFiber() != null) {
+            product.setFiber(createProductRequestDto.getFiber());
         }
 
-        return productMapper.toDto(productRepository.save(product));
+        return productDtoMapper.toDto(productRepository.save(product));
     }
 
     @Transactional
-    public ProductDto updateProductById(Long id, CreateProductDto updateProductDto) throws EntityNotFoundException {
+    public ProductResponseDto updateProductById(Long id, CreateProductRequestDto updateProductDto) throws EntityNotFoundException {
         if (!productRepository.existsById(id)) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
@@ -98,7 +101,7 @@ public class ProductService {
             product.setFiber(updateProductDto.getFiber());
         }
 
-        return productMapper.toDto(productRepository.save(product));
+        return productDtoMapper.toDto(productRepository.save(product));
     }
 
     @Transactional

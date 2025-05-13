@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.meal;
+package com.example.dietitian_plus.meal.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +9,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MealDto {
-
-    private Long mealId;
-
-    private LocalDateTime datetime;
+public class CreateMealRequestDto {
 
     private Long patientId;
 
     private Long dietitianId;
+
+    private LocalDateTime datetime;
 
 }

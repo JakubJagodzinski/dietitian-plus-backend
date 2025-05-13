@@ -2,8 +2,11 @@ package com.example.dietitian_plus.meal;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dietitian.DietitianRepository;
-import com.example.dietitian_plus.dish.DishDto;
-import com.example.dietitian_plus.dish.DishMapper;
+import com.example.dietitian_plus.dish.dto.DishResponseDto;
+import com.example.dietitian_plus.dish.dto.DishDtoMapper;
+import com.example.dietitian_plus.meal.dto.CreateMealRequestDto;
+import com.example.dietitian_plus.meal.dto.MealResponseDto;
+import com.example.dietitian_plus.meal.dto.MealDtoMapper;
 import com.example.dietitian_plus.patient.Patient;
 import com.example.dietitian_plus.patient.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,74 +24,74 @@ public class MealService {
     private final PatientRepository patientRepository;
     private final DietitianRepository dietitianRepository;
 
-    private final MealMapper mealMapper;
-    private final DishMapper dishMapper;
+    private final MealDtoMapper mealDtoMapper;
+    private final DishDtoMapper dishDtoMapper;
 
     private final String MEAL_NOT_FOUND_MESSAGE = "Meal not found";
     private final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
-    public MealService(MealRepository mealRepository, PatientRepository patientRepository, DietitianRepository dietitianRepository, MealMapper mealMapper, DishMapper dishMapper) {
+    public MealService(MealRepository mealRepository, PatientRepository patientRepository, DietitianRepository dietitianRepository, MealDtoMapper mealDtoMapper, DishDtoMapper dishDtoMapper) {
         this.mealRepository = mealRepository;
         this.patientRepository = patientRepository;
         this.dietitianRepository = dietitianRepository;
-        this.mealMapper = mealMapper;
-        this.dishMapper = dishMapper;
+        this.mealDtoMapper = mealDtoMapper;
+        this.dishDtoMapper = dishDtoMapper;
     }
 
-    public List<MealDto> getMeals() {
+    public List<MealResponseDto> getMeals() {
         List<Meal> meals = mealRepository.findAll();
-        List<MealDto> mealsDto = new ArrayList<>();
+        List<MealResponseDto> mealsDto = new ArrayList<>();
 
         for (Meal meal : meals) {
-            mealsDto.add(mealMapper.toDto(meal));
+            mealsDto.add(mealDtoMapper.toDto(meal));
         }
 
         return mealsDto;
     }
 
-    public List<DishDto> getMealDishes(Long id) throws EntityNotFoundException {
+    public List<DishResponseDto> getMealDishes(Long id) throws EntityNotFoundException {
         if (!mealRepository.existsById(id)) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
         }
 
         Meal meal = mealRepository.getReferenceById(id);
 
-        return dishMapper.toDtoList(meal.getDishes());
+        return dishDtoMapper.toDtoList(meal.getDishes());
     }
 
-    public MealDto getMealById(Long id) throws EntityNotFoundException {
+    public MealResponseDto getMealById(Long id) throws EntityNotFoundException {
         if (!mealRepository.existsById(id)) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
         }
 
-        return mealMapper.toDto(mealRepository.getReferenceById(id));
+        return mealDtoMapper.toDto(mealRepository.getReferenceById(id));
     }
 
     @Transactional
-    public MealDto createMeal(CreateMealDto createMealDto) throws EntityNotFoundException {
-        if (!patientRepository.existsById(createMealDto.getPatientId())) {
+    public MealResponseDto createMeal(CreateMealRequestDto createMealRequestDto) throws EntityNotFoundException {
+        if (!patientRepository.existsById(createMealRequestDto.getPatientId())) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        if (!dietitianRepository.existsById(createMealDto.getDietitianId())) {
+        if (!dietitianRepository.existsById(createMealRequestDto.getDietitianId())) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
         Meal meal = new Meal();
 
-        Patient patient = patientRepository.getReferenceById(createMealDto.getPatientId());
+        Patient patient = patientRepository.getReferenceById(createMealRequestDto.getPatientId());
         meal.setPatient(patient);
 
-        Dietitian dietitian = dietitianRepository.getReferenceById(createMealDto.getDietitianId());
+        Dietitian dietitian = dietitianRepository.getReferenceById(createMealRequestDto.getDietitianId());
         meal.setDietitian(dietitian);
 
-        return mealMapper.toDto(mealRepository.save(meal));
+        return mealDtoMapper.toDto(mealRepository.save(meal));
     }
 
     @Transactional
-    public MealDto updateMealById(Long id, CreateMealDto updateMealDto) throws EntityNotFoundException {
+    public MealResponseDto updateMealById(Long id, CreateMealRequestDto updateMealDto) throws EntityNotFoundException {
         if (!patientRepository.existsById(id)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
@@ -97,7 +100,7 @@ public class MealService {
 
         meal.setDatetime(updateMealDto.getDatetime());
 
-        return mealMapper.toDto(mealRepository.save(meal));
+        return mealDtoMapper.toDto(mealRepository.save(meal));
     }
 
     @Transactional

@@ -1,6 +1,8 @@
 package com.example.dietitian_plus.meal;
 
-import com.example.dietitian_plus.dish.DishDto;
+import com.example.dietitian_plus.dish.dto.DishResponseDto;
+import com.example.dietitian_plus.meal.dto.CreateMealRequestDto;
+import com.example.dietitian_plus.meal.dto.MealResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,29 +22,29 @@ public class MealController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<MealDto>> getMeals() {
+    public ResponseEntity<List<MealResponseDto>> getMeals() {
         return ResponseEntity.ok(mealService.getMeals());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MealDto> getMealById(@PathVariable Long id) {
+    public ResponseEntity<MealResponseDto> getMealById(@PathVariable Long id) {
         return ResponseEntity.ok(mealService.getMealById(id));
     }
 
     @GetMapping("/{id}/dishes")
-    public ResponseEntity<List<DishDto>> getMealDishes(@PathVariable Long id) {
+    public ResponseEntity<List<DishResponseDto>> getMealDishes(@PathVariable Long id) {
         return ResponseEntity.ok(mealService.getMealDishes(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity<MealDto> createMeal(@RequestBody CreateMealDto createMealDto) {
-        MealDto createdMeal = mealService.createMeal(createMealDto);
+    public ResponseEntity<MealResponseDto> createMeal(@RequestBody CreateMealRequestDto createMealRequestDto) {
+        MealResponseDto createdMeal = mealService.createMeal(createMealRequestDto);
         return ResponseEntity.created(URI.create("api/meals/" + createdMeal.getMealId())).body(createdMeal);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MealDto> updateMealById(@PathVariable Long id, @RequestBody CreateMealDto createMealDto) {
-        MealDto updatedMeal = mealService.updateMealById(id, createMealDto);
+    public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long id, @RequestBody CreateMealRequestDto createMealRequestDto) {
+        MealResponseDto updatedMeal = mealService.updateMealById(id, createMealRequestDto);
         return ResponseEntity.ok(updatedMeal);
     }
 

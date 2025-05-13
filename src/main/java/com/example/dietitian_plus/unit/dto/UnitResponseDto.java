@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.unit;
+package com.example.dietitian_plus.unit.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CreateUnitDto {
+public class UnitResponseDto {
+
+    private Long unitId;
 
     private String unitName;
 

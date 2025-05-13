@@ -3,12 +3,15 @@ package com.example.dietitian_plus.patient;
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dietitian.DietitianRepository;
 import com.example.dietitian_plus.disease.Disease;
-import com.example.dietitian_plus.disease.DiseaseDto;
-import com.example.dietitian_plus.disease.DiseaseMapper;
+import com.example.dietitian_plus.disease.dto.DiseaseResponseDto;
+import com.example.dietitian_plus.disease.dto.DiseaseDtoMapper;
 import com.example.dietitian_plus.disease.DiseaseRepository;
-import com.example.dietitian_plus.meal.MealDto;
-import com.example.dietitian_plus.meal.MealMapper;
+import com.example.dietitian_plus.meal.dto.MealResponseDto;
+import com.example.dietitian_plus.meal.dto.MealDtoMapper;
 import com.example.dietitian_plus.meal.MealRepository;
+import com.example.dietitian_plus.patient.dto.CreatePatientRequestDto;
+import com.example.dietitian_plus.patient.dto.PatientResponseDto;
+import com.example.dietitian_plus.patient.dto.PatientDtoMapper;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,9 @@ public class PatientService {
     private final MealRepository mealRepository;
     private final DiseaseRepository diseaseRepository;
 
-    private final PatientMapper patientMapper;
-    private final MealMapper mealMapper;
-    private final DiseaseMapper diseaseMapper;
+    private final PatientDtoMapper patientDtoMapper;
+    private final MealDtoMapper mealDtoMapper;
+    private final DiseaseDtoMapper diseaseDtoMapper;
 
     private final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
@@ -37,53 +40,53 @@ public class PatientService {
     private final String DISEASE_ALREADY_ASSIGNED_TO_THIS_PATIENT_MESSAGE = "Disease already assigned to this patient";
 
     @Autowired
-    public PatientService(PatientRepository patientRepository, DietitianRepository dietitianRepository, MealRepository mealRepository, DiseaseRepository diseaseRepository, PatientMapper patientMapper, MealMapper mealMapper, DiseaseMapper diseaseMapper) {
+    public PatientService(PatientRepository patientRepository, DietitianRepository dietitianRepository, MealRepository mealRepository, DiseaseRepository diseaseRepository, PatientDtoMapper patientDtoMapper, MealDtoMapper mealDtoMapper, DiseaseDtoMapper diseaseDtoMapper) {
         this.patientRepository = patientRepository;
         this.dietitianRepository = dietitianRepository;
         this.mealRepository = mealRepository;
         this.diseaseRepository = diseaseRepository;
-        this.patientMapper = patientMapper;
-        this.mealMapper = mealMapper;
-        this.diseaseMapper = diseaseMapper;
+        this.patientDtoMapper = patientDtoMapper;
+        this.mealDtoMapper = mealDtoMapper;
+        this.diseaseDtoMapper = diseaseDtoMapper;
     }
 
-    public List<PatientDto> getPatients() {
+    public List<PatientResponseDto> getPatients() {
         List<Patient> patients = patientRepository.findAll();
-        List<PatientDto> patientsDto = new ArrayList<>();
+        List<PatientResponseDto> patientsDto = new ArrayList<>();
 
         for (Patient patient : patients) {
-            patientsDto.add(patientMapper.toDto(patient));
+            patientsDto.add(patientDtoMapper.toDto(patient));
         }
 
         return patientsDto;
     }
 
-    public PatientDto getPatientById(Long id) throws EntityNotFoundException {
+    public PatientResponseDto getPatientById(Long id) throws EntityNotFoundException {
         if (!patientRepository.existsById(id)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        return patientMapper.toDto(patientRepository.getReferenceById(id));
+        return patientDtoMapper.toDto(patientRepository.getReferenceById(id));
     }
 
-    public List<MealDto> getPatientMeals(Long id) throws EntityNotFoundException {
+    public List<MealResponseDto> getPatientMeals(Long id) throws EntityNotFoundException {
         if (!patientRepository.existsById(id)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        return mealMapper.toDtoList(mealRepository.findByPatient(patientRepository.getReferenceById(id)));
+        return mealDtoMapper.toDtoList(mealRepository.findByPatient(patientRepository.getReferenceById(id)));
     }
 
-    public List<DiseaseDto> getPatientDiseases(Long id) throws EntityNotFoundException {
+    public List<DiseaseResponseDto> getPatientDiseases(Long id) throws EntityNotFoundException {
         if (!patientRepository.existsById(id)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        return diseaseMapper.toDtoList(diseaseRepository.findByPatients_patientId(id));
+        return diseaseDtoMapper.toDtoList(diseaseRepository.findByPatients_patientId(id));
     }
 
     @Transactional
-    public List<DiseaseDto> assignDiseaseToPatient(Long patientId, Long diseaseId) throws EntityNotFoundException, IllegalStateException {
+    public List<DiseaseResponseDto> assignDiseaseToPatient(Long patientId, Long diseaseId) throws EntityNotFoundException, IllegalStateException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
@@ -106,70 +109,70 @@ public class PatientService {
 
         patientRepository.save(patient);
 
-        return diseaseMapper.toDtoList(patientDiseases.stream().toList());
+        return diseaseDtoMapper.toDtoList(patientDiseases.stream().toList());
     }
 
     @Transactional
-    public PatientDto createPatient(CreatePatientDto createPatientDto) throws EntityNotFoundException {
+    public PatientResponseDto createPatient(CreatePatientRequestDto createPatientRequestDto) throws EntityNotFoundException {
         Patient patient = new Patient();
 
-        if (!dietitianRepository.existsById(createPatientDto.getDietitianId())) {
+        if (!dietitianRepository.existsById(createPatientRequestDto.getDietitianId())) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        Dietitian dietitian = dietitianRepository.getReferenceById(createPatientDto.getDietitianId());
+        Dietitian dietitian = dietitianRepository.getReferenceById(createPatientRequestDto.getDietitianId());
 
-        patient.setEmail(createPatientDto.getEmail());
-        patient.setPassword(createPatientDto.getPassword());
-        patient.setFirstName(createPatientDto.getFirstName());
-        patient.setLastName(createPatientDto.getLastName());
-        patient.setHeight(createPatientDto.getHeight());
-        patient.setStartingWeight(createPatientDto.getStartingWeight());
-        patient.setCurrentWeight(createPatientDto.getStartingWeight());
+        patient.setEmail(createPatientRequestDto.getEmail());
+        patient.setPassword(createPatientRequestDto.getPassword());
+        patient.setFirstName(createPatientRequestDto.getFirstName());
+        patient.setLastName(createPatientRequestDto.getLastName());
+        patient.setHeight(createPatientRequestDto.getHeight());
+        patient.setStartingWeight(createPatientRequestDto.getStartingWeight());
+        patient.setCurrentWeight(createPatientRequestDto.getStartingWeight());
         patient.setIsActive(Boolean.TRUE);
         patient.setDietitian(dietitian);
 
-        return patientMapper.toDto(patientRepository.save(patient));
+        return patientDtoMapper.toDto(patientRepository.save(patient));
     }
 
     @Transactional
-    public PatientDto updatePatientById(Long id, PatientDto patientDto) throws EntityNotFoundException {
+    public PatientResponseDto updatePatientById(Long id, PatientResponseDto patientResponseDto) throws EntityNotFoundException {
         if (!patientRepository.existsById(id)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
         Patient patient = patientRepository.getReferenceById(id);
 
-        if (patientDto.getEmail() != null) {
-            patient.setEmail(patientDto.getEmail());
+        if (patientResponseDto.getEmail() != null) {
+            patient.setEmail(patientResponseDto.getEmail());
         }
 
-        if (patientDto.getHeight() != null) {
-            patient.setHeight(patientDto.getHeight());
+        if (patientResponseDto.getHeight() != null) {
+            patient.setHeight(patientResponseDto.getHeight());
         }
 
-        if (patientDto.getStartingWeight() != null) {
-            patient.setStartingWeight(patientDto.getStartingWeight());
+        if (patientResponseDto.getStartingWeight() != null) {
+            patient.setStartingWeight(patientResponseDto.getStartingWeight());
         }
 
-        if (patientDto.getCurrentWeight() != null) {
-            patient.setCurrentWeight(patientDto.getCurrentWeight());
+        if (patientResponseDto.getCurrentWeight() != null) {
+            patient.setCurrentWeight(patientResponseDto.getCurrentWeight());
         }
 
-        if (patientDto.getIsActive() != null) {
-            patient.setIsActive(patientDto.getIsActive());
+        if (patientResponseDto.getIsActive() != null) {
+            patient.setIsActive(patientResponseDto.getIsActive());
         }
 
-        if (patientDto.getDietitianId() != null) {
-            if (!dietitianRepository.existsById(patientDto.getDietitianId())) {
+        if (patientResponseDto.getDietitianId() != null) {
+            if (!dietitianRepository.existsById(patientResponseDto.getDietitianId())) {
                 throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
             }
 
-            Dietitian dietitian = dietitianRepository.getReferenceById(patientDto.getDietitianId());
+            Dietitian dietitian = dietitianRepository.getReferenceById(patientResponseDto.getDietitianId());
             patient.setDietitian(dietitian);
         }
 
-        return patientMapper.toDto(patientRepository.save(patient));
+        return patientDtoMapper.toDto(patientRepository.save(patient));
     }
 
     @Transactional

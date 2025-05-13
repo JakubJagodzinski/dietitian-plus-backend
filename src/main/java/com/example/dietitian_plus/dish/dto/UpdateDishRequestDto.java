@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.dish;
+package com.example.dietitian_plus.dish.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UpdateDishDto {
+public class UpdateDishRequestDto {
 
     private Boolean isVisible;
 

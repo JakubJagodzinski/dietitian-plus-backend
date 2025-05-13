@@ -1,22 +1,24 @@
-package com.example.dietitian_plus.dietitian;
+package com.example.dietitian_plus.patient.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-public class CreateDietitianDto {
+public class CreatePatientRequestDto {
 
     private String email;
 
     private String password;
 
-    private String title;
-
     private String firstName;
 
     private String lastName;
+
+    private Float height;
+
+    private Float startingWeight;
+
+    private Long dietitianId;
 
 }

@@ -1,12 +1,13 @@
-package com.example.dietitian_plus.unit;
+package com.example.dietitian_plus.unit.dto;
 
+import com.example.dietitian_plus.unit.Unit;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UnitMapper {
+public class UnitDtoMapper {
 
-    public UnitDto toDto(Unit unit) {
-        UnitDto dto = new UnitDto();
+    public UnitResponseDto toDto(Unit unit) {
+        UnitResponseDto dto = new UnitResponseDto();
 
         dto.setUnitId(unit.getUnitId());
         dto.setUnitName(unit.getUnitName());

@@ -1,5 +1,8 @@
 package com.example.dietitian_plus.note;
 
+import com.example.dietitian_plus.note.dto.CreateNoteRequestDto;
+import com.example.dietitian_plus.note.dto.NoteResponseDto;
+import com.example.dietitian_plus.note.dto.UpdateNoteRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,25 +22,25 @@ public class NoteController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<NoteDto>> getNotes() {
+    public ResponseEntity<List<NoteResponseDto>> getNotes() {
         return ResponseEntity.ok(noteService.getNotes());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<NoteDto> getNoteById(@PathVariable Long id) {
+    public ResponseEntity<NoteResponseDto> getNoteById(@PathVariable Long id) {
         return ResponseEntity.ok(noteService.getNoteById(id));
     }
 
     @PostMapping("/")
 
-    public ResponseEntity<NoteDto> createNote(@RequestBody CreateNoteDto createNoteDto) {
-        NoteDto createdNoteDto = noteService.createNote(createNoteDto);
-        return ResponseEntity.created(URI.create("api/notes/" + createdNoteDto.getNoteId())).body(createdNoteDto);
+    public ResponseEntity<NoteResponseDto> createNote(@RequestBody CreateNoteRequestDto createNoteRequestDto) {
+        NoteResponseDto createdNoteResponseDto = noteService.createNote(createNoteRequestDto);
+        return ResponseEntity.created(URI.create("api/notes/" + createdNoteResponseDto.getNoteId())).body(createdNoteResponseDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<NoteDto> updateNoteById(@PathVariable Long id, @RequestBody UpdateNoteDto updateNoteDto) {
-        return ResponseEntity.ok(noteService.updateNoteById(id, updateNoteDto));
+    public ResponseEntity<NoteResponseDto> updateNoteById(@PathVariable Long id, @RequestBody UpdateNoteRequestDto updateNoteRequestDto) {
+        return ResponseEntity.ok(noteService.updateNoteById(id, updateNoteRequestDto));
     }
 
     @DeleteMapping("/{id}")

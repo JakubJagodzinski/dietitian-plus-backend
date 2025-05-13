@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.patient;
+package com.example.dietitian_plus.patient.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PatientDto {
+public class PatientResponseDto {
 
     private Long patientId;
 

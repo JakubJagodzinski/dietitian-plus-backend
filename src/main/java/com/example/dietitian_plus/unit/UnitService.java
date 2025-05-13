@@ -1,5 +1,9 @@
 package com.example.dietitian_plus.unit;
 
+import com.example.dietitian_plus.unit.dto.CreateUnitRequestDto;
+import com.example.dietitian_plus.unit.dto.UnitResponseDto;
+import com.example.dietitian_plus.unit.dto.UnitDtoMapper;
+import com.example.dietitian_plus.unit.dto.UpdateUnitResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,62 +17,62 @@ public class UnitService {
 
     private final UnitRepository unitRepository;
 
-    private final UnitMapper unitMapper;
+    private final UnitDtoMapper unitDtoMapper;
 
     private final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";
 
     @Autowired
-    public UnitService(UnitRepository unitRepository, UnitMapper unitMapper) {
+    public UnitService(UnitRepository unitRepository, UnitDtoMapper unitDtoMapper) {
         this.unitRepository = unitRepository;
-        this.unitMapper = unitMapper;
+        this.unitDtoMapper = unitDtoMapper;
     }
 
-    public List<UnitDto> getUnits() {
+    public List<UnitResponseDto> getUnits() {
         List<Unit> units = unitRepository.findAll();
-        List<UnitDto> unitsDto = new ArrayList<>();
+        List<UnitResponseDto> unitsDto = new ArrayList<>();
 
         for (Unit unit : units) {
-            unitsDto.add(unitMapper.toDto(unit));
+            unitsDto.add(unitDtoMapper.toDto(unit));
         }
 
         return unitsDto;
     }
 
-    public UnitDto getUnitById(Long id) throws EntityNotFoundException {
+    public UnitResponseDto getUnitById(Long id) throws EntityNotFoundException {
         if (!unitRepository.existsById(id)) {
             throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);
         }
 
-        return unitMapper.toDto(unitRepository.getReferenceById(id));
+        return unitDtoMapper.toDto(unitRepository.getReferenceById(id));
     }
 
     @Transactional
-    public UnitDto createUnit(CreateUnitDto createUnitDto) {
+    public UnitResponseDto createUnit(CreateUnitRequestDto createUnitRequestDto) {
         Unit unit = new Unit();
 
-        unit.setUnitName(createUnitDto.getUnitName());
-        unit.setGrams(createUnitDto.getGrams());
+        unit.setUnitName(createUnitRequestDto.getUnitName());
+        unit.setGrams(createUnitRequestDto.getGrams());
 
-        return unitMapper.toDto(unitRepository.save(unit));
+        return unitDtoMapper.toDto(unitRepository.save(unit));
     }
 
     @Transactional
-    public UnitDto updateUnitById(Long id, UpdateUnitDto updateUnitDto) throws EntityNotFoundException {
+    public UnitResponseDto updateUnitById(Long id, UpdateUnitResponseDto updateUnitResponseDto) throws EntityNotFoundException {
         if (!unitRepository.existsById(id)) {
             throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);
         }
 
         Unit unit = unitRepository.getReferenceById(id);
 
-        if (updateUnitDto.getUnitName() != null) {
-            unit.setUnitName(updateUnitDto.getUnitName());
+        if (updateUnitResponseDto.getUnitName() != null) {
+            unit.setUnitName(updateUnitResponseDto.getUnitName());
         }
 
-        if (updateUnitDto.getGrams() != null) {
-            unit.setGrams(updateUnitDto.getGrams());
+        if (updateUnitResponseDto.getGrams() != null) {
+            unit.setGrams(updateUnitResponseDto.getGrams());
         }
 
-        return unitMapper.toDto(unitRepository.save(unit));
+        return unitDtoMapper.toDto(unitRepository.save(unit));
     }
 
     @Transactional

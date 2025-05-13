@@ -1,11 +1,11 @@
-package com.example.dietitian_plus.dish;
+package com.example.dietitian_plus.dish.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateDishDto {
+public class CreateDishRequestDto {
 
     private Long dietitianId;
 

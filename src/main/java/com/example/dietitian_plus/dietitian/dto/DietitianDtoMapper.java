@@ -1,15 +1,16 @@
-package com.example.dietitian_plus.dietitian;
+package com.example.dietitian_plus.dietitian.dto;
 
+import com.example.dietitian_plus.dietitian.Dietitian;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DietitianMapper {
+public class DietitianDtoMapper {
 
-    public DietitianDto toDto(Dietitian dietitian) {
-        DietitianDto dto = new DietitianDto();
+    public DietitianResponseDto toDto(Dietitian dietitian) {
+        DietitianResponseDto dto = new DietitianResponseDto();
 
         dto.setDietitianId(dietitian.getDietitianId());
         dto.setEmail(dietitian.getEmail());
@@ -21,7 +22,7 @@ public class DietitianMapper {
         return dto;
     }
 
-    public List<DietitianDto> toDtoList(List<Dietitian> dietitians) {
+    public List<DietitianResponseDto> toDtoList(List<Dietitian> dietitians) {
         return dietitians.stream().map(this::toDto).collect(Collectors.toList());
     }
 

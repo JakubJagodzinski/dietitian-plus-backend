@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.dietitian;
+package com.example.dietitian_plus.dietitian.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,9 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DietitianDto {
-
-    private Long dietitianId;
+public class CreateDietitianRequestDto {
 
     private String email;
 

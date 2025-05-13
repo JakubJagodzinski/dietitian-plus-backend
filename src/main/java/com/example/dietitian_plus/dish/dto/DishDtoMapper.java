@@ -1,15 +1,16 @@
-package com.example.dietitian_plus.dish;
+package com.example.dietitian_plus.dish.dto;
 
+import com.example.dietitian_plus.dish.Dish;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DishMapper {
+public class DishDtoMapper {
 
-    public DishDto toDto(Dish dish) {
-        DishDto dto = new DishDto();
+    public DishResponseDto toDto(Dish dish) {
+        DishResponseDto dto = new DishResponseDto();
 
         dto.setDishId(dish.getDishId());
         dto.setDishName(dish.getDishName());
@@ -25,7 +26,7 @@ public class DishMapper {
         return dto;
     }
 
-    public List<DishDto> toDtoList(List<Dish> dishes) {
+    public List<DishResponseDto> toDtoList(List<Dish> dishes) {
         return dishes.stream().map(this::toDto).collect(Collectors.toList());
     }
 

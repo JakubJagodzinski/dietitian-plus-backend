@@ -1,12 +1,13 @@
-package com.example.dietitian_plus.note;
+package com.example.dietitian_plus.note.dto;
 
+import com.example.dietitian_plus.note.Note;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NoteMapper {
+public class NoteDtoMapper {
 
-    public NoteDto toDto(Note note) {
-        NoteDto dto = new NoteDto();
+    public NoteResponseDto toDto(Note note) {
+        NoteResponseDto dto = new NoteResponseDto();
 
         dto.setNoteId(note.getNoteId());
         dto.setText(note.getText());

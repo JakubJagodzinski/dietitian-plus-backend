@@ -1,15 +1,16 @@
-package com.example.dietitian_plus.disease;
+package com.example.dietitian_plus.disease.dto;
 
+import com.example.dietitian_plus.disease.Disease;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DiseaseMapper {
+public class DiseaseDtoMapper {
 
-    public DiseaseDto toDto(Disease disease) {
-        DiseaseDto dto = new DiseaseDto();
+    public DiseaseResponseDto toDto(Disease disease) {
+        DiseaseResponseDto dto = new DiseaseResponseDto();
 
         dto.setDiseaseId(disease.getDiseaseId());
         dto.setDiseaseName(disease.getDiseaseName());
@@ -17,7 +18,7 @@ public class DiseaseMapper {
         return dto;
     }
 
-    public List<DiseaseDto> toDtoList(List<Disease> diseases) {
+    public List<DiseaseResponseDto> toDtoList(List<Disease> diseases) {
         return diseases.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());

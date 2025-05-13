@@ -1,7 +1,9 @@
 package com.example.dietitian_plus.dietitian;
 
-import com.example.dietitian_plus.dish.DishDto;
-import com.example.dietitian_plus.patient.PatientDto;
+import com.example.dietitian_plus.dietitian.dto.CreateDietitianRequestDto;
+import com.example.dietitian_plus.dietitian.dto.DietitianResponseDto;
+import com.example.dietitian_plus.dish.dto.DishResponseDto;
+import com.example.dietitian_plus.patient.dto.PatientResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,34 +23,34 @@ public class DietitianController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<DietitianDto>> getDietitians() {
+    public ResponseEntity<List<DietitianResponseDto>> getDietitians() {
         return ResponseEntity.ok(dietitianService.getDietitians());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DietitianDto> getDietitianById(@PathVariable Long id) {
+    public ResponseEntity<DietitianResponseDto> getDietitianById(@PathVariable Long id) {
         return ResponseEntity.ok(dietitianService.getDietitianById(id));
     }
 
     @GetMapping("/{id}/patients")
-    public ResponseEntity<List<PatientDto>> getDietitianPatients(@PathVariable Long id) {
+    public ResponseEntity<List<PatientResponseDto>> getDietitianPatients(@PathVariable Long id) {
         return ResponseEntity.ok(dietitianService.getDietitianPatients(id));
     }
 
     @GetMapping("/{id}/dishes")
-    public ResponseEntity<List<DishDto>> getDietitianDishes(@PathVariable Long id) {
+    public ResponseEntity<List<DishResponseDto>> getDietitianDishes(@PathVariable Long id) {
         return ResponseEntity.ok(dietitianService.getDietitianDishes(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity<DietitianDto> createDietitian(@RequestBody CreateDietitianDto createDietitianDto) {
-        DietitianDto createdDietitianDto = dietitianService.createDietitian(createDietitianDto);
-        return ResponseEntity.created(URI.create("/api/dietitians/" + createdDietitianDto.getDietitianId())).body(createdDietitianDto);
+    public ResponseEntity<DietitianResponseDto> createDietitian(@RequestBody CreateDietitianRequestDto createDietitianRequestDto) {
+        DietitianResponseDto createdDietitianResponseDto = dietitianService.createDietitian(createDietitianRequestDto);
+        return ResponseEntity.created(URI.create("/api/dietitians/" + createdDietitianResponseDto.getDietitianId())).body(createdDietitianResponseDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DietitianDto> updateDietitianById(@PathVariable Long id, @RequestBody DietitianDto dietitianDto) {
-        return ResponseEntity.ok(dietitianService.updateDietitianById(id, dietitianDto));
+    public ResponseEntity<DietitianResponseDto> updateDietitianById(@PathVariable Long id, @RequestBody DietitianResponseDto dietitianResponseDto) {
+        return ResponseEntity.ok(dietitianService.updateDietitianById(id, dietitianResponseDto));
     }
 
     @DeleteMapping("/{id}")

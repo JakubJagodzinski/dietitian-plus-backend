@@ -1,15 +1,16 @@
-package com.example.dietitian_plus.product;
+package com.example.dietitian_plus.product.dto;
 
+import com.example.dietitian_plus.product.Product;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ProductMapper {
+public class ProductDtoMapper {
 
-    public ProductDto toDto(Product product) {
-        ProductDto dto = new ProductDto();
+    public ProductResponseDto toDto(Product product) {
+        ProductResponseDto dto = new ProductResponseDto();
 
         dto.setProductId(product.getProductId());
         dto.setProductName(product.getProductName());
@@ -22,7 +23,7 @@ public class ProductMapper {
         return dto;
     }
 
-    public List<ProductDto> toDtoList(List<Product> products) {
+    public List<ProductResponseDto> toDtoList(List<Product> products) {
         return products.stream().map(this::toDto).collect(Collectors.toList());
     }
 
