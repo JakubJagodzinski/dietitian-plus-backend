@@ -86,7 +86,7 @@ public class PatientService {
     }
 
     @Transactional
-    public List<DiseaseResponseDto> assignDiseaseToPatient(Long patientId, Long diseaseId) throws EntityNotFoundException, IllegalStateException {
+    public List<DiseaseResponseDto> assignDiseaseToPatient(Long patientId, Long diseaseId) throws EntityNotFoundException, IllegalArgumentException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
@@ -102,7 +102,7 @@ public class PatientService {
         Set<Disease> patientDiseases = patient.getDiseases();
 
         if (patientDiseases.contains(disease)) {
-            throw new IllegalStateException(DISEASE_ALREADY_ASSIGNED_TO_THIS_PATIENT_MESSAGE);
+            throw new IllegalArgumentException(DISEASE_ALREADY_ASSIGNED_TO_THIS_PATIENT_MESSAGE);
         }
 
         patientDiseases.add(disease);
