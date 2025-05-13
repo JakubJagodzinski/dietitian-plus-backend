@@ -2,7 +2,9 @@ package com.example.dietitian_plus.meal;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
 import com.example.dietitian_plus.dish.Dish;
+import com.example.dietitian_plus.mealsdishes.MealsDishes;
 import com.example.dietitian_plus.patient.Patient;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "meals")
@@ -43,15 +46,13 @@ public class Meal {
     @JsonManagedReference
     private Dietitian dietitian;
 
-    @ManyToMany
-    @JoinTable(
-            name = "meals_dishes",
-            joinColumns = @JoinColumn(name = "meal_id"),
-            inverseJoinColumns = @JoinColumn(name = "dish_id")
-    )
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "meal")
+    @JsonBackReference
     @ToString.Exclude
-    private final List<Dish> dishes = new ArrayList<>();
+    private final List<MealsDishes> mealsDishes = new ArrayList<>();
+
+    public final List<Dish> getDishes() {
+        return mealsDishes.stream().map(MealsDishes::getDish).collect(Collectors.toList());
+    }
 
 }

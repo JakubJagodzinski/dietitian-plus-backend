@@ -31,7 +31,7 @@ public class MealController {
 
     @GetMapping("/{id}/dishes")
     public ResponseEntity<List<DishDto>> getMealDishes(@PathVariable Long id) {
-        return ResponseEntity.ok(mealService.getDishesByMealId(id));
+        return ResponseEntity.ok(mealService.getMealDishes(id));
     }
 
     @PostMapping("/")

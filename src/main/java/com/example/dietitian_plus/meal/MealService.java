@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -49,8 +48,14 @@ public class MealService {
         return mealsDto;
     }
 
-    public List<DishDto> getDishesByMealId(Long mealId) {
-        return dishMapper.toDtoList(mealRepository.findById(mealId).map(Meal::getDishes).orElse(Collections.emptyList()));
+    public List<DishDto> getMealDishes(Long id) throws EntityNotFoundException {
+        if (!mealRepository.existsById(id)) {
+            throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
+        }
+
+        Meal meal = mealRepository.getReferenceById(id);
+
+        return dishMapper.toDtoList(meal.getDishes());
     }
 
     public MealDto getMealById(Long id) throws EntityNotFoundException {

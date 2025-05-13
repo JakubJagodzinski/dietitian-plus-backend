@@ -53,11 +53,6 @@ public class Dish {
 
     private Float fiber = 0.0f;
 
-    @ManyToMany(mappedBy = "dishes")
-    @JsonBackReference
-    @ToString.Exclude
-    private final List<Meal> meals = new ArrayList<>();
-
     @OneToMany(mappedBy = "dish")
     @JsonBackReference
     @ToString.Exclude
