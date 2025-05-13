@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/units")
+@RequestMapping("/api/v1/units")
 public class UnitController {
 
     private final UnitService unitService;
@@ -34,7 +34,7 @@ public class UnitController {
     @PostMapping("/")
     public ResponseEntity<UnitResponseDto> createUnit(@RequestBody CreateUnitRequestDto createUnitRequestDto) {
         UnitResponseDto createdUnitResponseDto = unitService.createUnit(createUnitRequestDto);
-        return ResponseEntity.created(URI.create("/api/uints/" + createdUnitResponseDto.getUnitId())).body(createdUnitResponseDto);
+        return ResponseEntity.created(URI.create("/api/v1/units/" + createdUnitResponseDto.getUnitId())).body(createdUnitResponseDto);
     }
 
     @PutMapping("/{id}")

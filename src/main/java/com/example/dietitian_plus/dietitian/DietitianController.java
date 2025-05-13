@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/dietitians")
+@RequestMapping("/api/v1/dietitians")
 public class DietitianController {
 
     private final DietitianService dietitianService;
@@ -45,7 +45,7 @@ public class DietitianController {
     @PostMapping("/")
     public ResponseEntity<DietitianResponseDto> createDietitian(@RequestBody CreateDietitianRequestDto createDietitianRequestDto) {
         DietitianResponseDto createdDietitianResponseDto = dietitianService.createDietitian(createDietitianRequestDto);
-        return ResponseEntity.created(URI.create("/api/dietitians/" + createdDietitianResponseDto.getDietitianId())).body(createdDietitianResponseDto);
+        return ResponseEntity.created(URI.create("/api/v1/dietitians/" + createdDietitianResponseDto.getDietitianId())).body(createdDietitianResponseDto);
     }
 
     @PutMapping("/{id}")

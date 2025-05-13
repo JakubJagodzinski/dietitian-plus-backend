@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/notes")
+@RequestMapping("/api/v1/notes")
 public class NoteController {
 
     private final NoteService noteService;
@@ -35,7 +35,7 @@ public class NoteController {
 
     public ResponseEntity<NoteResponseDto> createNote(@RequestBody CreateNoteRequestDto createNoteRequestDto) {
         NoteResponseDto createdNoteResponseDto = noteService.createNote(createNoteRequestDto);
-        return ResponseEntity.created(URI.create("api/notes/" + createdNoteResponseDto.getNoteId())).body(createdNoteResponseDto);
+        return ResponseEntity.created(URI.create("api/v1/notes/" + createdNoteResponseDto.getNoteId())).body(createdNoteResponseDto);
     }
 
     @PutMapping("/{id}")

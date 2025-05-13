@@ -10,7 +10,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -33,7 +33,7 @@ public class ProductController {
     @PostMapping("/")
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody CreateProductRequestDto createProductRequestDto) {
         ProductResponseDto createdProductResponseDto = productService.createProduct(createProductRequestDto);
-        return ResponseEntity.created(URI.create("/api/products/" + createdProductResponseDto.getProductId())).body(createdProductResponseDto);
+        return ResponseEntity.created(URI.create("/api/v1/products/" + createdProductResponseDto.getProductId())).body(createdProductResponseDto);
     }
 
     @PutMapping("/{id}")

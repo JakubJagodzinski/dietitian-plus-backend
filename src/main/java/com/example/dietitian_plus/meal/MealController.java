@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/meals")
+@RequestMapping("/api/v1/meals")
 public class MealController {
 
     private final MealService mealService;
@@ -39,7 +39,7 @@ public class MealController {
     @PostMapping("/")
     public ResponseEntity<MealResponseDto> createMeal(@RequestBody CreateMealRequestDto createMealRequestDto) {
         MealResponseDto createdMeal = mealService.createMeal(createMealRequestDto);
-        return ResponseEntity.created(URI.create("api/meals/" + createdMeal.getMealId())).body(createdMeal);
+        return ResponseEntity.created(URI.create("api/v1/meals/" + createdMeal.getMealId())).body(createdMeal);
     }
 
     @PutMapping("/{id}")

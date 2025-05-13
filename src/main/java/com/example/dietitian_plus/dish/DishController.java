@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/dishes")
+@RequestMapping("/api/v1/dishes")
 public class DishController {
 
     private final DishService dishService;
@@ -40,7 +40,7 @@ public class DishController {
     @PostMapping("/")
     public ResponseEntity<DishResponseDto> createDish(@RequestBody CreateDishRequestDto createDishRequestDto) {
         DishResponseDto createdDishResponseDto = dishService.createDish(createDishRequestDto);
-        return ResponseEntity.created(URI.create("/api/dishes/" + createdDishResponseDto.getDishId())).body(createdDishResponseDto);
+        return ResponseEntity.created(URI.create("/api/v1/dishes/" + createdDishResponseDto.getDishId())).body(createdDishResponseDto);
     }
 
     @PutMapping("/{id}")
