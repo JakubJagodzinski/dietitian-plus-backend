@@ -32,4 +32,4 @@ It allows dietitians to create meal plans, generate shopping lists, and manage c
 <br>
 
 # Database scheme:
-<img src="Dietician+ MySQL database relations diagram.PNG">
+<img src="assets/database_scheme.png" alt="database_schema">
