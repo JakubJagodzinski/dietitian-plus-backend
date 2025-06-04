@@ -8,7 +8,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,14 +21,7 @@ public class ProductService {
     private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
 
     public List<ProductResponseDto> getProducts() {
-        List<Product> products = productRepository.findAll();
-        List<ProductResponseDto> productsDto = new ArrayList<>();
-
-        for (Product product : products) {
-            productsDto.add(productDtoMapper.toDto(product));
-        }
-
-        return productsDto;
+        return productDtoMapper.toDtoList(productRepository.findAll());
     }
 
     @Transactional

@@ -9,7 +9,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,14 +22,7 @@ public class UnitService {
     private static final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";
 
     public List<UnitResponseDto> getUnits() {
-        List<Unit> units = unitRepository.findAll();
-        List<UnitResponseDto> unitsDto = new ArrayList<>();
-
-        for (Unit unit : units) {
-            unitsDto.add(unitDtoMapper.toDto(unit));
-        }
-
-        return unitsDto;
+        return unitDtoMapper.toDtoList(unitRepository.findAll());
     }
 
     @Transactional

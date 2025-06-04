@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,14 +31,7 @@ public class NoteService {
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     public List<NoteResponseDto> getNotes() {
-        List<Note> notes = noteRepository.findAll();
-        List<NoteResponseDto> notesDto = new ArrayList<>();
-
-        for (Note note : notes) {
-            notesDto.add(noteDtoMapper.toDto(note));
-        }
-
-        return notesDto;
+        return noteDtoMapper.toDtoList(noteRepository.findAll());
     }
 
     @Transactional

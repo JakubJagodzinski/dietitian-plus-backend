@@ -7,7 +7,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,14 +20,7 @@ public class DiseaseService {
     private static final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
 
     public List<DiseaseResponseDto> getDiseases() {
-        List<Disease> diseases = diseaseRepository.findAll();
-        List<DiseaseResponseDto> diseasesDto = new ArrayList<>();
-
-        for (Disease disease : diseases) {
-            diseasesDto.add(diseaseDtoMapper.toDto(disease));
-        }
-
-        return diseasesDto;
+        return diseaseDtoMapper.toDtoList(diseaseRepository.findAll());
     }
 
     @Transactional

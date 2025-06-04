@@ -14,7 +14,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,14 +32,7 @@ public class MealService {
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     public List<MealResponseDto> getMeals() {
-        List<Meal> meals = mealRepository.findAll();
-        List<MealResponseDto> mealsDto = new ArrayList<>();
-
-        for (Meal meal : meals) {
-            mealsDto.add(mealDtoMapper.toDto(meal));
-        }
-
-        return mealsDto;
+        return mealDtoMapper.toDtoList(mealRepository.findAll());
     }
 
     @Transactional
