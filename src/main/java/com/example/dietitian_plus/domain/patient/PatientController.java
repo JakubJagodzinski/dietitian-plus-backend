@@ -1,8 +1,10 @@
 package com.example.dietitian_plus.domain.patient;
 
+import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,28 +19,47 @@ public class PatientController {
 
     @GetMapping("/")
     public ResponseEntity<List<PatientResponseDto>> getPatients() {
-        return ResponseEntity.ok(patientService.getPatients());
+        List<PatientResponseDto> patientResponseDtoList = patientService.getPatients();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(patientResponseDtoList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PatientResponseDto> getPatientById(@PathVariable Long id) {
-        return ResponseEntity.ok(patientService.getPatientById(id));
+        PatientResponseDto patientResponseDto = patientService.getPatientById(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(patientResponseDto);
     }
 
     @GetMapping("/{id}/meals")
     public ResponseEntity<List<MealResponseDto>> getPatientMeals(@PathVariable Long id) {
-        return ResponseEntity.ok(patientService.getPatientMeals(id));
+        List<MealResponseDto> mealResponseDtoList = patientService.getPatientMeals(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(mealResponseDtoList);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable Long id, @RequestBody PatientResponseDto patientResponseDto) {
-        return ResponseEntity.ok(patientService.updatePatientById(id, patientResponseDto));
+        PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(id, patientResponseDto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(updatedPatientResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePatientById(@PathVariable Long id) {
+    public ResponseEntity<MessageResponseDto> deletePatientById(@PathVariable Long id) {
         patientService.deletePatientById(id);
-        return ResponseEntity.ok("Patient deleted successfully");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new MessageResponseDto("Patient with id " + id + " deleted successfully"));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.patientdiseases;
 
+import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.CreatePatientDiseaseRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -19,39 +20,39 @@ public class PatientDiseaseController {
 
     @GetMapping("/by-patient/{patientId}")
     public ResponseEntity<List<PatientDiseaseResponseDto>> getDiseasesByPatientId(@PathVariable Long patientId) {
-        List<PatientDiseaseResponseDto> patientDiseases = patientDiseaseService.getPatientDiseasesByPatientId(patientId);
+        List<PatientDiseaseResponseDto> patientDiseaseResponseDtoList = patientDiseaseService.getPatientDiseasesByPatientId(patientId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(patientDiseases);
+                .body(patientDiseaseResponseDtoList);
     }
 
     @GetMapping("/by-disease/{diseaseId}")
     public ResponseEntity<List<PatientDiseaseResponseDto>> getPatientsByDiseaseId(@PathVariable Long diseaseId) {
-        List<PatientDiseaseResponseDto> patientsWithDisease = patientDiseaseService.getPatientDiseasesByDiseaseId(diseaseId);
+        List<PatientDiseaseResponseDto> patientDiseaseResponseDtoList = patientDiseaseService.getPatientDiseasesByDiseaseId(diseaseId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(patientsWithDisease);
+                .body(patientDiseaseResponseDtoList);
     }
 
     @PostMapping("/")
     public ResponseEntity<PatientDiseaseResponseDto> createPatientDisease(@RequestBody CreatePatientDiseaseRequestDto createPatientDiseaseRequestDto) {
-        PatientDiseaseResponseDto createdPatientDisease = patientDiseaseService.createPatientDisease(createPatientDiseaseRequestDto);
+        PatientDiseaseResponseDto createdPatientDiseaseResponseDto = patientDiseaseService.createPatientDisease(createPatientDiseaseRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(URI.create("/api/v1/patient-diseases/" + createdPatientDisease.getPatientId()))
-                .body(createdPatientDisease);
+                .location(URI.create("/api/v1/patient-diseases/" + createdPatientDiseaseResponseDto.getPatientId()))
+                .body(createdPatientDiseaseResponseDto);
     }
 
     @DeleteMapping("/{patientId}/{diseaseId}")
-    public ResponseEntity<String> deletePatientDisease(@PathVariable Long patientId, @PathVariable Long diseaseId) {
+    public ResponseEntity<MessageResponseDto> deletePatientDisease(@PathVariable Long patientId, @PathVariable Long diseaseId) {
         patientDiseaseService.deletePatientDisease(patientId, diseaseId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Patient disease association deleted successfully");
+                .body(new MessageResponseDto("Disease with id " + diseaseId + " is no longer assigned to patient with id " + diseaseId));
     }
 
 }

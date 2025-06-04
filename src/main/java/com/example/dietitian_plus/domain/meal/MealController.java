@@ -1,9 +1,12 @@
 package com.example.dietitian_plus.domain.meal;
 
+import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
+import com.example.dietitian_plus.domain.meal.dto.UpdateMealRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,35 +22,57 @@ public class MealController {
 
     @GetMapping("/")
     public ResponseEntity<List<MealResponseDto>> getMeals() {
-        return ResponseEntity.ok(mealService.getMeals());
+        List<MealResponseDto> mealResponseDtoList = mealService.getMeals();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(mealResponseDtoList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MealResponseDto> getMealById(@PathVariable Long id) {
-        return ResponseEntity.ok(mealService.getMealById(id));
+        MealResponseDto mealResponseDto = mealService.getMealById(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(mealResponseDto);
     }
 
     @GetMapping("/{id}/dishes")
     public ResponseEntity<List<DishResponseDto>> getMealDishes(@PathVariable Long id) {
-        return ResponseEntity.ok(mealService.getMealDishes(id));
+        List<DishResponseDto> dishResponseDtoList = mealService.getMealDishes(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dishResponseDtoList);
     }
 
     @PostMapping("/")
     public ResponseEntity<MealResponseDto> createMeal(@RequestBody CreateMealRequestDto createMealRequestDto) {
-        MealResponseDto createdMeal = mealService.createMeal(createMealRequestDto);
-        return ResponseEntity.created(URI.create("api/v1/meals/" + createdMeal.getMealId())).body(createdMeal);
+        MealResponseDto createdMealResponseDto = mealService.createMeal(createMealRequestDto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .location(URI.create("/api/v1/meals/" + createdMealResponseDto.getMealId()))
+                .body(createdMealResponseDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long id, @RequestBody CreateMealRequestDto createMealRequestDto) {
-        MealResponseDto updatedMeal = mealService.updateMealById(id, createMealRequestDto);
-        return ResponseEntity.ok(updatedMeal);
+    public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long id, @RequestBody UpdateMealRequestDto updateMealRequestDto) {
+        MealResponseDto updatedMealResponseDto = mealService.updateMealById(id, updateMealRequestDto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(updatedMealResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteMealById(@PathVariable Long id) {
+    public ResponseEntity<MessageResponseDto> deleteMealById(@PathVariable Long id) {
         mealService.deleteMealById(id);
-        return ResponseEntity.ok("Meal deleted successfully");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new MessageResponseDto("Meal with id " + id + " deleted successfully"));
     }
 
 }

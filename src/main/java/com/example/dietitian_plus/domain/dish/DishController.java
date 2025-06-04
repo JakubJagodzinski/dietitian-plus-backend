@@ -1,10 +1,12 @@
 package com.example.dietitian_plus.domain.dish;
 
+import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.UpdateDishRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,34 +22,57 @@ public class DishController {
 
     @GetMapping("/")
     public ResponseEntity<List<DishResponseDto>> getDishes() {
-        return ResponseEntity.ok(dishService.getDishes());
+        List<DishResponseDto> dishResponseDtoList = dishService.getDishes();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dishResponseDtoList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DishResponseDto> getDishById(@PathVariable Long id) {
-        return ResponseEntity.ok(dishService.getDishById(id));
+        DishResponseDto dishResponseDto = dishService.getDishById(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dishResponseDto);
     }
 
     @GetMapping("/{id}/products")
     public ResponseEntity<List<ProductResponseDto>> getDishProducts(@PathVariable Long id) {
-        return ResponseEntity.ok(dishService.getDishProducts(id));
+        List<ProductResponseDto> productResponseDtoList = dishService.getDishProducts(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(productResponseDtoList);
     }
 
     @PostMapping("/")
     public ResponseEntity<DishResponseDto> createDish(@RequestBody CreateDishRequestDto createDishRequestDto) {
         DishResponseDto createdDishResponseDto = dishService.createDish(createDishRequestDto);
-        return ResponseEntity.created(URI.create("/api/v1/dishes/" + createdDishResponseDto.getDishId())).body(createdDishResponseDto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .location(URI.create("/api/v1/dishes/" + createdDishResponseDto.getDishId()))
+                .body(createdDishResponseDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DishResponseDto> updateDishById(@PathVariable Long id, @RequestBody UpdateDishRequestDto updateDishRequestDto) {
-        return ResponseEntity.ok(dishService.updateDishById(id, updateDishRequestDto));
+        DishResponseDto dishResponseDto = dishService.updateDishById(id, updateDishRequestDto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dishResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteDishById(@PathVariable Long id) {
+    public ResponseEntity<MessageResponseDto> deleteDishById(@PathVariable Long id) {
         dishService.deleteDishById(id);
-        return ResponseEntity.ok("Dish deleted successfully");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new MessageResponseDto("Dish with id " + id + " deleted successfully"));
     }
 
 }

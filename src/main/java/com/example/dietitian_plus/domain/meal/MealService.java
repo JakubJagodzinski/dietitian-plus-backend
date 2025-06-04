@@ -7,6 +7,7 @@ import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.MealDtoMapper;
 import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
+import com.example.dietitian_plus.domain.meal.dto.UpdateMealRequestDto;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -77,14 +78,14 @@ public class MealService {
     }
 
     @Transactional
-    public MealResponseDto updateMealById(Long id, CreateMealRequestDto updateMealDto) throws EntityNotFoundException {
+    public MealResponseDto updateMealById(Long id, UpdateMealRequestDto updateMealRequestDto) throws EntityNotFoundException {
         if (!patientRepository.existsById(id)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
         Meal meal = mealRepository.getReferenceById(id);
 
-        meal.setDatetime(updateMealDto.getDatetime());
+        meal.setDatetime(updateMealRequestDto.getDatetime());
 
         return mealDtoMapper.toDto(mealRepository.save(meal));
     }

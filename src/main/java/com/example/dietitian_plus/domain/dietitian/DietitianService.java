@@ -3,6 +3,7 @@ package com.example.dietitian_plus.domain.dietitian;
 import com.example.dietitian_plus.auth.dto.RegisterRequestDto;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianDtoMapper;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
+import com.example.dietitian_plus.domain.dietitian.dto.UpdateDietitianRequestDto;
 import com.example.dietitian_plus.domain.dish.DishRepository;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
@@ -78,31 +79,31 @@ public class DietitianService {
     }
 
     @Transactional
-    public DietitianResponseDto updateDietitianById(Long id, DietitianResponseDto dietitianResponseDto) throws EntityNotFoundException {
+    public DietitianResponseDto updateDietitianById(Long id, UpdateDietitianRequestDto updateDietitianRequestDto) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(id)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
         Dietitian dietitian = dietitianRepository.getReferenceById(id);
 
-        if (dietitianResponseDto.getEmail() != null) {
-            dietitian.setEmail(dietitianResponseDto.getEmail());
+        if (updateDietitianRequestDto.getEmail() != null) {
+            dietitian.setEmail(updateDietitianRequestDto.getEmail());
         }
 
-        if (dietitianResponseDto.getTitle() != null) {
-            dietitian.setTitle(dietitianResponseDto.getTitle());
+        if (updateDietitianRequestDto.getTitle() != null) {
+            dietitian.setTitle(updateDietitianRequestDto.getTitle());
         }
 
-        if (dietitianResponseDto.getPassword() != null) {
-            dietitian.setPassword(dietitianResponseDto.getPassword());
+        if (updateDietitianRequestDto.getPassword() != null) {
+            dietitian.setPassword(updateDietitianRequestDto.getPassword());
         }
 
-        if (dietitianResponseDto.getFirstName() != null) {
-            dietitian.setFirstName(dietitianResponseDto.getFirstName());
+        if (updateDietitianRequestDto.getFirstName() != null) {
+            dietitian.setFirstName(updateDietitianRequestDto.getFirstName());
         }
 
-        if (dietitianResponseDto.getLastName() != null) {
-            dietitian.setLastName(dietitianResponseDto.getLastName());
+        if (updateDietitianRequestDto.getLastName() != null) {
+            dietitian.setLastName(updateDietitianRequestDto.getLastName());
         }
 
         return dietitianDtoMapper.toDto(dietitianRepository.save(dietitian));

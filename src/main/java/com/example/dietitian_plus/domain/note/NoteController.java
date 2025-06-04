@@ -1,9 +1,11 @@
 package com.example.dietitian_plus.domain.note;
 
+import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.note.dto.CreateNoteRequestDto;
 import com.example.dietitian_plus.domain.note.dto.NoteResponseDto;
 import com.example.dietitian_plus.domain.note.dto.UpdateNoteRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,29 +21,48 @@ public class NoteController {
 
     @GetMapping("/")
     public ResponseEntity<List<NoteResponseDto>> getNotes() {
-        return ResponseEntity.ok(noteService.getNotes());
+        List<NoteResponseDto> noteResponseDtoList = noteService.getNotes();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(noteResponseDtoList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<NoteResponseDto> getNoteById(@PathVariable Long id) {
-        return ResponseEntity.ok(noteService.getNoteById(id));
+        NoteResponseDto noteResponseDto = noteService.getNoteById(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(noteResponseDto);
     }
 
     @PostMapping("/")
     public ResponseEntity<NoteResponseDto> createNote(@RequestBody CreateNoteRequestDto createNoteRequestDto) {
         NoteResponseDto createdNoteResponseDto = noteService.createNote(createNoteRequestDto);
-        return ResponseEntity.created(URI.create("api/v1/notes/" + createdNoteResponseDto.getNoteId())).body(createdNoteResponseDto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .location(URI.create("/api/v1/notes" + createdNoteResponseDto.getNoteId()))
+                .body(createdNoteResponseDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<NoteResponseDto> updateNoteById(@PathVariable Long id, @RequestBody UpdateNoteRequestDto updateNoteRequestDto) {
-        return ResponseEntity.ok(noteService.updateNoteById(id, updateNoteRequestDto));
+        NoteResponseDto updatedNoteResponseDto = noteService.updateNoteById(id, updateNoteRequestDto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(updatedNoteResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteNoteById(@PathVariable Long id) {
+    public ResponseEntity<MessageResponseDto> deleteNoteById(@PathVariable Long id) {
         noteService.deleteNoteById(id);
-        return ResponseEntity.ok("Note deleted successfully");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new MessageResponseDto("Note with id " + id + " deleted successfully"));
     }
 
 }

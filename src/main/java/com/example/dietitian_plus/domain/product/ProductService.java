@@ -3,6 +3,7 @@ package com.example.dietitian_plus.domain.product;
 import com.example.dietitian_plus.domain.product.dto.CreateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
+import com.example.dietitian_plus.domain.product.dto.UpdateProductRequestDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -63,30 +64,30 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponseDto updateProductById(Long id, CreateProductRequestDto updateProductDto) throws EntityNotFoundException {
+    public ProductResponseDto updateProductById(Long id, UpdateProductRequestDto updateProductRequestDto) throws EntityNotFoundException {
         if (!productRepository.existsById(id)) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
 
         Product product = productRepository.getReferenceById(id);
 
-        if (updateProductDto.getProductName() != null) {
-            product.setProductName(updateProductDto.getProductName());
+        if (updateProductRequestDto.getProductName() != null) {
+            product.setProductName(updateProductRequestDto.getProductName());
         }
-        if (updateProductDto.getKcal() != null) {
-            product.setKcal(updateProductDto.getKcal());
+        if (updateProductRequestDto.getKcal() != null) {
+            product.setKcal(updateProductRequestDto.getKcal());
         }
-        if (updateProductDto.getFats() != null) {
-            product.setFats(updateProductDto.getFats());
+        if (updateProductRequestDto.getFats() != null) {
+            product.setFats(updateProductRequestDto.getFats());
         }
-        if (updateProductDto.getCarbs() != null) {
-            product.setCarbs(updateProductDto.getCarbs());
+        if (updateProductRequestDto.getCarbs() != null) {
+            product.setCarbs(updateProductRequestDto.getCarbs());
         }
-        if (updateProductDto.getProtein() != null) {
-            product.setProtein(updateProductDto.getProtein());
+        if (updateProductRequestDto.getProtein() != null) {
+            product.setProtein(updateProductRequestDto.getProtein());
         }
-        if (updateProductDto.getFiber() != null) {
-            product.setFiber(updateProductDto.getFiber());
+        if (updateProductRequestDto.getFiber() != null) {
+            product.setFiber(updateProductRequestDto.getFiber());
         }
 
         return productDtoMapper.toDto(productRepository.save(product));

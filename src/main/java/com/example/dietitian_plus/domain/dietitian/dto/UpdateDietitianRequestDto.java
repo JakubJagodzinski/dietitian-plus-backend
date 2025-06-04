@@ -8,7 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CreateDietitianRequestDto {
+public class UpdateDietitianRequestDto {
+
+    @JsonProperty("dietitian_id")
+    private Long dietitianId;
 
     @JsonProperty("first_name")
     private String firstName;

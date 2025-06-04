@@ -1,7 +1,9 @@
 package com.example.dietitian_plus.domain.disease;
 
+import com.example.dietitian_plus.domain.disease.dto.CreateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseDtoMapper;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
+import com.example.dietitian_plus.domain.disease.dto.UpdateDiseaseRequestDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,24 +35,24 @@ public class DiseaseService {
     }
 
     @Transactional
-    public DiseaseResponseDto createDisease(DiseaseResponseDto diseaseResponseDto) {
+    public DiseaseResponseDto createDisease(CreateDiseaseRequestDto createDiseaseRequestDto) {
         Disease disease = new Disease();
 
-        disease.setDiseaseName(diseaseResponseDto.getDiseaseName());
+        disease.setDiseaseName(createDiseaseRequestDto.getDiseaseName());
 
         return diseaseDtoMapper.toDto(diseaseRepository.save(disease));
     }
 
     @Transactional
-    public DiseaseResponseDto updateDiseaseById(Long id, DiseaseResponseDto diseaseResponseDto) throws EntityNotFoundException {
+    public DiseaseResponseDto updateDiseaseById(Long id, UpdateDiseaseRequestDto updateDiseaseRequestDto) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(id)) {
             throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
         }
 
         Disease disease = diseaseRepository.getReferenceById(id);
 
-        if (diseaseResponseDto.getDiseaseName() != null) {
-            disease.setDiseaseName(diseaseResponseDto.getDiseaseName());
+        if (updateDiseaseRequestDto.getDiseaseName() != null) {
+            disease.setDiseaseName(updateDiseaseRequestDto.getDiseaseName());
         }
 
         return diseaseDtoMapper.toDto(diseaseRepository.save(disease));
