@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.disease;
 
 import com.example.dietitian_plus.disease.dto.DiseaseResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,14 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/diseases")
+@RequiredArgsConstructor
 public class DiseaseController {
 
     private final DiseaseService diseaseService;
-
-    @Autowired
-    public DiseaseController(DiseaseService diseaseService) {
-        this.diseaseService = diseaseService;
-    }
 
     @GetMapping("/")
     public ResponseEntity<List<DiseaseResponseDto>> getDiseases() {

@@ -1,7 +1,6 @@
 package com.example.dietitian_plus.patient;
 
 import com.example.dietitian_plus.dietitian.Dietitian;
-import com.example.dietitian_plus.disease.Disease;
 import com.example.dietitian_plus.note.Note;
 import com.example.dietitian_plus.product.Product;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -80,16 +79,6 @@ public class Patient {
     @ToString.Exclude
     private Set<Product> dislikedProducts = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "patients_diseases",
-            joinColumns = @JoinColumn(name = "patient_id"),
-            inverseJoinColumns = @JoinColumn(name = "disease_id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"patient_id", "disease_id"})
-    )
-    @JsonManagedReference
-    @ToString.Exclude
-    private Set<Disease> diseases = new HashSet<>();
 
     @OneToMany(mappedBy = "patient")
     @JsonBackReference
