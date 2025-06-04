@@ -3,50 +3,32 @@ package com.example.dietitian_plus.domain.patient;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.note.Note;
 import com.example.dietitian_plus.domain.product.Product;
+import com.example.dietitian_plus.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "patients")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Patient {
+@PrimaryKeyJoinColumn(name = "patient_id")
+public class Patient extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "patient_id")
-    private Long patientId;
-
-    @Column(unique = true, nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Column(nullable = false)
+    @Column()
     private Float height;
 
-    @Column(name = "starting_weight", nullable = false)
+    @Column(name = "starting_weight")
     private Float startingWeight;
 
-    @Column(name = "current_weight", nullable = false)
+    @Column(name = "current_weight")
     private Float currentWeight;
 
     @Column(name = "is_active")

@@ -3,41 +3,23 @@ package com.example.dietitian_plus.domain.dietitian;
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.note.Note;
 import com.example.dietitian_plus.domain.patient.Patient;
+import com.example.dietitian_plus.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "dietitians")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Dietitian {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "dietitian_id")
-    private Long dietitianId;
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
+@PrimaryKeyJoinColumn(name = "dietitian_id")
+public class Dietitian extends User {
 
     private String title = "";
-
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
 
     @OneToMany(mappedBy = "dietitian")
     @JsonBackReference

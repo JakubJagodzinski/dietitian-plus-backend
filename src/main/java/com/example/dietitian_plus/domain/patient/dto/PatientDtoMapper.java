@@ -12,14 +12,14 @@ public class PatientDtoMapper {
     public PatientResponseDto toDto(Patient patient) {
         PatientResponseDto patientResponseDto = new PatientResponseDto();
 
-        patientResponseDto.setPatientId(patient.getPatientId());
+        patientResponseDto.setPatientId(patient.getId());
         patientResponseDto.setEmail(patient.getEmail());
         patientResponseDto.setFirstName(patient.getFirstName());
         patientResponseDto.setLastName(patient.getLastName());
         patientResponseDto.setHeight(patient.getHeight());
         patientResponseDto.setStartingWeight(patient.getStartingWeight());
         patientResponseDto.setCurrentWeight(patient.getCurrentWeight());
-        patientResponseDto.setDietitianId(patient.getDietitian().getDietitianId());
+        patientResponseDto.setDietitianId(patient.getDietitian().getId());
         patientResponseDto.setIsActive(patient.getIsActive());
 
         return patientResponseDto;

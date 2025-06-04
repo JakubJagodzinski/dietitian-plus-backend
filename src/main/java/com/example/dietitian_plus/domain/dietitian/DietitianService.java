@@ -1,17 +1,19 @@
 package com.example.dietitian_plus.domain.dietitian;
 
-import com.example.dietitian_plus.domain.dietitian.dto.CreateDietitianRequestDto;
-import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
+import com.example.dietitian_plus.auth.dto.RegisterRequestDto;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianDtoMapper;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
-import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
+import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dish.DishRepository;
-import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
-import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
+import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
+import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
+import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
+import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
+import com.example.dietitian_plus.user.Role;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,15 +31,17 @@ public class DietitianService {
 
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
     private final DishRepository dishRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DietitianService(DietitianRepository dietitianRepository, PatientRepository patientRepository, DietitianDtoMapper dietitianDtoMapper, PatientDtoMapper patientDtoMapper, DishDtoMapper dishDtoMapper, DishRepository dishRepository) {
+    public DietitianService(DietitianRepository dietitianRepository, PatientRepository patientRepository, DietitianDtoMapper dietitianDtoMapper, PatientDtoMapper patientDtoMapper, DishDtoMapper dishDtoMapper, DishRepository dishRepository, PasswordEncoder passwordEncoder) {
         this.dietitianRepository = dietitianRepository;
         this.patientRepository = patientRepository;
         this.dietitianDtoMapper = dietitianDtoMapper;
         this.patientDtoMapper = patientDtoMapper;
         this.dishDtoMapper = dishDtoMapper;
         this.dishRepository = dishRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<DietitianResponseDto> getDietitians() {
@@ -76,16 +80,16 @@ public class DietitianService {
     }
 
     @Transactional
-    public DietitianResponseDto createDietitian(CreateDietitianRequestDto createDietitianRequestDto) {
+    public Dietitian register(RegisterRequestDto registerRequestDto) {
         Dietitian dietitian = new Dietitian();
 
-        dietitian.setEmail(createDietitianRequestDto.getEmail());
-        dietitian.setTitle(createDietitianRequestDto.getTitle());
-        dietitian.setPassword(createDietitianRequestDto.getPassword());
-        dietitian.setFirstName(createDietitianRequestDto.getFirstName());
-        dietitian.setLastName(createDietitianRequestDto.getLastName());
+        dietitian.setFirstName(registerRequestDto.getFirstname());
+        dietitian.setLastName(registerRequestDto.getLastname());
+        dietitian.setEmail(registerRequestDto.getEmail());
+        dietitian.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
+        dietitian.setRole(Role.valueOf(registerRequestDto.getRole()));
 
-        return dietitianDtoMapper.toDto(dietitianRepository.save(dietitian));
+        return dietitianRepository.save(dietitian);
     }
 
     @Transactional

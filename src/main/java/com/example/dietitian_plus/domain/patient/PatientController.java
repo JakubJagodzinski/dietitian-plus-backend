@@ -1,13 +1,11 @@
 package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
-import com.example.dietitian_plus.domain.patient.dto.CreatePatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -30,12 +28,6 @@ public class PatientController {
     @GetMapping("/{id}/meals")
     public ResponseEntity<List<MealResponseDto>> getPatientMeals(@PathVariable Long id) {
         return ResponseEntity.ok(patientService.getPatientMeals(id));
-    }
-
-    @PostMapping("/")
-    public ResponseEntity<PatientResponseDto> createPatient(@RequestBody CreatePatientRequestDto createPatientRequestDto) {
-        PatientResponseDto createdPatient = patientService.createPatient(createPatientRequestDto);
-        return ResponseEntity.created(URI.create("/api/patients/" + createdPatient.getPatientId())).body(createdPatient);
     }
 
     @PutMapping("/{id}")

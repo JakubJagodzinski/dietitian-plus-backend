@@ -12,8 +12,8 @@ public class NoteDtoMapper {
         dto.setNoteId(note.getNoteId());
         dto.setText(note.getText());
         dto.setDatetime(note.getDatetime());
-        dto.setDietitianId(note.getDietitian().getDietitianId());
-        dto.setPatientId(note.getPatient().getPatientId());
+        dto.setDietitianId(note.getDietitian().getId());
+        dto.setPatientId(note.getPatient().getId());
 
         return dto;
     }

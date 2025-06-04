@@ -1,6 +1,5 @@
 package com.example.dietitian_plus.domain.dietitian;
 
-import com.example.dietitian_plus.domain.dietitian.dto.CreateDietitianRequestDto;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -40,12 +38,6 @@ public class DietitianController {
     @GetMapping("/{id}/dishes")
     public ResponseEntity<List<DishResponseDto>> getDietitianDishes(@PathVariable Long id) {
         return ResponseEntity.ok(dietitianService.getDietitianDishes(id));
-    }
-
-    @PostMapping("/")
-    public ResponseEntity<DietitianResponseDto> createDietitian(@RequestBody CreateDietitianRequestDto createDietitianRequestDto) {
-        DietitianResponseDto createdDietitianResponseDto = dietitianService.createDietitian(createDietitianRequestDto);
-        return ResponseEntity.created(URI.create("/api/v1/dietitians/" + createdDietitianResponseDto.getDietitianId())).body(createdDietitianResponseDto);
     }
 
     @PutMapping("/{id}")
