@@ -1,18 +1,19 @@
 package com.example.dietitian_plus.domain.unit;
 
 import com.example.dietitian_plus.domain.unit.dto.CreateUnitRequestDto;
-import com.example.dietitian_plus.domain.unit.dto.UnitResponseDto;
 import com.example.dietitian_plus.domain.unit.dto.UnitDtoMapper;
+import com.example.dietitian_plus.domain.unit.dto.UnitResponseDto;
 import com.example.dietitian_plus.domain.unit.dto.UpdateUnitResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UnitService {
 
     private final UnitRepository unitRepository;
@@ -20,12 +21,6 @@ public class UnitService {
     private final UnitDtoMapper unitDtoMapper;
 
     private static final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";
-
-    @Autowired
-    public UnitService(UnitRepository unitRepository, UnitDtoMapper unitDtoMapper) {
-        this.unitRepository = unitRepository;
-        this.unitDtoMapper = unitDtoMapper;
-    }
 
     public List<UnitResponseDto> getUnits() {
         List<Unit> units = unitRepository.findAll();

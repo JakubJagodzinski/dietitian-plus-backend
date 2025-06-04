@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface DishesProductsRepository extends JpaRepository<DishesProducts, Long> {
 
     List<DishesProducts> findByDish_DishId(Long dishId);

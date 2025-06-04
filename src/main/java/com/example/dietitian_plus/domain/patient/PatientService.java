@@ -11,12 +11,14 @@ import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import com.example.dietitian_plus.user.Role;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PatientService {
 
     private final PatientRepository patientRepository;
@@ -29,15 +31,6 @@ public class PatientService {
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
     private final PasswordEncoder passwordEncoder;
-
-    public PatientService(PatientRepository patientRepository, DietitianRepository dietitianRepository, MealRepository mealRepository, PatientDtoMapper patientDtoMapper, MealDtoMapper mealDtoMapper, PasswordEncoder passwordEncoder) {
-        this.patientRepository = patientRepository;
-        this.dietitianRepository = dietitianRepository;
-        this.mealRepository = mealRepository;
-        this.patientDtoMapper = patientDtoMapper;
-        this.mealDtoMapper = mealDtoMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public List<PatientResponseDto> getPatients() {
         return patientDtoMapper.toDtoList(patientRepository.findAll());

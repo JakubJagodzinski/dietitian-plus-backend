@@ -4,7 +4,7 @@ import com.example.dietitian_plus.domain.dish.dto.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.UpdateDishRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,14 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/dishes")
+@RequiredArgsConstructor
 public class DishController {
 
     private final DishService dishService;
-
-    @Autowired
-    public DishController(DishService dishService) {
-        this.dishService = dishService;
-    }
 
     @GetMapping("/")
     public ResponseEntity<List<DishResponseDto>> getDishes() {

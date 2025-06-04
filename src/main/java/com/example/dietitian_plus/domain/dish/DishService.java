@@ -3,23 +3,24 @@ package com.example.dietitian_plus.domain.dish;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.dish.dto.CreateDishRequestDto;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
+import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.UpdateDishRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.DishesProducts;
 import com.example.dietitian_plus.domain.dishesproducts.DishesProductsRepository;
 import com.example.dietitian_plus.domain.product.Product;
-import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
+import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DishService {
 
     private final DishRepository dishRepository;
@@ -31,15 +32,6 @@ public class DishService {
 
     private static final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
-
-    @Autowired
-    public DishService(DishRepository dishRepository, DietitianRepository dietitianRepository, DishesProductsRepository dishesProductsRepository, DishDtoMapper dishDtoMapper, ProductDtoMapper productDtoMapper) {
-        this.dishRepository = dishRepository;
-        this.dietitianRepository = dietitianRepository;
-        this.dishesProductsRepository = dishesProductsRepository;
-        this.dishDtoMapper = dishDtoMapper;
-        this.productDtoMapper = productDtoMapper;
-    }
 
     public List<DishResponseDto> getDishes() {
         List<Dish> dishes = dishRepository.findAll();

@@ -2,6 +2,7 @@ package com.example.dietitian_plus.domain.patientdiseases;
 
 import com.example.dietitian_plus.domain.patientdiseases.dto.CreatePatientDiseaseRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/patient-diseases")
+@RequiredArgsConstructor
 public class PatientDiseaseController {
 
     private final PatientDiseaseService patientDiseaseService;
-
-    public PatientDiseaseController(PatientDiseaseService patientDiseaseService) {
-        this.patientDiseaseService = patientDiseaseService;
-    }
 
     @GetMapping("/by-patient/{patientId}")
     public ResponseEntity<List<PatientDiseaseResponseDto>> getDiseasesByPatientId(@PathVariable Long patientId) {

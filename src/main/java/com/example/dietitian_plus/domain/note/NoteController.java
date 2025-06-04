@@ -3,7 +3,7 @@ package com.example.dietitian_plus.domain.note;
 import com.example.dietitian_plus.domain.note.dto.CreateNoteRequestDto;
 import com.example.dietitian_plus.domain.note.dto.NoteResponseDto;
 import com.example.dietitian_plus.domain.note.dto.UpdateNoteRequestDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/notes")
+@RequiredArgsConstructor
 public class NoteController {
 
     private final NoteService noteService;
-
-    @Autowired
-    public NoteController(NoteService noteService) {
-        this.noteService = noteService;
-    }
 
     @GetMapping("/")
     public ResponseEntity<List<NoteResponseDto>> getNotes() {
@@ -32,7 +28,6 @@ public class NoteController {
     }
 
     @PostMapping("/")
-
     public ResponseEntity<NoteResponseDto> createNote(@RequestBody CreateNoteRequestDto createNoteRequestDto) {
         NoteResponseDto createdNoteResponseDto = noteService.createNote(createNoteRequestDto);
         return ResponseEntity.created(URI.create("api/v1/notes/" + createdNoteResponseDto.getNoteId())).body(createdNoteResponseDto);

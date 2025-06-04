@@ -6,19 +6,19 @@ import com.example.dietitian_plus.domain.dishesproducts.DishesProducts;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "dishes")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Dish {
 
     @Id

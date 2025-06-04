@@ -3,19 +3,18 @@ package com.example.dietitian_plus.domain.unit;
 import com.example.dietitian_plus.domain.dishesproducts.DishesProducts;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "units")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Unit {
 
     @Id
@@ -31,7 +30,6 @@ public class Unit {
 
     @OneToMany(mappedBy = "unit")
     @JsonBackReference
-    @ToString.Exclude
     private final List<DishesProducts> dishesProducts = new ArrayList<>();
 
 }

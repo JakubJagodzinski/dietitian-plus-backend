@@ -3,7 +3,7 @@ package com.example.dietitian_plus.domain.meal;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/meals")
+@RequiredArgsConstructor
 public class MealController {
 
     private final MealService mealService;
-
-    @Autowired
-    public MealController(MealService mealService) {
-        this.mealService = mealService;
-    }
 
     @GetMapping("/")
     public ResponseEntity<List<MealResponseDto>> getMeals() {

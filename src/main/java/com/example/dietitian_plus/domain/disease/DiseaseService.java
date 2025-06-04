@@ -1,16 +1,17 @@
 package com.example.dietitian_plus.domain.disease;
 
-import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseDtoMapper;
+import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DiseaseService {
 
     private final DiseaseRepository diseaseRepository;
@@ -18,12 +19,6 @@ public class DiseaseService {
     private final DiseaseDtoMapper diseaseDtoMapper;
 
     private static final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
-
-    @Autowired
-    public DiseaseService(DiseaseRepository diseaseRepository, DiseaseDtoMapper diseaseDtoMapper) {
-        this.diseaseRepository = diseaseRepository;
-        this.diseaseDtoMapper = diseaseDtoMapper;
-    }
 
     public List<DiseaseResponseDto> getDiseases() {
         List<Disease> diseases = diseaseRepository.findAll();

@@ -4,13 +4,17 @@ import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.product.Product;
 import com.example.dietitian_plus.domain.unit.Unit;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "dishes_products")
-@Data
 public class DishesProducts {
 
     @Id

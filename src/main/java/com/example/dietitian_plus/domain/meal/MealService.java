@@ -2,22 +2,23 @@ package com.example.dietitian_plus.domain.meal;
 
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
+import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.CreateMealRequestDto;
-import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.MealDtoMapper;
+import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MealService {
 
     private final MealRepository mealRepository;
@@ -30,15 +31,6 @@ public class MealService {
     private static final String MEAL_NOT_FOUND_MESSAGE = "Meal not found";
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
-
-    @Autowired
-    public MealService(MealRepository mealRepository, PatientRepository patientRepository, DietitianRepository dietitianRepository, MealDtoMapper mealDtoMapper, DishDtoMapper dishDtoMapper) {
-        this.mealRepository = mealRepository;
-        this.patientRepository = patientRepository;
-        this.dietitianRepository = dietitianRepository;
-        this.mealDtoMapper = mealDtoMapper;
-        this.dishDtoMapper = dishDtoMapper;
-    }
 
     public List<MealResponseDto> getMeals() {
         List<Meal> meals = mealRepository.findAll();

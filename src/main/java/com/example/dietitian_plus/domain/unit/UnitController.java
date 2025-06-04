@@ -3,7 +3,7 @@ package com.example.dietitian_plus.domain.unit;
 import com.example.dietitian_plus.domain.unit.dto.CreateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.UnitResponseDto;
 import com.example.dietitian_plus.domain.unit.dto.UpdateUnitResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/units")
+@RequiredArgsConstructor
 public class UnitController {
 
     private final UnitService unitService;
-
-    @Autowired
-    public UnitController(UnitService unitService) {
-        this.unitService = unitService;
-    }
 
     @GetMapping("/")
     public ResponseEntity<List<UnitResponseDto>> getUnits() {

@@ -1,15 +1,13 @@
 package com.example.dietitian_plus.domain.disease;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "diseases")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Disease {
 
     @Id

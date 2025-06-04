@@ -4,13 +4,17 @@ import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.meal.Meal;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "meals_dishes")
-@Data
 public class MealsDishes {
 
     @Id

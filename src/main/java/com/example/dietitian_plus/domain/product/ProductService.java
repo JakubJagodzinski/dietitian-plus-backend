@@ -1,17 +1,18 @@
 package com.example.dietitian_plus.domain.product;
 
 import com.example.dietitian_plus.domain.product.dto.CreateProductRequestDto;
-import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
+import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
@@ -19,12 +20,6 @@ public class ProductService {
     private final ProductDtoMapper productDtoMapper;
 
     private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
-
-    @Autowired
-    public ProductService(ProductRepository productRepository, ProductDtoMapper productDtoMapper) {
-        this.productRepository = productRepository;
-        this.productDtoMapper = productDtoMapper;
-    }
 
     public List<ProductResponseDto> getProducts() {
         List<Product> products = productRepository.findAll();

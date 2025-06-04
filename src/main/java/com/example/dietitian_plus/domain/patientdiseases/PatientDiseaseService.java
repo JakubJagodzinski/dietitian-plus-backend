@@ -9,11 +9,13 @@ import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseDtoMa
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PatientDiseaseService {
 
     private final PatientDiseaseRepository patientDiseaseRepository;
@@ -26,13 +28,6 @@ public class PatientDiseaseService {
     private static final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
     private static final String DISEASE_ALREADY_ASSIGNED_TO_PATIENT_MESSAGE = "Disease already assigned to patient";
     private static final String PATIENT_DISEASE_ASSOCIATION_NOT_FOUND_MESSAGE = "Patient disease association not found";
-
-    public PatientDiseaseService(PatientDiseaseRepository patientDiseaseRepository, PatientRepository patientRepository, DiseaseRepository diseaseRepository, PatientDiseaseDtoMapper patientDiseaseDtoMapper) {
-        this.patientDiseaseRepository = patientDiseaseRepository;
-        this.patientRepository = patientRepository;
-        this.diseaseRepository = diseaseRepository;
-        this.patientDiseaseDtoMapper = patientDiseaseDtoMapper;
-    }
 
     @Transactional
     public List<PatientDiseaseResponseDto> getPatientDiseasesByPatientId(Long patientId) throws EntityNotFoundException {

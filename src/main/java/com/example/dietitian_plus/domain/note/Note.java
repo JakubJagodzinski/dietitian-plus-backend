@@ -4,20 +4,19 @@ import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "notes")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Note {
 
     @Id
@@ -33,14 +32,12 @@ public class Note {
     @JoinColumn(name = "patient_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
-    @ToString.Exclude
     private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "dietitian_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
-    @ToString.Exclude
     private Dietitian dietitian;
 
 }

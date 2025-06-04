@@ -4,14 +4,15 @@ package com.example.dietitian_plus.domain.patientdiseases;
 import com.example.dietitian_plus.domain.disease.Disease;
 import com.example.dietitian_plus.domain.patient.Patient;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "patient_diseases")
 public class PatientDisease {

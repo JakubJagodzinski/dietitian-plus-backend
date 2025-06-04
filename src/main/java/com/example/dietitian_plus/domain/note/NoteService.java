@@ -4,14 +4,14 @@ package com.example.dietitian_plus.domain.note;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.note.dto.CreateNoteRequestDto;
-import com.example.dietitian_plus.domain.note.dto.NoteResponseDto;
 import com.example.dietitian_plus.domain.note.dto.NoteDtoMapper;
+import com.example.dietitian_plus.domain.note.dto.NoteResponseDto;
 import com.example.dietitian_plus.domain.note.dto.UpdateNoteRequestDto;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class NoteService {
 
     private final NoteRepository noteRepository;
@@ -30,14 +31,6 @@ public class NoteService {
     private static final String NOTE_NOT_FOUND_MESSAGE = "Note not found";
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
-
-    @Autowired
-    public NoteService(NoteRepository noteRepository, PatientRepository patientRepository, DietitianRepository dietitianRepository, NoteDtoMapper noteDtoMapper) {
-        this.noteRepository = noteRepository;
-        this.patientRepository = patientRepository;
-        this.dietitianRepository = dietitianRepository;
-        this.noteDtoMapper = noteDtoMapper;
-    }
 
     public List<NoteResponseDto> getNotes() {
         List<Note> notes = noteRepository.findAll();

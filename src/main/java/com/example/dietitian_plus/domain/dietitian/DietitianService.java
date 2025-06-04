@@ -12,7 +12,7 @@ import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import com.example.dietitian_plus.user.Role;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,29 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DietitianService {
 
     private final DietitianRepository dietitianRepository;
     private final PatientRepository patientRepository;
+    private final DishRepository dishRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private final DietitianDtoMapper dietitianDtoMapper;
     private final PatientDtoMapper patientDtoMapper;
     private final DishDtoMapper dishDtoMapper;
 
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
-    private final DishRepository dishRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public DietitianService(DietitianRepository dietitianRepository, PatientRepository patientRepository, DietitianDtoMapper dietitianDtoMapper, PatientDtoMapper patientDtoMapper, DishDtoMapper dishDtoMapper, DishRepository dishRepository, PasswordEncoder passwordEncoder) {
-        this.dietitianRepository = dietitianRepository;
-        this.patientRepository = patientRepository;
-        this.dietitianDtoMapper = dietitianDtoMapper;
-        this.patientDtoMapper = patientDtoMapper;
-        this.dishDtoMapper = dishDtoMapper;
-        this.dishRepository = dishRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public List<DietitianResponseDto> getDietitians() {
         List<Dietitian> dietitians = dietitianRepository.findAll();
