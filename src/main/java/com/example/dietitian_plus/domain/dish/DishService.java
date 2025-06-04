@@ -29,8 +29,8 @@ public class DishService {
     private final DishDtoMapper dishDtoMapper;
     private final ProductDtoMapper productDtoMapper;
 
-    private final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
-    private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
+    private static final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
+    private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
     public DishService(DishRepository dishRepository, DietitianRepository dietitianRepository, DishesProductsRepository dishesProductsRepository, DishDtoMapper dishDtoMapper, ProductDtoMapper productDtoMapper) {

@@ -27,9 +27,9 @@ public class MealService {
     private final MealDtoMapper mealDtoMapper;
     private final DishDtoMapper dishDtoMapper;
 
-    private final String MEAL_NOT_FOUND_MESSAGE = "Meal not found";
-    private final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
-    private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
+    private static final String MEAL_NOT_FOUND_MESSAGE = "Meal not found";
+    private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
+    private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
     public MealService(MealRepository mealRepository, PatientRepository patientRepository, DietitianRepository dietitianRepository, MealDtoMapper mealDtoMapper, DishDtoMapper dishDtoMapper) {

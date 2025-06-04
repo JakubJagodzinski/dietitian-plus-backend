@@ -19,7 +19,7 @@ public class UnitService {
 
     private final UnitDtoMapper unitDtoMapper;
 
-    private final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";
+    private static final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";
 
     @Autowired
     public UnitService(UnitRepository unitRepository, UnitDtoMapper unitDtoMapper) {

@@ -27,7 +27,7 @@ public class DietitianService {
     private final PatientDtoMapper patientDtoMapper;
     private final DishDtoMapper dishDtoMapper;
 
-    private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
+    private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
     private final DishRepository dishRepository;
 
     @Autowired
@@ -91,7 +91,7 @@ public class DietitianService {
     @Transactional
     public DietitianResponseDto updateDietitianById(Long id, DietitianResponseDto dietitianResponseDto) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(id)) {
-            throw new EntityNotFoundException(this.DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
         Dietitian dietitian = dietitianRepository.getReferenceById(id);
@@ -122,7 +122,7 @@ public class DietitianService {
     @Transactional
     public void deleteDietitianById(Long id) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(id)) {
-            throw new EntityNotFoundException(this.DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
         dietitianRepository.deleteById(id);

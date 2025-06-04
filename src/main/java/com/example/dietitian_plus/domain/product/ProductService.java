@@ -18,7 +18,7 @@ public class ProductService {
 
     private final ProductDtoMapper productDtoMapper;
 
-    private final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
+    private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
 
     @Autowired
     public ProductService(ProductRepository productRepository, ProductDtoMapper productDtoMapper) {

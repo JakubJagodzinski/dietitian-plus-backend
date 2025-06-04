@@ -27,9 +27,9 @@ public class NoteService {
 
     private final NoteDtoMapper noteDtoMapper;
 
-    private final String NOTE_NOT_FOUND_MESSAGE = "Note not found";
-    private final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
-    private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
+    private static final String NOTE_NOT_FOUND_MESSAGE = "Note not found";
+    private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
+    private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     @Autowired
     public NoteService(NoteRepository noteRepository, PatientRepository patientRepository, DietitianRepository dietitianRepository, NoteDtoMapper noteDtoMapper) {

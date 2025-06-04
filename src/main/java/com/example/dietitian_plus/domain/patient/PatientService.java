@@ -24,8 +24,8 @@ public class PatientService {
     private final PatientDtoMapper patientDtoMapper;
     private final MealDtoMapper mealDtoMapper;
 
-    private final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
-    private final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
+    private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
+    private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
     public PatientService(PatientRepository patientRepository, DietitianRepository dietitianRepository, MealRepository mealRepository, PatientDtoMapper patientDtoMapper, MealDtoMapper mealDtoMapper) {
         this.patientRepository = patientRepository;

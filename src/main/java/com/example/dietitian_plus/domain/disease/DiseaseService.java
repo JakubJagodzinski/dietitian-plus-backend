@@ -17,7 +17,7 @@ public class DiseaseService {
 
     private final DiseaseDtoMapper diseaseDtoMapper;
 
-    private final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
+    private static final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
 
     @Autowired
     public DiseaseService(DiseaseRepository diseaseRepository, DiseaseDtoMapper diseaseDtoMapper) {
@@ -38,7 +38,7 @@ public class DiseaseService {
 
     public DiseaseResponseDto getDiseaseById(Long id) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(id)) {
-            throw new EntityNotFoundException(this.DISEASE_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
         }
 
         return diseaseDtoMapper.toDto(diseaseRepository.getReferenceById(id));
@@ -56,7 +56,7 @@ public class DiseaseService {
     @Transactional
     public DiseaseResponseDto updateDiseaseById(Long id, DiseaseResponseDto diseaseResponseDto) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(id)) {
-            throw new EntityNotFoundException(this.DISEASE_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
         }
 
         Disease disease = diseaseRepository.getReferenceById(id);
@@ -71,7 +71,7 @@ public class DiseaseService {
     @Transactional
     public void deleteDiseaseById(Long id) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(id)) {
-            throw new EntityNotFoundException(this.DISEASE_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
         }
 
         diseaseRepository.deleteById(id);
