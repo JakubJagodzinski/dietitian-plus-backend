@@ -1,6 +1,5 @@
 package com.example.dietitian_plus.domain.patientdiseases;
 
-
 import com.example.dietitian_plus.domain.disease.Disease;
 import com.example.dietitian_plus.domain.patient.Patient;
 import jakarta.persistence.*;

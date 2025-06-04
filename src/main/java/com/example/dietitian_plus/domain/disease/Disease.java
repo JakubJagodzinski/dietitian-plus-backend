@@ -1,7 +1,9 @@
 package com.example.dietitian_plus.domain.disease;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter

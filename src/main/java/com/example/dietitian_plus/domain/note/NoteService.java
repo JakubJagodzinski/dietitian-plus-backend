@@ -1,6 +1,5 @@
 package com.example.dietitian_plus.domain.note;
 
-
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.note.dto.CreateNoteRequestDto;
