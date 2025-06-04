@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.dietitian.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,16 +10,19 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DietitianResponseDto {
 
+    @JsonProperty("dietitian_id")
     private Long dietitianId;
+
+    @JsonProperty("first_name")
+    private String firstName;
+
+    @JsonProperty("last_name")
+    private String lastName;
+
+    private String title;
 
     private String email;
 
     private String password;
-
-    private String title;
-
-    private String firstName;
-
-    private String lastName;
 
 }

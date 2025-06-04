@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.product.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateProductRequestDto {
 
+    @JsonProperty("product_name")
     private String productName;
 
     private Float kcal;
