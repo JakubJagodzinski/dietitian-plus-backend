@@ -45,6 +45,7 @@ public class DietitianService {
         return dietitiansDto;
     }
 
+    @Transactional
     public DietitianResponseDto getDietitianById(Long id) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(id)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
@@ -53,6 +54,7 @@ public class DietitianService {
         return dietitianDtoMapper.toDto(dietitianRepository.getReferenceById(id));
     }
 
+    @Transactional
     public List<PatientResponseDto> getDietitianPatients(Long id) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(id)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
@@ -61,6 +63,7 @@ public class DietitianService {
         return patientDtoMapper.toDtoList(patientRepository.findByDietitian(dietitianRepository.getReferenceById(id)));
     }
 
+    @Transactional
     public List<DishResponseDto> getDietitianDishes(Long id) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(id)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);

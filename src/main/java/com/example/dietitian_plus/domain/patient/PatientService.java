@@ -36,6 +36,7 @@ public class PatientService {
         return patientDtoMapper.toDtoList(patientRepository.findAll());
     }
 
+    @Transactional
     public PatientResponseDto getPatientById(Long id) throws EntityNotFoundException {
         if (!patientRepository.existsById(id)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
@@ -44,6 +45,7 @@ public class PatientService {
         return patientDtoMapper.toDto(patientRepository.getReferenceById(id));
     }
 
+    @Transactional
     public List<MealResponseDto> getPatientMeals(Long id) throws EntityNotFoundException {
         if (!patientRepository.existsById(id)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);

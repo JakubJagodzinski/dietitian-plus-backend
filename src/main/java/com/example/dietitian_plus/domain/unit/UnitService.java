@@ -33,6 +33,7 @@ public class UnitService {
         return unitsDto;
     }
 
+    @Transactional
     public UnitResponseDto getUnitById(Long id) throws EntityNotFoundException {
         if (!unitRepository.existsById(id)) {
             throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);

@@ -43,6 +43,7 @@ public class NoteService {
         return notesDto;
     }
 
+    @Transactional
     public NoteResponseDto getNoteById(Long id) throws EntityNotFoundException {
         if (!noteRepository.existsById(id)) {
             throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);

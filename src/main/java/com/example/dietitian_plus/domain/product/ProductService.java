@@ -32,6 +32,7 @@ public class ProductService {
         return productsDto;
     }
 
+    @Transactional
     public ProductResponseDto getProductById(Long id) throws EntityNotFoundException {
         if (!productRepository.existsById(id)) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);

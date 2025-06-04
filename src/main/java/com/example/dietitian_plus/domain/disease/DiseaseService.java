@@ -31,6 +31,7 @@ public class DiseaseService {
         return diseasesDto;
     }
 
+    @Transactional
     public DiseaseResponseDto getDiseaseById(Long id) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(id)) {
             throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);

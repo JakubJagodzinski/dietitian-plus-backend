@@ -43,6 +43,7 @@ public class MealService {
         return mealsDto;
     }
 
+    @Transactional
     public List<DishResponseDto> getMealDishes(Long id) throws EntityNotFoundException {
         if (!mealRepository.existsById(id)) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
@@ -53,6 +54,7 @@ public class MealService {
         return dishDtoMapper.toDtoList(meal.getDishes());
     }
 
+    @Transactional
     public MealResponseDto getMealById(Long id) throws EntityNotFoundException {
         if (!mealRepository.existsById(id)) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
