@@ -25,7 +25,6 @@ import java.util.Set;
 @PrimaryKeyJoinColumn(name = "patient_id")
 public class Patient extends User {
 
-    @Column()
     private Float height;
 
     @Column(name = "starting_weight")
@@ -41,17 +40,6 @@ public class Patient extends User {
     @JoinColumn(name = "dietitian_id")
     @JsonManagedReference
     private Dietitian dietitian = null;
-
-    @ManyToMany
-    @JoinTable(
-            name = "patients_allergenic_products",
-            joinColumns = @JoinColumn(name = "patient_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"patient_id", "product_id"})
-    )
-    @JsonManagedReference
-    @ToString.Exclude
-    private Set<Product> allergenicProducts = new HashSet<>();
 
     @ManyToMany
     @JoinTable(

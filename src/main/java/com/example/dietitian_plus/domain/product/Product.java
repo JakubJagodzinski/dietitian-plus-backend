@@ -38,10 +38,6 @@ public class Product {
 
     private Float fiber = 0.0f;
 
-    @ManyToMany(mappedBy = "allergenicProducts")
-    @JsonBackReference
-    private final Set<Patient> patientsWithAllergy = new HashSet<>();
-
     @ManyToMany(mappedBy = "dislikedProducts")
     @JsonBackReference
     private final Set<Patient> dislikedPatients = new HashSet<>();

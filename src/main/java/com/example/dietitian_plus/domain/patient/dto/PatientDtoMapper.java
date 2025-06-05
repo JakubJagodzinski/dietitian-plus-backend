@@ -19,7 +19,11 @@ public class PatientDtoMapper {
         patientResponseDto.setHeight(patient.getHeight());
         patientResponseDto.setStartingWeight(patient.getStartingWeight());
         patientResponseDto.setCurrentWeight(patient.getCurrentWeight());
-        patientResponseDto.setDietitianId(patient.getDietitian().getId());
+
+        if (patient.getDietitian() != null) {
+            patientResponseDto.setDietitianId(patient.getDietitian().getId());
+        }
+
         patientResponseDto.setIsActive(patient.getIsActive());
 
         return patientResponseDto;
