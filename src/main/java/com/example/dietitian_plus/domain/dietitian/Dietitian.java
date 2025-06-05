@@ -37,9 +37,4 @@ public class Dietitian extends User {
     @ToString.Exclude
     private final Set<Dish> dishes = new HashSet<>();
 
-    @OneToMany(mappedBy = "dietitian")
-    @JsonBackReference
-    @ToString.Exclude
-    private final Set<Note> notes = new HashSet<>();
-
 }
