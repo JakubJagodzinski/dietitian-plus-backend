@@ -44,21 +44,39 @@ public class NoteService {
     }
 
     @Transactional
-    public NoteResponseDto createNote(CreateNoteRequestDto createNoteRequestDto) throws EntityNotFoundException {
-        Note note = new Note();
-
-        if (!patientRepository.existsById(createNoteRequestDto.getPatientId())) {
+    public List<NoteResponseDto> getNotesByPatientId(Long patientId) throws EntityNotFoundException {
+        if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        if (!dietitianRepository.existsById(createNoteRequestDto.getDietitianId())) {
+        return noteDtoMapper.toDtoList(noteRepository.findAllByPatient_Id(patientId));
+    }
+
+    @Transactional
+    public List<NoteResponseDto> getNotesByDietitianId(Long dietitianId) throws EntityNotFoundException {
+        if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        Patient patient = patientRepository.getReferenceById(createNoteRequestDto.getPatientId());
-        Dietitian dietitian = dietitianRepository.getReferenceById(createNoteRequestDto.getDietitianId());
+        return noteDtoMapper.toDtoList(noteRepository.findAllByDietitian_Id(dietitianId));
+    }
 
-        note.setDatetime(LocalDateTime.now());
+    @Transactional
+    public NoteResponseDto createNote(CreateNoteRequestDto createNoteRequestDto) throws EntityNotFoundException {
+        Note note = new Note();
+
+        Patient patient = patientRepository.findById(createNoteRequestDto.getPatientId()).orElse(null);
+
+        if (patient == null) {
+            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+        }
+
+        Dietitian dietitian = dietitianRepository.findById(createNoteRequestDto.getDietitianId()).orElse(null);
+
+        if (dietitian == null) {
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+        }
+
         note.setText(createNoteRequestDto.getText());
         note.setPatient(patient);
         note.setDietitian(dietitian);
@@ -67,16 +85,26 @@ public class NoteService {
     }
 
     @Transactional
-    public NoteResponseDto updateNoteById(Long id, UpdateNoteRequestDto updateNoteRequestDto) throws EntityNotFoundException {
-        if (!noteRepository.existsById(id)) {
+    public NoteResponseDto updateNoteById(Long noteId, UpdateNoteRequestDto updateNoteRequestDto) throws EntityNotFoundException {
+        Note note = noteRepository.findById(noteId).orElse(null);
+
+        if (note == null) {
             throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);
         }
 
-        Note note = noteRepository.getReferenceById(id);
-
         if (updateNoteRequestDto.getText() != null) {
             note.setText(updateNoteRequestDto.getText());
-            note.setDatetime(LocalDateTime.now());
+            note.setLastEditedAt(LocalDateTime.now());
+        }
+
+        if (updateNoteRequestDto.getPatientId() != null) {
+            Patient patient = patientRepository.findById(updateNoteRequestDto.getPatientId()).orElse(null);
+
+            if (patient == null) {
+                throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+            }
+
+            note.setPatient(patient);
         }
 
         return noteDtoMapper.toDto(noteRepository.save(note));

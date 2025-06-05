@@ -37,6 +37,24 @@ public class NoteController {
                 .body(noteResponseDto);
     }
 
+    @GetMapping("/by-patient/{patientId}")
+    public ResponseEntity<List<NoteResponseDto>> getNotesByPatientId(@PathVariable Long patientId) {
+        List<NoteResponseDto> noteResponseDtoList = noteService.getNotesByPatientId(patientId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(noteResponseDtoList);
+    }
+
+    @GetMapping("/by-dietitian/{dietitianId}")
+    public ResponseEntity<List<NoteResponseDto>> getNotesByDietitianId(@PathVariable Long dietitianId) {
+        List<NoteResponseDto> noteResponseDtoList = noteService.getNotesByDietitianId(dietitianId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(noteResponseDtoList);
+    }
+
     @PostMapping
     public ResponseEntity<NoteResponseDto> createNote(@RequestBody CreateNoteRequestDto createNoteRequestDto) {
         NoteResponseDto createdNoteResponseDto = noteService.createNote(createNoteRequestDto);

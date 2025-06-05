@@ -10,9 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateNoteRequestDto {
 
-    @JsonProperty("note_id")
-    private Long noteId;
-
     private String text;
+
+    @JsonProperty("patient_id")
+    private Long patientId;
 
 }

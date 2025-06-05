@@ -26,7 +26,9 @@ public class Note {
 
     private String text = "";
 
-    private LocalDateTime datetime = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    private LocalDateTime lastEditedAt = null;
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)

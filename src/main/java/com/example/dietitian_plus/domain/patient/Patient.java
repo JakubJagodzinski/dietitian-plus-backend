@@ -1,17 +1,12 @@
 package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
-import com.example.dietitian_plus.domain.note.Note;
 import com.example.dietitian_plus.user.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -36,9 +31,5 @@ public class Patient extends User {
     @JoinColumn(name = "dietitian_id")
     @JsonManagedReference
     private Dietitian dietitian = null;
-
-    @OneToMany(mappedBy = "patient")
-    @JsonBackReference
-    private final List<Note> notes = new ArrayList<>();
 
 }

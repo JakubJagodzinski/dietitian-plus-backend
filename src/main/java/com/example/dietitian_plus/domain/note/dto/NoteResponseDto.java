@@ -17,7 +17,11 @@ public class NoteResponseDto {
 
     private String text;
 
-    private LocalDateTime datetime;
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("last_edited_at")
+    private LocalDateTime lastEditedAt;
 
     @JsonProperty("patient_id")
     private Long patientId;
