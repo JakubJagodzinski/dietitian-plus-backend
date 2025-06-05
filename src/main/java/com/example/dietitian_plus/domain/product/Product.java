@@ -1,7 +1,6 @@
 package com.example.dietitian_plus.domain.product;
 
 import com.example.dietitian_plus.domain.dishesproducts.DishesProducts;
-import com.example.dietitian_plus.domain.patient.Patient;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,9 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -37,10 +34,6 @@ public class Product {
     private Float protein = 0.0f;
 
     private Float fiber = 0.0f;
-
-    @ManyToMany(mappedBy = "dislikedProducts")
-    @JsonBackReference
-    private final Set<Patient> dislikedPatients = new HashSet<>();
 
     @OneToMany(mappedBy = "product")
     @JsonBackReference
