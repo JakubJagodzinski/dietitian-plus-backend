@@ -19,7 +19,7 @@ public class DiseaseController {
 
     private final DiseaseService diseaseService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<DiseaseResponseDto>> getDiseases() {
         List<DiseaseResponseDto> diseaseResponseDtoList = diseaseService.getDiseases();
 
@@ -28,16 +28,16 @@ public class DiseaseController {
                 .body(diseaseResponseDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DiseaseResponseDto> getDiseaseById(@PathVariable Long id) {
-        DiseaseResponseDto diseaseResponseDto = diseaseService.getDiseaseById(id);
+    @GetMapping("/{diseaseId}")
+    public ResponseEntity<DiseaseResponseDto> getDiseaseById(@PathVariable Long diseaseId) {
+        DiseaseResponseDto diseaseResponseDto = diseaseService.getDiseaseById(diseaseId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(diseaseResponseDto);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<DiseaseResponseDto> createDisease(@RequestBody CreateDiseaseRequestDto createDiseaseRequestDto) {
         DiseaseResponseDto createdDiseaseResponseDto = diseaseService.createDisease(createDiseaseRequestDto);
 
@@ -47,22 +47,22 @@ public class DiseaseController {
                 .body(createdDiseaseResponseDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DiseaseResponseDto> updateDiseaseById(@PathVariable Long id, @RequestBody UpdateDiseaseRequestDto updateDiseaseRequestDto) {
-        DiseaseResponseDto updatedDiseaseResponseDto = diseaseService.updateDiseaseById(id, updateDiseaseRequestDto);
+    @PutMapping("/{diseaseId}")
+    public ResponseEntity<DiseaseResponseDto> updateDiseaseById(@PathVariable Long diseaseId, @RequestBody UpdateDiseaseRequestDto updateDiseaseRequestDto) {
+        DiseaseResponseDto updatedDiseaseResponseDto = diseaseService.updateDiseaseById(diseaseId, updateDiseaseRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedDiseaseResponseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDto> deleteDiseaseById(@PathVariable Long id) {
-        diseaseService.deleteDiseaseById(id);
+    @DeleteMapping("/{diseaseId}")
+    public ResponseEntity<MessageResponseDto> deleteDiseaseById(@PathVariable Long diseaseId) {
+        diseaseService.deleteDiseaseById(diseaseId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Disease with id " + id + " deleted successfully"));
+                .body(new MessageResponseDto("Disease with id " + diseaseId + " deleted successfully"));
     }
 
 }

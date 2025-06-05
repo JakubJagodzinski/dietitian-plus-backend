@@ -17,7 +17,7 @@ public class PatientController {
 
     private final PatientService patientService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<PatientResponseDto>> getPatients() {
         List<PatientResponseDto> patientResponseDtoList = patientService.getPatients();
 
@@ -26,40 +26,40 @@ public class PatientController {
                 .body(patientResponseDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PatientResponseDto> getPatientById(@PathVariable Long id) {
-        PatientResponseDto patientResponseDto = patientService.getPatientById(id);
+    @GetMapping("/{patientId}")
+    public ResponseEntity<PatientResponseDto> getPatientById(@PathVariable Long patientId) {
+        PatientResponseDto patientResponseDto = patientService.getPatientById(patientId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(patientResponseDto);
     }
 
-    @GetMapping("/{id}/meals")
-    public ResponseEntity<List<MealResponseDto>> getPatientMeals(@PathVariable Long id) {
-        List<MealResponseDto> mealResponseDtoList = patientService.getPatientMeals(id);
+    @GetMapping("/{patientId}/meals")
+    public ResponseEntity<List<MealResponseDto>> getPatientMeals(@PathVariable Long patientId) {
+        List<MealResponseDto> mealResponseDtoList = patientService.getPatientMeals(patientId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(mealResponseDtoList);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable Long id, @RequestBody PatientResponseDto patientResponseDto) {
-        PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(id, patientResponseDto);
+    @PutMapping("/{patientId}")
+    public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable Long patientId, @RequestBody PatientResponseDto patientResponseDto) {
+        PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(patientId, patientResponseDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedPatientResponseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDto> deletePatientById(@PathVariable Long id) {
-        patientService.deletePatientById(id);
+    @DeleteMapping("/{patientId}")
+    public ResponseEntity<MessageResponseDto> deletePatientById(@PathVariable Long patientId) {
+        patientService.deletePatientById(patientId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Patient with id " + id + " deleted successfully"));
+                .body(new MessageResponseDto("Patient with id " + patientId + " deleted successfully"));
     }
 
 }

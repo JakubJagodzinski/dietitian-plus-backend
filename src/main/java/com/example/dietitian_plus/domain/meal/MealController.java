@@ -20,7 +20,7 @@ public class MealController {
 
     private final MealService mealService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<MealResponseDto>> getMeals() {
         List<MealResponseDto> mealResponseDtoList = mealService.getMeals();
 
@@ -29,25 +29,25 @@ public class MealController {
                 .body(mealResponseDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MealResponseDto> getMealById(@PathVariable Long id) {
-        MealResponseDto mealResponseDto = mealService.getMealById(id);
+    @GetMapping("/{mealId}")
+    public ResponseEntity<MealResponseDto> getMealById(@PathVariable Long mealId) {
+        MealResponseDto mealResponseDto = mealService.getMealById(mealId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(mealResponseDto);
     }
 
-    @GetMapping("/{id}/dishes")
-    public ResponseEntity<List<DishResponseDto>> getMealDishes(@PathVariable Long id) {
-        List<DishResponseDto> dishResponseDtoList = mealService.getMealDishes(id);
+    @GetMapping("/{mealId}/dishes")
+    public ResponseEntity<List<DishResponseDto>> getMealDishes(@PathVariable Long mealId) {
+        List<DishResponseDto> dishResponseDtoList = mealService.getMealDishes(mealId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishResponseDtoList);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<MealResponseDto> createMeal(@RequestBody CreateMealRequestDto createMealRequestDto) {
         MealResponseDto createdMealResponseDto = mealService.createMeal(createMealRequestDto);
 
@@ -57,22 +57,22 @@ public class MealController {
                 .body(createdMealResponseDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long id, @RequestBody UpdateMealRequestDto updateMealRequestDto) {
-        MealResponseDto updatedMealResponseDto = mealService.updateMealById(id, updateMealRequestDto);
+    @PutMapping("/{mealId}")
+    public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long mealId, @RequestBody UpdateMealRequestDto updateMealRequestDto) {
+        MealResponseDto updatedMealResponseDto = mealService.updateMealById(mealId, updateMealRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedMealResponseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDto> deleteMealById(@PathVariable Long id) {
-        mealService.deleteMealById(id);
+    @DeleteMapping("/{mealId}")
+    public ResponseEntity<MessageResponseDto> deleteMealById(@PathVariable Long mealId) {
+        mealService.deleteMealById(mealId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Meal with id " + id + " deleted successfully"));
+                .body(new MessageResponseDto("Meal with id " + mealId + " deleted successfully"));
     }
 
 }

@@ -19,7 +19,7 @@ public class UnitController {
 
     private final UnitService unitService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<UnitResponseDto>> getUnits() {
         List<UnitResponseDto> unitResponseDtoList = unitService.getUnits();
 
@@ -28,16 +28,16 @@ public class UnitController {
                 .body(unitResponseDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UnitResponseDto> getUnitById(@PathVariable Long id) {
-        UnitResponseDto unitResponseDto = unitService.getUnitById(id);
+    @GetMapping("/{unitId}")
+    public ResponseEntity<UnitResponseDto> getUnitById(@PathVariable Long unitId) {
+        UnitResponseDto unitResponseDto = unitService.getUnitById(unitId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(unitResponseDto);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<UnitResponseDto> createUnit(@RequestBody CreateUnitRequestDto createUnitRequestDto) {
         UnitResponseDto createdUnitResponseDto = unitService.createUnit(createUnitRequestDto);
 
@@ -47,22 +47,22 @@ public class UnitController {
                 .body(createdUnitResponseDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UnitResponseDto> updateUnitById(@PathVariable Long id, @RequestBody UpdateUnitResponseDto updateUnitResponseDto) {
-        UnitResponseDto updatedUnitResponseDto = unitService.updateUnitById(id, updateUnitResponseDto);
+    @PutMapping("/{unitId}")
+    public ResponseEntity<UnitResponseDto> updateUnitById(@PathVariable Long unitId, @RequestBody UpdateUnitResponseDto updateUnitResponseDto) {
+        UnitResponseDto updatedUnitResponseDto = unitService.updateUnitById(unitId, updateUnitResponseDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedUnitResponseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDto> deleteUnitById(@PathVariable Long id) {
-        unitService.deleteUnitById(id);
+    @DeleteMapping("/{unitId}")
+    public ResponseEntity<MessageResponseDto> deleteUnitById(@PathVariable Long unitId) {
+        unitService.deleteUnitById(unitId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Unit with id " + id + " deleted successfully"));
+                .body(new MessageResponseDto("Unit with id " + unitId + " deleted successfully"));
     }
 
 }

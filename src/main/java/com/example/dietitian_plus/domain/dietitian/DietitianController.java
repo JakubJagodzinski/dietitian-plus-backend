@@ -19,7 +19,7 @@ public class DietitianController {
 
     private final DietitianService dietitianService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<DietitianResponseDto>> getDietitians() {
         List<DietitianResponseDto> dietitianResponseDtoList = dietitianService.getDietitians();
 
@@ -28,49 +28,49 @@ public class DietitianController {
                 .body(dietitianResponseDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DietitianResponseDto> getDietitianById(@PathVariable Long id) {
-        DietitianResponseDto dietitianResponseDto = dietitianService.getDietitianById(id);
+    @GetMapping("/{dietitianId}")
+    public ResponseEntity<DietitianResponseDto> getDietitianById(@PathVariable Long dietitianId) {
+        DietitianResponseDto dietitianResponseDto = dietitianService.getDietitianById(dietitianId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dietitianResponseDto);
     }
 
-    @GetMapping("/{id}/patients")
-    public ResponseEntity<List<PatientResponseDto>> getDietitianPatients(@PathVariable Long id) {
-        List<PatientResponseDto> patientResponseDtoList = dietitianService.getDietitianPatients(id);
+    @GetMapping("/{dietitianId}/patients")
+    public ResponseEntity<List<PatientResponseDto>> getDietitianPatients(@PathVariable Long dietitianId) {
+        List<PatientResponseDto> patientResponseDtoList = dietitianService.getDietitianPatients(dietitianId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(patientResponseDtoList);
     }
 
-    @GetMapping("/{id}/dishes")
-    public ResponseEntity<List<DishResponseDto>> getDietitianDishes(@PathVariable Long id) {
-        List<DishResponseDto> dishResponseDtoList = dietitianService.getDietitianDishes(id);
+    @GetMapping("/{dietitianId}/dishes")
+    public ResponseEntity<List<DishResponseDto>> getDietitianDishes(@PathVariable Long dietitianId) {
+        List<DishResponseDto> dishResponseDtoList = dietitianService.getDietitianDishes(dietitianId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishResponseDtoList);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DietitianResponseDto> updateDietitianById(@PathVariable Long id, @RequestBody UpdateDietitianRequestDto updateDietitianRequestDto) {
-        DietitianResponseDto dietitianResponseDto = dietitianService.updateDietitianById(id, updateDietitianRequestDto);
+    @PutMapping("/{dietitianId}")
+    public ResponseEntity<DietitianResponseDto> updateDietitianById(@PathVariable Long dietitianId, @RequestBody UpdateDietitianRequestDto updateDietitianRequestDto) {
+        DietitianResponseDto dietitianResponseDto = dietitianService.updateDietitianById(dietitianId, updateDietitianRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dietitianResponseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDto> deleteDietitianById(@PathVariable Long id) {
-        dietitianService.deleteDietitianById(id);
+    @DeleteMapping("/{dietitianId}")
+    public ResponseEntity<MessageResponseDto> deleteDietitianById(@PathVariable Long dietitianId) {
+        dietitianService.deleteDietitianById(dietitianId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Dietitian with id " + id + " delete successfully"));
+                .body(new MessageResponseDto("Dietitian with id " + dietitianId + " delete successfully"));
     }
 
 }

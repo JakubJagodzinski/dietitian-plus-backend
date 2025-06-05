@@ -19,7 +19,7 @@ public class NoteController {
 
     private final NoteService noteService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<NoteResponseDto>> getNotes() {
         List<NoteResponseDto> noteResponseDtoList = noteService.getNotes();
 
@@ -28,16 +28,16 @@ public class NoteController {
                 .body(noteResponseDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<NoteResponseDto> getNoteById(@PathVariable Long id) {
-        NoteResponseDto noteResponseDto = noteService.getNoteById(id);
+    @GetMapping("/{noteId}")
+    public ResponseEntity<NoteResponseDto> getNoteById(@PathVariable Long noteId) {
+        NoteResponseDto noteResponseDto = noteService.getNoteById(noteId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(noteResponseDto);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<NoteResponseDto> createNote(@RequestBody CreateNoteRequestDto createNoteRequestDto) {
         NoteResponseDto createdNoteResponseDto = noteService.createNote(createNoteRequestDto);
 
@@ -47,22 +47,22 @@ public class NoteController {
                 .body(createdNoteResponseDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<NoteResponseDto> updateNoteById(@PathVariable Long id, @RequestBody UpdateNoteRequestDto updateNoteRequestDto) {
-        NoteResponseDto updatedNoteResponseDto = noteService.updateNoteById(id, updateNoteRequestDto);
+    @PutMapping("/{noteId}")
+    public ResponseEntity<NoteResponseDto> updateNoteById(@PathVariable Long noteId, @RequestBody UpdateNoteRequestDto updateNoteRequestDto) {
+        NoteResponseDto updatedNoteResponseDto = noteService.updateNoteById(noteId, updateNoteRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedNoteResponseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDto> deleteNoteById(@PathVariable Long id) {
-        noteService.deleteNoteById(id);
+    @DeleteMapping("/{noteId}")
+    public ResponseEntity<MessageResponseDto> deleteNoteById(@PathVariable Long noteId) {
+        noteService.deleteNoteById(noteId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Note with id " + id + " deleted successfully"));
+                .body(new MessageResponseDto("Note with id " + noteId + " deleted successfully"));
     }
 
 }

@@ -36,7 +36,7 @@ public class PatientDiseaseController {
                 .body(patientDiseaseResponseDtoList);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<PatientDiseaseResponseDto> createPatientDisease(@RequestBody CreatePatientDiseaseRequestDto createPatientDiseaseRequestDto) {
         PatientDiseaseResponseDto createdPatientDiseaseResponseDto = patientDiseaseService.createPatientDisease(createPatientDiseaseRequestDto);
 
