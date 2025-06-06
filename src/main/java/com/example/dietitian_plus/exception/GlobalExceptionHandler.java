@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.exception;
 
 import com.example.dietitian_plus.common.MessageResponseDto;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<MessageResponseDto> handleIllegalArgument(IllegalArgumentException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new MessageResponseDto(e.getMessage()));
+    }
+
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<MessageResponseDto> handleEntityExists(EntityExistsException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new MessageResponseDto(e.getMessage()));
