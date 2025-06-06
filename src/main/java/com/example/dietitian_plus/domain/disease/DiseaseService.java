@@ -39,6 +39,7 @@ public class DiseaseService {
         Disease disease = new Disease();
 
         disease.setDiseaseName(createDiseaseRequestDto.getDiseaseName());
+        disease.setDescription(createDiseaseRequestDto.getDescription());
 
         return diseaseDtoMapper.toDto(diseaseRepository.save(disease));
     }
@@ -53,6 +54,10 @@ public class DiseaseService {
 
         if (updateDiseaseRequestDto.getDiseaseName() != null) {
             disease.setDiseaseName(updateDiseaseRequestDto.getDiseaseName());
+        }
+
+        if (updateDiseaseRequestDto.getDescription() != null) {
+            disease.setDescription(updateDiseaseRequestDto.getDescription());
         }
 
         return diseaseDtoMapper.toDto(diseaseRepository.save(disease));

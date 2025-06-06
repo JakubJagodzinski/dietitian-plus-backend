@@ -14,6 +14,7 @@ public class DiseaseDtoMapper {
 
         dto.setDiseaseId(disease.getDiseaseId());
         dto.setDiseaseName(disease.getDiseaseName());
+        dto.setDescription(disease.getDescription());
 
         return dto;
     }

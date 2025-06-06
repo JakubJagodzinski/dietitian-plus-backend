@@ -20,4 +20,6 @@ public class Disease {
     @Column(name = "disease_name", nullable = false, unique = true)
     private String diseaseName;
 
+    private String description;
+
 }

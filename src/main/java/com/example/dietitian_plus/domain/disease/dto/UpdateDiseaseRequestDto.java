@@ -16,4 +16,6 @@ public class UpdateDiseaseRequestDto {
     @JsonProperty("disease_name")
     private String diseaseName;
 
+    private String description;
+
 }

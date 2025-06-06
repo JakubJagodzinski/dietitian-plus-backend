@@ -89,6 +89,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     Disease disease = new Disease();
 
                     disease.setDiseaseName(parts[0].trim());
+                    disease.setDescription(parts[1].trim());
 
                     return disease;
                 },
