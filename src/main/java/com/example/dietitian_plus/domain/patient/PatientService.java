@@ -58,7 +58,7 @@ public class PatientService {
     }
 
     @Transactional
-    public Patient register(RegisterRequestDto registerRequestDto) throws EntityNotFoundException {
+    public Patient register(RegisterRequestDto registerRequestDto) {
         Patient patient = new Patient();
 
         patient.setFirstName(registerRequestDto.getFirstname());

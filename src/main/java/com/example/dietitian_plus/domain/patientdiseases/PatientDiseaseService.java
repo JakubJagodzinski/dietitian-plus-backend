@@ -7,6 +7,7 @@ import com.example.dietitian_plus.domain.patient.PatientRepository;
 import com.example.dietitian_plus.domain.patientdiseases.dto.CreatePatientDiseaseRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseDtoMapper;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseResponseDto;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class PatientDiseaseService {
     }
 
     @Transactional
-    public PatientDiseaseResponseDto createPatientDisease(CreatePatientDiseaseRequestDto createPatientDiseaseRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+    public PatientDiseaseResponseDto createPatientDisease(CreatePatientDiseaseRequestDto createPatientDiseaseRequestDto) throws EntityNotFoundException, EntityExistsException {
         Long patientId = createPatientDiseaseRequestDto.getPatientId();
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
@@ -66,7 +67,7 @@ public class PatientDiseaseService {
         PatientDiseaseId patientDiseaseId = new PatientDiseaseId(patientId, diseaseId);
 
         if (patientDiseaseRepository.existsById(patientDiseaseId)) {
-            throw new IllegalArgumentException(DISEASE_ALREADY_ASSIGNED_TO_PATIENT_MESSAGE);
+            throw new EntityExistsException(DISEASE_ALREADY_ASSIGNED_TO_PATIENT_MESSAGE);
         }
 
         PatientDisease patientDisease = new PatientDisease();

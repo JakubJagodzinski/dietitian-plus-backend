@@ -9,6 +9,7 @@ import com.example.dietitian_plus.domain.product.Product;
 import com.example.dietitian_plus.domain.product.ProductRepository;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class PatientDislikedProductService {
     }
 
     @Transactional
-    public PatientDislikedProductResponseDto createPatientDislikedProduct(CreatePatientDislikedProductRequestDto createPatientDislikedProductRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+    public PatientDislikedProductResponseDto createPatientDislikedProduct(CreatePatientDislikedProductRequestDto createPatientDislikedProductRequestDto) throws EntityNotFoundException, EntityExistsException {
         Long patientId = createPatientDislikedProductRequestDto.getPatientId();
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
@@ -65,7 +66,7 @@ public class PatientDislikedProductService {
         PatientDislikedProductId patientDislikedProductId = new PatientDislikedProductId(patientId, productId);
 
         if (patientDislikedProductRepository.existsById(patientDislikedProductId)) {
-            throw new IllegalArgumentException(PRODUCT_AlREADY_ASSIGNED_TO_PATIENT_MESSAGE);
+            throw new EntityExistsException(PRODUCT_AlREADY_ASSIGNED_TO_PATIENT_MESSAGE);
         }
 
         PatientDislikedProduct patientDislikedProduct = new PatientDislikedProduct();
@@ -78,7 +79,7 @@ public class PatientDislikedProductService {
     }
 
     @Transactional
-    public void deletePatientDislikedProductById(Long patientId, Long productId) throws EntityNotFoundException, IllegalArgumentException {
+    public void deletePatientDislikedProductById(Long patientId, Long productId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
@@ -90,7 +91,7 @@ public class PatientDislikedProductService {
         PatientDislikedProductId patientDislikedProductId = new PatientDislikedProductId(patientId, productId);
 
         if (!patientDislikedProductRepository.existsById(patientDislikedProductId)) {
-            throw new IllegalArgumentException(PRODUCT_IS_NOT_ASSIGNED_TO_PATIENT_MESSAGE);
+            throw new EntityNotFoundException(PRODUCT_IS_NOT_ASSIGNED_TO_PATIENT_MESSAGE);
         }
 
         patientDislikedProductRepository.deleteById(patientDislikedProductId);
