@@ -49,22 +49,21 @@ public class PatientDiseaseService {
 
     @Transactional
     public PatientDiseaseResponseDto createPatientDisease(CreatePatientDiseaseRequestDto createPatientDiseaseRequestDto) throws EntityNotFoundException, IllegalArgumentException {
-        Patient patient = patientRepository.findById(createPatientDiseaseRequestDto.getPatientId()).orElse(null);
+        Long patientId = createPatientDiseaseRequestDto.getPatientId();
+        Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        Disease disease = diseaseRepository.findById(createPatientDiseaseRequestDto.getDiseaseId()).orElse(null);
+        Long diseaseId = createPatientDiseaseRequestDto.getDiseaseId();
+        Disease disease = diseaseRepository.findById(diseaseId).orElse(null);
 
         if (disease == null) {
             throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
         }
 
-        PatientDiseaseId patientDiseaseId = new PatientDiseaseId();
-
-        patientDiseaseId.setPatientId(createPatientDiseaseRequestDto.getPatientId());
-        patientDiseaseId.setDiseaseId(createPatientDiseaseRequestDto.getDiseaseId());
+        PatientDiseaseId patientDiseaseId = new PatientDiseaseId(patientId, diseaseId);
 
         if (patientDiseaseRepository.existsById(patientDiseaseId)) {
             throw new IllegalArgumentException(DISEASE_ALREADY_ASSIGNED_TO_PATIENT_MESSAGE);
@@ -89,9 +88,7 @@ public class PatientDiseaseService {
             throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
         }
 
-        PatientDiseaseId patientDiseaseId = new PatientDiseaseId();
-        patientDiseaseId.setPatientId(patientId);
-        patientDiseaseId.setDiseaseId(diseaseId);
+        PatientDiseaseId patientDiseaseId = new PatientDiseaseId(patientId, diseaseId);
 
         if (!patientDiseaseRepository.existsById(patientDiseaseId)) {
             throw new EntityNotFoundException(PATIENT_DISEASE_ASSOCIATION_NOT_FOUND_MESSAGE);

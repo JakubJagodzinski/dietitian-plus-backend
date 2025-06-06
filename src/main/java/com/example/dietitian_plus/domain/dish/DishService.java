@@ -31,36 +31,41 @@ public class DishService {
 
     @Transactional
     public DishResponseDto getDishById(Long id) throws EntityNotFoundException {
-        if (!dishRepository.existsById(id)) {
+        Dish dish = dishRepository.findById(id).orElse(null);
+
+        if (dish == null) {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
         }
 
-        return dishDtoMapper.toDto(dishRepository.getReferenceById(id));
+        return dishDtoMapper.toDto(dish);
     }
 
     @Transactional
     public DishResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException {
         Dish dish = new Dish();
 
-        if (!dietitianRepository.existsById(createDishRequestDto.getDietitianId())) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
-        }
-
-        Dietitian dietitian = dietitianRepository.getReferenceById(createDishRequestDto.getDietitianId());
-
-        dish.setDietitian(dietitian);
         dish.setDishName(createDishRequestDto.getDishName());
+
+        if (createDishRequestDto.getDietitianId() != null) {
+            Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
+
+            if (dietitian == null) {
+                throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            }
+
+            dish.setDietitian(dietitian);
+        }
 
         return dishDtoMapper.toDto(dishRepository.save(dish));
     }
 
     @Transactional
     public DishResponseDto updateDishById(Long id, UpdateDishRequestDto updateDishRequestDto) throws EntityNotFoundException {
-        if (!dishRepository.existsById(id)) {
+        Dish dish = dishRepository.findById(id).orElse(null);
+
+        if (dish == null) {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
         }
-
-        Dish dish = dishRepository.getReferenceById(id);
 
         if (updateDishRequestDto.getDishName() != null) {
             dish.setDishName(updateDishRequestDto.getDishName());

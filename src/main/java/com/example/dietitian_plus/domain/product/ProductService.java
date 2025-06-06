@@ -27,11 +27,13 @@ public class ProductService {
 
     @Transactional
     public ProductResponseDto getProductById(Long id) throws EntityNotFoundException {
-        if (!productRepository.existsById(id)) {
+        Product product = productRepository.findById(id).orElse(null);
+
+        if (product == null) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
 
-        return productDtoMapper.toDto(productRepository.getReferenceById(id));
+        return productDtoMapper.toDto(product);
     }
 
     @Transactional
@@ -65,11 +67,11 @@ public class ProductService {
 
     @Transactional
     public ProductResponseDto updateProductById(Long id, UpdateProductRequestDto updateProductRequestDto) throws EntityNotFoundException {
-        if (!productRepository.existsById(id)) {
+        Product product = productRepository.findById(id).orElse(null);
+
+        if (product == null) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
-
-        Product product = productRepository.getReferenceById(id);
 
         if (updateProductRequestDto.getProductName() != null) {
             product.setProductName(updateProductRequestDto.getProductName());

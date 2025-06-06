@@ -36,11 +36,13 @@ public class NoteService {
 
     @Transactional
     public NoteResponseDto getNoteById(Long id) throws EntityNotFoundException {
-        if (!noteRepository.existsById(id)) {
+        Note note = noteRepository.findById(id).orElse(null);
+
+        if (note == null) {
             throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);
         }
 
-        return noteDtoMapper.toDto(noteRepository.getReferenceById(id));
+        return noteDtoMapper.toDto(note);
     }
 
     @Transactional
@@ -63,8 +65,6 @@ public class NoteService {
 
     @Transactional
     public NoteResponseDto createNote(CreateNoteRequestDto createNoteRequestDto) throws EntityNotFoundException {
-        Note note = new Note();
-
         Patient patient = patientRepository.findById(createNoteRequestDto.getPatientId()).orElse(null);
 
         if (patient == null) {
@@ -76,6 +76,8 @@ public class NoteService {
         if (dietitian == null) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
+
+        Note note = new Note();
 
         note.setText(createNoteRequestDto.getText());
         note.setPatient(patient);

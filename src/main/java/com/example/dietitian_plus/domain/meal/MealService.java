@@ -35,31 +35,33 @@ public class MealService {
 
     @Transactional
     public MealResponseDto getMealById(Long id) throws EntityNotFoundException {
-        if (!mealRepository.existsById(id)) {
+        Meal meal = mealRepository.findById(id).orElse(null);
+
+        if (meal == null) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
         }
 
-        return mealDtoMapper.toDto(mealRepository.getReferenceById(id));
+        return mealDtoMapper.toDto(meal);
     }
 
     @Transactional
     public MealResponseDto createMeal(CreateMealRequestDto createMealRequestDto) throws EntityNotFoundException {
-        if (!patientRepository.existsById(createMealRequestDto.getPatientId())) {
+        Patient patient = patientRepository.findById(createMealRequestDto.getPatientId()).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        if (!dietitianRepository.existsById(createMealRequestDto.getDietitianId())) {
+        Dietitian dietitian = dietitianRepository.findById(createMealRequestDto.getDietitianId()).orElse(null);
+
+        if (dietitian == null) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
         Meal meal = new Meal();
 
-        Patient patient = patientRepository.getReferenceById(createMealRequestDto.getPatientId());
         meal.setPatient(patient);
-
-        Dietitian dietitian = dietitianRepository.getReferenceById(createMealRequestDto.getDietitianId());
         meal.setDietitian(dietitian);
-
         meal.setDatetime(createMealRequestDto.getDatetime());
 
         return mealDtoMapper.toDto(mealRepository.save(meal));
@@ -67,12 +69,26 @@ public class MealService {
 
     @Transactional
     public MealResponseDto updateMealById(Long id, UpdateMealRequestDto updateMealRequestDto) throws EntityNotFoundException {
-        if (!patientRepository.existsById(id)) {
+        Meal meal = mealRepository.findById(id).orElse(null);
+
+        if (meal == null) {
+            throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
+        }
+
+        Patient patient = patientRepository.findById(updateMealRequestDto.getPatientId()).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        Meal meal = mealRepository.getReferenceById(id);
+        Dietitian dietitian = dietitianRepository.findById(updateMealRequestDto.getDietitianId()).orElse(null);
 
+        if (dietitian == null) {
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+        }
+
+        meal.setPatient(patient);
+        meal.setDietitian(dietitian);
         meal.setDatetime(updateMealRequestDto.getDatetime());
 
         return mealDtoMapper.toDto(mealRepository.save(meal));

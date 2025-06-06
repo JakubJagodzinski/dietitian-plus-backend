@@ -45,16 +45,16 @@ public class PatientAllergenicProductService {
     @Transactional
     public PatientAllergenicProductResponseDto createPatientAllergenicProduct(CreatePatientAllergenicProductRequestDto createPatientAllergenicProductRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Long patientId = createPatientAllergenicProductRequestDto.getPatientId();
-        Patient patient = patientRepository.findById(createPatientAllergenicProductRequestDto.getPatientId()).orElse(null);
+        Patient patient = patientRepository.findById(patientId).orElse(null);
 
-        if (!patientRepository.existsById(patientId)) {
+        if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
         Long productId = createPatientAllergenicProductRequestDto.getProductId();
-        Product product = productRepository.findById(createPatientAllergenicProductRequestDto.getProductId()).orElse(null);
+        Product product = productRepository.findById(productId).orElse(null);
 
-        if (!productRepository.existsById(productId)) {
+        if (product == null) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
 
@@ -70,9 +70,7 @@ public class PatientAllergenicProductService {
         patientAllergenicProduct.setPatient(patient);
         patientAllergenicProduct.setProduct(product);
 
-        PatientAllergenicProduct savedPatientAllergenicProduct = patientAllergenicProductRepository.save(patientAllergenicProduct);
-
-        return patientAllergenicProductDtoMapper.toDto(savedPatientAllergenicProduct);
+        return patientAllergenicProductDtoMapper.toDto(patientAllergenicProductRepository.save(patientAllergenicProduct));
     }
 
     @Transactional

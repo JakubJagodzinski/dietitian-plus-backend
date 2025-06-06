@@ -28,9 +28,10 @@ public class PatientService {
     private final PatientDtoMapper patientDtoMapper;
     private final MealDtoMapper mealDtoMapper;
 
+    private final PasswordEncoder passwordEncoder;
+
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
-    private final PasswordEncoder passwordEncoder;
 
     public List<PatientResponseDto> getPatients() {
         return patientDtoMapper.toDtoList(patientRepository.findAll());
@@ -38,11 +39,13 @@ public class PatientService {
 
     @Transactional
     public PatientResponseDto getPatientById(Long id) throws EntityNotFoundException {
-        if (!patientRepository.existsById(id)) {
+        Patient patient = patientRepository.findById(id).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        return patientDtoMapper.toDto(patientRepository.getReferenceById(id));
+        return patientDtoMapper.toDto(patient);
     }
 
     @Transactional
@@ -51,7 +54,7 @@ public class PatientService {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        return mealDtoMapper.toDtoList(mealRepository.findByPatient(patientRepository.getReferenceById(id)));
+        return mealDtoMapper.toDtoList(mealRepository.findByPatient_Id(id));
     }
 
     @Transactional
@@ -69,11 +72,11 @@ public class PatientService {
 
     @Transactional
     public PatientResponseDto updatePatientById(Long id, PatientResponseDto patientResponseDto) throws EntityNotFoundException {
-        if (!patientRepository.existsById(id)) {
+        Patient patient = patientRepository.findById(id).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
-
-        Patient patient = patientRepository.getReferenceById(id);
 
         if (patientResponseDto.getHeight() != null) {
             patient.setHeight(patientResponseDto.getHeight());
@@ -92,11 +95,12 @@ public class PatientService {
         }
 
         if (patientResponseDto.getDietitianId() != null) {
-            if (!dietitianRepository.existsById(patientResponseDto.getDietitianId())) {
+            Dietitian dietitian = dietitianRepository.findById(patientResponseDto.getDietitianId()).orElse(null);
+
+            if (dietitian == null) {
                 throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
             }
 
-            Dietitian dietitian = dietitianRepository.getReferenceById(patientResponseDto.getDietitianId());
             patient.setDietitian(dietitian);
         }
 
