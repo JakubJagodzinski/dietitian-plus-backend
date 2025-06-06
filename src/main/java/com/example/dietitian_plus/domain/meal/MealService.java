@@ -2,8 +2,6 @@ package com.example.dietitian_plus.domain.meal;
 
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
-import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.MealDtoMapper;
 import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
@@ -26,7 +24,6 @@ public class MealService {
     private final DietitianRepository dietitianRepository;
 
     private final MealDtoMapper mealDtoMapper;
-    private final DishDtoMapper dishDtoMapper;
 
     private static final String MEAL_NOT_FOUND_MESSAGE = "Meal not found";
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
@@ -34,17 +31,6 @@ public class MealService {
 
     public List<MealResponseDto> getMeals() {
         return mealDtoMapper.toDtoList(mealRepository.findAll());
-    }
-
-    @Transactional
-    public List<DishResponseDto> getMealDishes(Long id) throws EntityNotFoundException {
-        if (!mealRepository.existsById(id)) {
-            throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
-        }
-
-        Meal meal = mealRepository.getReferenceById(id);
-
-        return dishDtoMapper.toDtoList(meal.getDishes());
     }
 
     @Transactional
@@ -73,6 +59,8 @@ public class MealService {
 
         Dietitian dietitian = dietitianRepository.getReferenceById(createMealRequestDto.getDietitianId());
         meal.setDietitian(dietitian);
+
+        meal.setDatetime(createMealRequestDto.getDatetime());
 
         return mealDtoMapper.toDto(mealRepository.save(meal));
     }

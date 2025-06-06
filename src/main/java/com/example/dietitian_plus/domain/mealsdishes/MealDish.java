@@ -2,7 +2,6 @@ package com.example.dietitian_plus.domain.mealsdishes;
 
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.meal.Meal;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor
 @Entity
 @Table(name = "meals_dishes")
-public class MealsDishes {
+public class MealDish {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,13 +22,11 @@ public class MealsDishes {
 
     @ManyToOne
     @JoinColumn(name = "meal_id", nullable = false)
-    @JsonManagedReference
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Meal meal;
 
     @ManyToOne
     @JoinColumn(name = "dish_id", nullable = false)
-    @JsonManagedReference
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
 

@@ -1,7 +1,6 @@
 package com.example.dietitian_plus.domain.meal;
 
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.UpdateMealRequestDto;
@@ -36,15 +35,6 @@ public class MealController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(mealResponseDto);
-    }
-
-    @GetMapping("/{mealId}/dishes")
-    public ResponseEntity<List<DishResponseDto>> getMealDishes(@PathVariable Long mealId) {
-        List<DishResponseDto> dishResponseDtoList = mealService.getMealDishes(mealId);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(dishResponseDtoList);
     }
 
     @PostMapping
