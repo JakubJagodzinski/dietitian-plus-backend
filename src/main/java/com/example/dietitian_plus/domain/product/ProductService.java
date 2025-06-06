@@ -26,8 +26,8 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponseDto getProductById(Long id) throws EntityNotFoundException {
-        Product product = productRepository.findById(id).orElse(null);
+    public ProductResponseDto getProductById(Long productId) throws EntityNotFoundException {
+        Product product = productRepository.findById(productId).orElse(null);
 
         if (product == null) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
@@ -66,8 +66,8 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponseDto updateProductById(Long id, UpdateProductRequestDto updateProductRequestDto) throws EntityNotFoundException {
-        Product product = productRepository.findById(id).orElse(null);
+    public ProductResponseDto updateProductById(Long productId, UpdateProductRequestDto updateProductRequestDto) throws EntityNotFoundException {
+        Product product = productRepository.findById(productId).orElse(null);
 
         if (product == null) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
@@ -96,12 +96,12 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProductById(Long id) throws EntityNotFoundException {
-        if (!productRepository.existsById(id)) {
+    public void deleteProductById(Long productId) throws EntityNotFoundException {
+        if (!productRepository.existsById(productId)) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
 
-        productRepository.deleteById(id);
+        productRepository.deleteById(productId);
     }
 
 }

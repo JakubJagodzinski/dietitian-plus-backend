@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UpdateUnitResponseDto {
+public class UpdateUnitRequestDto {
 
     @JsonProperty("unit_name")
     private String unitName;

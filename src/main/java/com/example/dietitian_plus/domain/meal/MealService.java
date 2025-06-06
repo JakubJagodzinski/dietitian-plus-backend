@@ -34,8 +34,8 @@ public class MealService {
     }
 
     @Transactional
-    public MealResponseDto getMealById(Long id) throws EntityNotFoundException {
-        Meal meal = mealRepository.findById(id).orElse(null);
+    public MealResponseDto getMealById(Long mealId) throws EntityNotFoundException {
+        Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
@@ -68,8 +68,8 @@ public class MealService {
     }
 
     @Transactional
-    public MealResponseDto updateMealById(Long id, UpdateMealRequestDto updateMealRequestDto) throws EntityNotFoundException {
-        Meal meal = mealRepository.findById(id).orElse(null);
+    public MealResponseDto updateMealById(Long mealId, UpdateMealRequestDto updateMealRequestDto) throws EntityNotFoundException {
+        Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
@@ -95,12 +95,12 @@ public class MealService {
     }
 
     @Transactional
-    public void deleteMealById(Long id) throws EntityNotFoundException {
-        if (!mealRepository.existsById(id)) {
+    public void deleteMealById(Long mealId) throws EntityNotFoundException {
+        if (!mealRepository.existsById(mealId)) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
         }
 
-        mealRepository.deleteById(id);
+        mealRepository.deleteById(mealId);
     }
 
 }

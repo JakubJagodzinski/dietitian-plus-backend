@@ -35,8 +35,8 @@ public class DietitianService {
     }
 
     @Transactional
-    public DietitianResponseDto getDietitianById(Long id) throws EntityNotFoundException {
-        Dietitian dietitian = dietitianRepository.findById(id).orElse(null);
+    public DietitianResponseDto getDietitianById(Long dietitianId) throws EntityNotFoundException {
+        Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
 
         if (dietitian == null) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
@@ -46,12 +46,12 @@ public class DietitianService {
     }
 
     @Transactional
-    public List<PatientResponseDto> getDietitianPatients(Long id) throws EntityNotFoundException {
-        if (!dietitianRepository.existsById(id)) {
+    public List<PatientResponseDto> getDietitianPatients(Long dietitianId) throws EntityNotFoundException {
+        if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        return patientDtoMapper.toDtoList(patientRepository.findByDietitian(dietitianRepository.getReferenceById(id)));
+        return patientDtoMapper.toDtoList(patientRepository.findByDietitian(dietitianRepository.getReferenceById(dietitianId)));
     }
 
     @Transactional
@@ -68,8 +68,8 @@ public class DietitianService {
     }
 
     @Transactional
-    public DietitianResponseDto updateDietitianById(Long id, UpdateDietitianRequestDto updateDietitianRequestDto) throws EntityNotFoundException {
-        Dietitian dietitian = dietitianRepository.findById(id).orElse(null);
+    public DietitianResponseDto updateDietitianById(Long dietitianId, UpdateDietitianRequestDto updateDietitianRequestDto) throws EntityNotFoundException {
+        Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
 
         if (dietitian == null) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
@@ -91,12 +91,12 @@ public class DietitianService {
     }
 
     @Transactional
-    public void deleteDietitianById(Long id) throws EntityNotFoundException {
-        if (!dietitianRepository.existsById(id)) {
+    public void deleteDietitianById(Long dietitianId) throws EntityNotFoundException {
+        if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        dietitianRepository.deleteById(id);
+        dietitianRepository.deleteById(dietitianId);
     }
 
 }

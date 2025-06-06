@@ -3,7 +3,7 @@ package com.example.dietitian_plus.domain.unit;
 import com.example.dietitian_plus.domain.unit.dto.CreateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.UnitDtoMapper;
 import com.example.dietitian_plus.domain.unit.dto.UnitResponseDto;
-import com.example.dietitian_plus.domain.unit.dto.UpdateUnitResponseDto;
+import com.example.dietitian_plus.domain.unit.dto.UpdateUnitRequestDto;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -28,8 +28,8 @@ public class UnitService {
     }
 
     @Transactional
-    public UnitResponseDto getUnitById(Long id) throws EntityNotFoundException {
-        Unit unit = unitRepository.findById(id).orElse(null);
+    public UnitResponseDto getUnitById(Long unitId) throws EntityNotFoundException {
+        Unit unit = unitRepository.findById(unitId).orElse(null);
 
         if (unit == null) {
             throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);
@@ -53,15 +53,15 @@ public class UnitService {
     }
 
     @Transactional
-    public UnitResponseDto updateUnitById(Long id, UpdateUnitResponseDto updateUnitResponseDto) throws EntityNotFoundException, EntityExistsException {
-        Unit unit = unitRepository.findById(id).orElse(null);
+    public UnitResponseDto updateUnitById(Long unitId, UpdateUnitRequestDto updateUnitRequestDto) throws EntityNotFoundException, EntityExistsException {
+        Unit unit = unitRepository.findById(unitId).orElse(null);
 
         if (unit == null) {
             throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);
         }
 
-        if (updateUnitResponseDto.getUnitName() != null) {
-            String unitName = updateUnitResponseDto.getUnitName();
+        if (updateUnitRequestDto.getUnitName() != null) {
+            String unitName = updateUnitRequestDto.getUnitName();
 
             Unit otherUnit = unitRepository.findByUnitName(unitName).orElse(null);
 
@@ -72,20 +72,20 @@ public class UnitService {
             unit.setUnitName(unitName);
         }
 
-        if (updateUnitResponseDto.getGrams() != null) {
-            unit.setGrams(updateUnitResponseDto.getGrams());
+        if (updateUnitRequestDto.getGrams() != null) {
+            unit.setGrams(updateUnitRequestDto.getGrams());
         }
 
         return unitDtoMapper.toDto(unitRepository.save(unit));
     }
 
     @Transactional
-    public void deleteUnitById(Long id) throws EntityNotFoundException {
-        if (!unitRepository.existsById(id)) {
+    public void deleteUnitById(Long unitId) throws EntityNotFoundException {
+        if (!unitRepository.existsById(unitId)) {
             throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);
         }
 
-        unitRepository.deleteById(id);
+        unitRepository.deleteById(unitId);
     }
 
 }

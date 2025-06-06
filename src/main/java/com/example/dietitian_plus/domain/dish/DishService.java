@@ -30,8 +30,8 @@ public class DishService {
     }
 
     @Transactional
-    public DishResponseDto getDishById(Long id) throws EntityNotFoundException {
-        Dish dish = dishRepository.findById(id).orElse(null);
+    public DishResponseDto getDishById(Long dishId) throws EntityNotFoundException {
+        Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
@@ -60,8 +60,8 @@ public class DishService {
     }
 
     @Transactional
-    public DishResponseDto updateDishById(Long id, UpdateDishRequestDto updateDishRequestDto) throws EntityNotFoundException {
-        Dish dish = dishRepository.findById(id).orElse(null);
+    public DishResponseDto updateDishById(Long dishId, UpdateDishRequestDto updateDishRequestDto) throws EntityNotFoundException {
+        Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
@@ -87,12 +87,12 @@ public class DishService {
     }
 
     @Transactional
-    public void deleteDishById(Long id) throws EntityNotFoundException {
-        if (!dishRepository.existsById(id)) {
+    public void deleteDishById(Long dishId) throws EntityNotFoundException {
+        if (!dishRepository.existsById(dishId)) {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
         }
 
-        dishRepository.deleteById(id);
+        dishRepository.deleteById(dishId);
     }
 
 }

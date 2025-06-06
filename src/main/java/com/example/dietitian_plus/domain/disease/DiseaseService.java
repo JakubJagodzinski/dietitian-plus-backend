@@ -28,8 +28,8 @@ public class DiseaseService {
     }
 
     @Transactional
-    public DiseaseResponseDto getDiseaseById(Long id) throws EntityNotFoundException {
-        Disease disease = diseaseRepository.findById(id).orElse(null);
+    public DiseaseResponseDto getDiseaseById(Long diseaseId) throws EntityNotFoundException {
+        Disease disease = diseaseRepository.findById(diseaseId).orElse(null);
 
         if (disease == null) {
             throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
@@ -53,8 +53,8 @@ public class DiseaseService {
     }
 
     @Transactional
-    public DiseaseResponseDto updateDiseaseById(Long id, UpdateDiseaseRequestDto updateDiseaseRequestDto) throws EntityNotFoundException {
-        Disease disease = diseaseRepository.findById(id).orElse(null);
+    public DiseaseResponseDto updateDiseaseById(Long diseaseId, UpdateDiseaseRequestDto updateDiseaseRequestDto) throws EntityNotFoundException {
+        Disease disease = diseaseRepository.findById(diseaseId).orElse(null);
 
         if (disease == null) {
             throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
@@ -72,12 +72,12 @@ public class DiseaseService {
     }
 
     @Transactional
-    public void deleteDiseaseById(Long id) throws EntityNotFoundException {
-        if (!diseaseRepository.existsById(id)) {
+    public void deleteDiseaseById(Long diseaseId) throws EntityNotFoundException {
+        if (!diseaseRepository.existsById(diseaseId)) {
             throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
         }
 
-        diseaseRepository.deleteById(id);
+        diseaseRepository.deleteById(diseaseId);
     }
 
 }

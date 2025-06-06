@@ -3,7 +3,7 @@ package com.example.dietitian_plus.domain.unit;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.unit.dto.CreateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.UnitResponseDto;
-import com.example.dietitian_plus.domain.unit.dto.UpdateUnitResponseDto;
+import com.example.dietitian_plus.domain.unit.dto.UpdateUnitRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,8 +48,8 @@ public class UnitController {
     }
 
     @PutMapping("/{unitId}")
-    public ResponseEntity<UnitResponseDto> updateUnitById(@PathVariable Long unitId, @RequestBody UpdateUnitResponseDto updateUnitResponseDto) {
-        UnitResponseDto updatedUnitResponseDto = unitService.updateUnitById(unitId, updateUnitResponseDto);
+    public ResponseEntity<UnitResponseDto> updateUnitById(@PathVariable Long unitId, @RequestBody UpdateUnitRequestDto updateUnitRequestDto) {
+        UnitResponseDto updatedUnitResponseDto = unitService.updateUnitById(unitId, updateUnitRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

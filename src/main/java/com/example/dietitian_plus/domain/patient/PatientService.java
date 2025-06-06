@@ -38,8 +38,8 @@ public class PatientService {
     }
 
     @Transactional
-    public PatientResponseDto getPatientById(Long id) throws EntityNotFoundException {
-        Patient patient = patientRepository.findById(id).orElse(null);
+    public PatientResponseDto getPatientById(Long patientId) throws EntityNotFoundException {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
@@ -49,12 +49,12 @@ public class PatientService {
     }
 
     @Transactional
-    public List<MealResponseDto> getPatientMeals(Long id) throws EntityNotFoundException {
-        if (!patientRepository.existsById(id)) {
+    public List<MealResponseDto> getPatientMeals(Long patientId) throws EntityNotFoundException {
+        if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        return mealDtoMapper.toDtoList(mealRepository.findByPatient_Id(id));
+        return mealDtoMapper.toDtoList(mealRepository.findByPatient_Id(patientId));
     }
 
     @Transactional
@@ -71,8 +71,8 @@ public class PatientService {
     }
 
     @Transactional
-    public PatientResponseDto updatePatientById(Long id, PatientResponseDto patientResponseDto) throws EntityNotFoundException {
-        Patient patient = patientRepository.findById(id).orElse(null);
+    public PatientResponseDto updatePatientById(Long patientId, PatientResponseDto patientResponseDto) throws EntityNotFoundException {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
@@ -108,12 +108,12 @@ public class PatientService {
     }
 
     @Transactional
-    public void deletePatientById(Long id) throws EntityNotFoundException {
-        if (!patientRepository.existsById(id)) {
+    public void deletePatientById(Long patientId) throws EntityNotFoundException {
+        if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        patientRepository.deleteById(id);
+        patientRepository.deleteById(patientId);
     }
 
 }

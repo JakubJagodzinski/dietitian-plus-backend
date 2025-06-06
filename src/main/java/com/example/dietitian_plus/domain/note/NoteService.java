@@ -35,8 +35,8 @@ public class NoteService {
     }
 
     @Transactional
-    public NoteResponseDto getNoteById(Long id) throws EntityNotFoundException {
-        Note note = noteRepository.findById(id).orElse(null);
+    public NoteResponseDto getNoteById(Long noteId) throws EntityNotFoundException {
+        Note note = noteRepository.findById(noteId).orElse(null);
 
         if (note == null) {
             throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);
@@ -113,12 +113,12 @@ public class NoteService {
     }
 
     @Transactional
-    public void deleteNoteById(Long id) throws EntityNotFoundException {
-        if (!noteRepository.existsById(id)) {
+    public void deleteNoteById(Long noteId) throws EntityNotFoundException {
+        if (!noteRepository.existsById(noteId)) {
             throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);
         }
 
-        noteRepository.deleteById(id);
+        noteRepository.deleteById(noteId);
     }
 
 }
