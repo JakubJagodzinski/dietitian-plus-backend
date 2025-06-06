@@ -15,7 +15,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor
 @Entity
 @Table(name = "dishes_products")
-public class DishesProducts {
+public class DishProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +37,6 @@ public class DishesProducts {
     private Unit unit;
 
     @Column(nullable = false)
-    private Float unit_count = 0.0f;
+    private Float unitCount = 0.0f;
 
 }

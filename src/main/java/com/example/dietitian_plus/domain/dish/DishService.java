@@ -6,11 +6,6 @@ import com.example.dietitian_plus.domain.dish.dto.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.UpdateDishRequestDto;
-import com.example.dietitian_plus.domain.dishesproducts.DishesProducts;
-import com.example.dietitian_plus.domain.dishesproducts.DishesProductsRepository;
-import com.example.dietitian_plus.domain.product.Product;
-import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
-import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +19,8 @@ public class DishService {
 
     private final DishRepository dishRepository;
     private final DietitianRepository dietitianRepository;
-    private final DishesProductsRepository dishesProductsRepository;
 
     private final DishDtoMapper dishDtoMapper;
-    private final ProductDtoMapper productDtoMapper;
 
     private static final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
@@ -43,21 +36,6 @@ public class DishService {
         }
 
         return dishDtoMapper.toDto(dishRepository.getReferenceById(id));
-    }
-
-    @Transactional
-    public List<ProductResponseDto> getDishProducts(Long id) throws EntityNotFoundException {
-        if (!dishRepository.existsById(id)) {
-            throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
-        }
-
-        List<DishesProducts> dishesProducts = dishesProductsRepository.findByDish_DishId(id);
-
-        List<Product> products = dishesProducts.stream()
-                .map(DishesProducts::getProduct)
-                .toList();
-
-        return productDtoMapper.toDtoList(products);
     }
 
     @Transactional

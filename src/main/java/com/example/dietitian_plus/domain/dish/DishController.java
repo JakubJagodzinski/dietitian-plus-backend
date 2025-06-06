@@ -4,7 +4,6 @@ import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.UpdateDishRequestDto;
-import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +35,6 @@ public class DishController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishResponseDto);
-    }
-
-    @GetMapping("/{dishId}/products")
-    public ResponseEntity<List<ProductResponseDto>> getDishProducts(@PathVariable Long dishId) {
-        List<ProductResponseDto> productResponseDtoList = dishService.getDishProducts(dishId);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(productResponseDtoList);
     }
 
     @PostMapping

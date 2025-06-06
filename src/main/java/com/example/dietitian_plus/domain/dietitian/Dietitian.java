@@ -1,7 +1,5 @@
 package com.example.dietitian_plus.domain.dietitian;
 
-import com.example.dietitian_plus.domain.dish.Dish;
-import com.example.dietitian_plus.domain.note.Note;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -31,10 +29,5 @@ public class Dietitian extends User {
     @JsonBackReference
     @ToString.Exclude
     private final Set<Patient> patients = new HashSet<>();
-
-    @OneToMany(mappedBy = "dietitian")
-    @JsonBackReference
-    @ToString.Exclude
-    private final Set<Dish> dishes = new HashSet<>();
 
 }

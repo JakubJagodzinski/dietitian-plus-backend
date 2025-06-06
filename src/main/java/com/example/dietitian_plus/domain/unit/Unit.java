@@ -1,14 +1,9 @@
 package com.example.dietitian_plus.domain.unit;
 
-import com.example.dietitian_plus.domain.dishesproducts.DishesProducts;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -27,9 +22,5 @@ public class Unit {
 
     @Column(nullable = false)
     private Float grams;
-
-    @OneToMany(mappedBy = "unit")
-    @JsonBackReference
-    private final List<DishesProducts> dishesProducts = new ArrayList<>();
 
 }

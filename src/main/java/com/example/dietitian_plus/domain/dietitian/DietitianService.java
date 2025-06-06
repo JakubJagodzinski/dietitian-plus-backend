@@ -4,9 +4,6 @@ import com.example.dietitian_plus.auth.dto.RegisterRequestDto;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianDtoMapper;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dietitian.dto.UpdateDietitianRequestDto;
-import com.example.dietitian_plus.domain.dish.DishRepository;
-import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
@@ -25,12 +22,11 @@ public class DietitianService {
 
     private final DietitianRepository dietitianRepository;
     private final PatientRepository patientRepository;
-    private final DishRepository dishRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final DietitianDtoMapper dietitianDtoMapper;
     private final PatientDtoMapper patientDtoMapper;
-    private final DishDtoMapper dishDtoMapper;
 
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
@@ -54,15 +50,6 @@ public class DietitianService {
         }
 
         return patientDtoMapper.toDtoList(patientRepository.findByDietitian(dietitianRepository.getReferenceById(id)));
-    }
-
-    @Transactional
-    public List<DishResponseDto> getDietitianDishes(Long id) throws EntityNotFoundException {
-        if (!dietitianRepository.existsById(id)) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
-        }
-
-        return dishDtoMapper.toDtoList(dishRepository.findByDietitian(dietitianRepository.getReferenceById(id)));
     }
 
     @Transactional

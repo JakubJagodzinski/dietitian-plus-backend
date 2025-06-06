@@ -1,18 +1,11 @@
 package com.example.dietitian_plus.domain.dish;
 
-
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
-import com.example.dietitian_plus.domain.dishesproducts.DishesProducts;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -51,10 +44,5 @@ public class Dish {
     private Float protein = 0.0f;
 
     private Float fiber = 0.0f;
-
-    @OneToMany(mappedBy = "dish")
-    @JsonBackReference
-    @ToString.Exclude
-    private final List<DishesProducts> dishesProducts = new ArrayList<>();
 
 }
