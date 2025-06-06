@@ -21,8 +21,4 @@ public class DietitianResponseDto {
 
     private String title;
 
-    private String email;
-
-    private String password;
-
 }

@@ -13,8 +13,6 @@ public class DietitianDtoMapper {
         DietitianResponseDto dto = new DietitianResponseDto();
 
         dto.setDietitianId(dietitian.getId());
-        dto.setEmail(dietitian.getEmail());
-        dto.setPassword(dietitian.getPassword());
         dto.setTitle(dietitian.getTitle());
         dto.setFirstName(dietitian.getFirstName());
         dto.setLastName(dietitian.getLastName());

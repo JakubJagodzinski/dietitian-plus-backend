@@ -21,8 +21,4 @@ public class UpdateDietitianRequestDto {
 
     private String title;
 
-    private String email;
-
-    private String password;
-
 }

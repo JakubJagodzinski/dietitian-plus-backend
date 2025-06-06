@@ -86,24 +86,16 @@ public class DietitianService {
 
         Dietitian dietitian = dietitianRepository.getReferenceById(id);
 
-        if (updateDietitianRequestDto.getEmail() != null) {
-            dietitian.setEmail(updateDietitianRequestDto.getEmail());
-        }
-
-        if (updateDietitianRequestDto.getTitle() != null) {
-            dietitian.setTitle(updateDietitianRequestDto.getTitle());
-        }
-
-        if (updateDietitianRequestDto.getPassword() != null) {
-            dietitian.setPassword(updateDietitianRequestDto.getPassword());
-        }
-
         if (updateDietitianRequestDto.getFirstName() != null) {
             dietitian.setFirstName(updateDietitianRequestDto.getFirstName());
         }
 
         if (updateDietitianRequestDto.getLastName() != null) {
             dietitian.setLastName(updateDietitianRequestDto.getLastName());
+        }
+
+        if (updateDietitianRequestDto.getTitle() != null) {
+            dietitian.setTitle(updateDietitianRequestDto.getTitle());
         }
 
         return dietitianDtoMapper.toDto(dietitianRepository.save(dietitian));

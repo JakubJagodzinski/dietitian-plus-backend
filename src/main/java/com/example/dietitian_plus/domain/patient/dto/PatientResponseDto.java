@@ -19,8 +19,6 @@ public class PatientResponseDto {
     @JsonProperty("last_name")
     private String lastName;
 
-    private String email;
-
     private Float height;
 
     @JsonProperty("starting_weight")

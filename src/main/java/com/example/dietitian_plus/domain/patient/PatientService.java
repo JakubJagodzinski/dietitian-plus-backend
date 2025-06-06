@@ -75,10 +75,6 @@ public class PatientService {
 
         Patient patient = patientRepository.getReferenceById(id);
 
-        if (patientResponseDto.getEmail() != null) {
-            patient.setEmail(patientResponseDto.getEmail());
-        }
-
         if (patientResponseDto.getHeight() != null) {
             patient.setHeight(patientResponseDto.getHeight());
         }

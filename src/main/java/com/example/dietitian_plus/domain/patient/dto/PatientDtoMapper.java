@@ -13,7 +13,6 @@ public class PatientDtoMapper {
         PatientResponseDto patientResponseDto = new PatientResponseDto();
 
         patientResponseDto.setPatientId(patient.getId());
-        patientResponseDto.setEmail(patient.getEmail());
         patientResponseDto.setFirstName(patient.getFirstName());
         patientResponseDto.setLastName(patient.getLastName());
         patientResponseDto.setHeight(patient.getHeight());
