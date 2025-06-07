@@ -2,8 +2,12 @@ package com.example.dietitian_plus.domain.patientdiseases;
 
 import com.example.dietitian_plus.domain.disease.Disease;
 import com.example.dietitian_plus.domain.disease.DiseaseRepository;
+import com.example.dietitian_plus.domain.disease.dto.DiseaseDtoMapper;
+import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
+import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
+import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.CreatePatientDiseaseRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseDtoMapper;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseResponseDto;
@@ -24,28 +28,40 @@ public class PatientDiseaseService {
     private final DiseaseRepository diseaseRepository;
 
     private final PatientDiseaseDtoMapper patientDiseaseDtoMapper;
+    private final DiseaseDtoMapper diseaseDtoMapper;
 
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
     private static final String DISEASE_ALREADY_ASSIGNED_TO_PATIENT_MESSAGE = "Disease already assigned to patient";
     private static final String PATIENT_DISEASE_ASSOCIATION_NOT_FOUND_MESSAGE = "Patient disease association not found";
+    private final PatientDtoMapper patientDtoMapper;
 
     @Transactional
-    public List<PatientDiseaseResponseDto> getPatientDiseasesByPatientId(Long patientId) throws EntityNotFoundException {
+    public List<DiseaseResponseDto> getPatientDiseasesByPatientId(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        return patientDiseaseDtoMapper.toDtoList(patientDiseaseRepository.findById_PatientId(patientId));
+        List<PatientDisease> patientDiseaseList = patientDiseaseRepository.findAllById_PatientId(patientId);
+
+        return patientDiseaseList.stream()
+                .map(PatientDisease::getDisease)
+                .map(diseaseDtoMapper::toDto)
+                .toList();
     }
 
     @Transactional
-    public List<PatientDiseaseResponseDto> getPatientDiseasesByDiseaseId(Long diseaseId) throws EntityNotFoundException {
+    public List<PatientResponseDto> getPatientsByDiseaseId(Long diseaseId) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(diseaseId)) {
             throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
         }
 
-        return patientDiseaseDtoMapper.toDtoList(patientDiseaseRepository.findById_DiseaseId(diseaseId));
+        List<PatientDisease> patientDiseaseList = patientDiseaseRepository.findAllById_DiseaseId(diseaseId);
+
+        return patientDiseaseList.stream()
+                .map(PatientDisease::getPatient)
+                .map(patientDtoMapper::toDto)
+                .toList();
     }
 
     @Transactional

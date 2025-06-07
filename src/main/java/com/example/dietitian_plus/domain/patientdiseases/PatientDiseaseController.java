@@ -1,6 +1,8 @@
 package com.example.dietitian_plus.domain.patientdiseases;
 
 import com.example.dietitian_plus.common.MessageResponseDto;
+import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
+import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.CreatePatientDiseaseRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -19,21 +21,21 @@ public class PatientDiseaseController {
     private final PatientDiseaseService patientDiseaseService;
 
     @GetMapping("/by-patient/{patientId}")
-    public ResponseEntity<List<PatientDiseaseResponseDto>> getDiseasesByPatientId(@PathVariable Long patientId) {
-        List<PatientDiseaseResponseDto> patientDiseaseResponseDtoList = patientDiseaseService.getPatientDiseasesByPatientId(patientId);
+    public ResponseEntity<List<DiseaseResponseDto>> getDiseasesByPatientId(@PathVariable Long patientId) {
+        List<DiseaseResponseDto> diseaseResponseDtoList = patientDiseaseService.getPatientDiseasesByPatientId(patientId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(patientDiseaseResponseDtoList);
+                .body(diseaseResponseDtoList);
     }
 
     @GetMapping("/by-disease/{diseaseId}")
-    public ResponseEntity<List<PatientDiseaseResponseDto>> getPatientsByDiseaseId(@PathVariable Long diseaseId) {
-        List<PatientDiseaseResponseDto> patientDiseaseResponseDtoList = patientDiseaseService.getPatientDiseasesByDiseaseId(diseaseId);
+    public ResponseEntity<List<PatientResponseDto>> getPatientsByDiseaseId(@PathVariable Long diseaseId) {
+        List<PatientResponseDto> patientResponseDtoList = patientDiseaseService.getPatientsByDiseaseId(diseaseId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(patientDiseaseResponseDtoList);
+                .body(patientResponseDtoList);
     }
 
     @PostMapping
