@@ -3,7 +3,6 @@ package com.example.dietitian_plus.domain.dietitian;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dietitian.dto.UpdateDietitianRequestDto;
-import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,15 +33,6 @@ public class DietitianController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dietitianResponseDto);
-    }
-
-    @GetMapping("/{dietitianId}/patients")
-    public ResponseEntity<List<PatientResponseDto>> getDietitianPatients(@PathVariable Long dietitianId) {
-        List<PatientResponseDto> patientResponseDtoList = dietitianService.getDietitianPatients(dietitianId);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(patientResponseDtoList);
     }
 
     @PutMapping("/{dietitianId}")

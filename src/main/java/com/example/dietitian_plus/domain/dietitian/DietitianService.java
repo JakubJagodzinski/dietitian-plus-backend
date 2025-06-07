@@ -4,9 +4,6 @@ import com.example.dietitian_plus.auth.dto.RegisterRequestDto;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianDtoMapper;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dietitian.dto.UpdateDietitianRequestDto;
-import com.example.dietitian_plus.domain.patient.PatientRepository;
-import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
-import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import com.example.dietitian_plus.user.Role;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -21,12 +18,10 @@ import java.util.List;
 public class DietitianService {
 
     private final DietitianRepository dietitianRepository;
-    private final PatientRepository patientRepository;
-
-    private final PasswordEncoder passwordEncoder;
 
     private final DietitianDtoMapper dietitianDtoMapper;
-    private final PatientDtoMapper patientDtoMapper;
+
+    private final PasswordEncoder passwordEncoder;
 
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
@@ -43,15 +38,6 @@ public class DietitianService {
         }
 
         return dietitianDtoMapper.toDto(dietitian);
-    }
-
-    @Transactional
-    public List<PatientResponseDto> getDietitianPatients(Long dietitianId) throws EntityNotFoundException {
-        if (!dietitianRepository.existsById(dietitianId)) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
-        }
-
-        return patientDtoMapper.toDtoList(patientRepository.findByDietitian(dietitianRepository.getReferenceById(dietitianId)));
     }
 
     @Transactional

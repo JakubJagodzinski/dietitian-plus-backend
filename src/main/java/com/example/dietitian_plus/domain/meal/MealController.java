@@ -37,6 +37,16 @@ public class MealController {
                 .body(mealResponseDto);
     }
 
+    @GetMapping("/by-patient/{patientId}")
+    public ResponseEntity<List<MealResponseDto>> getMealsByPatientId(@PathVariable Long patientId) {
+        List<MealResponseDto> mealResponseDtoList = mealService.getMealsByPatientId(patientId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(mealResponseDtoList);
+    }
+
+
     @PostMapping
     public ResponseEntity<MealResponseDto> createMeal(@RequestBody CreateMealRequestDto createMealRequestDto) {
         MealResponseDto createdMealResponseDto = mealService.createMeal(createMealRequestDto);

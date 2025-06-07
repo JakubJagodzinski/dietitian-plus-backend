@@ -3,9 +3,6 @@ package com.example.dietitian_plus.domain.patient;
 import com.example.dietitian_plus.auth.dto.RegisterRequestDto;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
-import com.example.dietitian_plus.domain.meal.MealRepository;
-import com.example.dietitian_plus.domain.meal.dto.MealDtoMapper;
-import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import com.example.dietitian_plus.user.Role;
@@ -23,10 +20,8 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
     private final DietitianRepository dietitianRepository;
-    private final MealRepository mealRepository;
 
     private final PatientDtoMapper patientDtoMapper;
-    private final MealDtoMapper mealDtoMapper;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -49,12 +44,12 @@ public class PatientService {
     }
 
     @Transactional
-    public List<MealResponseDto> getPatientMeals(Long patientId) throws EntityNotFoundException {
-        if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+    public List<PatientResponseDto> getPatientsByDietitianId(Long dietitianId) throws EntityNotFoundException {
+        if (!dietitianRepository.existsById(dietitianId)) {
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        return mealDtoMapper.toDtoList(mealRepository.findByPatient_Id(patientId));
+        return patientDtoMapper.toDtoList(patientRepository.findByDietitian_Id(dietitianId));
     }
 
     @Transactional
