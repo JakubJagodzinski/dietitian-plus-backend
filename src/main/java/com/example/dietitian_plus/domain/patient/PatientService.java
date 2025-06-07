@@ -56,8 +56,8 @@ public class PatientService {
     public Patient register(RegisterRequestDto registerRequestDto) {
         Patient patient = new Patient();
 
-        patient.setFirstName(registerRequestDto.getFirstname());
-        patient.setLastName(registerRequestDto.getLastname());
+        patient.setFirstName(registerRequestDto.getFirstName());
+        patient.setLastName(registerRequestDto.getLastName());
         patient.setEmail(registerRequestDto.getEmail());
         patient.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
         patient.setRole(Role.valueOf(registerRequestDto.getRole()));

@@ -44,8 +44,8 @@ public class DietitianService {
     public Dietitian register(RegisterRequestDto registerRequestDto) {
         Dietitian dietitian = new Dietitian();
 
-        dietitian.setFirstName(registerRequestDto.getFirstname());
-        dietitian.setLastName(registerRequestDto.getLastname());
+        dietitian.setFirstName(registerRequestDto.getFirstName());
+        dietitian.setLastName(registerRequestDto.getLastName());
         dietitian.setEmail(registerRequestDto.getEmail());
         dietitian.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
         dietitian.setRole(Role.valueOf(registerRequestDto.getRole()));
