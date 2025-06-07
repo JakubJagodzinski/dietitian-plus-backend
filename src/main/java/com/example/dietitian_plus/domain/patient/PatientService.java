@@ -3,6 +3,7 @@ package com.example.dietitian_plus.domain.patient;
 import com.example.dietitian_plus.auth.dto.RegisterRequestDto;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
+import com.example.dietitian_plus.domain.patient.dto.AssignDietitianRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import com.example.dietitian_plus.user.Role;
@@ -100,6 +101,25 @@ public class PatientService {
         }
 
         return patientDtoMapper.toDto(patientRepository.save(patient));
+    }
+
+    @Transactional
+    public void assignDietitian(Long patientId, AssignDietitianRequestDto assignDietitianRequestDto) throws EntityNotFoundException {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
+            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+        }
+
+        Dietitian dietitian = dietitianRepository.findById(assignDietitianRequestDto.getDietitianId()).orElse(null);
+
+        if (dietitian == null) {
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+        }
+
+        patient.setDietitian(dietitian);
+
+        patientRepository.save(patient);
     }
 
     @Transactional

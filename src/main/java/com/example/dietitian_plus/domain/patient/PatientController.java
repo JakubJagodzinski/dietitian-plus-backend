@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.common.MessageResponseDto;
+import com.example.dietitian_plus.domain.patient.dto.AssignDietitianRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,15 @@ public class PatientController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedPatientResponseDto);
+    }
+
+    @PostMapping("/{patientId}/dietitians")
+    public ResponseEntity<MessageResponseDto> assignDietitian(@PathVariable Long patientId, @RequestBody AssignDietitianRequestDto assignDietitianRequestDto) {
+        patientService.assignDietitian(patientId, assignDietitianRequestDto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new MessageResponseDto("Dietitian with id " + assignDietitianRequestDto.getDietitianId() + " successfully assigned to patient with id "));
     }
 
     @DeleteMapping("/{patientId}")
