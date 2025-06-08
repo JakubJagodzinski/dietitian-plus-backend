@@ -29,7 +29,7 @@ public class MealService {
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
-    public List<MealResponseDto> getMeals() {
+    public List<MealResponseDto> getAllMeals() {
         return mealDtoMapper.toDtoList(mealRepository.findAll());
     }
 
@@ -45,7 +45,7 @@ public class MealService {
     }
 
     @Transactional
-    public List<MealResponseDto> getMealsByPatientId(Long patientId) throws EntityNotFoundException {
+    public List<MealResponseDto> getPatientAllMeals(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }

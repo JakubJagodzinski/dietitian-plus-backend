@@ -10,9 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateDiseaseRequestDto {
 
-    @JsonProperty("disease_id")
-    private Long diseaseId;
-
     @JsonProperty("disease_name")
     private String diseaseName;
 

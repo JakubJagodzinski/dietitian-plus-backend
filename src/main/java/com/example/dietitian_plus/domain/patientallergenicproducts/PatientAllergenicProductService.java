@@ -2,7 +2,7 @@ package com.example.dietitian_plus.domain.patientallergenicproducts;
 
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
-import com.example.dietitian_plus.domain.patientallergenicproducts.dto.CreatePatientAllergenicProductRequestDto;
+import com.example.dietitian_plus.domain.patientallergenicproducts.dto.AssignAllergenicProductToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.PatientAllergenicProductDtoMapper;
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.PatientAllergenicProductResponseDto;
 import com.example.dietitian_plus.domain.product.Product;
@@ -34,7 +34,7 @@ public class PatientAllergenicProductService {
     private static final String PRODUCT_IS_NOT_ASSIGNED_TO_PATIENT_MESSAGE = "Product is not assigned to patient";
 
     @Transactional
-    public List<ProductResponseDto> getPatientAllergenicProductsByPatientId(Long patientId) throws EntityNotFoundException {
+    public List<ProductResponseDto> getPatientAllAllergenicProducts(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
@@ -48,15 +48,14 @@ public class PatientAllergenicProductService {
     }
 
     @Transactional
-    public PatientAllergenicProductResponseDto createPatientAllergenicProduct(CreatePatientAllergenicProductRequestDto createPatientAllergenicProductRequestDto) throws EntityNotFoundException, EntityExistsException {
-        Long patientId = createPatientAllergenicProductRequestDto.getPatientId();
+    public PatientAllergenicProductResponseDto assignAllergenicProductToPatient(Long patientId, AssignAllergenicProductToPatientRequestDto assignAllergenicProductToPatientRequestDto) throws EntityNotFoundException, EntityExistsException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        Long productId = createPatientAllergenicProductRequestDto.getProductId();
+        Long productId = assignAllergenicProductToPatientRequestDto.getProductId();
         Product product = productRepository.findById(productId).orElse(null);
 
         if (product == null) {
@@ -79,7 +78,7 @@ public class PatientAllergenicProductService {
     }
 
     @Transactional
-    public void deletePatientAllergenicProductById(Long patientId, Long productId) throws EntityNotFoundException {
+    public void unassignAllergenicProductFromPatient(Long patientId, Long productId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }

@@ -3,7 +3,7 @@ package com.example.dietitian_plus.domain.patient;
 import com.example.dietitian_plus.auth.dto.RegisterRequestDto;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
-import com.example.dietitian_plus.domain.patient.dto.AssignDietitianRequestDto;
+import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import com.example.dietitian_plus.user.Role;
@@ -29,7 +29,7 @@ public class PatientService {
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
-    public List<PatientResponseDto> getPatients() {
+    public List<PatientResponseDto> getAllPatients() {
         return patientDtoMapper.toDtoList(patientRepository.findAll());
     }
 
@@ -45,7 +45,7 @@ public class PatientService {
     }
 
     @Transactional
-    public List<PatientResponseDto> getPatientsByDietitianId(Long dietitianId) throws EntityNotFoundException {
+    public List<PatientResponseDto> getDietitianAllPatients(Long dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
@@ -104,14 +104,14 @@ public class PatientService {
     }
 
     @Transactional
-    public void assignDietitian(Long patientId, AssignDietitianRequestDto assignDietitianRequestDto) throws EntityNotFoundException {
+    public void assignDietitianToPatient(Long patientId, AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) throws EntityNotFoundException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        Dietitian dietitian = dietitianRepository.findById(assignDietitianRequestDto.getDietitianId()).orElse(null);
+        Dietitian dietitian = dietitianRepository.findById(assignDietitianToPatientRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);

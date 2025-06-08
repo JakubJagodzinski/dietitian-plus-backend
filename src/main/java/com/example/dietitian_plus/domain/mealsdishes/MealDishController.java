@@ -13,38 +13,38 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/meals-dishes")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class MealDishController {
 
     private final MealDishService mealDishService;
 
-    @GetMapping("/{mealId}")
-    public ResponseEntity<List<DishResponseDto>> getMealDishesByMealId(@PathVariable Long mealId) {
-        List<DishResponseDto> dishResponseDtoList = mealDishService.getMealDishesByMealId(mealId);
+    @GetMapping("/meals/{mealId}/dishes")
+    public ResponseEntity<List<DishResponseDto>> getMealAllDishes(@PathVariable Long mealId) {
+        List<DishResponseDto> dishResponseDtoList = mealDishService.getMealAllDishes(mealId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishResponseDtoList);
     }
 
-    @PostMapping
-    public ResponseEntity<MealDishResponseDto> createMealDish(@RequestBody CreateMealDishRequestDto createMealDishRequestDto) {
-        MealDishResponseDto createdMealDishResponseDto = mealDishService.createMealDish(createMealDishRequestDto);
+    @PostMapping("/meals/{mealId}/dishes")
+    public ResponseEntity<MealDishResponseDto> addDishToMeal(@PathVariable Long mealId, @RequestBody CreateMealDishRequestDto createMealDishRequestDto) {
+        MealDishResponseDto createdMealDishResponseDto = mealDishService.addDishToMeal(mealId, createMealDishRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(URI.create("/api/v1/meals-dishes/" + createdMealDishResponseDto.getMealId() + "/" + createdMealDishResponseDto.getDishId()))
+                .location(URI.create("/api/v1/meals/" + createdMealDishResponseDto.getMealId() + "/dishes/" + createdMealDishResponseDto.getDishId()))
                 .body(createdMealDishResponseDto);
     }
 
-    @DeleteMapping("/{mealDishId}")
-    public ResponseEntity<MessageResponseDto> deleteMealDishById(@PathVariable Long mealDishId) {
-        mealDishService.deleteMealDishById(mealDishId);
+    @DeleteMapping("/meals/{mealId}/dishes/{dishId}")
+    public ResponseEntity<MessageResponseDto> removeDishFromMeal(@PathVariable Long mealId, @PathVariable Long dishId) {
+        mealDishService.removeDishFromMeal(mealId, dishId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Meal dish with id " + mealDishId + " deleted successfully"));
+                .body(new MessageResponseDto("Dish with id " + dishId + " successfully removed from meal with id " + mealId));
     }
 
 }

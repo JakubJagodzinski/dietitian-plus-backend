@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.domain.patientallergenicproducts;
 
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.patientallergenicproducts.dto.CreatePatientAllergenicProductRequestDto;
+import com.example.dietitian_plus.domain.patientallergenicproducts.dto.AssignAllergenicProductToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.PatientAllergenicProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -13,38 +13,38 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/patient-allergenic-products")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class PatientAllergenicProductController {
 
     private final PatientAllergenicProductService patientAllergenicProductService;
 
-    @GetMapping("/{patientId}")
-    public ResponseEntity<List<ProductResponseDto>> getPatientAllergenicProductsByPatientId(@PathVariable Long patientId) {
-        List<ProductResponseDto> productResponseDtoList = patientAllergenicProductService.getPatientAllergenicProductsByPatientId(patientId);
+    @GetMapping("/patients/{patientId}/allergenic-products")
+    public ResponseEntity<List<ProductResponseDto>> getPatientAllAllergenicProducts(@PathVariable Long patientId) {
+        List<ProductResponseDto> productResponseDtoList = patientAllergenicProductService.getPatientAllAllergenicProducts(patientId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productResponseDtoList);
     }
 
-    @PostMapping
-    public ResponseEntity<PatientAllergenicProductResponseDto> createPatientAllergenicProduct(@RequestBody CreatePatientAllergenicProductRequestDto createPatientAllergenicProductRequestDto) {
-        PatientAllergenicProductResponseDto createdPatientAllergenicProductResponseDto = patientAllergenicProductService.createPatientAllergenicProduct(createPatientAllergenicProductRequestDto);
+    @PostMapping("/patients/{patientId}/allergenic-products")
+    public ResponseEntity<PatientAllergenicProductResponseDto> assignAllergenicProductToPatient(@PathVariable Long patientId, @RequestBody AssignAllergenicProductToPatientRequestDto assignAllergenicProductToPatientRequestDto) {
+        PatientAllergenicProductResponseDto createdPatientAllergenicProductResponseDto = patientAllergenicProductService.assignAllergenicProductToPatient(patientId, assignAllergenicProductToPatientRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(URI.create("/api/v1/patient-allergenic-products/" + createdPatientAllergenicProductResponseDto.getPatientId()))
+                .location(URI.create("/api/v1/patients/" + createdPatientAllergenicProductResponseDto.getPatientId() + "/allergenic-products/" + createdPatientAllergenicProductResponseDto.getProductId()))
                 .body(createdPatientAllergenicProductResponseDto);
     }
 
-    @DeleteMapping("/{patientId}/{productId}")
-    public ResponseEntity<MessageResponseDto> deletePatientAllergenicProductById(@PathVariable Long patientId, @PathVariable Long productId) {
-        patientAllergenicProductService.deletePatientAllergenicProductById(patientId, productId);
+    @DeleteMapping("/patients/{patientId}/allergenic-products/{productId}")
+    public ResponseEntity<MessageResponseDto> unassignAllergenicProductFromPatient(@PathVariable Long patientId, @PathVariable Long productId) {
+        patientAllergenicProductService.unassignAllergenicProductFromPatient(patientId, productId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Patient allergenic product with patient id " + patientId + " and product id " + productId + " deleted successfully"));
+                .body(new MessageResponseDto("Allergenic product with id " + productId + " successfully unassigned from patient with id " + patientId));
     }
 
 }

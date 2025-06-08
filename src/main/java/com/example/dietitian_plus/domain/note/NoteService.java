@@ -30,7 +30,7 @@ public class NoteService {
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
-    public List<NoteResponseDto> getNotes() {
+    public List<NoteResponseDto> getAllNotes() {
         return noteDtoMapper.toDtoList(noteRepository.findAll());
     }
 
@@ -46,7 +46,7 @@ public class NoteService {
     }
 
     @Transactional
-    public List<NoteResponseDto> getNotesByPatientId(Long patientId) throws EntityNotFoundException {
+    public List<NoteResponseDto> getPatientAllNotes(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
@@ -55,7 +55,7 @@ public class NoteService {
     }
 
     @Transactional
-    public List<NoteResponseDto> getNotesByDietitianId(Long dietitianId) throws EntityNotFoundException {
+    public List<NoteResponseDto> getDietitianAllNotes(Long dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }

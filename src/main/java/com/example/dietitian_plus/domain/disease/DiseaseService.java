@@ -23,7 +23,7 @@ public class DiseaseService {
     private static final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
     private static final String DISEASE_ALREADY_EXISTS_MESSAGE = "Disease already exists";
 
-    public List<DiseaseResponseDto> getDiseases() {
+    public List<DiseaseResponseDto> getAllDiseases() {
         return diseaseDtoMapper.toDtoList(diseaseRepository.findAll());
     }
 

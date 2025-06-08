@@ -13,22 +13,22 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/meals")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class MealController {
 
     private final MealService mealService;
 
-    @GetMapping
-    public ResponseEntity<List<MealResponseDto>> getMeals() {
-        List<MealResponseDto> mealResponseDtoList = mealService.getMeals();
+    @GetMapping("/meals")
+    public ResponseEntity<List<MealResponseDto>> getAllMeals() {
+        List<MealResponseDto> mealResponseDtoList = mealService.getAllMeals();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(mealResponseDtoList);
     }
 
-    @GetMapping("/{mealId}")
+    @GetMapping("/meals/{mealId}")
     public ResponseEntity<MealResponseDto> getMealById(@PathVariable Long mealId) {
         MealResponseDto mealResponseDto = mealService.getMealById(mealId);
 
@@ -37,17 +37,16 @@ public class MealController {
                 .body(mealResponseDto);
     }
 
-    @GetMapping("/by-patient/{patientId}")
-    public ResponseEntity<List<MealResponseDto>> getMealsByPatientId(@PathVariable Long patientId) {
-        List<MealResponseDto> mealResponseDtoList = mealService.getMealsByPatientId(patientId);
+    @GetMapping("/patients/{patientId}/meals")
+    public ResponseEntity<List<MealResponseDto>> getPatientAllMeals(@PathVariable Long patientId) {
+        List<MealResponseDto> mealResponseDtoList = mealService.getPatientAllMeals(patientId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(mealResponseDtoList);
     }
 
-
-    @PostMapping
+    @PostMapping("/meals")
     public ResponseEntity<MealResponseDto> createMeal(@RequestBody CreateMealRequestDto createMealRequestDto) {
         MealResponseDto createdMealResponseDto = mealService.createMeal(createMealRequestDto);
 
@@ -57,7 +56,7 @@ public class MealController {
                 .body(createdMealResponseDto);
     }
 
-    @PutMapping("/{mealId}")
+    @PutMapping("/meals/{mealId}")
     public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long mealId, @RequestBody UpdateMealRequestDto updateMealRequestDto) {
         MealResponseDto updatedMealResponseDto = mealService.updateMealById(mealId, updateMealRequestDto);
 
@@ -66,7 +65,7 @@ public class MealController {
                 .body(updatedMealResponseDto);
     }
 
-    @DeleteMapping("/{mealId}")
+    @DeleteMapping("/meals/{mealId}")
     public ResponseEntity<MessageResponseDto> deleteMealById(@PathVariable Long mealId) {
         mealService.deleteMealById(mealId);
 

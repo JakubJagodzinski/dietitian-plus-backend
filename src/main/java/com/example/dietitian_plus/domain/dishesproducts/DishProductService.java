@@ -2,10 +2,10 @@ package com.example.dietitian_plus.domain.dishesproducts;
 
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.dish.DishRepository;
-import com.example.dietitian_plus.domain.dishesproducts.dto.CreateDishProductRequestDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.CreateDishProductEntryRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.DishProductDtoMapper;
 import com.example.dietitian_plus.domain.dishesproducts.dto.DishProductResponseDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.UpdateDishProductRequestDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.UpdateDishProductEntryRequestDto;
 import com.example.dietitian_plus.domain.product.Product;
 import com.example.dietitian_plus.domain.product.ProductRepository;
 import com.example.dietitian_plus.domain.unit.Unit;
@@ -34,7 +34,7 @@ public class DishProductService {
     private static final String DISH_PRODUCT_NOT_FOUND_MESSAGE = "Dish product not found";
 
     @Transactional
-    public List<DishProductResponseDto> getDishProductsByDishId(Long dishId) throws EntityNotFoundException {
+    public List<DishProductResponseDto> getDishAllAssignedProducts(Long dishId) throws EntityNotFoundException {
         if (!dishRepository.existsById(dishId)) {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
         }
@@ -45,7 +45,7 @@ public class DishProductService {
     }
 
     @Transactional
-    public List<DishProductResponseDto> getDishProductsByProductId(Long productId) throws EntityNotFoundException {
+    public List<DishProductResponseDto> getAllDishProductEntriesWithGivenProduct(Long productId) throws EntityNotFoundException {
         if (!productRepository.existsById(productId)) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
@@ -56,20 +56,20 @@ public class DishProductService {
     }
 
     @Transactional
-    public DishProductResponseDto createDishProduct(CreateDishProductRequestDto createDishProductRequestDto) throws EntityNotFoundException {
-        Dish dish = dishRepository.findById(createDishProductRequestDto.getDishId()).orElse(null);
+    public DishProductResponseDto createDishProductEntry(CreateDishProductEntryRequestDto createDishProductEntryRequestDto) throws EntityNotFoundException {
+        Dish dish = dishRepository.findById(createDishProductEntryRequestDto.getDishId()).orElse(null);
 
         if (dish == null) {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
         }
 
-        Product product = productRepository.findById(createDishProductRequestDto.getProductId()).orElse(null);
+        Product product = productRepository.findById(createDishProductEntryRequestDto.getProductId()).orElse(null);
 
         if (product == null) {
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
 
-        Unit unit = unitRepository.findById(createDishProductRequestDto.getUnitId()).orElse(null);
+        Unit unit = unitRepository.findById(createDishProductEntryRequestDto.getUnitId()).orElse(null);
 
         if (unit == null) {
             throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);
@@ -80,21 +80,21 @@ public class DishProductService {
         dishProduct.setDish(dish);
         dishProduct.setProduct(product);
         dishProduct.setUnit(unit);
-        dishProduct.setUnitCount(createDishProductRequestDto.getUnitCount());
+        dishProduct.setUnitCount(createDishProductEntryRequestDto.getUnitCount());
 
         return dishProductDtoMapper.toDto(dishProductRepository.save(dishProduct));
     }
 
     @Transactional
-    public DishProductResponseDto updateDishProductById(Long dishProductId, UpdateDishProductRequestDto updateDishProductRequestDto) throws EntityNotFoundException {
+    public DishProductResponseDto updateDishProductEntryById(Long dishProductId, UpdateDishProductEntryRequestDto updateDishProductEntryRequestDto) throws EntityNotFoundException {
         DishProduct dishProduct = dishProductRepository.findById(dishProductId).orElse(null);
 
         if (dishProduct == null) {
             throw new EntityNotFoundException(DISH_PRODUCT_NOT_FOUND_MESSAGE);
         }
 
-        if (updateDishProductRequestDto.getUnitId() != null) {
-            Unit unit = unitRepository.findById(updateDishProductRequestDto.getUnitId()).orElse(null);
+        if (updateDishProductEntryRequestDto.getUnitId() != null) {
+            Unit unit = unitRepository.findById(updateDishProductEntryRequestDto.getUnitId()).orElse(null);
 
             if (unit == null) {
                 throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);
@@ -103,15 +103,15 @@ public class DishProductService {
             dishProduct.setUnit(unit);
         }
 
-        if (updateDishProductRequestDto.getUnitCount() != null) {
-            dishProduct.setUnitCount(updateDishProductRequestDto.getUnitCount());
+        if (updateDishProductEntryRequestDto.getUnitCount() != null) {
+            dishProduct.setUnitCount(updateDishProductEntryRequestDto.getUnitCount());
         }
 
         return dishProductDtoMapper.toDto(dishProductRepository.save(dishProduct));
     }
 
     @Transactional
-    public void deleteDishProductById(Long dishProductId) throws EntityNotFoundException {
+    public void deleteDishProductEntryById(Long dishProductId) throws EntityNotFoundException {
         if (!dishProductRepository.existsById(dishProductId)) {
             throw new EntityNotFoundException(DISH_PRODUCT_NOT_FOUND_MESSAGE);
         }

@@ -8,10 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CreatePatientDiseaseRequestDto {
-
-    @JsonProperty("patient_id")
-    private Long patientId;
+public class AssignDiseaseToPatientRequestDto {
 
     @JsonProperty("disease_id")
     private Long diseaseId;

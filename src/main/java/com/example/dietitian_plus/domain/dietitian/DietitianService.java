@@ -25,7 +25,7 @@ public class DietitianService {
 
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
-    public List<DietitianResponseDto> getDietitians() {
+    public List<DietitianResponseDto> getAllDietitians() {
         return dietitianDtoMapper.toDtoList(dietitianRepository.findAll());
     }
 

@@ -10,9 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateMealDishRequestDto {
 
-    @JsonProperty("meal_id")
-    private Long mealId;
-
     @JsonProperty("dish_id")
     private Long dishId;
 

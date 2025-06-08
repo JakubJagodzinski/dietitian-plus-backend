@@ -23,7 +23,7 @@ public class UnitService {
     private static final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";
     private static final String UNIT_ALREADY_EXISTS_MESSAGE = "Unit already exists";
 
-    public List<UnitResponseDto> getUnits() {
+    public List<UnitResponseDto> getAllUnits() {
         return unitDtoMapper.toDtoList(unitRepository.findAll());
     }
 

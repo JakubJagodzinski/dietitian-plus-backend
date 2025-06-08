@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.domain.patientdislikedproducts;
 
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.patientdislikedproducts.dto.CreatePatientDislikedProductRequestDto;
+import com.example.dietitian_plus.domain.patientdislikedproducts.dto.AssignDislikedProductToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientdislikedproducts.dto.PatientDislikedProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -13,38 +13,38 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/patient-disliked-products")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class PatientDislikedProductController {
 
     private final PatientDislikedProductService patientDislikedProductService;
 
-    @GetMapping("/{patientId}")
-    public ResponseEntity<List<ProductResponseDto>> getPatientDislikedProductsByPatientId(@PathVariable Long patientId) {
-        List<ProductResponseDto> productResponseDtoList = patientDislikedProductService.getPatientDislikedProductsByPatientId(patientId);
+    @GetMapping("/patients/{patientId}/disliked-products")
+    public ResponseEntity<List<ProductResponseDto>> getPatientAllDislikedProducts(@PathVariable Long patientId) {
+        List<ProductResponseDto> productResponseDtoList = patientDislikedProductService.getPatientAllDislikedProducts(patientId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productResponseDtoList);
     }
 
-    @PostMapping
-    public ResponseEntity<PatientDislikedProductResponseDto> createPatientDislikedProduct(@RequestBody CreatePatientDislikedProductRequestDto createPatientDislikedProductRequestDto) {
-        PatientDislikedProductResponseDto createdPatientDislikedProductResponseDto = patientDislikedProductService.createPatientDislikedProduct(createPatientDislikedProductRequestDto);
+    @PostMapping("/patients/{patientId}/disliked-products")
+    public ResponseEntity<PatientDislikedProductResponseDto> assignDislikedProductToPatient(@PathVariable Long patientId, @RequestBody AssignDislikedProductToPatientRequestDto assignDislikedProductToPatientRequestDto) {
+        PatientDislikedProductResponseDto createdPatientDislikedProductResponseDto = patientDislikedProductService.assignDislikedProductToPatient(patientId, assignDislikedProductToPatientRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(URI.create("/api/v1/patient-disliked-products/" + createdPatientDislikedProductResponseDto.getPatientId()))
+                .location(URI.create("/api/v1/patients/" + createdPatientDislikedProductResponseDto.getPatientId() + "/disliked-products/" + createdPatientDislikedProductResponseDto.getProductId()))
                 .body(createdPatientDislikedProductResponseDto);
     }
 
-    @DeleteMapping("/{patientId}/{productId}")
-    public ResponseEntity<MessageResponseDto> deletePatientDislikedProductById(@PathVariable Long patientId, @PathVariable Long productId) {
-        patientDislikedProductService.deletePatientDislikedProductById(patientId, productId);
+    @DeleteMapping("/patients/{patientId}/disliked-products/{productId}")
+    public ResponseEntity<MessageResponseDto> unassignDislikedProductFromPatient(@PathVariable Long patientId, @PathVariable Long productId) {
+        patientDislikedProductService.unassignDislikedProductFromPatient(patientId, productId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Patient disliked product with patient id " + patientId + " and product id " + productId + " deleted successfully"));
+                .body(new MessageResponseDto("Disliked product with id " + productId + " successfully unassigned from patient with id " + patientId));
     }
 
 }

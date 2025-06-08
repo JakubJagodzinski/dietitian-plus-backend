@@ -25,7 +25,7 @@ public class DishService {
     private static final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
-    public List<DishResponseDto> getDishes() {
+    public List<DishResponseDto> getAllDishes() {
         return dishDtoMapper.toDtoList(dishRepository.findAll());
     }
 

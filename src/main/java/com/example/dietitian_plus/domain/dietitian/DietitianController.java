@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/dietitians")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class DietitianController {
 
     private final DietitianService dietitianService;
 
-    @GetMapping
-    public ResponseEntity<List<DietitianResponseDto>> getDietitians() {
-        List<DietitianResponseDto> dietitianResponseDtoList = dietitianService.getDietitians();
+    @GetMapping("/dietitians")
+    public ResponseEntity<List<DietitianResponseDto>> getAllDietitians() {
+        List<DietitianResponseDto> dietitianResponseDtoList = dietitianService.getAllDietitians();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dietitianResponseDtoList);
     }
 
-    @GetMapping("/{dietitianId}")
+    @GetMapping("/dietitians/{dietitianId}")
     public ResponseEntity<DietitianResponseDto> getDietitianById(@PathVariable Long dietitianId) {
         DietitianResponseDto dietitianResponseDto = dietitianService.getDietitianById(dietitianId);
 
@@ -35,7 +35,7 @@ public class DietitianController {
                 .body(dietitianResponseDto);
     }
 
-    @PutMapping("/{dietitianId}")
+    @PutMapping("/dietitians/{dietitianId}")
     public ResponseEntity<DietitianResponseDto> updateDietitianById(@PathVariable Long dietitianId, @RequestBody UpdateDietitianRequestDto updateDietitianRequestDto) {
         DietitianResponseDto dietitianResponseDto = dietitianService.updateDietitianById(dietitianId, updateDietitianRequestDto);
 
@@ -44,7 +44,7 @@ public class DietitianController {
                 .body(dietitianResponseDto);
     }
 
-    @DeleteMapping("/{dietitianId}")
+    @DeleteMapping("/dietitians/{dietitianId}")
     public ResponseEntity<MessageResponseDto> deleteDietitianById(@PathVariable Long dietitianId) {
         dietitianService.deleteDietitianById(dietitianId);
 

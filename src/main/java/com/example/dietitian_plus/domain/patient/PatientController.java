@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.patient.dto.AssignDietitianRequestDto;
+import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/patients")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class PatientController {
 
     private final PatientService patientService;
 
-    @GetMapping
-    public ResponseEntity<List<PatientResponseDto>> getPatients() {
-        List<PatientResponseDto> patientResponseDtoList = patientService.getPatients();
+    @GetMapping("/patients")
+    public ResponseEntity<List<PatientResponseDto>> getAllPatients() {
+        List<PatientResponseDto> patientResponseDtoList = patientService.getAllPatients();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(patientResponseDtoList);
     }
 
-    @GetMapping("/{patientId}")
+    @GetMapping("/patients/{patientId}")
     public ResponseEntity<PatientResponseDto> getPatientById(@PathVariable Long patientId) {
         PatientResponseDto patientResponseDto = patientService.getPatientById(patientId);
 
@@ -35,16 +35,16 @@ public class PatientController {
                 .body(patientResponseDto);
     }
 
-    @GetMapping("/by-dietitian/{dietitianId}")
-    public ResponseEntity<List<PatientResponseDto>> getPatientsByDietitianId(@PathVariable Long dietitianId) {
-        List<PatientResponseDto> patientResponseDtoList = patientService.getPatientsByDietitianId(dietitianId);
+    @GetMapping("/dietitians/{dietitianId}/patients")
+    public ResponseEntity<List<PatientResponseDto>> getDietitianAllPatients(@PathVariable Long dietitianId) {
+        List<PatientResponseDto> patientResponseDtoList = patientService.getDietitianAllPatients(dietitianId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(patientResponseDtoList);
     }
 
-    @PutMapping("/{patientId}")
+    @PutMapping("/patients/{patientId}")
     public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable Long patientId, @RequestBody PatientResponseDto patientResponseDto) {
         PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(patientId, patientResponseDto);
 
@@ -53,16 +53,16 @@ public class PatientController {
                 .body(updatedPatientResponseDto);
     }
 
-    @PostMapping("/{patientId}/dietitians")
-    public ResponseEntity<MessageResponseDto> assignDietitian(@PathVariable Long patientId, @RequestBody AssignDietitianRequestDto assignDietitianRequestDto) {
-        patientService.assignDietitian(patientId, assignDietitianRequestDto);
+    @PostMapping("/patients/{patientId}/dietitians")
+    public ResponseEntity<MessageResponseDto> assignDietitianToPatient(@PathVariable Long patientId, @RequestBody AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) {
+        patientService.assignDietitianToPatient(patientId, assignDietitianToPatientRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Dietitian with id " + assignDietitianRequestDto.getDietitianId() + " successfully assigned to patient with id "));
+                .body(new MessageResponseDto("Dietitian with id " + assignDietitianToPatientRequestDto.getDietitianId() + " successfully assigned to patient with id "));
     }
 
-    @DeleteMapping("/{patientId}")
+    @DeleteMapping("/patients/{patientId}")
     public ResponseEntity<MessageResponseDto> deletePatientById(@PathVariable Long patientId) {
         patientService.deletePatientById(patientId);
 

@@ -13,22 +13,22 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/units")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class UnitController {
 
     private final UnitService unitService;
 
-    @GetMapping
-    public ResponseEntity<List<UnitResponseDto>> getUnits() {
-        List<UnitResponseDto> unitResponseDtoList = unitService.getUnits();
+    @GetMapping("/units")
+    public ResponseEntity<List<UnitResponseDto>> getAllUnits() {
+        List<UnitResponseDto> unitResponseDtoList = unitService.getAllUnits();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(unitResponseDtoList);
     }
 
-    @GetMapping("/{unitId}")
+    @GetMapping("/units/{unitId}")
     public ResponseEntity<UnitResponseDto> getUnitById(@PathVariable Long unitId) {
         UnitResponseDto unitResponseDto = unitService.getUnitById(unitId);
 
@@ -37,7 +37,7 @@ public class UnitController {
                 .body(unitResponseDto);
     }
 
-    @PostMapping
+    @PostMapping("/units")
     public ResponseEntity<UnitResponseDto> createUnit(@RequestBody CreateUnitRequestDto createUnitRequestDto) {
         UnitResponseDto createdUnitResponseDto = unitService.createUnit(createUnitRequestDto);
 
@@ -47,7 +47,7 @@ public class UnitController {
                 .body(createdUnitResponseDto);
     }
 
-    @PutMapping("/{unitId}")
+    @PutMapping("/units/{unitId}")
     public ResponseEntity<UnitResponseDto> updateUnitById(@PathVariable Long unitId, @RequestBody UpdateUnitRequestDto updateUnitRequestDto) {
         UnitResponseDto updatedUnitResponseDto = unitService.updateUnitById(unitId, updateUnitRequestDto);
 
@@ -56,7 +56,7 @@ public class UnitController {
                 .body(updatedUnitResponseDto);
     }
 
-    @DeleteMapping("/{unitId}")
+    @DeleteMapping("/units/{unitId}")
     public ResponseEntity<MessageResponseDto> deleteUnitById(@PathVariable Long unitId) {
         unitService.deleteUnitById(unitId);
 

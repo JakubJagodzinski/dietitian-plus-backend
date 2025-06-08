@@ -32,7 +32,7 @@ public class MealDishService {
     private static final String DISH_NOT_ASSIGNED_TO_MEAL_MESSAGE = "Dish not assigned to meal";
 
     @Transactional
-    public List<DishResponseDto> getMealDishesByMealId(Long mealId) throws EntityNotFoundException {
+    public List<DishResponseDto> getMealAllDishes(Long mealId) throws EntityNotFoundException {
         if (!mealRepository.existsById(mealId)) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
         }
@@ -46,8 +46,8 @@ public class MealDishService {
     }
 
     @Transactional
-    public MealDishResponseDto createMealDish(CreateMealDishRequestDto createMealDishRequestDto) throws EntityNotFoundException {
-        Meal meal = mealRepository.findById(createMealDishRequestDto.getMealId()).orElse(null);
+    public MealDishResponseDto addDishToMeal(Long mealId, CreateMealDishRequestDto createMealDishRequestDto) throws EntityNotFoundException {
+        Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
@@ -68,12 +68,14 @@ public class MealDishService {
     }
 
     @Transactional
-    public void deleteMealDishById(Long mealDishId) throws EntityNotFoundException {
-        if (!mealDishRepository.existsById(mealDishId)) {
+    public void removeDishFromMeal(Long mealId, Long dishId) throws EntityNotFoundException {
+        MealDish mealDish = mealDishRepository.findByMeal_MealIdAndDish_DishId(mealId, dishId).orElse(null);
+
+        if (mealDish == null) {
             throw new EntityNotFoundException(DISH_NOT_ASSIGNED_TO_MEAL_MESSAGE);
         }
 
-        mealDishRepository.deleteById(mealDishId);
+        mealDishRepository.delete(mealDish);
     }
 
 }

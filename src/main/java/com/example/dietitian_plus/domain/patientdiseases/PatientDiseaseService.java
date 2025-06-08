@@ -8,7 +8,7 @@ import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
-import com.example.dietitian_plus.domain.patientdiseases.dto.CreatePatientDiseaseRequestDto;
+import com.example.dietitian_plus.domain.patientdiseases.dto.AssignDiseaseToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseDtoMapper;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseResponseDto;
 import jakarta.persistence.EntityExistsException;
@@ -37,7 +37,7 @@ public class PatientDiseaseService {
     private final PatientDtoMapper patientDtoMapper;
 
     @Transactional
-    public List<DiseaseResponseDto> getPatientDiseasesByPatientId(Long patientId) throws EntityNotFoundException {
+    public List<DiseaseResponseDto> getPatientAllDiseases(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
@@ -51,7 +51,7 @@ public class PatientDiseaseService {
     }
 
     @Transactional
-    public List<PatientResponseDto> getPatientsByDiseaseId(Long diseaseId) throws EntityNotFoundException {
+    public List<PatientResponseDto> getAllPatientsWithGivenDisease(Long diseaseId) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(diseaseId)) {
             throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
         }
@@ -65,15 +65,14 @@ public class PatientDiseaseService {
     }
 
     @Transactional
-    public PatientDiseaseResponseDto createPatientDisease(CreatePatientDiseaseRequestDto createPatientDiseaseRequestDto) throws EntityNotFoundException, EntityExistsException {
-        Long patientId = createPatientDiseaseRequestDto.getPatientId();
+    public PatientDiseaseResponseDto assignDiseaseToPatient(Long patientId, AssignDiseaseToPatientRequestDto assignDiseaseToPatientRequestDto) throws EntityNotFoundException, EntityExistsException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        Long diseaseId = createPatientDiseaseRequestDto.getDiseaseId();
+        Long diseaseId = assignDiseaseToPatientRequestDto.getDiseaseId();
         Disease disease = diseaseRepository.findById(diseaseId).orElse(null);
 
         if (disease == null) {
@@ -96,7 +95,7 @@ public class PatientDiseaseService {
     }
 
     @Transactional
-    public void deletePatientDisease(Long patientId, Long diseaseId) throws EntityNotFoundException {
+    public void unassignDiseaseFromPatient(Long patientId, Long diseaseId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }

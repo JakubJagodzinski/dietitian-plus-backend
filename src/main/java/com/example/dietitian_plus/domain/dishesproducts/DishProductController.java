@@ -1,9 +1,9 @@
 package com.example.dietitian_plus.domain.dishesproducts;
 
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.CreateDishProductRequestDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.CreateDishProductEntryRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.DishProductResponseDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.UpdateDishProductRequestDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.UpdateDishProductEntryRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,57 +13,56 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/dishes-products")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class DishProductController {
 
     private final DishProductService dishProductService;
 
-    @GetMapping("/by-dish/{dishId}")
-    public ResponseEntity<List<DishProductResponseDto>> getDishProductsByDishId(@PathVariable Long dishId) {
-        List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.getDishProductsByDishId(dishId);
+    @GetMapping("/dishes/{dishId}/dishes-products")
+    public ResponseEntity<List<DishProductResponseDto>> getDishAllAssignedProducts(@PathVariable Long dishId) {
+        List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.getDishAllAssignedProducts(dishId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishProductResponseDtoList);
     }
 
-    @GetMapping("/by-product/{productId}")
-    public ResponseEntity<List<DishProductResponseDto>> getDishProductsByProductId(@PathVariable Long productId) {
-        List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.getDishProductsByProductId(productId);
+    @GetMapping("/products/{productId}/dishes-products")
+    public ResponseEntity<List<DishProductResponseDto>> getAllDishProductEntriesWithGivenProduct(@PathVariable Long productId) {
+        List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.getAllDishProductEntriesWithGivenProduct(productId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishProductResponseDtoList);
     }
 
-    @PostMapping
-    public ResponseEntity<DishProductResponseDto> createDishProduct(@RequestBody CreateDishProductRequestDto createDishProductRequestDto) {
-        DishProductResponseDto createdDishProductResponseDto = dishProductService.createDishProduct(createDishProductRequestDto);
+    @PostMapping("/dishes-products")
+    public ResponseEntity<DishProductResponseDto> createDishProductEntry(@RequestBody CreateDishProductEntryRequestDto createDishProductEntryRequestDto) {
+        DishProductResponseDto createdDishProductResponseDto = dishProductService.createDishProductEntry(createDishProductEntryRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(URI.create("/api/v1/dishes-products/" + createdDishProductResponseDto.getDishId() + "/" + createdDishProductResponseDto.getProductId()))
+                .location(URI.create("/api/v1/dishes-products/" + createdDishProductResponseDto.getId()))
                 .body(createdDishProductResponseDto);
-
     }
 
-    @PutMapping("/{dishProductId}")
-    public ResponseEntity<DishProductResponseDto> updateDishProductById(@PathVariable Long dishProductId, @RequestBody UpdateDishProductRequestDto updateDishProductRequestDto) {
-        DishProductResponseDto updatedDishProductResponseDto = dishProductService.updateDishProductById(dishProductId, updateDishProductRequestDto);
+    @PutMapping("/dishes-products/{dishProductId}")
+    public ResponseEntity<DishProductResponseDto> updateDishProductEntryById(@PathVariable Long dishProductId, @RequestBody UpdateDishProductEntryRequestDto updateDishProductEntryRequestDto) {
+        DishProductResponseDto updatedDishProductResponseDto = dishProductService.updateDishProductEntryById(dishProductId, updateDishProductEntryRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedDishProductResponseDto);
     }
 
-    @DeleteMapping("/{dishProductId}")
-    public ResponseEntity<MessageResponseDto> deleteDishProductById(@PathVariable Long dishProductId) {
-        dishProductService.deleteDishProductById(dishProductId);
+    @DeleteMapping("/dishes-products/{dishProductId}")
+    public ResponseEntity<MessageResponseDto> deleteDishProductEntryById(@PathVariable Long dishProductId) {
+        dishProductService.deleteDishProductEntryById(dishProductId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Dish product with id " + dishProductId + " deleted successfully"));
+                .body(new MessageResponseDto("Dish product entry with id " + dishProductId + " deleted successfully"));
     }
 
 }

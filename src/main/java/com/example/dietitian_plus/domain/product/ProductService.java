@@ -21,7 +21,7 @@ public class ProductService {
 
     private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
 
-    public List<ProductResponseDto> getProducts() {
+    public List<ProductResponseDto> getAllProducts() {
         return productDtoMapper.toDtoList(productRepository.findAll());
     }
 

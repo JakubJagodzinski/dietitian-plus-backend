@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AssignDietitianRequestDto {
+public class AssignDietitianToPatientRequestDto {
 
     @JsonProperty("dietitian_id")
     private Long dietitianId;

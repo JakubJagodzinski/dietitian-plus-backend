@@ -10,6 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DishProductResponseDto {
 
+    private Long id;
+
     @JsonProperty("dish_id")
     private Long dishId;
 

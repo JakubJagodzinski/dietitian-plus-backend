@@ -12,6 +12,7 @@ public class DishProductDtoMapper {
     public DishProductResponseDto toDto(DishProduct dishProduct) {
         DishProductResponseDto dto = new DishProductResponseDto();
 
+        dto.setId(dishProduct.getId());
         dto.setDishId(dishProduct.getId());
         dto.setProductId(dishProduct.getProduct().getProductId());
         dto.setUnitId(dishProduct.getUnit().getUnitId());
