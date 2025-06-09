@@ -10,6 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateNoteRequestDto {
 
+    private String title;
+
     private String text;
 
     @JsonProperty("patient_id")

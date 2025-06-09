@@ -15,6 +15,8 @@ public class NoteResponseDto {
     @JsonProperty("note_id")
     private Long noteId;
 
+    private String title;
+
     private String text;
 
     @JsonProperty("created_at")

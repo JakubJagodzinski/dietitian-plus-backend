@@ -13,6 +13,7 @@ public class NoteDtoMapper {
         NoteResponseDto dto = new NoteResponseDto();
 
         dto.setNoteId(note.getNoteId());
+        dto.setTitle(note.getTitle());
         dto.setText(note.getText());
         dto.setCreatedAt(note.getCreatedAt());
         dto.setLastEditedAt(note.getLastEditedAt());

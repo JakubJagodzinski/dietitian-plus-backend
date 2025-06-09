@@ -23,6 +23,8 @@ public class Note {
     @Column(name = "note_id")
     private Long noteId;
 
+    private String title;
+
     private String text = "";
 
     private LocalDateTime createdAt = LocalDateTime.now();

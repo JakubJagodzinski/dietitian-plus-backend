@@ -79,6 +79,7 @@ public class NoteService {
 
         Note note = new Note();
 
+        note.setTitle(createNoteRequestDto.getTitle());
         note.setText(createNoteRequestDto.getText());
         note.setPatient(patient);
         note.setDietitian(dietitian);
@@ -92,6 +93,10 @@ public class NoteService {
 
         if (note == null) {
             throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);
+        }
+
+        if (updateNoteRequestDto.getTitle() != null) {
+            note.setTitle(updateNoteRequestDto.getTitle());
         }
 
         if (updateNoteRequestDto.getText() != null) {
