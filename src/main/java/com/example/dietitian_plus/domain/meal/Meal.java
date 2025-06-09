@@ -26,12 +26,12 @@ public class Meal {
     @Column(nullable = false)
     private LocalDateTime datetime;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Patient patient;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "dietitian_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dietitian dietitian;
