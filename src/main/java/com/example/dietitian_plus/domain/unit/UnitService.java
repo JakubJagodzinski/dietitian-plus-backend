@@ -22,6 +22,9 @@ public class UnitService {
 
     private static final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";
     private static final String UNIT_ALREADY_EXISTS_MESSAGE = "Unit already exists";
+    private static final String UNIT_NAME_CANNOT_BE_NULL_MESSAGE = "Unit name cannot be null";
+    private static final String UNIT_NAME_CANNOT_BE_EMPTY_MESSAGE = "Unit name cannot be empty";
+    private static final String UNIT_GRAMS_MUST_BE_POSITIVE_MESSAGE = "Unit grams must be positive";
 
     public List<UnitResponseDto> getAllUnits() {
         return unitDtoMapper.toDtoList(unitRepository.findAll());
@@ -39,14 +42,27 @@ public class UnitService {
     }
 
     @Transactional
-    public UnitResponseDto createUnit(CreateUnitRequestDto createUnitRequestDto) throws EntityExistsException {
+    public UnitResponseDto createUnit(CreateUnitRequestDto createUnitRequestDto) throws EntityExistsException, IllegalArgumentException {
         if (unitRepository.existsByUnitName(createUnitRequestDto.getUnitName())) {
             throw new EntityExistsException(UNIT_ALREADY_EXISTS_MESSAGE);
         }
 
         Unit unit = new Unit();
 
+        if (createUnitRequestDto.getUnitName() == null) {
+            throw new IllegalArgumentException(UNIT_NAME_CANNOT_BE_NULL_MESSAGE);
+        }
+
+        if (createUnitRequestDto.getUnitName().isEmpty()) {
+            throw new IllegalArgumentException(UNIT_NAME_CANNOT_BE_EMPTY_MESSAGE);
+        }
+
         unit.setUnitName(createUnitRequestDto.getUnitName());
+
+        if (createUnitRequestDto.getGrams() <= 0) {
+            throw new IllegalArgumentException(UNIT_GRAMS_MUST_BE_POSITIVE_MESSAGE);
+        }
+
         unit.setGrams(createUnitRequestDto.getGrams());
 
         return unitDtoMapper.toDto(unitRepository.save(unit));
@@ -63,6 +79,10 @@ public class UnitService {
         if (updateUnitRequestDto.getUnitName() != null) {
             String unitName = updateUnitRequestDto.getUnitName();
 
+            if (updateUnitRequestDto.getUnitName().isEmpty()) {
+                throw new IllegalArgumentException(UNIT_NAME_CANNOT_BE_EMPTY_MESSAGE);
+            }
+
             Unit otherUnit = unitRepository.findByUnitName(unitName).orElse(null);
 
             if (otherUnit != null && !otherUnit.getUnitId().equals(unit.getUnitId())) {
@@ -73,6 +93,10 @@ public class UnitService {
         }
 
         if (updateUnitRequestDto.getGrams() != null) {
+            if (updateUnitRequestDto.getGrams() <= 0) {
+                throw new IllegalArgumentException(UNIT_GRAMS_MUST_BE_POSITIVE_MESSAGE);
+            }
+
             unit.setGrams(updateUnitRequestDto.getGrams());
         }
 

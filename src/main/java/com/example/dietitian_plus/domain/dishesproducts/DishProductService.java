@@ -31,6 +31,7 @@ public class DishProductService {
     private static final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
     private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
     private static final String UNIT_NOT_FOUND_MESSAGE = "Unit not found";
+    private static final String UNIT_COUNT_MUST_BE_POSITIVE_MESSAGE = "Unit count must be positive";
     private static final String DISH_PRODUCT_NOT_FOUND_MESSAGE = "Dish product not found";
 
     @Transactional
@@ -56,7 +57,7 @@ public class DishProductService {
     }
 
     @Transactional
-    public DishProductResponseDto createDishProductEntry(CreateDishProductEntryRequestDto createDishProductEntryRequestDto) throws EntityNotFoundException {
+    public DishProductResponseDto createDishProductEntry(CreateDishProductEntryRequestDto createDishProductEntryRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Dish dish = dishRepository.findById(createDishProductEntryRequestDto.getDishId()).orElse(null);
 
         if (dish == null) {
@@ -73,6 +74,10 @@ public class DishProductService {
 
         if (unit == null) {
             throw new EntityNotFoundException(UNIT_NOT_FOUND_MESSAGE);
+        }
+
+        if (createDishProductEntryRequestDto.getUnitCount() <= 0) {
+            throw new IllegalArgumentException(UNIT_COUNT_MUST_BE_POSITIVE_MESSAGE);
         }
 
         DishProduct dishProduct = new DishProduct();
@@ -104,6 +109,10 @@ public class DishProductService {
         }
 
         if (updateDishProductEntryRequestDto.getUnitCount() != null) {
+            if (updateDishProductEntryRequestDto.getUnitCount() <= 0) {
+                throw new IllegalArgumentException(UNIT_COUNT_MUST_BE_POSITIVE_MESSAGE);
+            }
+
             dishProduct.setUnitCount(updateDishProductEntryRequestDto.getUnitCount());
         }
 
