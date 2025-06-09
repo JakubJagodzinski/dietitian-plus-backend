@@ -2,7 +2,6 @@ package com.example.dietitian_plus.domain.note;
 
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.patient.Patient;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,13 +32,11 @@ public class Note {
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference
     private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "dietitian_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference
     private Dietitian dietitian;
 
 }

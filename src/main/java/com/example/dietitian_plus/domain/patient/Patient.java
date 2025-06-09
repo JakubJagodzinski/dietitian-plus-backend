@@ -2,7 +2,6 @@ package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.user.User;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +28,6 @@ public class Patient extends User {
 
     @ManyToOne
     @JoinColumn(name = "dietitian_id")
-    @JsonManagedReference
     private Dietitian dietitian = null;
 
 }

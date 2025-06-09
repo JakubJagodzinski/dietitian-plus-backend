@@ -1,7 +1,6 @@
 package com.example.dietitian_plus.domain.dish;
 
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,6 @@ public class Dish {
 
     @ManyToOne
     @JoinColumn(name = "dietitian_id")
-    @JsonManagedReference
     private Dietitian dietitian;
 
     @Column(name = "dish_name", nullable = false)
