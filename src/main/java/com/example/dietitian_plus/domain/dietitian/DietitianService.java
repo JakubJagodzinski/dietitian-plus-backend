@@ -61,14 +61,6 @@ public class DietitianService {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        if (updateDietitianRequestDto.getFirstName() != null) {
-            dietitian.setFirstName(updateDietitianRequestDto.getFirstName());
-        }
-
-        if (updateDietitianRequestDto.getLastName() != null) {
-            dietitian.setLastName(updateDietitianRequestDto.getLastName());
-        }
-
         if (updateDietitianRequestDto.getTitle() != null) {
             dietitian.setTitle(updateDietitianRequestDto.getTitle());
         }
