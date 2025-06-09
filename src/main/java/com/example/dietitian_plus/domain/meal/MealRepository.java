@@ -8,4 +8,6 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
 
     List<Meal> findByPatient_Id(Long patientId);
 
+    List<Meal> findAllByDietitian_Id(Long dietitianId);
+
 }

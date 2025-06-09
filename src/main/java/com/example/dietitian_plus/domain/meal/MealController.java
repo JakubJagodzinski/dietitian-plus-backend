@@ -46,6 +46,15 @@ public class MealController {
                 .body(mealResponseDtoList);
     }
 
+    @GetMapping("/dietitians/{dietitianId}/meals")
+    public ResponseEntity<List<MealResponseDto>> getDietitianAllMeals(@PathVariable Long dietitianId) {
+        List<MealResponseDto> mealResponseDtoList = mealService.getDietitianAllMeals(dietitianId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(mealResponseDtoList);
+    }
+
     @PostMapping("/meals")
     public ResponseEntity<MealResponseDto> createMeal(@RequestBody CreateMealRequestDto createMealRequestDto) {
         MealResponseDto createdMealResponseDto = mealService.createMeal(createMealRequestDto);

@@ -56,6 +56,15 @@ public class MealService {
     }
 
     @Transactional
+    public List<MealResponseDto> getDietitianAllMeals(Long dietitianId) throws EntityNotFoundException {
+        if (!dietitianRepository.existsById(dietitianId)) {
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+        }
+
+        return mealDtoMapper.toDtoList(mealRepository.findAllByDietitian_Id(dietitianId));
+    }
+
+    @Transactional
     public MealResponseDto createMeal(CreateMealRequestDto createMealRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Patient patient = patientRepository.findById(createMealRequestDto.getPatientId()).orElse(null);
 
