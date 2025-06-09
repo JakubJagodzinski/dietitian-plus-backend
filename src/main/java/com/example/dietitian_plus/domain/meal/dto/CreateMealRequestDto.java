@@ -12,12 +12,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CreateMealRequestDto {
 
+    @JsonProperty("meal_name")
+    private String mealName;
+
+    private LocalDateTime datetime;
+
     @JsonProperty("patient_id")
     private Long patientId;
 
     @JsonProperty("dietitian_id")
     private Long dietitianId;
-
-    private LocalDateTime datetime;
 
 }

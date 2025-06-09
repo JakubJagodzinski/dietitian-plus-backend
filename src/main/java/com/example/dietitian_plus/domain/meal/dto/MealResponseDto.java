@@ -15,6 +15,9 @@ public class MealResponseDto {
     @JsonProperty("meal_id")
     private Long mealId;
 
+    @JsonProperty("meal_name")
+    private String mealName;
+
     private LocalDateTime datetime;
 
     @JsonProperty("patient_id")

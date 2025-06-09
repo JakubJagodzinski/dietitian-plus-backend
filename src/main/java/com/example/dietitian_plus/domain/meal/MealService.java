@@ -28,6 +28,8 @@ public class MealService {
     private static final String MEAL_NOT_FOUND_MESSAGE = "Meal not found";
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
+    private static final String MEAL_NAME_CANNOT_BE_NULL_MESSAGE = "Meal name cannot be null";
+    private static final String MEAL_NAME_CANNOT_BE_EMPTY_MESSAGE = "Meal name cannot be empty";
 
     public List<MealResponseDto> getAllMeals() {
         return mealDtoMapper.toDtoList(mealRepository.findAll());
@@ -54,7 +56,7 @@ public class MealService {
     }
 
     @Transactional
-    public MealResponseDto createMeal(CreateMealRequestDto createMealRequestDto) throws EntityNotFoundException {
+    public MealResponseDto createMeal(CreateMealRequestDto createMealRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Patient patient = patientRepository.findById(createMealRequestDto.getPatientId()).orElse(null);
 
         if (patient == null) {
@@ -67,38 +69,63 @@ public class MealService {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
+        if (createMealRequestDto.getMealName() == null) {
+            throw new IllegalArgumentException(MEAL_NAME_CANNOT_BE_NULL_MESSAGE);
+        }
+
+        if (createMealRequestDto.getMealName().isEmpty()) {
+            throw new IllegalArgumentException(MEAL_NAME_CANNOT_BE_EMPTY_MESSAGE);
+        }
+
         Meal meal = new Meal();
 
+        meal.setMealName(createMealRequestDto.getMealName());
+        meal.setDatetime(createMealRequestDto.getDatetime());
         meal.setPatient(patient);
         meal.setDietitian(dietitian);
-        meal.setDatetime(createMealRequestDto.getDatetime());
 
         return mealDtoMapper.toDto(mealRepository.save(meal));
     }
 
     @Transactional
-    public MealResponseDto updateMealById(Long mealId, UpdateMealRequestDto updateMealRequestDto) throws EntityNotFoundException {
+    public MealResponseDto updateMealById(Long mealId, UpdateMealRequestDto updateMealRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
         }
 
-        Patient patient = patientRepository.findById(updateMealRequestDto.getPatientId()).orElse(null);
+        if (updateMealRequestDto.getMealName() != null) {
+            if (updateMealRequestDto.getMealName().isEmpty()) {
+                throw new IllegalArgumentException(MEAL_NAME_CANNOT_BE_EMPTY_MESSAGE);
+            }
 
-        if (patient == null) {
-            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+            meal.setMealName(updateMealRequestDto.getMealName());
         }
 
-        Dietitian dietitian = dietitianRepository.findById(updateMealRequestDto.getDietitianId()).orElse(null);
-
-        if (dietitian == null) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+        if (updateMealRequestDto.getDatetime() != null) {
+            meal.setDatetime(updateMealRequestDto.getDatetime());
         }
 
-        meal.setPatient(patient);
-        meal.setDietitian(dietitian);
-        meal.setDatetime(updateMealRequestDto.getDatetime());
+        if (updateMealRequestDto.getPatientId() != null) {
+            Patient patient = patientRepository.findById(updateMealRequestDto.getPatientId()).orElse(null);
+
+            if (patient == null) {
+                throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+            }
+
+            meal.setPatient(patient);
+        }
+
+        if (updateMealRequestDto.getDietitianId() != null) {
+            Dietitian dietitian = dietitianRepository.findById(updateMealRequestDto.getDietitianId()).orElse(null);
+
+            if (dietitian == null) {
+                throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            }
+
+            meal.setDietitian(dietitian);
+        }
 
         return mealDtoMapper.toDto(mealRepository.save(meal));
     }

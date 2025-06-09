@@ -24,6 +24,9 @@ public class Meal {
     private Long mealId;
 
     @Column(nullable = false)
+    private String mealName;
+
+    @Column(nullable = false)
     private LocalDateTime datetime;
 
     @ManyToOne
