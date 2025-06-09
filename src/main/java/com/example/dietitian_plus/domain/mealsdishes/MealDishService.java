@@ -39,7 +39,7 @@ public class MealDishService {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
         }
 
-        List<MealDish> mealDishList = mealDishRepository.findAllById_MealId(mealId);
+        List<MealDish> mealDishList = mealDishRepository.findAllByMeal_MealId(mealId);
 
         return mealDishList.stream()
                 .map(MealDish::getDish)

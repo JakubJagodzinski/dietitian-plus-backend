@@ -45,7 +45,7 @@ public class PatientService {
             throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
         }
 
-        return patientDtoMapper.toDtoList(patientRepository.findByDietitian_Id(dietitianId));
+        return patientDtoMapper.toDtoList(patientRepository.findAllByDietitian_Id(dietitianId));
     }
 
     @Transactional

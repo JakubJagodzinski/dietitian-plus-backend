@@ -52,7 +52,7 @@ public class MealService {
             throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
         }
 
-        return mealDtoMapper.toDtoList(mealRepository.findByPatient_Id(patientId));
+        return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_Id(patientId));
     }
 
     @Transactional

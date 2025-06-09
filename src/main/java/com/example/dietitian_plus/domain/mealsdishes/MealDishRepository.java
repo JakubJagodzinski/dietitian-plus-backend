@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface MealDishRepository extends JpaRepository<MealDish, MealDishId> {
 
-    List<MealDish> findAllById_MealId(Long mealId);
+    List<MealDish> findAllByMeal_MealId(Long mealId);
 
 }

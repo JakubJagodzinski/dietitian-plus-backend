@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PatientAllergenicProductRepository extends JpaRepository<PatientAllergenicProduct, PatientAllergenicProductId> {
 
-    List<PatientAllergenicProduct> findAllById_PatientId(Long patientId);
+    List<PatientAllergenicProduct> findAllByPatient_Id(Long patientId);
 
 }
