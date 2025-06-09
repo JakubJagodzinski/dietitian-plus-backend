@@ -5,8 +5,8 @@ import com.example.dietitian_plus.auth.jwt.JwtService;
 import com.example.dietitian_plus.auth.jwt.Token;
 import com.example.dietitian_plus.auth.jwt.TokenRepository;
 import com.example.dietitian_plus.auth.jwt.TokenType;
-import com.example.dietitian_plus.domain.dietitian.DietitianService;
-import com.example.dietitian_plus.domain.patient.PatientService;
+import com.example.dietitian_plus.domain.dietitian.Dietitian;
+import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.user.Role;
 import com.example.dietitian_plus.user.User;
 import com.example.dietitian_plus.user.UserRepository;
@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,9 +27,9 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
 
-    private final PatientService patientService;
-    private final DietitianService dietitianService;
     private final JwtService jwtService;
+
+    private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationManager authenticationManager;
 
@@ -41,30 +42,7 @@ public class AuthenticationService {
     private static final String PROVIDED_TOKEN_IS_NOT_A_REFRESH_TOKEN_MESSAGE = "Provided token is not a refresh token";
     private static final String REFRESH_TOKEN_IS_INVALID_OR_EXPIRED_MESSAGE = "Refresh token is invalid or expired";
 
-    public AuthenticationResponseDto register(RegisterRequestDto registerRequestDto) throws IllegalArgumentException {
-        if (userRepository.existsByEmail(registerRequestDto.getEmail())) {
-            throw new IllegalArgumentException(USER_ALREADY_EXISTS_MESSAGE);
-        }
-
-        User user;
-
-        try {
-            String roleAsString = registerRequestDto.getRole().toUpperCase();
-            Role userRole = Role.valueOf(roleAsString);
-
-            registerRequestDto.setRole(roleAsString);
-
-            if (userRole.equals(Role.PATIENT)) {
-                user = patientService.register(registerRequestDto);
-            } else if (userRole.equals(Role.DIETITIAN)) {
-                user = dietitianService.register(registerRequestDto);
-            } else {
-                throw new IllegalArgumentException(INVALID_ROLE_MESSAGE);
-            }
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(INVALID_ROLE_MESSAGE);
-        }
-
+    private AuthenticationResponseDto generateUserToken(User user) {
         String jwtToken = jwtService.generateToken(user);
         saveUserToken(user, jwtToken, TokenType.ACCESS);
 
@@ -79,6 +57,44 @@ public class AuthenticationService {
                 .lastName(user.getLastName())
                 .role(user.getRole())
                 .build();
+    }
+
+    public AuthenticationResponseDto register(RegisterRequestDto registerRequestDto) throws IllegalArgumentException {
+        if (userRepository.existsByEmail(registerRequestDto.getEmail())) {
+            throw new IllegalArgumentException(USER_ALREADY_EXISTS_MESSAGE);
+        }
+
+        Role userRole = parseRole(registerRequestDto.getRole());
+        User user = createUserInstance(userRole);
+
+        populateCommonUserFields(user, registerRequestDto);
+        user = userRepository.save(user);
+
+        return generateUserToken(user);
+    }
+
+    private Role parseRole(String role) {
+        try {
+            return Role.valueOf(role.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(INVALID_ROLE_MESSAGE);
+        }
+    }
+
+    private User createUserInstance(Role role) {
+        return switch (role) {
+            case PATIENT -> new Patient();
+            case DIETITIAN -> new Dietitian();
+            default -> throw new IllegalArgumentException(INVALID_ROLE_MESSAGE);
+        };
+    }
+
+    private void populateCommonUserFields(User user, RegisterRequestDto dto) {
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(Role.valueOf(dto.getRole().toUpperCase()));
     }
 
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) throws EntityNotFoundException {
@@ -97,20 +113,7 @@ public class AuthenticationService {
 
         revokeAllUserTokens(user);
 
-        String jwtToken = jwtService.generateToken(user);
-        saveUserToken(user, jwtToken, TokenType.ACCESS);
-
-        String refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(user, refreshToken, TokenType.REFRESH);
-
-        return AuthenticationResponseDto.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .userId(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .role(user.getRole())
-                .build();
+        return generateUserToken(user);
     }
 
     public void saveUserToken(User user, String tokenValue, TokenType tokenType) {
@@ -148,6 +151,7 @@ public class AuthenticationService {
         }
 
         String userEmail = jwtService.extractUsername(refreshToken);
+
         if (userEmail == null) {
             throw new IllegalArgumentException(INVALID_TOKEN_NO_SUBJECT_MESSAGE);
         }
@@ -175,9 +179,9 @@ public class AuthenticationService {
         revokeAllUserTokens(user);
 
         String newAccessToken = jwtService.generateToken(user);
-        String newRefreshToken = jwtService.generateRefreshToken(user);
-
         saveUserToken(user, newAccessToken, TokenType.ACCESS);
+
+        String newRefreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(user, newRefreshToken, TokenType.REFRESH);
 
         return RefreshTokenResponseDto.builder()

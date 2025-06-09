@@ -1,14 +1,11 @@
 package com.example.dietitian_plus.domain.dietitian;
 
-import com.example.dietitian_plus.auth.dto.RegisterRequestDto;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianDtoMapper;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dietitian.dto.UpdateDietitianRequestDto;
-import com.example.dietitian_plus.user.Role;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +17,6 @@ public class DietitianService {
     private final DietitianRepository dietitianRepository;
 
     private final DietitianDtoMapper dietitianDtoMapper;
-
-    private final PasswordEncoder passwordEncoder;
 
     private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
 
@@ -38,19 +33,6 @@ public class DietitianService {
         }
 
         return dietitianDtoMapper.toDto(dietitian);
-    }
-
-    @Transactional
-    public Dietitian register(RegisterRequestDto registerRequestDto) {
-        Dietitian dietitian = new Dietitian();
-
-        dietitian.setFirstName(registerRequestDto.getFirstName());
-        dietitian.setLastName(registerRequestDto.getLastName());
-        dietitian.setEmail(registerRequestDto.getEmail());
-        dietitian.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
-        dietitian.setRole(Role.valueOf(registerRequestDto.getRole()));
-
-        return dietitianRepository.save(dietitian);
     }
 
     @Transactional
