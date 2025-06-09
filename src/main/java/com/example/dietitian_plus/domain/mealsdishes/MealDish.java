@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -22,13 +20,11 @@ public class MealDish {
     @ManyToOne
     @MapsId("mealId")
     @JoinColumn(name = "meal_id", foreignKey = @ForeignKey(name = "fk_meal_dish_meal"))
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Meal meal;
 
     @ManyToOne
     @MapsId("dishId")
     @JoinColumn(name = "dish_id", foreignKey = @ForeignKey(name = "fk_meal_dish_dish"))
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
 
     @Column(name = "dish_quantity")
