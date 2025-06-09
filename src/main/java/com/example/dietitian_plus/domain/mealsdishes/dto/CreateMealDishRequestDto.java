@@ -13,4 +13,7 @@ public class CreateMealDishRequestDto {
     @JsonProperty("dish_id")
     private Long dishId;
 
+    @JsonProperty("dish_quantity")
+    private Long dishQuantity;
+
 }

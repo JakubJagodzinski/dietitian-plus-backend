@@ -13,9 +13,9 @@ public class MealDishDtoMapper {
     public MealDishResponseDto toDto(MealDish mealDish) {
         MealDishResponseDto dto = new MealDishResponseDto();
 
-        dto.setId(mealDish.getId());
         dto.setMealId(mealDish.getMeal().getMealId());
         dto.setDishId(mealDish.getDish().getDishId());
+        dto.setDishQuantity(mealDish.getDishQuantity());
 
         return dto;
     }

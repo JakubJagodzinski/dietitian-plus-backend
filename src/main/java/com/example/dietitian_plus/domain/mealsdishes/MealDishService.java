@@ -9,6 +9,7 @@ import com.example.dietitian_plus.domain.meal.MealRepository;
 import com.example.dietitian_plus.domain.mealsdishes.dto.CreateMealDishRequestDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.MealDishDtoMapper;
 import com.example.dietitian_plus.domain.mealsdishes.dto.MealDishResponseDto;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class MealDishService {
     private static final String MEAL_NOT_FOUND_MESSAGE = "Meal not found";
     private static final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
     private static final String DISH_NOT_ASSIGNED_TO_MEAL_MESSAGE = "Dish not assigned to meal";
+    private static final String DISH_ALREADY_ASSIGNED_TO_MEAL_MESSAGE = "Dish already assigned to meal";
 
     @Transactional
     public List<DishResponseDto> getMealAllDishes(Long mealId) throws EntityNotFoundException {
@@ -37,7 +39,7 @@ public class MealDishService {
             throw new EntityNotFoundException(MEAL_NOT_FOUND_MESSAGE);
         }
 
-        List<MealDish> mealDishList = mealDishRepository.findAllByMeal_MealId(mealId);
+        List<MealDish> mealDishList = mealDishRepository.findAllById_MealId(mealId);
 
         return mealDishList.stream()
                 .map(MealDish::getDish)
@@ -46,7 +48,7 @@ public class MealDishService {
     }
 
     @Transactional
-    public MealDishResponseDto addDishToMeal(Long mealId, CreateMealDishRequestDto createMealDishRequestDto) throws EntityNotFoundException {
+    public MealDishResponseDto addDishToMeal(Long mealId, CreateMealDishRequestDto createMealDishRequestDto) throws EntityNotFoundException, EntityExistsException {
         Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
@@ -59,17 +61,25 @@ public class MealDishService {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
         }
 
+        MealDishId mealDishId = new MealDishId(meal.getMealId(), dish.getDishId());
+
+        if (mealDishRepository.existsById(mealDishId)) {
+            throw new EntityExistsException(DISH_ALREADY_ASSIGNED_TO_MEAL_MESSAGE);
+        }
+
         MealDish mealDish = new MealDish();
 
+        mealDish.setId(mealDishId);
         mealDish.setMeal(meal);
         mealDish.setDish(dish);
+        mealDish.setDishQuantity(createMealDishRequestDto.getDishQuantity());
 
         return mealDishDtoMapper.toDto(mealDishRepository.save(mealDish));
     }
 
     @Transactional
     public void removeDishFromMeal(Long mealId, Long dishId) throws EntityNotFoundException {
-        MealDish mealDish = mealDishRepository.findByMeal_MealIdAndDish_DishId(mealId, dishId).orElse(null);
+        MealDish mealDish = mealDishRepository.findById(new MealDishId(mealId, dishId)).orElse(null);
 
         if (mealDish == null) {
             throw new EntityNotFoundException(DISH_NOT_ASSIGNED_TO_MEAL_MESSAGE);

@@ -10,12 +10,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MealDishResponseDto {
 
-    private Long id;
-
     @JsonProperty("meal_id")
     private Long mealId;
 
     @JsonProperty("dish_id")
     private Long dishId;
+
+    @JsonProperty("dish_quantity")
+    private Long dishQuantity;
 
 }

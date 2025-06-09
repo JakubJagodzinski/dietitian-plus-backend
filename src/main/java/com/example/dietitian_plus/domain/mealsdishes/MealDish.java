@@ -16,18 +16,22 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "meals_dishes")
 public class MealDish {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private MealDishId id;
 
     @ManyToOne
-    @JoinColumn(name = "meal_id", nullable = false)
+    @MapsId("mealId")
+    @JoinColumn(name = "meal_id", foreignKey = @ForeignKey(name = "fk_meal_dish_meal"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Meal meal;
 
     @ManyToOne
-    @JoinColumn(name = "dish_id", nullable = false)
+    @MapsId("dishId")
+    @JoinColumn(name = "dish_id", foreignKey = @ForeignKey(name = "fk_meal_dish_dish"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
+
+    @Column(name = "dish_quantity")
+    private Long dishQuantity;
 
 }
