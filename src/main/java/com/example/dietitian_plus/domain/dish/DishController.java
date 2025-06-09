@@ -37,6 +37,15 @@ public class DishController {
                 .body(dishResponseDto);
     }
 
+    @GetMapping("/dietitians/{dietitianId}/dishes")
+    public ResponseEntity<List<DishResponseDto>> getDietitianAllDishes(@PathVariable Long dietitianId) {
+        List<DishResponseDto> dishResponseDtoList = dishService.getDietitianAllDishes(dietitianId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dishResponseDtoList);
+    }
+
     @PostMapping("/dishes")
     public ResponseEntity<DishResponseDto> createDish(@RequestBody CreateDishRequestDto createDishRequestDto) {
         DishResponseDto createdDishResponseDto = dishService.createDish(createDishRequestDto);

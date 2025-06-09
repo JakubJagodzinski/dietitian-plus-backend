@@ -41,6 +41,17 @@ public class DishService {
     }
 
     @Transactional
+    public List<DishResponseDto> getDietitianAllDishes(Long dietitianId) throws EntityNotFoundException {
+        Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
+
+        if (dietitian == null) {
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+        }
+
+        return dishDtoMapper.toDtoList(dishRepository.findAllByDietitian_Id(dietitianId));
+    }
+
+    @Transactional
     public DishResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException {
         Dish dish = new Dish();
 
