@@ -29,12 +29,12 @@ public class PatientDiseaseService {
 
     private final PatientDiseaseDtoMapper patientDiseaseDtoMapper;
     private final DiseaseDtoMapper diseaseDtoMapper;
+    private final PatientDtoMapper patientDtoMapper;
 
     private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
     private static final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
     private static final String DISEASE_ALREADY_ASSIGNED_TO_PATIENT_MESSAGE = "Disease already assigned to patient";
-    private static final String PATIENT_DISEASE_ASSOCIATION_NOT_FOUND_MESSAGE = "Patient disease association not found";
-    private final PatientDtoMapper patientDtoMapper;
+    private static final String DISEASE_NOT_ASSIGNED_TO_PATIENT_MESSAGE = "Disease is not assigned to patient";
 
     @Transactional
     public List<DiseaseResponseDto> getPatientAllDiseases(Long patientId) throws EntityNotFoundException {
@@ -107,7 +107,7 @@ public class PatientDiseaseService {
         PatientDiseaseId patientDiseaseId = new PatientDiseaseId(patientId, diseaseId);
 
         if (!patientDiseaseRepository.existsById(patientDiseaseId)) {
-            throw new EntityNotFoundException(PATIENT_DISEASE_ASSOCIATION_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(DISEASE_NOT_ASSIGNED_TO_PATIENT_MESSAGE);
         }
 
         patientDiseaseRepository.deleteById(patientDiseaseId);
