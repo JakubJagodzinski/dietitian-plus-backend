@@ -34,7 +34,7 @@ public class Dish {
     @Column(name = "dish_name", nullable = false)
     private String dishName;
 
-    private String recipe = "";
+    private String recipe;
 
     private Float kcal = 0.0f;
 

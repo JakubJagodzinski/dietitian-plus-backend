@@ -17,6 +17,6 @@ import lombok.Setter;
 @PrimaryKeyJoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_dietitians_user_id"))
 public class Dietitian extends User {
 
-    private String title = "";
+    private String title;
 
 }

@@ -1,6 +1,5 @@
 package com.example.dietitian_plus.user;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

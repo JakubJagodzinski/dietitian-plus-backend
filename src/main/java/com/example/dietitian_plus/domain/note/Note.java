@@ -25,7 +25,7 @@ public class Note {
 
     private String title;
 
-    private String text = "";
+    private String text;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
