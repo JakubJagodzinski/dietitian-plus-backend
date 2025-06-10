@@ -30,12 +30,12 @@ public class Meal {
     private LocalDateTime datetime;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = false, foreignKey = @ForeignKey(name = "fk_meals_patient_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "dietitian_id", nullable = false)
+    @JoinColumn(name = "dietitian_id", nullable = false, foreignKey = @ForeignKey(name = "fk_meals_dietitian_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dietitian dietitian;
 

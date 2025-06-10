@@ -27,7 +27,7 @@ public class Dish {
     private Boolean isPublic = false;
 
     @ManyToOne
-    @JoinColumn(name = "dietitian_id")
+    @JoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_dishes_dietitian_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dietitian dietitian;
 

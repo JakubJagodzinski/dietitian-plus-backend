@@ -19,12 +19,12 @@ public class MealDish {
 
     @ManyToOne
     @MapsId("mealId")
-    @JoinColumn(name = "meal_id", foreignKey = @ForeignKey(name = "fk_meal_dish_meal"))
+    @JoinColumn(name = "meal_id", foreignKey = @ForeignKey(name = "fk_meals_dishes_meal_id"))
     private Meal meal;
 
     @ManyToOne
     @MapsId("dishId")
-    @JoinColumn(name = "dish_id", foreignKey = @ForeignKey(name = "fk_meal_dish_dish"))
+    @JoinColumn(name = "dish_id", foreignKey = @ForeignKey(name = "fk_meals_dishes_dish_id"))
     private Dish dish;
 
     @Column(name = "dish_quantity")

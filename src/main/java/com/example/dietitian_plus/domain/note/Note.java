@@ -32,12 +32,12 @@ public class Note {
     private LocalDateTime lastEditedAt = null;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = false, foreignKey = @ForeignKey(name = "fk_notes_patient_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "dietitian_id", nullable = false)
+    @JoinColumn(name = "dietitian_id", nullable = false, foreignKey = @ForeignKey(name = "fk_notes_dietitian_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dietitian dietitian;
 

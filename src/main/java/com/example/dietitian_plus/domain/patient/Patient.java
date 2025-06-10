@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "patients")
-@PrimaryKeyJoinColumn(name = "patient_id")
+@PrimaryKeyJoinColumn(name = "patient_id", foreignKey = @ForeignKey(name = "fk_patients_user_id"))
 public class Patient extends User {
 
     private Float height;
@@ -27,7 +27,7 @@ public class Patient extends User {
     private Boolean isActive = false;
 
     @ManyToOne
-    @JoinColumn(name = "dietitian_id")
+    @JoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_patients_dietitian_id"))
     private Dietitian dietitian = null;
 
 }

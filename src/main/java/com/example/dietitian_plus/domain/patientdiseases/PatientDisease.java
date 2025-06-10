@@ -21,13 +21,13 @@ public class PatientDisease {
 
     @ManyToOne
     @MapsId("patientId")
-    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "fk_patient_disease_patient"))
+    @JoinColumn(name = "patient_id", foreignKey = @ForeignKey(name = "fk_patient_diseases_patient_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Patient patient;
 
     @ManyToOne
     @MapsId("diseaseId")
-    @JoinColumn(name = "disease_id", foreignKey = @ForeignKey(name = "fk_patient_disease_disease"))
+    @JoinColumn(name = "disease_id", foreignKey = @ForeignKey(name = "fk_patient_diseases_disease_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Disease disease;
 

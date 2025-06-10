@@ -22,17 +22,17 @@ public class DishProduct {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "dish_id", nullable = false)
+    @JoinColumn(name = "dish_id", nullable = false, foreignKey = @ForeignKey(name = "fk_dishes_products_dish_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_dishes_products_product_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "unit_id", nullable = false)
+    @JoinColumn(name = "unit_id", nullable = false, foreignKey = @ForeignKey(name = "fk_dishes_products_unit_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Unit unit;
 
