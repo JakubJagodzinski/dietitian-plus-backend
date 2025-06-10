@@ -35,6 +35,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "created_at")
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)

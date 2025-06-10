@@ -26,9 +26,11 @@ public class Token {
     private TokenType tokenType;
 
     @Column(name = "is_revoked")
+    @Builder.Default
     private Boolean isRevoked = false;
 
     @Column(name = "is_expired")
+    @Builder.Default
     private Boolean isExpired = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
