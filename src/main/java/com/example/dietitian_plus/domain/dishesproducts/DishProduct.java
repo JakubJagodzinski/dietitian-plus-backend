@@ -36,7 +36,7 @@ public class DishProduct {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Unit unit;
 
-    @Column(nullable = false)
+    @Column(name = "unit_count", nullable = false)
     private Float unitCount = 0.0f;
 
 }

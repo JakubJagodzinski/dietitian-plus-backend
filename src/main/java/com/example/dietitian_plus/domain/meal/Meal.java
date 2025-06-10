@@ -23,7 +23,7 @@ public class Meal {
     @Column(name = "meal_id")
     private Long mealId;
 
-    @Column(nullable = false)
+    @Column(name = "meal_name", nullable = false)
     private String mealName;
 
     @Column(nullable = false)
