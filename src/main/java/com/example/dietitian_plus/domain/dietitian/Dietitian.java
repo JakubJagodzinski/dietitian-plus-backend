@@ -2,6 +2,7 @@ package com.example.dietitian_plus.domain.dietitian;
 
 import com.example.dietitian_plus.user.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
