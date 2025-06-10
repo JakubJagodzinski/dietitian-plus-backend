@@ -21,4 +21,14 @@ public class UpdateDishRequestDto {
 
     private String recipe;
 
+    private Float kcal;
+
+    private Float fats;
+
+    private Float carbs;
+
+    private Float protein;
+
+    private Float fiber;
+
 }

@@ -55,7 +55,8 @@ public class DishService {
     public DishResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException {
         Dish dish = new Dish();
 
-        dish.setDishName(createDishRequestDto.getDishName());
+        dish.setIsPublic(createDishRequestDto.getIsPublic());
+        dish.setIsVisible(createDishRequestDto.getIsVisible());
 
         if (createDishRequestDto.getDietitianId() != null) {
             Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
@@ -66,6 +67,14 @@ public class DishService {
 
             dish.setDietitian(dietitian);
         }
+
+        dish.setDishName(createDishRequestDto.getDishName());
+        dish.setRecipe(createDishRequestDto.getRecipe());
+        dish.setKcal(createDishRequestDto.getKcal());
+        dish.setFats(createDishRequestDto.getFats());
+        dish.setCarbs(createDishRequestDto.getCarbs());
+        dish.setProtein(createDishRequestDto.getProtein());
+        dish.setFiber(createDishRequestDto.getFiber());
 
         return dishDtoMapper.toDto(dishRepository.save(dish));
     }
@@ -78,6 +87,14 @@ public class DishService {
             throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
         }
 
+        if (updateDishRequestDto.getIsPublic() != null) {
+            dish.setIsPublic(updateDishRequestDto.getIsPublic());
+        }
+
+        if (updateDishRequestDto.getIsVisible() != null) {
+            dish.setIsVisible(updateDishRequestDto.getIsVisible());
+        }
+
         if (updateDishRequestDto.getDishName() != null) {
             dish.setDishName(updateDishRequestDto.getDishName());
         }
@@ -86,12 +103,24 @@ public class DishService {
             dish.setRecipe(updateDishRequestDto.getRecipe());
         }
 
-        if (updateDishRequestDto.getIsVisible() != null) {
-            dish.setIsVisible(updateDishRequestDto.getIsVisible());
+        if (updateDishRequestDto.getKcal() != null) {
+            dish.setKcal(updateDishRequestDto.getKcal());
         }
 
-        if (updateDishRequestDto.getIsPublic() != null) {
-            dish.setIsPublic(updateDishRequestDto.getIsPublic());
+        if (updateDishRequestDto.getFats() != null) {
+            dish.setFats(updateDishRequestDto.getFats());
+        }
+
+        if (updateDishRequestDto.getCarbs() != null) {
+            dish.setCarbs(updateDishRequestDto.getCarbs());
+        }
+
+        if (updateDishRequestDto.getProtein() != null) {
+            dish.setProtein(updateDishRequestDto.getProtein());
+        }
+
+        if (updateDishRequestDto.getFiber() != null) {
+            dish.setFiber(updateDishRequestDto.getFiber());
         }
 
         return dishDtoMapper.toDto(dishRepository.save(dish));
