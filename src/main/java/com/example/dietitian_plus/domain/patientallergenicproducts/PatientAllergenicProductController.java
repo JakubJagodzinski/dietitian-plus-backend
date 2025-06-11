@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.patientallergenicproducts;
 
+import com.example.dietitian_plus.auth.access.annotation.OwnerPatientAccess;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.AssignAllergenicProductToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.PatientAllergenicProductResponseDto;
@@ -19,6 +20,7 @@ public class PatientAllergenicProductController {
 
     private final PatientAllergenicProductService patientAllergenicProductService;
 
+    // TODO check ownership in access manager
     @GetMapping("/patients/{patientId}/allergenic-products")
     public ResponseEntity<List<ProductResponseDto>> getPatientAllAllergenicProducts(@PathVariable Long patientId) {
         List<ProductResponseDto> productResponseDtoList = patientAllergenicProductService.getPatientAllAllergenicProducts(patientId);
@@ -28,6 +30,7 @@ public class PatientAllergenicProductController {
                 .body(productResponseDtoList);
     }
 
+    @OwnerPatientAccess
     @PostMapping("/patients/{patientId}/allergenic-products")
     public ResponseEntity<PatientAllergenicProductResponseDto> assignAllergenicProductToPatient(@PathVariable Long patientId, @RequestBody AssignAllergenicProductToPatientRequestDto assignAllergenicProductToPatientRequestDto) {
         PatientAllergenicProductResponseDto createdPatientAllergenicProductResponseDto = patientAllergenicProductService.assignAllergenicProductToPatient(patientId, assignAllergenicProductToPatientRequestDto);
@@ -38,6 +41,7 @@ public class PatientAllergenicProductController {
                 .body(createdPatientAllergenicProductResponseDto);
     }
 
+    @OwnerPatientAccess
     @DeleteMapping("/patients/{patientId}/allergenic-products/{productId}")
     public ResponseEntity<MessageResponseDto> unassignAllergenicProductFromPatient(@PathVariable Long patientId, @PathVariable Long productId) {
         patientAllergenicProductService.unassignAllergenicProductFromPatient(patientId, productId);

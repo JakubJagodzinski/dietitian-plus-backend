@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.meal;
 
+import com.example.dietitian_plus.auth.access.annotation.*;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
@@ -19,6 +20,7 @@ public class MealController {
 
     private final MealService mealService;
 
+    @AdminOnly
     @GetMapping("/meals")
     public ResponseEntity<List<MealResponseDto>> getAllMeals() {
         List<MealResponseDto> mealResponseDtoList = mealService.getAllMeals();
@@ -28,6 +30,7 @@ public class MealController {
                 .body(mealResponseDtoList);
     }
 
+    // TODO check ownership in access manager
     @GetMapping("/meals/{mealId}")
     public ResponseEntity<MealResponseDto> getMealById(@PathVariable Long mealId) {
         MealResponseDto mealResponseDto = mealService.getMealById(mealId);
@@ -37,6 +40,7 @@ public class MealController {
                 .body(mealResponseDto);
     }
 
+    // TODO check ownership in access manager
     @GetMapping("/patients/{patientId}/meals")
     public ResponseEntity<List<MealResponseDto>> getPatientAllMeals(@PathVariable Long patientId) {
         List<MealResponseDto> mealResponseDtoList = mealService.getPatientAllMeals(patientId);
@@ -46,6 +50,7 @@ public class MealController {
                 .body(mealResponseDtoList);
     }
 
+    @OwnerDietitianAccess
     @GetMapping("/dietitians/{dietitianId}/meals")
     public ResponseEntity<List<MealResponseDto>> getDietitianAllMeals(@PathVariable Long dietitianId) {
         List<MealResponseDto> mealResponseDtoList = mealService.getDietitianAllMeals(dietitianId);
@@ -55,6 +60,7 @@ public class MealController {
                 .body(mealResponseDtoList);
     }
 
+    @DietitianAccess
     @PostMapping("/meals")
     public ResponseEntity<MealResponseDto> createMeal(@RequestBody CreateMealRequestDto createMealRequestDto) {
         MealResponseDto createdMealResponseDto = mealService.createMeal(createMealRequestDto);
@@ -65,6 +71,7 @@ public class MealController {
                 .body(createdMealResponseDto);
     }
 
+    @OwnerDietitianAccess
     @PutMapping("/meals/{mealId}")
     public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long mealId, @RequestBody UpdateMealRequestDto updateMealRequestDto) {
         MealResponseDto updatedMealResponseDto = mealService.updateMealById(mealId, updateMealRequestDto);
@@ -74,6 +81,7 @@ public class MealController {
                 .body(updatedMealResponseDto);
     }
 
+    @OwnerDietitianAccess
     @DeleteMapping("/meals/{mealId}")
     public ResponseEntity<MessageResponseDto> deleteMealById(@PathVariable Long mealId) {
         mealService.deleteMealById(mealId);

@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.unit;
 
+import com.example.dietitian_plus.auth.access.annotation.AdminOnly;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.unit.dto.CreateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.UnitResponseDto;
@@ -37,6 +38,7 @@ public class UnitController {
                 .body(unitResponseDto);
     }
 
+    @AdminOnly
     @PostMapping("/units")
     public ResponseEntity<UnitResponseDto> createUnit(@RequestBody CreateUnitRequestDto createUnitRequestDto) {
         UnitResponseDto createdUnitResponseDto = unitService.createUnit(createUnitRequestDto);
@@ -47,6 +49,7 @@ public class UnitController {
                 .body(createdUnitResponseDto);
     }
 
+    @AdminOnly
     @PutMapping("/units/{unitId}")
     public ResponseEntity<UnitResponseDto> updateUnitById(@PathVariable Long unitId, @RequestBody UpdateUnitRequestDto updateUnitRequestDto) {
         UnitResponseDto updatedUnitResponseDto = unitService.updateUnitById(unitId, updateUnitRequestDto);
@@ -56,6 +59,7 @@ public class UnitController {
                 .body(updatedUnitResponseDto);
     }
 
+    @AdminOnly
     @DeleteMapping("/units/{unitId}")
     public ResponseEntity<MessageResponseDto> deleteUnitById(@PathVariable Long unitId) {
         unitService.deleteUnitById(unitId);

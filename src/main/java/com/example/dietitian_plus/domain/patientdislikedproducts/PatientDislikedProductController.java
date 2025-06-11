@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.patientdislikedproducts;
 
+import com.example.dietitian_plus.auth.access.annotation.OwnerPatientAccess;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.patientdislikedproducts.dto.AssignDislikedProductToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientdislikedproducts.dto.PatientDislikedProductResponseDto;
@@ -19,6 +20,7 @@ public class PatientDislikedProductController {
 
     private final PatientDislikedProductService patientDislikedProductService;
 
+    // TODO check ownership in access manager
     @GetMapping("/patients/{patientId}/disliked-products")
     public ResponseEntity<List<ProductResponseDto>> getPatientAllDislikedProducts(@PathVariable Long patientId) {
         List<ProductResponseDto> productResponseDtoList = patientDislikedProductService.getPatientAllDislikedProducts(patientId);
@@ -28,6 +30,7 @@ public class PatientDislikedProductController {
                 .body(productResponseDtoList);
     }
 
+    @OwnerPatientAccess
     @PostMapping("/patients/{patientId}/disliked-products")
     public ResponseEntity<PatientDislikedProductResponseDto> assignDislikedProductToPatient(@PathVariable Long patientId, @RequestBody AssignDislikedProductToPatientRequestDto assignDislikedProductToPatientRequestDto) {
         PatientDislikedProductResponseDto createdPatientDislikedProductResponseDto = patientDislikedProductService.assignDislikedProductToPatient(patientId, assignDislikedProductToPatientRequestDto);
@@ -38,6 +41,7 @@ public class PatientDislikedProductController {
                 .body(createdPatientDislikedProductResponseDto);
     }
 
+    @OwnerPatientAccess
     @DeleteMapping("/patients/{patientId}/disliked-products/{productId}")
     public ResponseEntity<MessageResponseDto> unassignDislikedProductFromPatient(@PathVariable Long patientId, @PathVariable Long productId) {
         patientDislikedProductService.unassignDislikedProductFromPatient(patientId, productId);

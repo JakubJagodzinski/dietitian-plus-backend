@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.product;
 
+import com.example.dietitian_plus.auth.access.annotation.AdminOnly;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.product.dto.CreateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
@@ -37,6 +38,7 @@ public class ProductController {
                 .body(productResponseDto);
     }
 
+    @AdminOnly
     @PostMapping("/products")
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody CreateProductRequestDto createProductRequestDto) {
         ProductResponseDto createdProductResponseDto = productService.createProduct(createProductRequestDto);
@@ -47,6 +49,7 @@ public class ProductController {
                 .body(createdProductResponseDto);
     }
 
+    @AdminOnly
     @PutMapping("/products/{productId}")
     public ResponseEntity<ProductResponseDto> updateProductById(@PathVariable Long productId, @RequestBody UpdateProductRequestDto updateProductRequestDto) {
         ProductResponseDto updatedProductResponseDto = productService.updateProductById(productId, updateProductRequestDto);
@@ -56,6 +59,7 @@ public class ProductController {
                 .body(updatedProductResponseDto);
     }
 
+    @AdminOnly
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<MessageResponseDto> deleteProductById(@PathVariable Long productId) {
         productService.deleteProductById(productId);

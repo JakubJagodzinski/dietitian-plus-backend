@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.disease;
 
+import com.example.dietitian_plus.auth.access.annotation.AdminOnly;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.disease.dto.CreateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
@@ -37,6 +38,7 @@ public class DiseaseController {
                 .body(diseaseResponseDto);
     }
 
+    @AdminOnly
     @PostMapping("/diseases")
     public ResponseEntity<DiseaseResponseDto> createDisease(@RequestBody CreateDiseaseRequestDto createDiseaseRequestDto) {
         DiseaseResponseDto createdDiseaseResponseDto = diseaseService.createDisease(createDiseaseRequestDto);
@@ -47,6 +49,7 @@ public class DiseaseController {
                 .body(createdDiseaseResponseDto);
     }
 
+    @AdminOnly
     @PutMapping("/diseases/{diseaseId}")
     public ResponseEntity<DiseaseResponseDto> updateDiseaseById(@PathVariable Long diseaseId, @RequestBody UpdateDiseaseRequestDto updateDiseaseRequestDto) {
         DiseaseResponseDto updatedDiseaseResponseDto = diseaseService.updateDiseaseById(diseaseId, updateDiseaseRequestDto);
@@ -56,6 +59,7 @@ public class DiseaseController {
                 .body(updatedDiseaseResponseDto);
     }
 
+    @AdminOnly
     @DeleteMapping("/diseases/{diseaseId}")
     public ResponseEntity<MessageResponseDto> deleteDiseaseById(@PathVariable Long diseaseId) {
         diseaseService.deleteDiseaseById(diseaseId);

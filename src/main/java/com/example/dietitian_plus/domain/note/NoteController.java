@@ -1,5 +1,8 @@
 package com.example.dietitian_plus.domain.note;
 
+import com.example.dietitian_plus.auth.access.annotation.AdminOnly;
+import com.example.dietitian_plus.auth.access.annotation.DietitianAccess;
+import com.example.dietitian_plus.auth.access.annotation.OwnerDietitianAccess;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.note.dto.CreateNoteRequestDto;
 import com.example.dietitian_plus.domain.note.dto.NoteResponseDto;
@@ -19,6 +22,7 @@ public class NoteController {
 
     private final NoteService noteService;
 
+    @AdminOnly
     @GetMapping("/notes")
     public ResponseEntity<List<NoteResponseDto>> getAllNotes() {
         List<NoteResponseDto> noteResponseDtoList = noteService.getAllNotes();
@@ -28,6 +32,8 @@ public class NoteController {
                 .body(noteResponseDtoList);
     }
 
+    // TODO check ownership in access manager
+    @DietitianAccess
     @GetMapping("/notes/{noteId}")
     public ResponseEntity<NoteResponseDto> getNoteById(@PathVariable Long noteId) {
         NoteResponseDto noteResponseDto = noteService.getNoteById(noteId);
@@ -37,6 +43,8 @@ public class NoteController {
                 .body(noteResponseDto);
     }
 
+    // TODO check ownership in access manager
+    @DietitianAccess
     @GetMapping("/patients/{patientId}/notes")
     public ResponseEntity<List<NoteResponseDto>> getPatientAllNotes(@PathVariable Long patientId) {
         List<NoteResponseDto> noteResponseDtoList = noteService.getPatientAllNotes(patientId);
@@ -46,6 +54,7 @@ public class NoteController {
                 .body(noteResponseDtoList);
     }
 
+    @OwnerDietitianAccess
     @GetMapping("/dietitians/{dietitianId}/notes")
     public ResponseEntity<List<NoteResponseDto>> getDietitianAllNotes(@PathVariable Long dietitianId) {
         List<NoteResponseDto> noteResponseDtoList = noteService.getDietitianAllNotes(dietitianId);
@@ -55,6 +64,7 @@ public class NoteController {
                 .body(noteResponseDtoList);
     }
 
+    @DietitianAccess
     @PostMapping("/notes")
     public ResponseEntity<NoteResponseDto> createNote(@RequestBody CreateNoteRequestDto createNoteRequestDto) {
         NoteResponseDto createdNoteResponseDto = noteService.createNote(createNoteRequestDto);
@@ -65,6 +75,8 @@ public class NoteController {
                 .body(createdNoteResponseDto);
     }
 
+    // TODO check ownership in access manager
+    @DietitianAccess
     @PutMapping("/notes/{noteId}")
     public ResponseEntity<NoteResponseDto> updateNoteById(@PathVariable Long noteId, @RequestBody UpdateNoteRequestDto updateNoteRequestDto) {
         NoteResponseDto updatedNoteResponseDto = noteService.updateNoteById(noteId, updateNoteRequestDto);
@@ -74,6 +86,8 @@ public class NoteController {
                 .body(updatedNoteResponseDto);
     }
 
+    // TODO check ownership in access manager
+    @DietitianAccess
     @DeleteMapping("/notes/{noteId}")
     public ResponseEntity<MessageResponseDto> deleteNoteById(@PathVariable Long noteId) {
         noteService.deleteNoteById(noteId);

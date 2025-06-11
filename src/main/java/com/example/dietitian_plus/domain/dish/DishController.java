@@ -1,5 +1,8 @@
 package com.example.dietitian_plus.domain.dish;
 
+import com.example.dietitian_plus.auth.access.annotation.AdminOnly;
+import com.example.dietitian_plus.auth.access.annotation.DietitianAccess;
+import com.example.dietitian_plus.auth.access.annotation.OwnerDietitianAccess;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
@@ -19,6 +22,7 @@ public class DishController {
 
     private final DishService dishService;
 
+    @AdminOnly
     @GetMapping("/dishes")
     public ResponseEntity<List<DishResponseDto>> getAllDishes() {
         List<DishResponseDto> dishResponseDtoList = dishService.getAllDishes();
@@ -28,6 +32,7 @@ public class DishController {
                 .body(dishResponseDtoList);
     }
 
+    // TODO check ownership in access manager
     @GetMapping("/dishes/{dishId}")
     public ResponseEntity<DishResponseDto> getDishById(@PathVariable Long dishId) {
         DishResponseDto dishResponseDto = dishService.getDishById(dishId);
@@ -37,6 +42,7 @@ public class DishController {
                 .body(dishResponseDto);
     }
 
+    @OwnerDietitianAccess
     @GetMapping("/dietitians/{dietitianId}/dishes")
     public ResponseEntity<List<DishResponseDto>> getDietitianAllDishes(@PathVariable Long dietitianId) {
         List<DishResponseDto> dishResponseDtoList = dishService.getDietitianAllDishes(dietitianId);
@@ -46,6 +52,7 @@ public class DishController {
                 .body(dishResponseDtoList);
     }
 
+    @DietitianAccess
     @PostMapping("/dishes")
     public ResponseEntity<DishResponseDto> createDish(@RequestBody CreateDishRequestDto createDishRequestDto) {
         DishResponseDto createdDishResponseDto = dishService.createDish(createDishRequestDto);
@@ -56,6 +63,8 @@ public class DishController {
                 .body(createdDishResponseDto);
     }
 
+    // TODO check ownership in access manager
+    @DietitianAccess
     @PutMapping("/dishes/{dishId}")
     public ResponseEntity<DishResponseDto> updateDishById(@PathVariable Long dishId, @RequestBody UpdateDishRequestDto updateDishRequestDto) {
         DishResponseDto dishResponseDto = dishService.updateDishById(dishId, updateDishRequestDto);
@@ -65,6 +74,8 @@ public class DishController {
                 .body(dishResponseDto);
     }
 
+    // TODO check ownership in access manager
+    @DietitianAccess
     @DeleteMapping("/dishes/{dishId}")
     public ResponseEntity<MessageResponseDto> deleteDishById(@PathVariable Long dishId) {
         dishService.deleteDishById(dishId);
