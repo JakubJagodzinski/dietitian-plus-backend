@@ -10,9 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AssignDislikedProductToPatientRequestDto {
 
-    @JsonProperty("patient_id")
-    private Long patientId;
-
     @JsonProperty("product_id")
     private Long productId;
 
