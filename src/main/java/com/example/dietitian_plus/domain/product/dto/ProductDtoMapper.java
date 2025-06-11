@@ -19,6 +19,8 @@ public class ProductDtoMapper {
         dto.setCarbs(product.getCarbs());
         dto.setProtein(product.getProtein());
         dto.setFiber(product.getFiber());
+        dto.setGlycemicIndex(product.getGlycemicIndex());
+        dto.setGlycemicLoad(product.getGlycemicLoad());
 
         return dto;
     }

@@ -30,4 +30,10 @@ public class Product {
 
     private Float fiber = 0.0f;
 
+    @Column(name = "glycemic_index")
+    private Float glycemicIndex = 0.0f;
+
+    @Column(name = "glycemic_load")
+    private Float glycemicLoad = 0.0f;
+
 }

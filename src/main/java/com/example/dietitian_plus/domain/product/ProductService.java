@@ -62,6 +62,14 @@ public class ProductService {
             product.setFiber(createProductRequestDto.getFiber());
         }
 
+        if (createProductRequestDto.getGlycemicIndex() != null) {
+            product.setGlycemicIndex(createProductRequestDto.getGlycemicIndex());
+        }
+
+        if (createProductRequestDto.getGlycemicLoad() != null) {
+            product.setGlycemicLoad(createProductRequestDto.getGlycemicLoad());
+        }
+
         return productDtoMapper.toDto(productRepository.save(product));
     }
 
@@ -76,20 +84,33 @@ public class ProductService {
         if (updateProductRequestDto.getProductName() != null) {
             product.setProductName(updateProductRequestDto.getProductName());
         }
+
         if (updateProductRequestDto.getKcal() != null) {
             product.setKcal(updateProductRequestDto.getKcal());
         }
+
         if (updateProductRequestDto.getFats() != null) {
             product.setFats(updateProductRequestDto.getFats());
         }
+
         if (updateProductRequestDto.getCarbs() != null) {
             product.setCarbs(updateProductRequestDto.getCarbs());
         }
+
         if (updateProductRequestDto.getProtein() != null) {
             product.setProtein(updateProductRequestDto.getProtein());
         }
+
         if (updateProductRequestDto.getFiber() != null) {
             product.setFiber(updateProductRequestDto.getFiber());
+        }
+
+        if (updateProductRequestDto.getGlycemicIndex() != null) {
+            product.setGlycemicIndex(updateProductRequestDto.getGlycemicIndex());
+        }
+
+        if (updateProductRequestDto.getGlycemicLoad() != null) {
+            product.setGlycemicLoad(updateProductRequestDto.getGlycemicLoad());
         }
 
         return productDtoMapper.toDto(productRepository.save(product));

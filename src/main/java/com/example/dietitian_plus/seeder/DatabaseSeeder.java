@@ -74,10 +74,12 @@ public class DatabaseSeeder implements ApplicationRunner {
                     product.setCarbs(FloatParser.parse(parts[3]));
                     product.setProtein(FloatParser.parse(parts[4]));
                     product.setFiber(FloatParser.parse(parts[5]));
+                    product.setGlycemicIndex(FloatParser.parse(parts[6]));
+                    product.setGlycemicLoad(FloatParser.parse(parts[7]));
                     return product;
                 },
                 productRepository::saveAll,
-                6
+                8
         );
     }
 
