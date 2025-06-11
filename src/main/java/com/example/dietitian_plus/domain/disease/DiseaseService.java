@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.disease;
 
+import com.example.dietitian_plus.common.Messages;
 import com.example.dietitian_plus.domain.disease.dto.CreateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseDtoMapper;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
@@ -20,9 +21,6 @@ public class DiseaseService {
 
     private final DiseaseDtoMapper diseaseDtoMapper;
 
-    private static final String DISEASE_NOT_FOUND_MESSAGE = "Disease not found";
-    private static final String DISEASE_ALREADY_EXISTS_MESSAGE = "Disease already exists";
-
     public List<DiseaseResponseDto> getAllDiseases() {
         return diseaseDtoMapper.toDtoList(diseaseRepository.findAll());
     }
@@ -32,7 +30,7 @@ public class DiseaseService {
         Disease disease = diseaseRepository.findById(diseaseId).orElse(null);
 
         if (disease == null) {
-            throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DISEASE_NOT_FOUND);
         }
 
         return diseaseDtoMapper.toDto(disease);
@@ -41,7 +39,7 @@ public class DiseaseService {
     @Transactional
     public DiseaseResponseDto createDisease(CreateDiseaseRequestDto createDiseaseRequestDto) throws EntityExistsException {
         if (diseaseRepository.existsByDiseaseName(createDiseaseRequestDto.getDiseaseName())) {
-            throw new EntityExistsException(DISEASE_ALREADY_EXISTS_MESSAGE);
+            throw new EntityExistsException(Messages.DISEASE_ALREADY_EXISTS);
         }
 
         Disease disease = new Disease();
@@ -57,7 +55,7 @@ public class DiseaseService {
         Disease disease = diseaseRepository.findById(diseaseId).orElse(null);
 
         if (disease == null) {
-            throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DISEASE_NOT_FOUND);
         }
 
         if (updateDiseaseRequestDto.getDiseaseName() != null) {
@@ -74,7 +72,7 @@ public class DiseaseService {
     @Transactional
     public void deleteDiseaseById(Long diseaseId) throws EntityNotFoundException {
         if (!diseaseRepository.existsById(diseaseId)) {
-            throw new EntityNotFoundException(DISEASE_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DISEASE_NOT_FOUND);
         }
 
         diseaseRepository.deleteById(diseaseId);

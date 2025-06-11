@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.dietitian;
 
+import com.example.dietitian_plus.common.Messages;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianDtoMapper;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dietitian.dto.UpdateDietitianRequestDto;
@@ -18,8 +19,6 @@ public class DietitianService {
 
     private final DietitianDtoMapper dietitianDtoMapper;
 
-    private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
-
     public List<DietitianResponseDto> getAllDietitians() {
         return dietitianDtoMapper.toDtoList(dietitianRepository.findAll());
     }
@@ -29,7 +28,7 @@ public class DietitianService {
         Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
         return dietitianDtoMapper.toDto(dietitian);
@@ -40,7 +39,7 @@ public class DietitianService {
         Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
         if (updateDietitianRequestDto.getTitle() != null) {
@@ -53,7 +52,7 @@ public class DietitianService {
     @Transactional
     public void deleteDietitianById(Long dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
         dietitianRepository.deleteById(dietitianId);

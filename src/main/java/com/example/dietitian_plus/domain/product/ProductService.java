@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.product;
 
+import com.example.dietitian_plus.common.Messages;
 import com.example.dietitian_plus.domain.product.dto.CreateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
@@ -19,8 +20,6 @@ public class ProductService {
 
     private final ProductDtoMapper productDtoMapper;
 
-    private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
-
     public List<ProductResponseDto> getAllProducts() {
         return productDtoMapper.toDtoList(productRepository.findAll());
     }
@@ -30,7 +29,7 @@ public class ProductService {
         Product product = productRepository.findById(productId).orElse(null);
 
         if (product == null) {
-            throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
         }
 
         return productDtoMapper.toDto(product);
@@ -78,7 +77,7 @@ public class ProductService {
         Product product = productRepository.findById(productId).orElse(null);
 
         if (product == null) {
-            throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
         }
 
         if (updateProductRequestDto.getProductName() != null) {
@@ -119,7 +118,7 @@ public class ProductService {
     @Transactional
     public void deleteProductById(Long productId) throws EntityNotFoundException {
         if (!productRepository.existsById(productId)) {
-            throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
         }
 
         productRepository.deleteById(productId);

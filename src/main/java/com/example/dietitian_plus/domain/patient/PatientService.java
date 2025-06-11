@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.patient;
 
+import com.example.dietitian_plus.common.Messages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;
@@ -21,9 +22,6 @@ public class PatientService {
 
     private final PatientDtoMapper patientDtoMapper;
 
-    private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
-    private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
-
     public List<PatientResponseDto> getAllPatients() {
         return patientDtoMapper.toDtoList(patientRepository.findAll());
     }
@@ -33,7 +31,7 @@ public class PatientService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
         return patientDtoMapper.toDto(patient);
@@ -42,7 +40,7 @@ public class PatientService {
     @Transactional
     public List<PatientResponseDto> getDietitianAllPatients(Long dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
         return patientDtoMapper.toDtoList(patientRepository.findAllByDietitian_Id(dietitianId));
@@ -53,7 +51,7 @@ public class PatientService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
         if (patientResponseDto.getHeight() != null) {
@@ -76,7 +74,7 @@ public class PatientService {
             Dietitian dietitian = dietitianRepository.findById(patientResponseDto.getDietitianId()).orElse(null);
 
             if (dietitian == null) {
-                throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+                throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
             }
 
             patient.setDietitian(dietitian);
@@ -90,13 +88,13 @@ public class PatientService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
         Dietitian dietitian = dietitianRepository.findById(assignDietitianToPatientRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
         patient.setDietitian(dietitian);
@@ -107,7 +105,7 @@ public class PatientService {
     @Transactional
     public void deletePatientById(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
         patientRepository.deleteById(patientId);

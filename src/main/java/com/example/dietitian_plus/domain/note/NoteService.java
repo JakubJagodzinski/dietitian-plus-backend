@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.note;
 
+import com.example.dietitian_plus.common.Messages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.note.dto.CreateNoteRequestDto;
@@ -26,10 +27,6 @@ public class NoteService {
 
     private final NoteDtoMapper noteDtoMapper;
 
-    private static final String NOTE_NOT_FOUND_MESSAGE = "Note not found";
-    private static final String PATIENT_NOT_FOUND_MESSAGE = "Patient not found";
-    private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
-
     public List<NoteResponseDto> getAllNotes() {
         return noteDtoMapper.toDtoList(noteRepository.findAll());
     }
@@ -39,7 +36,7 @@ public class NoteService {
         Note note = noteRepository.findById(noteId).orElse(null);
 
         if (note == null) {
-            throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.NOTE_NOT_FOUND);
         }
 
         return noteDtoMapper.toDto(note);
@@ -48,7 +45,7 @@ public class NoteService {
     @Transactional
     public List<NoteResponseDto> getPatientAllNotes(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
         return noteDtoMapper.toDtoList(noteRepository.findAllByPatient_Id(patientId));
@@ -57,7 +54,7 @@ public class NoteService {
     @Transactional
     public List<NoteResponseDto> getDietitianAllNotes(Long dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
         return noteDtoMapper.toDtoList(noteRepository.findAllByDietitian_Id(dietitianId));
@@ -68,13 +65,13 @@ public class NoteService {
         Patient patient = patientRepository.findById(createNoteRequestDto.getPatientId()).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
         Dietitian dietitian = dietitianRepository.findById(createNoteRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
         Note note = new Note();
@@ -92,7 +89,7 @@ public class NoteService {
         Note note = noteRepository.findById(noteId).orElse(null);
 
         if (note == null) {
-            throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.NOTE_NOT_FOUND);
         }
 
         if (updateNoteRequestDto.getTitle() != null) {
@@ -108,7 +105,7 @@ public class NoteService {
             Patient patient = patientRepository.findById(updateNoteRequestDto.getPatientId()).orElse(null);
 
             if (patient == null) {
-                throw new EntityNotFoundException(PATIENT_NOT_FOUND_MESSAGE);
+                throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
             }
 
             note.setPatient(patient);
@@ -120,7 +117,7 @@ public class NoteService {
     @Transactional
     public void deleteNoteById(Long noteId) throws EntityNotFoundException {
         if (!noteRepository.existsById(noteId)) {
-            throw new EntityNotFoundException(NOTE_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.NOTE_NOT_FOUND);
         }
 
         noteRepository.deleteById(noteId);

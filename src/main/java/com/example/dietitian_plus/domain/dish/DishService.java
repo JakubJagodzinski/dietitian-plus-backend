@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.dish;
 
+import com.example.dietitian_plus.common.Messages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.dish.dto.CreateDishRequestDto;
@@ -22,9 +23,6 @@ public class DishService {
 
     private final DishDtoMapper dishDtoMapper;
 
-    private static final String DISH_NOT_FOUND_MESSAGE = "Dish not found";
-    private static final String DIETITIAN_NOT_FOUND_MESSAGE = "Dietitian not found";
-
     public List<DishResponseDto> getAllDishes() {
         return dishDtoMapper.toDtoList(dishRepository.findAll());
     }
@@ -34,7 +32,7 @@ public class DishService {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
-            throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
         }
 
         return dishDtoMapper.toDto(dish);
@@ -45,7 +43,7 @@ public class DishService {
         Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
         return dishDtoMapper.toDtoList(dishRepository.findAllByDietitian_Id(dietitianId));
@@ -56,7 +54,7 @@ public class DishService {
         Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
         Dish dish = new Dish();
@@ -80,7 +78,7 @@ public class DishService {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
-            throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
         }
 
         if (updateDishRequestDto.getIsPublic() != null) {
@@ -125,7 +123,7 @@ public class DishService {
     @Transactional
     public void deleteDishById(Long dishId) throws EntityNotFoundException {
         if (!dishRepository.existsById(dishId)) {
-            throw new EntityNotFoundException(DISH_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
         }
 
         dishRepository.deleteById(dishId);
