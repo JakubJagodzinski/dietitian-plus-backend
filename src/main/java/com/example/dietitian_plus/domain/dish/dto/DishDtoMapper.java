@@ -14,7 +14,7 @@ public class DishDtoMapper {
 
         dto.setDishId(dish.getDishId());
         dto.setDishName(dish.getDishName());
-        dto.setIsVisible(dish.getIsVisible());
+        dto.setIsTemplate(dish.getIsTemplate());
         dto.setIsPublic(dish.getIsPublic());
         dto.setDietitianId(dish.getDietitian().getId());
         dto.setKcal(dish.getKcal());

@@ -10,8 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateDishRequestDto {
 
-    @JsonProperty("is_visible")
-    private Boolean isVisible;
+    @JsonProperty("is_template")
+    private Boolean isTemplate;
 
     @JsonProperty("is_public")
     private Boolean isPublic;

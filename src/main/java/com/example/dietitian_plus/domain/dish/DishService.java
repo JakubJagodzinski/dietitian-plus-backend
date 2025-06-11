@@ -56,7 +56,7 @@ public class DishService {
         Dish dish = new Dish();
 
         dish.setIsPublic(createDishRequestDto.getIsPublic());
-        dish.setIsVisible(createDishRequestDto.getIsVisible());
+        dish.setIsTemplate(createDishRequestDto.getIsTemplate());
 
         if (createDishRequestDto.getDietitianId() != null) {
             Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
@@ -91,8 +91,8 @@ public class DishService {
             dish.setIsPublic(updateDishRequestDto.getIsPublic());
         }
 
-        if (updateDishRequestDto.getIsVisible() != null) {
-            dish.setIsVisible(updateDishRequestDto.getIsVisible());
+        if (updateDishRequestDto.getIsTemplate() != null) {
+            dish.setIsTemplate(updateDishRequestDto.getIsTemplate());
         }
 
         if (updateDishRequestDto.getDishName() != null) {

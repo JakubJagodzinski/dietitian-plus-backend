@@ -20,8 +20,8 @@ public class Dish {
     @Column(name = "dish_id")
     private Long dishId;
 
-    @Column(name = "is_visible", nullable = false)
-    private Boolean isVisible = false;
+    @Column(name = "is_template", nullable = false)
+    private Boolean isTemplate = false;
 
     @Column(name = "is_public", nullable = false)
     private Boolean isPublic = false;
