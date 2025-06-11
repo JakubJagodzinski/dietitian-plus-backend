@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.user;
 
 import com.example.dietitian_plus.common.MessageResponseDto;
+import com.example.dietitian_plus.common.Messages;
 import com.example.dietitian_plus.user.dto.ChangePasswordRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class UserController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Password changed successfully"));
+                .body(new MessageResponseDto(Messages.PASSWORD_CHANGED_SUCCESSFULLY));
     }
 
 }

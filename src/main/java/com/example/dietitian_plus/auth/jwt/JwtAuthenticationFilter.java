@@ -1,10 +1,12 @@
 package com.example.dietitian_plus.auth.jwt;
 
+import com.example.dietitian_plus.common.constants.SecurityConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,15 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        final String authHeader = request.getHeader("Authorization");
-        final String headerStart = "Bearer ";
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authHeader == null || !authHeader.startsWith(headerStart)) {
+        if (authHeader == null || !authHeader.startsWith(SecurityConstants.HEADER_START)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        final String jwt = authHeader.substring(headerStart.length());
+        final String jwt = authHeader.substring(SecurityConstants.HEADER_START.length());
 
         final String username = jwtService.extractUsername(jwt);
 
