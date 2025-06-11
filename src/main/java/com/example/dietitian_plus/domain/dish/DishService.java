@@ -53,21 +53,17 @@ public class DishService {
 
     @Transactional
     public DishResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException {
+        Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
+
+        if (dietitian == null) {
+            throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
+        }
+
         Dish dish = new Dish();
 
         dish.setIsPublic(createDishRequestDto.getIsPublic());
         dish.setIsTemplate(createDishRequestDto.getIsTemplate());
-
-        if (createDishRequestDto.getDietitianId() != null) {
-            Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
-
-            if (dietitian == null) {
-                throw new EntityNotFoundException(DIETITIAN_NOT_FOUND_MESSAGE);
-            }
-
-            dish.setDietitian(dietitian);
-        }
-
+        dish.setDietitian(dietitian);
         dish.setDishName(createDishRequestDto.getDishName());
         dish.setRecipe(createDishRequestDto.getRecipe());
         dish.setKcal(createDishRequestDto.getKcal());
