@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -28,6 +30,7 @@ public class Patient extends User {
 
     @ManyToOne
     @JoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_patients_dietitian_id"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Dietitian dietitian = null;
 
 }
