@@ -16,13 +16,13 @@ public class DishDtoMapper {
         dto.setDishName(dish.getDishName());
         dto.setIsTemplate(dish.getIsTemplate());
         dto.setIsPublic(dish.getIsPublic());
-        dto.setDietitianId(dish.getDietitian().getId());
+        dto.setRecipe(dish.getRecipe());
         dto.setKcal(dish.getKcal());
         dto.setFats(dish.getFats());
         dto.setCarbs(dish.getCarbs());
         dto.setProtein(dish.getProtein());
         dto.setFiber(dish.getFiber());
-        dto.setRecipe(dish.getRecipe());
+        dto.setDietitianId(dish.getDietitian().getId());
 
         return dto;
     }

@@ -20,19 +20,14 @@ public class Dish {
     @Column(name = "dish_id")
     private Long dishId;
 
+    @Column(name = "dish_name", nullable = false)
+    private String dishName;
+
     @Column(name = "is_template", nullable = false)
     private Boolean isTemplate = false;
 
     @Column(name = "is_public", nullable = false)
     private Boolean isPublic = false;
-
-    @ManyToOne
-    @JoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_dishes_dietitian_id"))
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Dietitian dietitian;
-
-    @Column(name = "dish_name", nullable = false)
-    private String dishName;
 
     private String recipe;
 
@@ -45,5 +40,10 @@ public class Dish {
     private Float protein = 0.0f;
 
     private Float fiber = 0.0f;
+
+    @ManyToOne
+    @JoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_dishes_dietitian_id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Dietitian dietitian;
 
 }

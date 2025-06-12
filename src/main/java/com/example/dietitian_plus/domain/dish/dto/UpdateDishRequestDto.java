@@ -10,14 +10,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateDishRequestDto {
 
+    @JsonProperty("dish_name")
+    private String dishName;
+
     @JsonProperty("is_template")
     private Boolean isTemplate;
 
     @JsonProperty("is_public")
     private Boolean isPublic;
-
-    @JsonProperty("dish_name")
-    private String dishName;
 
     private String recipe;
 

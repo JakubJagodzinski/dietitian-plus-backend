@@ -59,16 +59,16 @@ public class DishService {
 
         Dish dish = new Dish();
 
-        dish.setIsPublic(createDishRequestDto.getIsPublic());
-        dish.setIsTemplate(createDishRequestDto.getIsTemplate());
-        dish.setDietitian(dietitian);
         dish.setDishName(createDishRequestDto.getDishName());
+        dish.setIsTemplate(createDishRequestDto.getIsTemplate());
+        dish.setIsPublic(createDishRequestDto.getIsPublic());
         dish.setRecipe(createDishRequestDto.getRecipe());
         dish.setKcal(createDishRequestDto.getKcal());
         dish.setFats(createDishRequestDto.getFats());
         dish.setCarbs(createDishRequestDto.getCarbs());
         dish.setProtein(createDishRequestDto.getProtein());
         dish.setFiber(createDishRequestDto.getFiber());
+        dish.setDietitian(dietitian);
 
         return dishDtoMapper.toDto(dishRepository.save(dish));
     }
@@ -81,16 +81,16 @@ public class DishService {
             throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
         }
 
-        if (updateDishRequestDto.getIsPublic() != null) {
-            dish.setIsPublic(updateDishRequestDto.getIsPublic());
+        if (updateDishRequestDto.getDishName() != null) {
+            dish.setDishName(updateDishRequestDto.getDishName());
         }
 
         if (updateDishRequestDto.getIsTemplate() != null) {
             dish.setIsTemplate(updateDishRequestDto.getIsTemplate());
         }
 
-        if (updateDishRequestDto.getDishName() != null) {
-            dish.setDishName(updateDishRequestDto.getDishName());
+        if (updateDishRequestDto.getIsPublic() != null) {
+            dish.setIsPublic(updateDishRequestDto.getIsPublic());
         }
 
         if (updateDishRequestDto.getRecipe() != null) {

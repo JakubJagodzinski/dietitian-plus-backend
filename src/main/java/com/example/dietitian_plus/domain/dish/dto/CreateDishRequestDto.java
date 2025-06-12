@@ -10,17 +10,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateDishRequestDto {
 
+    @JsonProperty("dish_name")
+    private String dishName;
+
     @JsonProperty("is_template")
     private Boolean isTemplate;
 
     @JsonProperty("is_public")
     private Boolean isPublic;
-
-    @JsonProperty("dietitian_id")
-    private Long dietitianId;
-
-    @JsonProperty("dish_name")
-    private String dishName;
 
     private String recipe;
 
@@ -33,5 +30,8 @@ public class CreateDishRequestDto {
     private Float protein;
 
     private Float fiber;
+
+    @JsonProperty("dietitian_id")
+    private Long dietitianId;
 
 }
