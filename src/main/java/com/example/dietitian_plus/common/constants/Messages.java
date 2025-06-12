@@ -37,5 +37,6 @@ public class Messages {
     public static final String DISH_PRODUCT_NOT_FOUND = "Dish product not found";
     public static final String PASSWORD_CHANGED_SUCCESSFULLY = "Password changed successfully";
     public static final String NO_DIETITIAN_ASSIGNED_TO_PATIENT = "No dietitian is assigned to patient";
+    public static final String PATIENT_ALREADY_HAS_A_DIETITIAN_ASSIGNED = "Patient already has a dietitian assigned";
 
 }

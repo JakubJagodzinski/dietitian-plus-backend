@@ -84,11 +84,15 @@ public class PatientService {
     }
 
     @Transactional
-    public void assignDietitianToPatient(Long patientId, AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) throws EntityNotFoundException {
+    public void assignDietitianToPatient(Long patientId, AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
             throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+        }
+
+        if (patient.getDietitian() != null) {
+            throw new IllegalArgumentException(Messages.PATIENT_ALREADY_HAS_A_DIETITIAN_ASSIGNED);
         }
 
         Dietitian dietitian = dietitianRepository.findById(assignDietitianToPatientRequestDto.getDietitianId()).orElse(null);
