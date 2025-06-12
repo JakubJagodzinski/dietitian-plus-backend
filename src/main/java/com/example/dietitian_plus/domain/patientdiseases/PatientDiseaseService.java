@@ -7,7 +7,6 @@ import com.example.dietitian_plus.domain.disease.dto.DiseaseDtoMapper;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
-import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
 import com.example.dietitian_plus.domain.patientdiseases.dto.AssignDiseaseToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseDtoMapper;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseResponseDto;
@@ -29,7 +28,6 @@ public class PatientDiseaseService {
 
     private final PatientDiseaseDtoMapper patientDiseaseDtoMapper;
     private final DiseaseDtoMapper diseaseDtoMapper;
-    private final PatientDtoMapper patientDtoMapper;
 
     @Transactional
     public List<DiseaseResponseDto> getPatientAllDiseases(Long patientId) throws EntityNotFoundException {
