@@ -12,26 +12,26 @@ public class SecurityUtils {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public Long getCurrentUserId(Authentication authentication) {
-        User userDetails = (User) authentication.getPrincipal();
-
-        return userDetails.getId();
+    public Long getCurrentUserId() {
+        return getCurrentUser().getId();
     }
 
-    public boolean isOwner(Long expectedUserId, Authentication authentication) {
-        Long currentUserId = getCurrentUserId(authentication);
-
-        return currentUserId.equals(expectedUserId);
+    public User getCurrentUser() {
+        return (User) getAuthentication().getPrincipal();
     }
 
-    public boolean hasRole(Authentication authentication, String role) {
-        return authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_" + role));
+    public boolean isOwner(Long expectedUserId) {
+        return getCurrentUserId().equals(expectedUserId);
     }
 
-    public boolean hasAuthority(Authentication authentication, String authority) {
-        return authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
+    public boolean hasRole(String role) {
+        return getAuthentication().getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_" + role));
+    }
+
+    public boolean hasPermission(String authority) {
+        return getAuthentication().getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals(authority));
     }
 
 }
