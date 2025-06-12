@@ -34,6 +34,8 @@ public enum Role {
 
                     PATIENT_MEAL_READ_ALL,
 
+                    PATIENT_DIETITIAN_UNASSIGN,
+
                     PATIENT_ALLERGENIC_PRODUCT_READ_ALL,
                     PATIENT_ALLERGENIC_PRODUCT_ASSIGN,
                     PATIENT_ALLERGENIC_PRODUCT_UNASSIGN,
@@ -102,6 +104,7 @@ public enum Role {
                     PATIENT_MEAL_READ_ALL,
 
                     PATIENT_DIETITIAN_ASSIGN,
+                    PATIENT_DIETITIAN_UNASSIGN,
 
                     PATIENT_ALLERGENIC_PRODUCT_READ_ALL,
 

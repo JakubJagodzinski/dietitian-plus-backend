@@ -103,6 +103,23 @@ public class PatientService {
     }
 
     @Transactional
+    public void unassignDietitianFromPatient(Long patientId) throws EntityNotFoundException, IllegalArgumentException {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
+            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+        }
+
+        if (patient.getDietitian() == null) {
+            throw new IllegalArgumentException(Messages.NO_DIETITIAN_ASSIGNED_TO_PATIENT);
+        }
+
+        patient.setDietitian(null);
+
+        patientRepository.save(patient);
+    }
+
+    @Transactional
     public void deletePatientById(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
@@ -110,5 +127,4 @@ public class PatientService {
 
         patientRepository.deleteById(patientId);
     }
-
 }

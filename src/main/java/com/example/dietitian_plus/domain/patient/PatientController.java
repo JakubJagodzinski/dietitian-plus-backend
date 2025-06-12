@@ -69,6 +69,16 @@ public class PatientController {
                 .body(new MessageResponseDto("Dietitian with id " + assignDietitianToPatientRequestDto.getDietitianId() + " successfully assigned to patient with id "));
     }
 
+    @CheckPermission(Permission.PATIENT_DIETITIAN_UNASSIGN)
+    @DeleteMapping("/patients/{patientId}/dietitians")
+    public ResponseEntity<MessageResponseDto> unassignDietitianFromPatient(@PathVariable Long patientId) {
+        patientService.unassignDietitianFromPatient(patientId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new MessageResponseDto("Dietitian successfully unassigned from patient with id " + patientId));
+    }
+
     @CheckPermission(Permission.PATIENT_DELETE)
     @DeleteMapping("/patients/{patientId}")
     public ResponseEntity<MessageResponseDto> deletePatientById(@PathVariable Long patientId) {

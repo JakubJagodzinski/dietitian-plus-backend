@@ -63,6 +63,7 @@ public enum Permission {
     PATIENT_MEAL_READ_ALL("patient:meal:read:all"),
 
     PATIENT_DIETITIAN_ASSIGN("patient:dietitian:assign"),
+    PATIENT_DIETITIAN_UNASSIGN("patient:dietitian:unassign"),
 
     PATIENT_ALLERGENIC_PRODUCT_READ_ALL("patient:allergenic_product:read:all"),
     PATIENT_ALLERGENIC_PRODUCT_ASSIGN("patient:allergenic_product:assign"),

@@ -36,5 +36,6 @@ public class Messages {
     public static final String UNIT_COUNT_MUST_BE_POSITIVE = "Unit count must be positive";
     public static final String DISH_PRODUCT_NOT_FOUND = "Dish product not found";
     public static final String PASSWORD_CHANGED_SUCCESSFULLY = "Password changed successfully";
+    public static final String NO_DIETITIAN_ASSIGNED_TO_PATIENT = "No dietitian is assigned to patient";
 
 }
