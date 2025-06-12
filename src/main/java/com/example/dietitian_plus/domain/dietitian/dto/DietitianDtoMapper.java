@@ -21,7 +21,9 @@ public class DietitianDtoMapper {
     }
 
     public List<DietitianResponseDto> toDtoList(List<Dietitian> dietitians) {
-        return dietitians.stream().map(this::toDto).collect(Collectors.toList());
+        return dietitians.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
 }

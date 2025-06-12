@@ -26,7 +26,9 @@ public class ProductDtoMapper {
     }
 
     public List<ProductResponseDto> toDtoList(List<Product> products) {
-        return products.stream().map(this::toDto).collect(Collectors.toList());
+        return products.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
 }

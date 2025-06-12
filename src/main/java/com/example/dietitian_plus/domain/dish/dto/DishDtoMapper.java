@@ -28,7 +28,9 @@ public class DishDtoMapper {
     }
 
     public List<DishResponseDto> toDtoList(List<Dish> dishes) {
-        return dishes.stream().map(this::toDto).collect(Collectors.toList());
+        return dishes.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
 }
