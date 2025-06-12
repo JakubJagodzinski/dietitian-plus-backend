@@ -1,12 +1,10 @@
 package com.example.dietitian_plus.domain.patient;
 
-import com.example.dietitian_plus.auth.access.annotation.AdminOnly;
-import com.example.dietitian_plus.auth.access.annotation.DietitianAccess;
-import com.example.dietitian_plus.auth.access.annotation.OwnerDietitianAccess;
-import com.example.dietitian_plus.auth.access.annotation.OwnerPatientAccess;
+import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
+import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +19,7 @@ public class PatientController {
 
     private final PatientService patientService;
 
-    @AdminOnly
+    @CheckPermission(Permission.PATIENT_READ_ALL)
     @GetMapping("/patients")
     public ResponseEntity<List<PatientResponseDto>> getAllPatients() {
         List<PatientResponseDto> patientResponseDtoList = patientService.getAllPatients();
@@ -31,7 +29,7 @@ public class PatientController {
                 .body(patientResponseDtoList);
     }
 
-    // TODO check ownership in access manager
+    @CheckPermission(Permission.PATIENT_READ)
     @GetMapping("/patients/{patientId}")
     public ResponseEntity<PatientResponseDto> getPatientById(@PathVariable Long patientId) {
         PatientResponseDto patientResponseDto = patientService.getPatientById(patientId);
@@ -41,7 +39,7 @@ public class PatientController {
                 .body(patientResponseDto);
     }
 
-    @OwnerDietitianAccess
+    @CheckPermission(Permission.DIETITIAN_PATIENT_READ_ALL)
     @GetMapping("/dietitians/{dietitianId}/patients")
     public ResponseEntity<List<PatientResponseDto>> getDietitianAllPatients(@PathVariable Long dietitianId) {
         List<PatientResponseDto> patientResponseDtoList = patientService.getDietitianAllPatients(dietitianId);
@@ -51,7 +49,7 @@ public class PatientController {
                 .body(patientResponseDtoList);
     }
 
-    @OwnerPatientAccess
+    @CheckPermission(Permission.PATIENT_UPDATE)
     @PutMapping("/patients/{patientId}")
     public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable Long patientId, @RequestBody PatientResponseDto patientResponseDto) {
         PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(patientId, patientResponseDto);
@@ -61,8 +59,7 @@ public class PatientController {
                 .body(updatedPatientResponseDto);
     }
 
-    // TODO check ownership in access manager
-    @DietitianAccess
+    @CheckPermission(Permission.PATIENT_DIETITIAN_ASSIGN)
     @PostMapping("/patients/{patientId}/dietitians")
     public ResponseEntity<MessageResponseDto> assignDietitianToPatient(@PathVariable Long patientId, @RequestBody AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) {
         patientService.assignDietitianToPatient(patientId, assignDietitianToPatientRequestDto);
@@ -72,7 +69,7 @@ public class PatientController {
                 .body(new MessageResponseDto("Dietitian with id " + assignDietitianToPatientRequestDto.getDietitianId() + " successfully assigned to patient with id "));
     }
 
-    @OwnerPatientAccess
+    @CheckPermission(Permission.PATIENT_DELETE)
     @DeleteMapping("/patients/{patientId}")
     public ResponseEntity<MessageResponseDto> deletePatientById(@PathVariable Long patientId) {
         patientService.deletePatientById(patientId);

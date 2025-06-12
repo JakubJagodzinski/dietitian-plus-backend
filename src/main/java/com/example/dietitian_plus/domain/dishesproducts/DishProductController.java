@@ -1,11 +1,11 @@
 package com.example.dietitian_plus.domain.dishesproducts;
 
-import com.example.dietitian_plus.auth.access.annotation.AdminOnly;
-import com.example.dietitian_plus.auth.access.annotation.DietitianAccess;
+import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.CreateDishProductEntryRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.DishProductResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.UpdateDishProductEntryRequestDto;
+import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class DishProductController {
 
     private final DishProductService dishProductService;
 
-    // TODO check ownership in access manager
+    @CheckPermission(Permission.DISH_PRODUCT_READ_ALL)
     @GetMapping("/dishes/{dishId}/dishes-products")
     public ResponseEntity<List<DishProductResponseDto>> getDishAllAssignedProducts(@PathVariable Long dishId) {
         List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.getDishAllAssignedProducts(dishId);
@@ -31,7 +31,7 @@ public class DishProductController {
                 .body(dishProductResponseDtoList);
     }
 
-    @AdminOnly
+    @CheckPermission(Permission.DISH_PRODUCT_READ_ALL)
     @GetMapping("/products/{productId}/dishes-products")
     public ResponseEntity<List<DishProductResponseDto>> getAllDishProductEntriesWithGivenProduct(@PathVariable Long productId) {
         List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.getAllDishProductEntriesWithGivenProduct(productId);
@@ -41,7 +41,7 @@ public class DishProductController {
                 .body(dishProductResponseDtoList);
     }
 
-    @DietitianAccess
+    @CheckPermission(Permission.DISH_PRODUCT_ASSIGN)
     @PostMapping("/dishes-products")
     public ResponseEntity<DishProductResponseDto> createDishProductEntry(@RequestBody CreateDishProductEntryRequestDto createDishProductEntryRequestDto) {
         DishProductResponseDto createdDishProductResponseDto = dishProductService.createDishProductEntry(createDishProductEntryRequestDto);
@@ -52,8 +52,7 @@ public class DishProductController {
                 .body(createdDishProductResponseDto);
     }
 
-    // TODO check ownership in access manager
-    @DietitianAccess
+    @CheckPermission(Permission.DISH_PRODUCT_UPDATE)
     @PutMapping("/dishes-products/{dishProductId}")
     public ResponseEntity<DishProductResponseDto> updateDishProductEntryById(@PathVariable Long dishProductId, @RequestBody UpdateDishProductEntryRequestDto updateDishProductEntryRequestDto) {
         DishProductResponseDto updatedDishProductResponseDto = dishProductService.updateDishProductEntryById(dishProductId, updateDishProductEntryRequestDto);
@@ -63,8 +62,7 @@ public class DishProductController {
                 .body(updatedDishProductResponseDto);
     }
 
-    // TODO check ownership in access manager
-    @DietitianAccess
+    @CheckPermission(Permission.DISH_PRODUCT_UNASSIGN)
     @DeleteMapping("/dishes-products/{dishProductId}")
     public ResponseEntity<MessageResponseDto> deleteDishProductEntryById(@PathVariable Long dishProductId) {
         dishProductService.deleteDishProductEntryById(dishProductId);

@@ -8,6 +8,4 @@ public interface PatientDiseaseRepository extends JpaRepository<PatientDisease, 
 
     List<PatientDisease> findAllByPatient_Id(Long patientId);
 
-    List<PatientDisease> findAllByDisease_DiseaseId(Long diseaseId);
-
 }

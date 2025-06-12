@@ -1,10 +1,11 @@
 package com.example.dietitian_plus.domain.patientdislikedproducts;
 
-import com.example.dietitian_plus.auth.access.annotation.OwnerPatientAccess;
+import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.patientdislikedproducts.dto.AssignDislikedProductToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientdislikedproducts.dto.PatientDislikedProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
+import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class PatientDislikedProductController {
 
     private final PatientDislikedProductService patientDislikedProductService;
 
-    // TODO check ownership in access manager
+    @CheckPermission(Permission.PATIENT_DISLIKED_PRODUCT_READ_ALL)
     @GetMapping("/patients/{patientId}/disliked-products")
     public ResponseEntity<List<ProductResponseDto>> getPatientAllDislikedProducts(@PathVariable Long patientId) {
         List<ProductResponseDto> productResponseDtoList = patientDislikedProductService.getPatientAllDislikedProducts(patientId);
@@ -30,7 +31,7 @@ public class PatientDislikedProductController {
                 .body(productResponseDtoList);
     }
 
-    @OwnerPatientAccess
+    @CheckPermission(Permission.PATIENT_DISLIKED_PRODUCT_ASSIGN)
     @PostMapping("/patients/{patientId}/disliked-products")
     public ResponseEntity<PatientDislikedProductResponseDto> assignDislikedProductToPatient(@PathVariable Long patientId, @RequestBody AssignDislikedProductToPatientRequestDto assignDislikedProductToPatientRequestDto) {
         PatientDislikedProductResponseDto createdPatientDislikedProductResponseDto = patientDislikedProductService.assignDislikedProductToPatient(patientId, assignDislikedProductToPatientRequestDto);
@@ -41,7 +42,7 @@ public class PatientDislikedProductController {
                 .body(createdPatientDislikedProductResponseDto);
     }
 
-    @OwnerPatientAccess
+    @CheckPermission(Permission.PATIENT_DISLIKED_PRODUCT_UNASSIGN)
     @DeleteMapping("/patients/{patientId}/disliked-products/{productId}")
     public ResponseEntity<MessageResponseDto> unassignDislikedProductFromPatient(@PathVariable Long patientId, @PathVariable Long productId) {
         patientDislikedProductService.unassignDislikedProductFromPatient(patientId, productId);

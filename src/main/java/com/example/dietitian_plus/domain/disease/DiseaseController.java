@@ -1,10 +1,11 @@
 package com.example.dietitian_plus.domain.disease;
 
-import com.example.dietitian_plus.auth.access.annotation.AdminOnly;
+import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.disease.dto.CreateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
 import com.example.dietitian_plus.domain.disease.dto.UpdateDiseaseRequestDto;
+import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class DiseaseController {
 
     private final DiseaseService diseaseService;
 
+    @CheckPermission(Permission.DISEASE_READ_ALL)
     @GetMapping("/diseases")
     public ResponseEntity<List<DiseaseResponseDto>> getAllDiseases() {
         List<DiseaseResponseDto> diseaseResponseDtoList = diseaseService.getAllDiseases();
@@ -29,6 +31,7 @@ public class DiseaseController {
                 .body(diseaseResponseDtoList);
     }
 
+    @CheckPermission(Permission.DISEASE_READ)
     @GetMapping("/diseases/{diseaseId}")
     public ResponseEntity<DiseaseResponseDto> getDiseaseById(@PathVariable Long diseaseId) {
         DiseaseResponseDto diseaseResponseDto = diseaseService.getDiseaseById(diseaseId);
@@ -38,7 +41,7 @@ public class DiseaseController {
                 .body(diseaseResponseDto);
     }
 
-    @AdminOnly
+    @CheckPermission(Permission.DISEASE_CREATE)
     @PostMapping("/diseases")
     public ResponseEntity<DiseaseResponseDto> createDisease(@RequestBody CreateDiseaseRequestDto createDiseaseRequestDto) {
         DiseaseResponseDto createdDiseaseResponseDto = diseaseService.createDisease(createDiseaseRequestDto);
@@ -49,7 +52,7 @@ public class DiseaseController {
                 .body(createdDiseaseResponseDto);
     }
 
-    @AdminOnly
+    @CheckPermission(Permission.DISEASE_UPDATE)
     @PutMapping("/diseases/{diseaseId}")
     public ResponseEntity<DiseaseResponseDto> updateDiseaseById(@PathVariable Long diseaseId, @RequestBody UpdateDiseaseRequestDto updateDiseaseRequestDto) {
         DiseaseResponseDto updatedDiseaseResponseDto = diseaseService.updateDiseaseById(diseaseId, updateDiseaseRequestDto);
@@ -59,7 +62,7 @@ public class DiseaseController {
                 .body(updatedDiseaseResponseDto);
     }
 
-    @AdminOnly
+    @CheckPermission(Permission.DISEASE_DELETE)
     @DeleteMapping("/diseases/{diseaseId}")
     public ResponseEntity<MessageResponseDto> deleteDiseaseById(@PathVariable Long diseaseId) {
         diseaseService.deleteDiseaseById(diseaseId);

@@ -8,7 +8,6 @@ import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
-import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.AssignDiseaseToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseDtoMapper;
 import com.example.dietitian_plus.domain.patientdiseases.dto.PatientDiseaseResponseDto;
@@ -43,20 +42,6 @@ public class PatientDiseaseService {
         return patientDiseaseList.stream()
                 .map(PatientDisease::getDisease)
                 .map(diseaseDtoMapper::toDto)
-                .toList();
-    }
-
-    @Transactional
-    public List<PatientResponseDto> getAllPatientsWithGivenDisease(Long diseaseId) throws EntityNotFoundException {
-        if (!diseaseRepository.existsById(diseaseId)) {
-            throw new EntityNotFoundException(Messages.DISEASE_NOT_FOUND);
-        }
-
-        List<PatientDisease> patientDiseaseList = patientDiseaseRepository.findAllByDisease_DiseaseId(diseaseId);
-
-        return patientDiseaseList.stream()
-                .map(PatientDisease::getPatient)
-                .map(patientDtoMapper::toDto)
                 .toList();
     }
 

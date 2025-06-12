@@ -1,10 +1,11 @@
 package com.example.dietitian_plus.domain.product;
 
-import com.example.dietitian_plus.auth.access.annotation.AdminOnly;
+import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.product.dto.CreateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.UpdateProductRequestDto;
+import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @CheckPermission(Permission.PRODUCT_READ_ALL)
     @GetMapping("/products")
     public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
         List<ProductResponseDto> productResponseDtoList = productService.getAllProducts();
@@ -29,6 +31,7 @@ public class ProductController {
                 .body(productResponseDtoList);
     }
 
+    @CheckPermission(Permission.PRODUCT_READ)
     @GetMapping("/products/{productId}")
     public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long productId) {
         ProductResponseDto productResponseDto = productService.getProductById(productId);
@@ -38,7 +41,7 @@ public class ProductController {
                 .body(productResponseDto);
     }
 
-    @AdminOnly
+    @CheckPermission(Permission.PRODUCT_CREATE)
     @PostMapping("/products")
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody CreateProductRequestDto createProductRequestDto) {
         ProductResponseDto createdProductResponseDto = productService.createProduct(createProductRequestDto);
@@ -49,7 +52,7 @@ public class ProductController {
                 .body(createdProductResponseDto);
     }
 
-    @AdminOnly
+    @CheckPermission(Permission.PRODUCT_UPDATE)
     @PutMapping("/products/{productId}")
     public ResponseEntity<ProductResponseDto> updateProductById(@PathVariable Long productId, @RequestBody UpdateProductRequestDto updateProductRequestDto) {
         ProductResponseDto updatedProductResponseDto = productService.updateProductById(productId, updateProductRequestDto);
@@ -59,7 +62,7 @@ public class ProductController {
                 .body(updatedProductResponseDto);
     }
 
-    @AdminOnly
+    @CheckPermission(Permission.PRODUCT_DELETE)
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<MessageResponseDto> deleteProductById(@PathVariable Long productId) {
         productService.deleteProductById(productId);
