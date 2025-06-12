@@ -1,11 +1,16 @@
-package com.example.dietitian_plus.auth.access.evaluator;
+package com.example.dietitian_plus.auth.access;
 
 import com.example.dietitian_plus.user.User;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityUtils {
+
+    public Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 
     public Long getCurrentUserId(Authentication authentication) {
         User userDetails = (User) authentication.getPrincipal();
