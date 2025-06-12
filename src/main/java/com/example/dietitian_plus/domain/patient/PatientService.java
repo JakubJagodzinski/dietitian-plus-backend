@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.domain.patient;
 
-import com.example.dietitian_plus.common.Messages;
+import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;

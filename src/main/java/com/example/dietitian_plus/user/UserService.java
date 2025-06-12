@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.user;
 
-import com.example.dietitian_plus.common.Messages;
+import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.user.dto.ChangePasswordRequestDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

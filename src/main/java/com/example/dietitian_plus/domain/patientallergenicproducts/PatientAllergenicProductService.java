@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.domain.patientallergenicproducts;
 
-import com.example.dietitian_plus.common.Messages;
+import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.AssignAllergenicProductToPatientRequestDto;

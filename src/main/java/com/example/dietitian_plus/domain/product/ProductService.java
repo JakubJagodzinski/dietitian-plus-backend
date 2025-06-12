@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.domain.product;
 
-import com.example.dietitian_plus.common.Messages;
+import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.domain.product.dto.CreateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;

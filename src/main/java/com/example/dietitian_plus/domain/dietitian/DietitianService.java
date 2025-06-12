@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.domain.dietitian;
 
-import com.example.dietitian_plus.common.Messages;
+import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianDtoMapper;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dietitian.dto.UpdateDietitianRequestDto;

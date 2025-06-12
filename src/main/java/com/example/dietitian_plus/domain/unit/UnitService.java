@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.domain.unit;
 
-import com.example.dietitian_plus.common.Messages;
+import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.domain.unit.dto.CreateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.UnitDtoMapper;
 import com.example.dietitian_plus.domain.unit.dto.UnitResponseDto;

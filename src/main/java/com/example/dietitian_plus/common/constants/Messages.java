@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.common;
+package com.example.dietitian_plus.common.constants;
 
 public class Messages {
 

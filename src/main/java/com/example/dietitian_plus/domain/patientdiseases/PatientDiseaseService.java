@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.domain.patientdiseases;
 
-import com.example.dietitian_plus.common.Messages;
+import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.domain.disease.Disease;
 import com.example.dietitian_plus.domain.disease.DiseaseRepository;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseDtoMapper;

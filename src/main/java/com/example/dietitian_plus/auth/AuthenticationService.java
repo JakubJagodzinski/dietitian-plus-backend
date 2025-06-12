@@ -5,7 +5,7 @@ import com.example.dietitian_plus.auth.jwt.JwtService;
 import com.example.dietitian_plus.auth.jwt.Token;
 import com.example.dietitian_plus.auth.jwt.TokenRepository;
 import com.example.dietitian_plus.auth.jwt.TokenType;
-import com.example.dietitian_plus.common.Messages;
+import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.user.Role;
