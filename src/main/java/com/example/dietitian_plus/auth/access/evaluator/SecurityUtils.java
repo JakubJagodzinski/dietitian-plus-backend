@@ -9,7 +9,14 @@ public class SecurityUtils {
 
     public Long getCurrentUserId(Authentication authentication) {
         User userDetails = (User) authentication.getPrincipal();
+
         return userDetails.getId();
+    }
+
+    public boolean isOwner(Long expectedUserId, Authentication authentication) {
+        Long currentUserId = getCurrentUserId(authentication);
+
+        return currentUserId.equals(expectedUserId);
     }
 
     public boolean hasRole(Authentication authentication, String role) {
@@ -22,9 +29,4 @@ public class SecurityUtils {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
     }
 
-    public boolean isOwner(Long resourceId, Authentication authentication) {
-        return getCurrentUserId(authentication).equals(resourceId);
-    }
-
 }
-

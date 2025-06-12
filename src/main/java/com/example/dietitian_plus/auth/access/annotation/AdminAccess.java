@@ -7,6 +7,6 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@PreAuthorize("@permissionEvaluator.isOwnerOrAdmin(#userId, authentication)")
-public @interface OwnerOrAdmin {
+@PreAuthorize("@permissionEvaluator.isAdmin(authentication)")
+public @interface AdminAccess {
 }
