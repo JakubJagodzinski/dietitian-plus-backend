@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface DishRepository extends JpaRepository<Dish, Long> {
 
-    List<Dish> findAllByDietitian_Id(Long dietitianId);
+    List<Dish> findAllByDietitian_UserId(Long dietitianId);
 
 }

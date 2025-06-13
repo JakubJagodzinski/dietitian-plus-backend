@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface NoteRepository extends JpaRepository<Note, Long> {
 
-    List<Note> findAllByPatient_Id(Long patientId);
+    List<Note> findAllByPatient_UserId(Long patientId);
 
-    List<Note> findAllByDietitian_Id(Long dietitianId);
+    List<Note> findAllByDietitian_UserId(Long dietitianId);
 
 }

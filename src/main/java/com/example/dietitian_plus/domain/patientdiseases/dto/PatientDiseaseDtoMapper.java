@@ -12,7 +12,7 @@ public class PatientDiseaseDtoMapper {
     public PatientDiseaseResponseDto toDto(PatientDisease patientDisease) {
         PatientDiseaseResponseDto patientDiseaseResponseDto = new PatientDiseaseResponseDto();
 
-        patientDiseaseResponseDto.setPatientId(patientDisease.getPatient().getId());
+        patientDiseaseResponseDto.setPatientId(patientDisease.getPatient().getUserId());
         patientDiseaseResponseDto.setDiseaseId(patientDisease.getDisease().getDiseaseId());
 
         return patientDiseaseResponseDto;

@@ -35,7 +35,7 @@ public class PatientDiseaseService {
             throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
-        List<PatientDisease> patientDiseaseList = patientDiseaseRepository.findAllByPatient_Id(patientId);
+        List<PatientDisease> patientDiseaseList = patientDiseaseRepository.findAllByPatient_UserId(patientId);
 
         return patientDiseaseList.stream()
                 .map(PatientDisease::getDisease)

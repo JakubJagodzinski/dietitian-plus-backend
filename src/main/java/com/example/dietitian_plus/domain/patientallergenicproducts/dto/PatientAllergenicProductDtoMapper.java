@@ -12,7 +12,7 @@ public class PatientAllergenicProductDtoMapper {
     public PatientAllergenicProductResponseDto toDto(PatientAllergenicProduct patientAllergenicProduct) {
         PatientAllergenicProductResponseDto patientAllergenicProductResponseDto = new PatientAllergenicProductResponseDto();
 
-        patientAllergenicProductResponseDto.setPatientId(patientAllergenicProduct.getPatient().getId());
+        patientAllergenicProductResponseDto.setPatientId(patientAllergenicProduct.getPatient().getUserId());
         patientAllergenicProductResponseDto.setProductId(patientAllergenicProduct.getProduct().getProductId());
 
         return patientAllergenicProductResponseDto;

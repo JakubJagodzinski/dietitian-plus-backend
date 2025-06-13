@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
-    List<Patient> findAllByDietitian_Id(Long dietitianId);
+    List<Patient> findAllByDietitian_UserId(Long dietitianId);
 
 }

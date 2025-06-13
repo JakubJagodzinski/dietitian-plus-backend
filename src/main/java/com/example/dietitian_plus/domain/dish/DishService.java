@@ -46,7 +46,7 @@ public class DishService {
             throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
-        return dishDtoMapper.toDtoList(dishRepository.findAllByDietitian_Id(dietitianId));
+        return dishDtoMapper.toDtoList(dishRepository.findAllByDietitian_UserId(dietitianId));
     }
 
     @Transactional

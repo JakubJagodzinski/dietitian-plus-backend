@@ -12,7 +12,7 @@ public class PatientDtoMapper {
     public PatientResponseDto toDto(Patient patient) {
         PatientResponseDto patientResponseDto = new PatientResponseDto();
 
-        patientResponseDto.setPatientId(patient.getId());
+        patientResponseDto.setPatientId(patient.getUserId());
         patientResponseDto.setFirstName(patient.getFirstName());
         patientResponseDto.setLastName(patient.getLastName());
         patientResponseDto.setHeight(patient.getHeight());
@@ -20,7 +20,7 @@ public class PatientDtoMapper {
         patientResponseDto.setCurrentWeight(patient.getCurrentWeight());
 
         if (patient.getDietitian() != null) {
-            patientResponseDto.setDietitianId(patient.getDietitian().getId());
+            patientResponseDto.setDietitianId(patient.getDietitian().getUserId());
         }
 
         patientResponseDto.setIsActive(patient.getIsActive());

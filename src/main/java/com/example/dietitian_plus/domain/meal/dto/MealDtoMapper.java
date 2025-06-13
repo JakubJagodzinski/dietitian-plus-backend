@@ -16,8 +16,8 @@ public class MealDtoMapper {
         dto.setMealId(meal.getMealId());
         dto.setMealName(meal.getMealName());
         dto.setDatetime(meal.getDatetime());
-        dto.setPatientId(meal.getPatient().getId());
-        dto.setDietitianId(meal.getDietitian().getId());
+        dto.setPatientId(meal.getPatient().getUserId());
+        dto.setDietitianId(meal.getDietitian().getUserId());
 
         return dto;
     }

@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface MealRepository extends JpaRepository<Meal, Long> {
 
-    List<Meal> findAllByPatient_Id(Long patientId);
+    List<Meal> findAllByPatient_UserId(Long patientId);
 
-    List<Meal> findAllByDietitian_Id(Long dietitianId);
+    List<Meal> findAllByDietitian_UserId(Long dietitianId);
 
 }

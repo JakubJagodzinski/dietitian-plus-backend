@@ -24,7 +24,7 @@ public class DishDtoMapper {
         dto.setFiber(dish.getFiber());
         dto.setGlycemicIndex(dish.getGlycemicIndex());
         dto.setGlycemicLoad(dish.getGlycemicLoad());
-        dto.setDietitianId(dish.getDietitian().getId());
+        dto.setDietitianId(dish.getDietitian().getUserId());
 
         return dto;
     }

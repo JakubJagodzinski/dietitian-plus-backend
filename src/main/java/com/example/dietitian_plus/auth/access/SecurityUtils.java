@@ -13,7 +13,7 @@ public class SecurityUtils {
     }
 
     public Long getCurrentUserId() {
-        return getCurrentUser().getId();
+        return getCurrentUser().getUserId();
     }
 
     public User getCurrentUser() {

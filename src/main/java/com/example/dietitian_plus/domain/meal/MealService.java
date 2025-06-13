@@ -47,7 +47,7 @@ public class MealService {
             throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
-        return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_Id(patientId));
+        return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserId(patientId));
     }
 
     @Transactional
@@ -56,7 +56,7 @@ public class MealService {
             throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
-        return mealDtoMapper.toDtoList(mealRepository.findAllByDietitian_Id(dietitianId));
+        return mealDtoMapper.toDtoList(mealRepository.findAllByDietitian_UserId(dietitianId));
     }
 
     @Transactional

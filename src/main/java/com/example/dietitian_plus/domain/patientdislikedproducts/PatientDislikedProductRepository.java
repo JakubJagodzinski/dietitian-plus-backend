@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PatientDislikedProductRepository extends JpaRepository<PatientDislikedProduct, PatientDislikedProductId> {
 
-    List<PatientDislikedProduct> findAllByPatient_Id(Long patientId);
+    List<PatientDislikedProduct> findAllByPatient_UserId(Long patientId);
 
 }

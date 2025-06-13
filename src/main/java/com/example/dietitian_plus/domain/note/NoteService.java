@@ -48,7 +48,7 @@ public class NoteService {
             throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
-        return noteDtoMapper.toDtoList(noteRepository.findAllByPatient_Id(patientId));
+        return noteDtoMapper.toDtoList(noteRepository.findAllByPatient_UserId(patientId));
     }
 
     @Transactional
@@ -57,7 +57,7 @@ public class NoteService {
             throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
         }
 
-        return noteDtoMapper.toDtoList(noteRepository.findAllByDietitian_Id(dietitianId));
+        return noteDtoMapper.toDtoList(noteRepository.findAllByDietitian_UserId(dietitianId));
     }
 
     @Transactional

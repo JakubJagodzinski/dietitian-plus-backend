@@ -12,7 +12,7 @@ public class DietitianDtoMapper {
     public DietitianResponseDto toDto(Dietitian dietitian) {
         DietitianResponseDto dto = new DietitianResponseDto();
 
-        dto.setDietitianId(dietitian.getId());
+        dto.setDietitianId(dietitian.getUserId());
         dto.setTitle(dietitian.getTitle());
         dto.setFirstName(dietitian.getFirstName());
         dto.setLastName(dietitian.getLastName());

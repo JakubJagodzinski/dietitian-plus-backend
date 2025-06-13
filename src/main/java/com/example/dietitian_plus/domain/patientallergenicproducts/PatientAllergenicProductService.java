@@ -35,7 +35,7 @@ public class PatientAllergenicProductService {
             throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
         }
 
-        List<PatientAllergenicProduct> patientAllergenicProductList = patientAllergenicProductRepository.findAllByPatient_Id(patientId);
+        List<PatientAllergenicProduct> patientAllergenicProductList = patientAllergenicProductRepository.findAllByPatient_UserId(patientId);
 
         return patientAllergenicProductList.stream()
                 .map(PatientAllergenicProduct::getProduct)
