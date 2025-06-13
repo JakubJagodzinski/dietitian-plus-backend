@@ -42,5 +42,6 @@ public class Messages {
     public static final String DISH_NAME_CANNOT_BE_NULL = "Dish name cannot be null";
     public static final String DIETITIAN_CANNOT_BE_NULL = "Dietitian cannot be null";
     public static final String NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE = "Nutritional values cannot be negative";
+    public static final String PRODUCT_NAME_CANNOT_BE_EMPTY = "Product name cannot be empty";
 
 }
