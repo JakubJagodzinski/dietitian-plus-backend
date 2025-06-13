@@ -31,6 +31,12 @@ public class CreateDishRequestDto {
 
     private Float fiber;
 
+    @JsonProperty("glycemic_index")
+    private Float glycemicIndex;
+
+    @JsonProperty("glycemic_load")
+    private Float glycemicLoad;
+
     @JsonProperty("dietitian_id")
     private Long dietitianId;
 

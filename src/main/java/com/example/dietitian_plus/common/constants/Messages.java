@@ -38,5 +38,9 @@ public class Messages {
     public static final String PASSWORD_CHANGED_SUCCESSFULLY = "Password changed successfully";
     public static final String NO_DIETITIAN_ASSIGNED_TO_PATIENT = "No dietitian is assigned to patient";
     public static final String PATIENT_ALREADY_HAS_A_DIETITIAN_ASSIGNED = "Patient already has a dietitian assigned";
+    public static final String DISH_NAME_CANNOT_BE_EMPTY = "Dish name cannot be empty";
+    public static final String DISH_NAME_CANNOT_BE_NULL = "Dish name cannot be null";
+    public static final String DIETITIAN_CANNOT_BE_NULL = "Dietitian cannot be null";
+    public static final String NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE = "Nutritional values cannot be negative";
 
 }

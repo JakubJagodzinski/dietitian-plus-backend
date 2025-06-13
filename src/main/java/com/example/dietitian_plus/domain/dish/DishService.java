@@ -50,7 +50,11 @@ public class DishService {
     }
 
     @Transactional
-    public DishResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException {
+    public DishResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+        if (createDishRequestDto.getDietitianId() == null) {
+            throw new IllegalArgumentException(Messages.DIETITIAN_CANNOT_BE_NULL);
+        }
+
         Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
@@ -59,22 +63,89 @@ public class DishService {
 
         Dish dish = new Dish();
 
+        if (createDishRequestDto.getDishName() == null) {
+            throw new IllegalArgumentException(Messages.DISH_NAME_CANNOT_BE_NULL);
+        }
+
+        if (createDishRequestDto.getDishName().isEmpty()) {
+            throw new IllegalArgumentException(Messages.DISH_NAME_CANNOT_BE_EMPTY);
+        }
+
         dish.setDishName(createDishRequestDto.getDishName());
-        dish.setIsTemplate(createDishRequestDto.getIsTemplate());
-        dish.setIsPublic(createDishRequestDto.getIsPublic());
+
+        if (createDishRequestDto.getIsTemplate() != null) {
+            dish.setIsTemplate(createDishRequestDto.getIsTemplate());
+        }
+
+        if (createDishRequestDto.getIsPublic() != null) {
+            dish.setIsPublic(createDishRequestDto.getIsPublic());
+        }
+
         dish.setRecipe(createDishRequestDto.getRecipe());
-        dish.setKcal(createDishRequestDto.getKcal());
-        dish.setFats(createDishRequestDto.getFats());
-        dish.setCarbs(createDishRequestDto.getCarbs());
-        dish.setProtein(createDishRequestDto.getProtein());
-        dish.setFiber(createDishRequestDto.getFiber());
+
+        if (createDishRequestDto.getKcal() != null) {
+            if (createDishRequestDto.getKcal() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
+            dish.setKcal(createDishRequestDto.getKcal());
+        }
+
+        if (createDishRequestDto.getFats() != null) {
+            if (createDishRequestDto.getFats() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
+            dish.setFats(createDishRequestDto.getFats());
+        }
+
+        if (createDishRequestDto.getCarbs() != null) {
+            if (createDishRequestDto.getCarbs() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
+            dish.setCarbs(createDishRequestDto.getCarbs());
+        }
+
+        if (createDishRequestDto.getProtein() != null) {
+            if (createDishRequestDto.getProtein() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
+            dish.setProtein(createDishRequestDto.getProtein());
+        }
+
+        if (createDishRequestDto.getFiber() != null) {
+            if (createDishRequestDto.getFiber() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
+            dish.setFiber(createDishRequestDto.getFiber());
+        }
+
+        if (createDishRequestDto.getGlycemicIndex() != null) {
+            if (createDishRequestDto.getGlycemicIndex() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
+            dish.setGlycemicIndex(createDishRequestDto.getGlycemicIndex());
+        }
+
+        if (createDishRequestDto.getGlycemicLoad() != null) {
+            if (createDishRequestDto.getGlycemicLoad() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
+            dish.setGlycemicLoad(createDishRequestDto.getGlycemicLoad());
+        }
+
         dish.setDietitian(dietitian);
 
         return dishDtoMapper.toDto(dishRepository.save(dish));
     }
 
     @Transactional
-    public DishResponseDto updateDishById(Long dishId, UpdateDishRequestDto updateDishRequestDto) throws EntityNotFoundException {
+    public DishResponseDto updateDishById(Long dishId, UpdateDishRequestDto updateDishRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
@@ -82,6 +153,10 @@ public class DishService {
         }
 
         if (updateDishRequestDto.getDishName() != null) {
+            if (updateDishRequestDto.getDishName().isEmpty()) {
+                throw new IllegalArgumentException(Messages.DISH_NAME_CANNOT_BE_EMPTY);
+            }
+
             dish.setDishName(updateDishRequestDto.getDishName());
         }
 
@@ -98,23 +173,59 @@ public class DishService {
         }
 
         if (updateDishRequestDto.getKcal() != null) {
+            if (updateDishRequestDto.getKcal() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
             dish.setKcal(updateDishRequestDto.getKcal());
         }
 
         if (updateDishRequestDto.getFats() != null) {
+            if (updateDishRequestDto.getFats() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
             dish.setFats(updateDishRequestDto.getFats());
         }
 
         if (updateDishRequestDto.getCarbs() != null) {
+            if (updateDishRequestDto.getCarbs() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
             dish.setCarbs(updateDishRequestDto.getCarbs());
         }
 
         if (updateDishRequestDto.getProtein() != null) {
+            if (updateDishRequestDto.getProtein() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
             dish.setProtein(updateDishRequestDto.getProtein());
         }
 
         if (updateDishRequestDto.getFiber() != null) {
+            if (updateDishRequestDto.getFiber() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
             dish.setFiber(updateDishRequestDto.getFiber());
+        }
+
+        if (updateDishRequestDto.getGlycemicIndex() != null) {
+            if (updateDishRequestDto.getGlycemicIndex() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
+            dish.setGlycemicIndex(updateDishRequestDto.getGlycemicIndex());
+        }
+
+        if (updateDishRequestDto.getGlycemicLoad() != null) {
+            if (updateDishRequestDto.getGlycemicLoad() < 0) {
+                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+            }
+
+            dish.setGlycemicLoad(updateDishRequestDto.getGlycemicLoad());
         }
 
         return dishDtoMapper.toDto(dishRepository.save(dish));

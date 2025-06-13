@@ -31,4 +31,10 @@ public class UpdateDishRequestDto {
 
     private Float fiber;
 
+    @JsonProperty("glycemic_index")
+    private Float glycemicIndex;
+
+    @JsonProperty("glycemic_load")
+    private Float glycemicLoad;
+
 }

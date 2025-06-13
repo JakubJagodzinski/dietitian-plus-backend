@@ -29,20 +29,31 @@ public class Dish {
     @Column(name = "is_public", nullable = false)
     private Boolean isPublic = false;
 
-    private String recipe;
+    private String recipe = null;
 
+    @Column(nullable = false)
     private Float kcal = 0.0f;
 
+    @Column(nullable = false)
     private Float fats = 0.0f;
 
+    @Column(nullable = false)
     private Float carbs = 0.0f;
 
+    @Column(nullable = false)
     private Float protein = 0.0f;
 
+    @Column(nullable = false)
     private Float fiber = 0.0f;
 
+    @Column(name = "glycemic_index", nullable = false)
+    private Float glycemicIndex = 0.0f;
+
+    @Column(name = "glycemic_load", nullable = false)
+    private Float glycemicLoad = 0.0f;
+
     @ManyToOne
-    @JoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_dishes_dietitian_id"))
+    @JoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_dishes_dietitian_id"), nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dietitian dietitian;
 
