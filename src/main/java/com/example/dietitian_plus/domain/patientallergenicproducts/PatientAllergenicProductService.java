@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.patientallergenicproducts;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.PatientMessages;
+import com.example.dietitian_plus.common.constants.messages.ProductMessages;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.AssignAllergenicProductToPatientRequestDto;
@@ -32,7 +33,7 @@ public class PatientAllergenicProductService {
     @Transactional
     public List<ProductResponseDto> getPatientAllAllergenicProducts(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         List<PatientAllergenicProduct> patientAllergenicProductList = patientAllergenicProductRepository.findAllByPatient_UserId(patientId);
@@ -48,20 +49,20 @@ public class PatientAllergenicProductService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         Long productId = assignAllergenicProductToPatientRequestDto.getProductId();
         Product product = productRepository.findById(productId).orElse(null);
 
         if (product == null) {
-            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
         }
 
         PatientAllergenicProductId patientAllergenicProductId = new PatientAllergenicProductId(patientId, productId);
 
         if (patientAllergenicProductRepository.existsById(patientAllergenicProductId)) {
-            throw new EntityExistsException(Messages.PRODUCT_AlREADY_ASSIGNED_TO_PATIENT);
+            throw new EntityExistsException(ProductMessages.PRODUCT_AlREADY_ASSIGNED_TO_PATIENT);
         }
 
         PatientAllergenicProduct patientAllergenicProduct = new PatientAllergenicProduct();
@@ -76,17 +77,17 @@ public class PatientAllergenicProductService {
     @Transactional
     public void unassignAllergenicProductFromPatient(Long patientId, Long productId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         if (!productRepository.existsById(productId)) {
-            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
         }
 
         PatientAllergenicProductId patientAllergenicProductId = new PatientAllergenicProductId(patientId, productId);
 
         if (!patientAllergenicProductRepository.existsById(patientAllergenicProductId)) {
-            throw new EntityNotFoundException(Messages.PRODUCT_IS_NOT_ASSIGNED_TO_PATIENT);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_IS_NOT_ASSIGNED_TO_PATIENT);
         }
 
         patientAllergenicProductRepository.deleteById(patientAllergenicProductId);

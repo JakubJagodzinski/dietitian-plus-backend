@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.mealsdishes;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.DishMessages;
+import com.example.dietitian_plus.common.constants.messages.MealMessages;
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.dish.DishRepository;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
@@ -39,7 +40,7 @@ public class MealDishService {
     @Transactional
     public List<DishResponseDto> getMealAllDishes(Long mealId) throws EntityNotFoundException {
         if (!mealRepository.existsById(mealId)) {
-            throw new EntityNotFoundException(Messages.MEAL_NOT_FOUND);
+            throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
         List<MealDish> mealDishList = mealDishRepository.findAllByMeal_MealId(mealId);
@@ -55,7 +56,7 @@ public class MealDishService {
         Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
-            throw new EntityNotFoundException(Messages.MEAL_NOT_FOUND);
+            throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
         List<MealDish> mealDishList = mealDishRepository.findAllByMeal_MealId(mealId);
@@ -78,19 +79,19 @@ public class MealDishService {
         Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
-            throw new EntityNotFoundException(Messages.MEAL_NOT_FOUND);
+            throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
         Dish dish = dishRepository.findById(createMealDishRequestDto.getDishId()).orElse(null);
 
         if (dish == null) {
-            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
         MealDishId mealDishId = new MealDishId(meal.getMealId(), dish.getDishId());
 
         if (mealDishRepository.existsById(mealDishId)) {
-            throw new EntityExistsException(Messages.DISH_ALREADY_ASSIGNED_TO_MEAL);
+            throw new EntityExistsException(DishMessages.DISH_ALREADY_ASSIGNED_TO_MEAL);
         }
 
         MealDish mealDish = new MealDish();
@@ -108,7 +109,7 @@ public class MealDishService {
         MealDish mealDish = mealDishRepository.findById(new MealDishId(mealId, dishId)).orElse(null);
 
         if (mealDish == null) {
-            throw new EntityNotFoundException(Messages.DISH_NOT_ASSIGNED_TO_MEAL);
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_ASSIGNED_TO_MEAL);
         }
 
         mealDishRepository.delete(mealDish);

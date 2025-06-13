@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.domain.product;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.ProductMessages;
 import com.example.dietitian_plus.domain.product.dto.CreateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
 import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
@@ -29,7 +29,7 @@ public class ProductService {
         Product product = productRepository.findById(productId).orElse(null);
 
         if (product == null) {
-            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
         }
 
         return productDtoMapper.toDto(product);
@@ -43,7 +43,7 @@ public class ProductService {
 
         if (createProductRequestDto.getKcal() != null) {
             if (createProductRequestDto.getKcal() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setKcal(createProductRequestDto.getKcal());
@@ -51,7 +51,7 @@ public class ProductService {
 
         if (createProductRequestDto.getFats() != null) {
             if (createProductRequestDto.getFats() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setFats(createProductRequestDto.getFats());
@@ -59,7 +59,7 @@ public class ProductService {
 
         if (createProductRequestDto.getCarbs() != null) {
             if (createProductRequestDto.getCarbs() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setCarbs(createProductRequestDto.getCarbs());
@@ -67,7 +67,7 @@ public class ProductService {
 
         if (createProductRequestDto.getProtein() != null) {
             if (createProductRequestDto.getProtein() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setProtein(createProductRequestDto.getProtein());
@@ -75,7 +75,7 @@ public class ProductService {
 
         if (createProductRequestDto.getFiber() != null) {
             if (createProductRequestDto.getFiber() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setFiber(createProductRequestDto.getFiber());
@@ -83,7 +83,7 @@ public class ProductService {
 
         if (createProductRequestDto.getGlycemicIndex() != null) {
             if (createProductRequestDto.getGlycemicIndex() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setGlycemicIndex(createProductRequestDto.getGlycemicIndex());
@@ -91,7 +91,7 @@ public class ProductService {
 
         if (createProductRequestDto.getGlycemicLoad() != null) {
             if (createProductRequestDto.getGlycemicLoad() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setGlycemicLoad(createProductRequestDto.getGlycemicLoad());
@@ -105,12 +105,12 @@ public class ProductService {
         Product product = productRepository.findById(productId).orElse(null);
 
         if (product == null) {
-            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
         }
 
         if (updateProductRequestDto.getProductName() != null) {
             if (updateProductRequestDto.getProductName().isEmpty()) {
-                throw new IllegalArgumentException(Messages.PRODUCT_NAME_CANNOT_BE_EMPTY);
+                throw new IllegalArgumentException(ProductMessages.PRODUCT_NAME_CANNOT_BE_EMPTY);
             }
 
             product.setProductName(updateProductRequestDto.getProductName());
@@ -118,7 +118,7 @@ public class ProductService {
 
         if (updateProductRequestDto.getKcal() != null) {
             if (updateProductRequestDto.getKcal() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setKcal(updateProductRequestDto.getKcal());
@@ -126,7 +126,7 @@ public class ProductService {
 
         if (updateProductRequestDto.getFats() != null) {
             if (updateProductRequestDto.getFats() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setFats(updateProductRequestDto.getFats());
@@ -134,7 +134,7 @@ public class ProductService {
 
         if (updateProductRequestDto.getCarbs() != null) {
             if (updateProductRequestDto.getCarbs() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setCarbs(updateProductRequestDto.getCarbs());
@@ -142,7 +142,7 @@ public class ProductService {
 
         if (updateProductRequestDto.getProtein() != null) {
             if (updateProductRequestDto.getProtein() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setProtein(updateProductRequestDto.getProtein());
@@ -150,7 +150,7 @@ public class ProductService {
 
         if (updateProductRequestDto.getFiber() != null) {
             if (updateProductRequestDto.getFiber() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setFiber(updateProductRequestDto.getFiber());
@@ -158,7 +158,7 @@ public class ProductService {
 
         if (updateProductRequestDto.getGlycemicIndex() != null) {
             if (updateProductRequestDto.getGlycemicIndex() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setGlycemicIndex(updateProductRequestDto.getGlycemicIndex());
@@ -166,7 +166,7 @@ public class ProductService {
 
         if (updateProductRequestDto.getGlycemicLoad() != null) {
             if (updateProductRequestDto.getGlycemicLoad() < 0) {
-                throw new IllegalArgumentException(Messages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
+                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
             }
 
             product.setGlycemicLoad(updateProductRequestDto.getGlycemicLoad());
@@ -178,7 +178,7 @@ public class ProductService {
     @Transactional
     public void deleteProductById(Long productId) throws EntityNotFoundException {
         if (!productRepository.existsById(productId)) {
-            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
         }
 
         productRepository.deleteById(productId);

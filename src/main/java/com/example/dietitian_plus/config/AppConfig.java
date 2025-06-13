@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.config;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.UserMessages;
 import com.example.dietitian_plus.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ public class AppConfig {
     @Bean
     public UserDetailsService userDetailsService() throws UsernameNotFoundException {
         return username -> userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(Messages.USER_NOT_FOUND));
+                .orElseThrow(() -> new UsernameNotFoundException(UserMessages.USER_NOT_FOUND));
     }
 
     @Bean

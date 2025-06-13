@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.domain.dish;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.DishMessages;
 import com.example.dietitian_plus.domain.dishesproducts.DishProduct;
 import com.example.dietitian_plus.domain.dishesproducts.DishProductRepository;
 import com.example.dietitian_plus.domain.product.Product;
@@ -53,7 +53,7 @@ public class DishNutritionCalculator {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
-            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
         List<DishProduct> dishProductList = dishProductRepository.findAllByDish_DishId(dishId);

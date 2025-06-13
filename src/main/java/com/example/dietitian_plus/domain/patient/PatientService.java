@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.patient;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
+import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;
@@ -31,7 +32,7 @@ public class PatientService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         return patientDtoMapper.toDto(patient);
@@ -40,7 +41,7 @@ public class PatientService {
     @Transactional
     public List<PatientResponseDto> getDietitianAllPatients(Long dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
-            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
+            throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
         return patientDtoMapper.toDtoList(patientRepository.findAllByDietitian_UserId(dietitianId));
@@ -51,7 +52,7 @@ public class PatientService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         if (patientResponseDto.getHeight() != null) {
@@ -74,7 +75,7 @@ public class PatientService {
             Dietitian dietitian = dietitianRepository.findById(patientResponseDto.getDietitianId()).orElse(null);
 
             if (dietitian == null) {
-                throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
+                throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
             }
 
             patient.setDietitian(dietitian);
@@ -88,17 +89,17 @@ public class PatientService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         if (patient.getDietitian() != null) {
-            throw new IllegalArgumentException(Messages.PATIENT_ALREADY_HAS_A_DIETITIAN_ASSIGNED);
+            throw new IllegalArgumentException(PatientMessages.PATIENT_ALREADY_HAS_A_DIETITIAN_ASSIGNED);
         }
 
         Dietitian dietitian = dietitianRepository.findById(assignDietitianToPatientRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
+            throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
         patient.setDietitian(dietitian);
@@ -111,11 +112,11 @@ public class PatientService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         if (patient.getDietitian() == null) {
-            throw new IllegalArgumentException(Messages.NO_DIETITIAN_ASSIGNED_TO_PATIENT);
+            throw new IllegalArgumentException(PatientMessages.NO_DIETITIAN_ASSIGNED_TO_PATIENT);
         }
 
         patient.setDietitian(null);
@@ -126,7 +127,7 @@ public class PatientService {
     @Transactional
     public void deletePatientById(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         patientRepository.deleteById(patientId);

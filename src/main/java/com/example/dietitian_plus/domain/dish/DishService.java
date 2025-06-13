@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.dish;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
+import com.example.dietitian_plus.common.constants.messages.DishMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.dish.dto.CreateDishRequestDto;
@@ -32,7 +33,7 @@ public class DishService {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
-            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
         return dishDtoMapper.toDto(dish);
@@ -43,7 +44,7 @@ public class DishService {
         Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
+            throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
         return dishDtoMapper.toDtoList(dishRepository.findAllByDietitian_UserId(dietitianId));
@@ -52,23 +53,23 @@ public class DishService {
     @Transactional
     public DishResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         if (createDishRequestDto.getDietitianId() == null) {
-            throw new IllegalArgumentException(Messages.DIETITIAN_CANNOT_BE_NULL);
+            throw new IllegalArgumentException(DietitianMessages.DIETITIAN_CANNOT_BE_NULL);
         }
 
         Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
+            throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
         Dish dish = new Dish();
 
         if (createDishRequestDto.getDishName() == null) {
-            throw new IllegalArgumentException(Messages.DISH_NAME_CANNOT_BE_NULL);
+            throw new IllegalArgumentException(DishMessages.DISH_NAME_CANNOT_BE_NULL);
         }
 
         if (createDishRequestDto.getDishName().isEmpty()) {
-            throw new IllegalArgumentException(Messages.DISH_NAME_CANNOT_BE_EMPTY);
+            throw new IllegalArgumentException(DishMessages.DISH_NAME_CANNOT_BE_EMPTY);
         }
 
         dish.setDishName(createDishRequestDto.getDishName());
@@ -93,12 +94,12 @@ public class DishService {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
-            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
         if (updateDishRequestDto.getDishName() != null) {
             if (updateDishRequestDto.getDishName().isEmpty()) {
-                throw new IllegalArgumentException(Messages.DISH_NAME_CANNOT_BE_EMPTY);
+                throw new IllegalArgumentException(DishMessages.DISH_NAME_CANNOT_BE_EMPTY);
             }
 
             dish.setDishName(updateDishRequestDto.getDishName());
@@ -122,7 +123,7 @@ public class DishService {
     @Transactional
     public void deleteDishById(Long dishId) throws EntityNotFoundException {
         if (!dishRepository.existsById(dishId)) {
-            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
         dishRepository.deleteById(dishId);

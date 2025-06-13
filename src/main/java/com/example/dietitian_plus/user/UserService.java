@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.user;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.PasswordMessages;
 import com.example.dietitian_plus.user.dto.ChangePasswordRequestDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,11 @@ public class UserService {
         User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
 
         if (!passwordEncoder.matches(changePasswordRequestDto.getCurrentPassword(), user.getPassword())) {
-            throw new IllegalArgumentException(Messages.WRONG_PASSWORD);
+            throw new IllegalArgumentException(PasswordMessages.WRONG_PASSWORD);
         }
 
         if (!changePasswordRequestDto.getNewPassword().equals(changePasswordRequestDto.getConfirmationPassword())) {
-            throw new IllegalArgumentException(Messages.PASSWORDS_ARE_NOT_THE_SAME);
+            throw new IllegalArgumentException(PasswordMessages.PASSWORDS_DONT_MATCH);
         }
 
         user.setPassword(passwordEncoder.encode(changePasswordRequestDto.getNewPassword()));

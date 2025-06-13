@@ -1,6 +1,8 @@
 package com.example.dietitian_plus.domain.meal;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
+import com.example.dietitian_plus.common.constants.messages.MealMessages;
+import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.meal.dto.CreateMealRequestDto;
@@ -35,7 +37,7 @@ public class MealService {
         Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
-            throw new EntityNotFoundException(Messages.MEAL_NOT_FOUND);
+            throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
         return mealDtoMapper.toDto(meal);
@@ -44,7 +46,7 @@ public class MealService {
     @Transactional
     public List<MealResponseDto> getPatientAllMeals(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserId(patientId));
@@ -53,7 +55,7 @@ public class MealService {
     @Transactional
     public List<MealResponseDto> getDietitianAllMeals(Long dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
-            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
+            throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
         return mealDtoMapper.toDtoList(mealRepository.findAllByDietitian_UserId(dietitianId));
@@ -64,21 +66,21 @@ public class MealService {
         Patient patient = patientRepository.findById(createMealRequestDto.getPatientId()).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         Dietitian dietitian = dietitianRepository.findById(createMealRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
-            throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
+            throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
         if (createMealRequestDto.getMealName() == null) {
-            throw new IllegalArgumentException(Messages.MEAL_NAME_CANNOT_BE_NULL);
+            throw new IllegalArgumentException(MealMessages.MEAL_NAME_CANNOT_BE_NULL);
         }
 
         if (createMealRequestDto.getMealName().isEmpty()) {
-            throw new IllegalArgumentException(Messages.MEAL_NAME_CANNOT_BE_EMPTY);
+            throw new IllegalArgumentException(MealMessages.MEAL_NAME_CANNOT_BE_EMPTY);
         }
 
         Meal meal = new Meal();
@@ -96,12 +98,12 @@ public class MealService {
         Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
-            throw new EntityNotFoundException(Messages.MEAL_NOT_FOUND);
+            throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
         if (updateMealRequestDto.getMealName() != null) {
             if (updateMealRequestDto.getMealName().isEmpty()) {
-                throw new IllegalArgumentException(Messages.MEAL_NAME_CANNOT_BE_EMPTY);
+                throw new IllegalArgumentException(MealMessages.MEAL_NAME_CANNOT_BE_EMPTY);
             }
 
             meal.setMealName(updateMealRequestDto.getMealName());
@@ -115,7 +117,7 @@ public class MealService {
             Patient patient = patientRepository.findById(updateMealRequestDto.getPatientId()).orElse(null);
 
             if (patient == null) {
-                throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+                throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
             }
 
             meal.setPatient(patient);
@@ -125,7 +127,7 @@ public class MealService {
             Dietitian dietitian = dietitianRepository.findById(updateMealRequestDto.getDietitianId()).orElse(null);
 
             if (dietitian == null) {
-                throw new EntityNotFoundException(Messages.DIETITIAN_NOT_FOUND);
+                throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
             }
 
             meal.setDietitian(dietitian);
@@ -137,7 +139,7 @@ public class MealService {
     @Transactional
     public void deleteMealById(Long mealId) throws EntityNotFoundException {
         if (!mealRepository.existsById(mealId)) {
-            throw new EntityNotFoundException(Messages.MEAL_NOT_FOUND);
+            throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
         mealRepository.deleteById(mealId);

@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.patientdislikedproducts;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.PatientMessages;
+import com.example.dietitian_plus.common.constants.messages.ProductMessages;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import com.example.dietitian_plus.domain.patientdislikedproducts.dto.AssignDislikedProductToPatientRequestDto;
@@ -32,7 +33,7 @@ public class PatientDislikedProductService {
     @Transactional
     public List<ProductResponseDto> getPatientAllDislikedProducts(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         List<PatientDislikedProduct> patientDislikedProductList = patientDislikedProductRepository.findAllByPatient_UserId(patientId);
@@ -48,20 +49,20 @@ public class PatientDislikedProductService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         Long productId = assignDislikedProductToPatientRequestDto.getProductId();
         Product product = productRepository.findById(productId).orElse(null);
 
         if (product == null) {
-            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
         }
 
         PatientDislikedProductId patientDislikedProductId = new PatientDislikedProductId(patientId, productId);
 
         if (patientDislikedProductRepository.existsById(patientDislikedProductId)) {
-            throw new EntityExistsException(Messages.PRODUCT_AlREADY_ASSIGNED_TO_PATIENT);
+            throw new EntityExistsException(ProductMessages.PRODUCT_AlREADY_ASSIGNED_TO_PATIENT);
         }
 
         PatientDislikedProduct patientDislikedProduct = new PatientDislikedProduct();
@@ -76,17 +77,17 @@ public class PatientDislikedProductService {
     @Transactional
     public void unassignDislikedProductFromPatient(Long patientId, Long productId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         if (!productRepository.existsById(productId)) {
-            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
         }
 
         PatientDislikedProductId patientDislikedProductId = new PatientDislikedProductId(patientId, productId);
 
         if (!patientDislikedProductRepository.existsById(patientDislikedProductId)) {
-            throw new EntityNotFoundException(Messages.PRODUCT_IS_NOT_ASSIGNED_TO_PATIENT);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_IS_NOT_ASSIGNED_TO_PATIENT);
         }
 
         patientDislikedProductRepository.deleteById(patientDislikedProductId);

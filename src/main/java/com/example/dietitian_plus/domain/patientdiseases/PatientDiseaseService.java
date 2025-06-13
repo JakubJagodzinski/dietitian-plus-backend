@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.patientdiseases;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.DiseaseMessages;
+import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.disease.Disease;
 import com.example.dietitian_plus.domain.disease.DiseaseRepository;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseDtoMapper;
@@ -32,7 +33,7 @@ public class PatientDiseaseService {
     @Transactional
     public List<DiseaseResponseDto> getPatientAllDiseases(Long patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         List<PatientDisease> patientDiseaseList = patientDiseaseRepository.findAllByPatient_UserId(patientId);
@@ -48,20 +49,20 @@ public class PatientDiseaseService {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         Long diseaseId = assignDiseaseToPatientRequestDto.getDiseaseId();
         Disease disease = diseaseRepository.findById(diseaseId).orElse(null);
 
         if (disease == null) {
-            throw new EntityNotFoundException(Messages.DISEASE_NOT_FOUND);
+            throw new EntityNotFoundException(DiseaseMessages.DISEASE_NOT_FOUND);
         }
 
         PatientDiseaseId patientDiseaseId = new PatientDiseaseId(patientId, diseaseId);
 
         if (patientDiseaseRepository.existsById(patientDiseaseId)) {
-            throw new EntityExistsException(Messages.DISEASE_ALREADY_ASSIGNED_TO_PATIENT);
+            throw new EntityExistsException(DiseaseMessages.DISEASE_ALREADY_ASSIGNED_TO_PATIENT);
         }
 
         PatientDisease patientDisease = new PatientDisease();
@@ -76,17 +77,17 @@ public class PatientDiseaseService {
     @Transactional
     public void unassignDiseaseFromPatient(Long patientId, Long diseaseId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
-            throw new EntityNotFoundException(Messages.PATIENT_NOT_FOUND);
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
         if (!diseaseRepository.existsById(diseaseId)) {
-            throw new EntityNotFoundException(Messages.DISEASE_NOT_FOUND);
+            throw new EntityNotFoundException(DiseaseMessages.DISEASE_NOT_FOUND);
         }
 
         PatientDiseaseId patientDiseaseId = new PatientDiseaseId(patientId, diseaseId);
 
         if (!patientDiseaseRepository.existsById(patientDiseaseId)) {
-            throw new EntityNotFoundException(Messages.DISEASE_NOT_ASSIGNED_TO_PATIENT);
+            throw new EntityNotFoundException(DiseaseMessages.DISEASE_NOT_ASSIGNED_TO_PATIENT);
         }
 
         patientDiseaseRepository.deleteById(patientDiseaseId);

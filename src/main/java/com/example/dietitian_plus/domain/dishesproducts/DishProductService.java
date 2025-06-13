@@ -1,6 +1,8 @@
 package com.example.dietitian_plus.domain.dishesproducts;
 
-import com.example.dietitian_plus.common.constants.Messages;
+import com.example.dietitian_plus.common.constants.messages.DishMessages;
+import com.example.dietitian_plus.common.constants.messages.ProductMessages;
+import com.example.dietitian_plus.common.constants.messages.UnitMessages;
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.dish.DishNutritionCalculator;
 import com.example.dietitian_plus.domain.dish.DishRepository;
@@ -36,7 +38,7 @@ public class DishProductService {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
-            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
         List<DishProduct> dishProductList = dishProductRepository.findAllByDish_DishId(dishId);
@@ -52,7 +54,7 @@ public class DishProductService {
     @Transactional
     public List<DishProductResponseDto> getAllDishProductEntriesWithGivenProduct(Long productId) throws EntityNotFoundException {
         if (!productRepository.existsById(productId)) {
-            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
         }
 
         List<DishProduct> dishProductResponseDtoList = dishProductRepository.findAllByProduct_ProductId(productId);
@@ -65,23 +67,23 @@ public class DishProductService {
         Dish dish = dishRepository.findById(createDishProductEntryRequestDto.getDishId()).orElse(null);
 
         if (dish == null) {
-            throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
         Product product = productRepository.findById(createDishProductEntryRequestDto.getProductId()).orElse(null);
 
         if (product == null) {
-            throw new EntityNotFoundException(Messages.PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
         }
 
         Unit unit = unitRepository.findById(createDishProductEntryRequestDto.getUnitId()).orElse(null);
 
         if (unit == null) {
-            throw new EntityNotFoundException(Messages.UNIT_NOT_FOUND);
+            throw new EntityNotFoundException(UnitMessages.UNIT_NOT_FOUND);
         }
 
         if (createDishProductEntryRequestDto.getUnitCount() <= 0) {
-            throw new IllegalArgumentException(Messages.UNIT_COUNT_MUST_BE_POSITIVE);
+            throw new IllegalArgumentException(UnitMessages.UNIT_COUNT_MUST_BE_POSITIVE);
         }
 
         DishProduct dishProduct = new DishProduct();
@@ -101,14 +103,14 @@ public class DishProductService {
         DishProduct dishProduct = dishProductRepository.findById(dishProductId).orElse(null);
 
         if (dishProduct == null) {
-            throw new EntityNotFoundException(Messages.DISH_PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(DishMessages.DISH_PRODUCT_NOT_FOUND);
         }
 
         if (updateDishProductEntryRequestDto.getUnitId() != null) {
             Unit unit = unitRepository.findById(updateDishProductEntryRequestDto.getUnitId()).orElse(null);
 
             if (unit == null) {
-                throw new EntityNotFoundException(Messages.UNIT_NOT_FOUND);
+                throw new EntityNotFoundException(UnitMessages.UNIT_NOT_FOUND);
             }
 
             dishProduct.setUnit(unit);
@@ -116,7 +118,7 @@ public class DishProductService {
 
         if (updateDishProductEntryRequestDto.getUnitCount() != null) {
             if (updateDishProductEntryRequestDto.getUnitCount() <= 0) {
-                throw new IllegalArgumentException(Messages.UNIT_COUNT_MUST_BE_POSITIVE);
+                throw new IllegalArgumentException(UnitMessages.UNIT_COUNT_MUST_BE_POSITIVE);
             }
 
             dishProduct.setUnitCount(updateDishProductEntryRequestDto.getUnitCount());
@@ -132,7 +134,7 @@ public class DishProductService {
         DishProduct dishProduct = dishProductRepository.findById(dishProductId).orElse(null);
 
         if (dishProduct == null) {
-            throw new EntityNotFoundException(Messages.DISH_PRODUCT_NOT_FOUND);
+            throw new EntityNotFoundException(DishMessages.DISH_PRODUCT_NOT_FOUND);
         }
 
         dishNutritionCalculator.decreaseDishNutritionValues(dishProduct);
