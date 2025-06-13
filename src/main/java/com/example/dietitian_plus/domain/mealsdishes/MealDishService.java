@@ -5,11 +5,15 @@ import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.dish.DishRepository;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
+import com.example.dietitian_plus.domain.dishesproducts.DishProductService;
+import com.example.dietitian_plus.domain.dishesproducts.dto.DishWithProductsResponseDto;
 import com.example.dietitian_plus.domain.meal.Meal;
 import com.example.dietitian_plus.domain.meal.MealRepository;
+import com.example.dietitian_plus.domain.meal.dto.MealDtoMapper;
 import com.example.dietitian_plus.domain.mealsdishes.dto.CreateMealDishRequestDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.MealDishDtoMapper;
 import com.example.dietitian_plus.domain.mealsdishes.dto.MealDishResponseDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.MealWithDishesResponseDto;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -26,8 +30,11 @@ public class MealDishService {
     private final MealRepository mealRepository;
     private final DishRepository dishRepository;
 
+    private final DishProductService dishProductService;
+
     private final MealDishDtoMapper mealDishDtoMapper;
     private final DishDtoMapper dishDtoMapper;
+    private final MealDtoMapper mealDtoMapper;
 
     @Transactional
     public List<DishResponseDto> getMealAllDishes(Long mealId) throws EntityNotFoundException {
@@ -41,6 +48,29 @@ public class MealDishService {
                 .map(MealDish::getDish)
                 .map(dishDtoMapper::toDto)
                 .toList();
+    }
+
+    @Transactional
+    public MealWithDishesResponseDto getMealAllDishesWithProducts(Long mealId) throws EntityNotFoundException {
+        Meal meal = mealRepository.findById(mealId).orElse(null);
+
+        if (meal == null) {
+            throw new EntityNotFoundException(Messages.MEAL_NOT_FOUND);
+        }
+
+        List<MealDish> mealDishList = mealDishRepository.findAllByMeal_MealId(mealId);
+
+        MealWithDishesResponseDto mealWithDishesResponseDto = new MealWithDishesResponseDto();
+
+        mealWithDishesResponseDto.setMeal(mealDtoMapper.toDto(meal));
+
+        List<DishWithProductsResponseDto> dishes = mealDishList.stream()
+                .map(mealDish -> dishProductService.getDishWithProducts(mealDish.getDish().getDishId()))
+                .toList();
+
+        mealWithDishesResponseDto.setDishes(dishes);
+
+        return mealWithDishesResponseDto;
     }
 
     @Transactional

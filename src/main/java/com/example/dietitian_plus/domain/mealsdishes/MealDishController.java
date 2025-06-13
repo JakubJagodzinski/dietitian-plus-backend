@@ -5,6 +5,7 @@ import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.CreateMealDishRequestDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.MealDishResponseDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.MealWithDishesResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,16 @@ public class MealDishController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishResponseDtoList);
+    }
+
+    @CheckPermission(Permission.MEAL_DISH_READ_ALL)
+    @GetMapping("/meals/{mealId}/dishes/products")
+    public ResponseEntity<MealWithDishesResponseDto> getMealAllDishesWithProducts(@PathVariable Long mealId) {
+        MealWithDishesResponseDto mealWithDishesResponseDto = mealDishService.getMealAllDishesWithProducts(mealId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(mealWithDishesResponseDto);
     }
 
     @CheckPermission(Permission.MEAL_DISH_ADD)
