@@ -48,7 +48,7 @@ public class DishProductController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(URI.create("/api/v1/dishes-products/" + createdDishProductResponseDto.getId()))
+                .location(URI.create("/api/v1/dishes-products/" + createdDishProductResponseDto.getDishProductId()))
                 .body(createdDishProductResponseDto);
     }
 

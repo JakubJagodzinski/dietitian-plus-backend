@@ -19,7 +19,8 @@ public class DishProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "dish_product_id")
+    private Long dishProductId;
 
     @ManyToOne
     @JoinColumn(name = "dish_id", nullable = false, foreignKey = @ForeignKey(name = "fk_dishes_products_dish_id"))

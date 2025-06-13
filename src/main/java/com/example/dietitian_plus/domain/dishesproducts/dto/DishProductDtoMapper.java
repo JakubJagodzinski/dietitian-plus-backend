@@ -1,6 +1,8 @@
 package com.example.dietitian_plus.domain.dishesproducts.dto;
 
 import com.example.dietitian_plus.domain.dishesproducts.DishProduct;
+import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
+import com.example.dietitian_plus.domain.unit.dto.UnitDtoMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -9,13 +11,20 @@ import java.util.stream.Collectors;
 @Component
 public class DishProductDtoMapper {
 
+    private final ProductDtoMapper productDtoMapper;
+    private final UnitDtoMapper unitDtoMapper;
+
+    public DishProductDtoMapper(ProductDtoMapper productDtoMapper, UnitDtoMapper unitDtoMapper) {
+        this.productDtoMapper = productDtoMapper;
+        this.unitDtoMapper = unitDtoMapper;
+    }
+
     public DishProductResponseDto toDto(DishProduct dishProduct) {
         DishProductResponseDto dto = new DishProductResponseDto();
 
-        dto.setId(dishProduct.getId());
-        dto.setDishId(dishProduct.getId());
-        dto.setProductId(dishProduct.getProduct().getProductId());
-        dto.setUnitId(dishProduct.getUnit().getUnitId());
+        dto.setDishProductId(dishProduct.getDishProductId());
+        dto.setProduct(productDtoMapper.toDto(dishProduct.getProduct()));
+        dto.setUnit(unitDtoMapper.toDto(dishProduct.getUnit()));
         dto.setUnitCount(dishProduct.getUnitCount());
 
         return dto;
