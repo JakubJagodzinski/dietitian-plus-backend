@@ -4,6 +4,7 @@ import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.CreateDishProductEntryRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.DishProductResponseDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.DishWithProductsResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.UpdateDishProductEntryRequestDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,13 @@ public class DishProductController {
     private final DishProductService dishProductService;
 
     @CheckPermission(Permission.DISH_PRODUCT_READ_ALL)
-    @GetMapping("/dishes/{dishId}/dishes-products")
-    public ResponseEntity<List<DishProductResponseDto>> getDishAllAssignedProducts(@PathVariable Long dishId) {
-        List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.getDishAllAssignedProducts(dishId);
+    @GetMapping("/dishes/{dishId}/products")
+    public ResponseEntity<DishWithProductsResponseDto> getDishWithProducts(@PathVariable Long dishId) {
+        DishWithProductsResponseDto dishWithProductsResponseDto = dishProductService.getDishWithProducts(dishId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(dishProductResponseDtoList);
+                .body(dishWithProductsResponseDto);
     }
 
     @CheckPermission(Permission.DISH_PRODUCT_READ_ALL)

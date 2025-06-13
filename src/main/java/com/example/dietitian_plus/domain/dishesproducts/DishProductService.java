@@ -3,10 +3,8 @@ package com.example.dietitian_plus.domain.dishesproducts;
 import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.dish.DishRepository;
-import com.example.dietitian_plus.domain.dishesproducts.dto.CreateDishProductEntryRequestDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.DishProductDtoMapper;
-import com.example.dietitian_plus.domain.dishesproducts.dto.DishProductResponseDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.UpdateDishProductEntryRequestDto;
+import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
+import com.example.dietitian_plus.domain.dishesproducts.dto.*;
 import com.example.dietitian_plus.domain.product.Product;
 import com.example.dietitian_plus.domain.product.ProductRepository;
 import com.example.dietitian_plus.domain.unit.Unit;
@@ -28,16 +26,24 @@ public class DishProductService {
     private final UnitRepository unitRepository;
 
     private final DishProductDtoMapper dishProductDtoMapper;
+    private final DishDtoMapper dishDtoMapper;
 
     @Transactional
-    public List<DishProductResponseDto> getDishAllAssignedProducts(Long dishId) throws EntityNotFoundException {
-        if (!dishRepository.existsById(dishId)) {
+    public DishWithProductsResponseDto getDishWithProducts(Long dishId) throws EntityNotFoundException {
+        Dish dish = dishRepository.findById(dishId).orElse(null);
+
+        if (dish == null) {
             throw new EntityNotFoundException(Messages.DISH_NOT_FOUND);
         }
 
-        List<DishProduct> dishProductResponseDtoList = dishProductRepository.findAllByDish_DishId(dishId);
+        List<DishProduct> dishProductList = dishProductRepository.findAllByDish_DishId(dishId);
 
-        return dishProductDtoMapper.toDtoList(dishProductResponseDtoList);
+        DishWithProductsResponseDto dishWithProductsResponseDto = new DishWithProductsResponseDto();
+
+        dishWithProductsResponseDto.setDish(dishDtoMapper.toDto(dish));
+        dishWithProductsResponseDto.setProducts(dishProductDtoMapper.toDtoList(dishProductList));
+
+        return dishWithProductsResponseDto;
     }
 
     @Transactional
