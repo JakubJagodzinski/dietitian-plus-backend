@@ -20,6 +20,7 @@ public class DishProductDtoMapper {
         DishProductResponseDto dto = new DishProductResponseDto();
 
         dto.setDishProductId(dishProduct.getDishProductId());
+        dto.setDishId(dishProduct.getDish().getDishId());
         dto.setProduct(productDtoMapper.toDto(dishProduct.getProduct()));
         dto.setUnit(unitDtoMapper.toDto(dishProduct.getUnit()));
         dto.setUnitCount(dishProduct.getUnitCount());

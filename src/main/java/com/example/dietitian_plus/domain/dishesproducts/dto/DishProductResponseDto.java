@@ -15,6 +15,9 @@ public class DishProductResponseDto {
     @JsonProperty("dish_product_id")
     private Long dishProductId;
 
+    @JsonProperty("dish_id")
+    private Long dishId;
+
     @JsonProperty("product")
     private ProductResponseDto product;
 
