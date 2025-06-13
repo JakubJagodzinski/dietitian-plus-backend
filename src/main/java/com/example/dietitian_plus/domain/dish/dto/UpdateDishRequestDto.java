@@ -21,20 +21,4 @@ public class UpdateDishRequestDto {
 
     private String recipe;
 
-    private Float kcal;
-
-    private Float fats;
-
-    private Float carbs;
-
-    private Float protein;
-
-    private Float fiber;
-
-    @JsonProperty("glycemic_index")
-    private Float glycemicIndex;
-
-    @JsonProperty("glycemic_load")
-    private Float glycemicLoad;
-
 }

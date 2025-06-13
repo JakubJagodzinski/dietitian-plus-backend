@@ -2,6 +2,7 @@ package com.example.dietitian_plus.domain.dishesproducts;
 
 import com.example.dietitian_plus.common.constants.Messages;
 import com.example.dietitian_plus.domain.dish.Dish;
+import com.example.dietitian_plus.domain.dish.DishNutritionCalculator;
 import com.example.dietitian_plus.domain.dish.DishRepository;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
 import com.example.dietitian_plus.domain.dishesproducts.dto.*;
@@ -27,6 +28,8 @@ public class DishProductService {
 
     private final DishProductDtoMapper dishProductDtoMapper;
     private final DishDtoMapper dishDtoMapper;
+
+    private final DishNutritionCalculator dishNutritionCalculator;
 
     @Transactional
     public DishWithProductsResponseDto getDishWithProducts(Long dishId) throws EntityNotFoundException {
@@ -88,6 +91,8 @@ public class DishProductService {
         dishProduct.setUnit(unit);
         dishProduct.setUnitCount(createDishProductEntryRequestDto.getUnitCount());
 
+        dishNutritionCalculator.increaseDishNutritionValues(dishProduct);
+
         return dishProductDtoMapper.toDto(dishProductRepository.save(dishProduct));
     }
 
@@ -117,14 +122,20 @@ public class DishProductService {
             dishProduct.setUnitCount(updateDishProductEntryRequestDto.getUnitCount());
         }
 
+        dishNutritionCalculator.setDishNutritionValues(dishProduct.getDish().getDishId());
+
         return dishProductDtoMapper.toDto(dishProductRepository.save(dishProduct));
     }
 
     @Transactional
     public void deleteDishProductEntryById(Long dishProductId) throws EntityNotFoundException {
-        if (!dishProductRepository.existsById(dishProductId)) {
+        DishProduct dishProduct = dishProductRepository.findById(dishProductId).orElse(null);
+
+        if (dishProduct == null) {
             throw new EntityNotFoundException(Messages.DISH_PRODUCT_NOT_FOUND);
         }
+
+        dishNutritionCalculator.decreaseDishNutritionValues(dishProduct);
 
         dishProductRepository.deleteById(dishProductId);
     }
