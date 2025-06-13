@@ -15,7 +15,7 @@ import lombok.Setter;
 public class MealDish {
 
     @EmbeddedId
-    private MealDishId id;
+    private MealDishId mealDishId;
 
     @ManyToOne
     @MapsId("mealId")

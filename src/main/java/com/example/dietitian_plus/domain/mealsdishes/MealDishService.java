@@ -65,7 +65,7 @@ public class MealDishService {
 
         MealDish mealDish = new MealDish();
 
-        mealDish.setId(mealDishId);
+        mealDish.setMealDishId(mealDishId);
         mealDish.setMeal(meal);
         mealDish.setDish(dish);
         mealDish.setDishQuantity(createMealDishRequestDto.getDishQuantity());
