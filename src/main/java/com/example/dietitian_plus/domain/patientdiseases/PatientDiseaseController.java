@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -23,7 +24,7 @@ public class PatientDiseaseController {
 
     @CheckPermission(Permission.PATIENT_DISEASE_READ_ALL)
     @GetMapping("/patients/{patientId}/diseases")
-    public ResponseEntity<List<DiseaseResponseDto>> getPatientAllDiseases(@PathVariable Long patientId) {
+    public ResponseEntity<List<DiseaseResponseDto>> getPatientAllDiseases(@PathVariable UUID patientId) {
         List<DiseaseResponseDto> diseaseResponseDtoList = patientDiseaseService.getPatientAllDiseases(patientId);
 
         return ResponseEntity
@@ -33,7 +34,7 @@ public class PatientDiseaseController {
 
     @CheckPermission(Permission.PATIENT_DISEASE_ASSIGN)
     @PostMapping("/patients/{patientId}/diseases")
-    public ResponseEntity<PatientDiseaseResponseDto> assignDiseaseToPatient(@PathVariable Long patientId, @RequestBody AssignDiseaseToPatientRequestDto assignDiseaseToPatientRequestDto) {
+    public ResponseEntity<PatientDiseaseResponseDto> assignDiseaseToPatient(@PathVariable UUID patientId, @RequestBody AssignDiseaseToPatientRequestDto assignDiseaseToPatientRequestDto) {
         PatientDiseaseResponseDto createdPatientDiseaseResponseDto = patientDiseaseService.assignDiseaseToPatient(patientId, assignDiseaseToPatientRequestDto);
 
         return ResponseEntity
@@ -44,7 +45,7 @@ public class PatientDiseaseController {
 
     @CheckPermission(Permission.PATIENT_DISEASE_UNASSIGN)
     @DeleteMapping("/patients/{patientId}/diseases/{diseaseId}")
-    public ResponseEntity<MessageResponseDto> unassignDiseaseFromPatient(@PathVariable Long patientId, @PathVariable Long diseaseId) {
+    public ResponseEntity<MessageResponseDto> unassignDiseaseFromPatient(@PathVariable UUID patientId, @PathVariable Long diseaseId) {
         patientDiseaseService.unassignDiseaseFromPatient(patientId, diseaseId);
 
         return ResponseEntity

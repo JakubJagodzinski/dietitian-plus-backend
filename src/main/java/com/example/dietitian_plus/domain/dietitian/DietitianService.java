@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class DietitianService {
     }
 
     @Transactional
-    public DietitianResponseDto getDietitianById(Long dietitianId) throws EntityNotFoundException {
+    public DietitianResponseDto getDietitianById(UUID dietitianId) throws EntityNotFoundException {
         Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
 
         if (dietitian == null) {
@@ -35,7 +36,7 @@ public class DietitianService {
     }
 
     @Transactional
-    public DietitianResponseDto updateDietitianById(Long dietitianId, UpdateDietitianRequestDto updateDietitianRequestDto) throws EntityNotFoundException {
+    public DietitianResponseDto updateDietitianById(UUID dietitianId, UpdateDietitianRequestDto updateDietitianRequestDto) throws EntityNotFoundException {
         Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
 
         if (dietitian == null) {
@@ -50,7 +51,7 @@ public class DietitianService {
     }
 
     @Transactional
-    public void deleteDietitianById(Long dietitianId) throws EntityNotFoundException {
+    public void deleteDietitianById(UUID dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }

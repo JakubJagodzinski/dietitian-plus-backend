@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -43,7 +44,7 @@ public class MealController {
 
     @CheckPermission(Permission.PATIENT_MEAL_READ_ALL)
     @GetMapping("/patients/{patientId}/meals")
-    public ResponseEntity<List<MealResponseDto>> getPatientAllMeals(@PathVariable Long patientId) {
+    public ResponseEntity<List<MealResponseDto>> getPatientAllMeals(@PathVariable UUID patientId) {
         List<MealResponseDto> mealResponseDtoList = mealService.getPatientAllMeals(patientId);
 
         return ResponseEntity
@@ -53,7 +54,7 @@ public class MealController {
 
     @CheckPermission(Permission.DIETITIAN_MEAL_READ_ALL)
     @GetMapping("/dietitians/{dietitianId}/meals")
-    public ResponseEntity<List<MealResponseDto>> getDietitianAllMeals(@PathVariable Long dietitianId) {
+    public ResponseEntity<List<MealResponseDto>> getDietitianAllMeals(@PathVariable UUID dietitianId) {
         List<MealResponseDto> mealResponseDtoList = mealService.getDietitianAllMeals(dietitianId);
 
         return ResponseEntity

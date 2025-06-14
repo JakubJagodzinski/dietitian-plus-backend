@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class DishService {
     }
 
     @Transactional
-    public List<DishResponseDto> getDietitianAllDishes(Long dietitianId) throws EntityNotFoundException {
+    public List<DishResponseDto> getDietitianAllDishes(UUID dietitianId) throws EntityNotFoundException {
         Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
 
         if (dietitian == null) {

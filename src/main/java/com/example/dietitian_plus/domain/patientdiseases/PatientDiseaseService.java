@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class PatientDiseaseService {
     private final DiseaseDtoMapper diseaseDtoMapper;
 
     @Transactional
-    public List<DiseaseResponseDto> getPatientAllDiseases(Long patientId) throws EntityNotFoundException {
+    public List<DiseaseResponseDto> getPatientAllDiseases(UUID patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
@@ -45,7 +46,7 @@ public class PatientDiseaseService {
     }
 
     @Transactional
-    public PatientDiseaseResponseDto assignDiseaseToPatient(Long patientId, AssignDiseaseToPatientRequestDto assignDiseaseToPatientRequestDto) throws EntityNotFoundException, EntityExistsException {
+    public PatientDiseaseResponseDto assignDiseaseToPatient(UUID patientId, AssignDiseaseToPatientRequestDto assignDiseaseToPatientRequestDto) throws EntityNotFoundException, EntityExistsException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
@@ -75,7 +76,7 @@ public class PatientDiseaseService {
     }
 
     @Transactional
-    public void unassignDiseaseFromPatient(Long patientId, Long diseaseId) throws EntityNotFoundException {
+    public void unassignDiseaseFromPatient(UUID patientId, Long diseaseId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }

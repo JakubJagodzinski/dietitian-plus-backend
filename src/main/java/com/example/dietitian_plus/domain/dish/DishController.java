@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -43,7 +44,7 @@ public class DishController {
 
     @CheckPermission(Permission.DIETITIAN_DISH_READ_ALL)
     @GetMapping("/dietitians/{dietitianId}/dishes")
-    public ResponseEntity<List<DishResponseDto>> getDietitianAllDishes(@PathVariable Long dietitianId) {
+    public ResponseEntity<List<DishResponseDto>> getDietitianAllDishes(@PathVariable UUID dietitianId) {
         List<DishResponseDto> dishResponseDtoList = dishService.getDietitianAllDishes(dietitianId);
 
         return ResponseEntity

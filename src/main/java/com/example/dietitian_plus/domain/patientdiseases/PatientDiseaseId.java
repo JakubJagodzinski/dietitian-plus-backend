@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Embeddable
 @Data
 @NoArgsConstructor
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class PatientDiseaseId {
 
     @Column(name = "patient_id")
-    private Long patientId;
+    private UUID patientId;
 
     @Column(name = "disease_id")
     private Long diseaseId;

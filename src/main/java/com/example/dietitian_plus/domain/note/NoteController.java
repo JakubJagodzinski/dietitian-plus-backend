@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -43,7 +44,7 @@ public class NoteController {
 
     @CheckPermission(Permission.PATIENT_NOTE_READ_ALL)
     @GetMapping("/patients/{patientId}/notes")
-    public ResponseEntity<List<NoteResponseDto>> getPatientAllNotes(@PathVariable Long patientId) {
+    public ResponseEntity<List<NoteResponseDto>> getPatientAllNotes(@PathVariable UUID patientId) {
         List<NoteResponseDto> noteResponseDtoList = noteService.getPatientAllNotes(patientId);
 
         return ResponseEntity
@@ -53,7 +54,7 @@ public class NoteController {
 
     @CheckPermission(Permission.DIETITIAN_NOTE_READ_ALL)
     @GetMapping("/dietitians/{dietitianId}/notes")
-    public ResponseEntity<List<NoteResponseDto>> getDietitianAllNotes(@PathVariable Long dietitianId) {
+    public ResponseEntity<List<NoteResponseDto>> getDietitianAllNotes(@PathVariable UUID dietitianId) {
         List<NoteResponseDto> noteResponseDtoList = noteService.getDietitianAllNotes(dietitianId);
 
         return ResponseEntity

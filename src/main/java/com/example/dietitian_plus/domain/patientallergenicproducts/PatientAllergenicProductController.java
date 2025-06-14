@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -23,7 +24,7 @@ public class PatientAllergenicProductController {
 
     @CheckPermission(Permission.PATIENT_ALLERGENIC_PRODUCT_READ_ALL)
     @GetMapping("/patients/{patientId}/allergenic-products")
-    public ResponseEntity<List<ProductResponseDto>> getPatientAllAllergenicProducts(@PathVariable Long patientId) {
+    public ResponseEntity<List<ProductResponseDto>> getPatientAllAllergenicProducts(@PathVariable UUID patientId) {
         List<ProductResponseDto> productResponseDtoList = patientAllergenicProductService.getPatientAllAllergenicProducts(patientId);
 
         return ResponseEntity
@@ -33,7 +34,7 @@ public class PatientAllergenicProductController {
 
     @CheckPermission(Permission.PATIENT_ALLERGENIC_PRODUCT_ASSIGN)
     @PostMapping("/patients/{patientId}/allergenic-products")
-    public ResponseEntity<PatientAllergenicProductResponseDto> assignAllergenicProductToPatient(@PathVariable Long patientId, @RequestBody AssignAllergenicProductToPatientRequestDto assignAllergenicProductToPatientRequestDto) {
+    public ResponseEntity<PatientAllergenicProductResponseDto> assignAllergenicProductToPatient(@PathVariable UUID patientId, @RequestBody AssignAllergenicProductToPatientRequestDto assignAllergenicProductToPatientRequestDto) {
         PatientAllergenicProductResponseDto createdPatientAllergenicProductResponseDto = patientAllergenicProductService.assignAllergenicProductToPatient(patientId, assignAllergenicProductToPatientRequestDto);
 
         return ResponseEntity
@@ -44,7 +45,7 @@ public class PatientAllergenicProductController {
 
     @CheckPermission(Permission.PATIENT_ALLERGENIC_PRODUCT_UNASSIGN)
     @DeleteMapping("/patients/{patientId}/allergenic-products/{productId}")
-    public ResponseEntity<MessageResponseDto> unassignAllergenicProductFromPatient(@PathVariable Long patientId, @PathVariable Long productId) {
+    public ResponseEntity<MessageResponseDto> unassignAllergenicProductFromPatient(@PathVariable UUID patientId, @PathVariable Long productId) {
         patientAllergenicProductService.unassignAllergenicProductFromPatient(patientId, productId);
 
         return ResponseEntity

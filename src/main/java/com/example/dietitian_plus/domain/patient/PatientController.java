@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -31,7 +32,7 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_READ)
     @GetMapping("/patients/{patientId}")
-    public ResponseEntity<PatientResponseDto> getPatientById(@PathVariable Long patientId) {
+    public ResponseEntity<PatientResponseDto> getPatientById(@PathVariable UUID patientId) {
         PatientResponseDto patientResponseDto = patientService.getPatientById(patientId);
 
         return ResponseEntity
@@ -41,7 +42,7 @@ public class PatientController {
 
     @CheckPermission(Permission.DIETITIAN_PATIENT_READ_ALL)
     @GetMapping("/dietitians/{dietitianId}/patients")
-    public ResponseEntity<List<PatientResponseDto>> getDietitianAllPatients(@PathVariable Long dietitianId) {
+    public ResponseEntity<List<PatientResponseDto>> getDietitianAllPatients(@PathVariable UUID dietitianId) {
         List<PatientResponseDto> patientResponseDtoList = patientService.getDietitianAllPatients(dietitianId);
 
         return ResponseEntity
@@ -51,7 +52,7 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_UPDATE)
     @PutMapping("/patients/{patientId}")
-    public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable Long patientId, @RequestBody PatientResponseDto patientResponseDto) {
+    public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable UUID patientId, @RequestBody PatientResponseDto patientResponseDto) {
         PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(patientId, patientResponseDto);
 
         return ResponseEntity
@@ -61,7 +62,7 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_DIETITIAN_ASSIGN)
     @PostMapping("/patients/{patientId}/dietitians")
-    public ResponseEntity<MessageResponseDto> assignDietitianToPatient(@PathVariable Long patientId, @RequestBody AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) {
+    public ResponseEntity<MessageResponseDto> assignDietitianToPatient(@PathVariable UUID patientId, @RequestBody AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) {
         patientService.assignDietitianToPatient(patientId, assignDietitianToPatientRequestDto);
 
         return ResponseEntity
@@ -71,7 +72,7 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_DIETITIAN_UNASSIGN)
     @DeleteMapping("/patients/{patientId}/dietitians")
-    public ResponseEntity<MessageResponseDto> unassignDietitianFromPatient(@PathVariable Long patientId) {
+    public ResponseEntity<MessageResponseDto> unassignDietitianFromPatient(@PathVariable UUID patientId) {
         patientService.unassignDietitianFromPatient(patientId);
 
         return ResponseEntity
@@ -81,7 +82,7 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_DELETE)
     @DeleteMapping("/patients/{patientId}")
-    public ResponseEntity<MessageResponseDto> deletePatientById(@PathVariable Long patientId) {
+    public ResponseEntity<MessageResponseDto> deletePatientById(@PathVariable UUID patientId) {
         patientService.deletePatientById(patientId);
 
         return ResponseEntity

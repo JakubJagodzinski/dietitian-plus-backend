@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class NoteService {
     }
 
     @Transactional
-    public List<NoteResponseDto> getPatientAllNotes(Long patientId) throws EntityNotFoundException {
+    public List<NoteResponseDto> getPatientAllNotes(UUID patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
@@ -54,7 +55,7 @@ public class NoteService {
     }
 
     @Transactional
-    public List<NoteResponseDto> getDietitianAllNotes(Long dietitianId) throws EntityNotFoundException {
+    public List<NoteResponseDto> getDietitianAllNotes(UUID dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }

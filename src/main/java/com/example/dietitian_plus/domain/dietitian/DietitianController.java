@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -31,7 +32,7 @@ public class DietitianController {
 
     @CheckPermission(Permission.DIETITIAN_READ)
     @GetMapping("/dietitians/{dietitianId}")
-    public ResponseEntity<DietitianResponseDto> getDietitianById(@PathVariable Long dietitianId) {
+    public ResponseEntity<DietitianResponseDto> getDietitianById(@PathVariable UUID dietitianId) {
         DietitianResponseDto dietitianResponseDto = dietitianService.getDietitianById(dietitianId);
 
         return ResponseEntity
@@ -41,7 +42,7 @@ public class DietitianController {
 
     @CheckPermission(Permission.DIETITIAN_UPDATE)
     @PutMapping("/dietitians/{dietitianId}")
-    public ResponseEntity<DietitianResponseDto> updateDietitianById(@PathVariable Long dietitianId, @RequestBody UpdateDietitianRequestDto updateDietitianRequestDto) {
+    public ResponseEntity<DietitianResponseDto> updateDietitianById(@PathVariable UUID dietitianId, @RequestBody UpdateDietitianRequestDto updateDietitianRequestDto) {
         DietitianResponseDto dietitianResponseDto = dietitianService.updateDietitianById(dietitianId, updateDietitianRequestDto);
 
         return ResponseEntity
@@ -51,7 +52,7 @@ public class DietitianController {
 
     @CheckPermission(Permission.DIETITIAN_DELETE)
     @DeleteMapping("/dietitians/{dietitianId}")
-    public ResponseEntity<MessageResponseDto> deleteDietitianById(@PathVariable Long dietitianId) {
+    public ResponseEntity<MessageResponseDto> deleteDietitianById(@PathVariable UUID dietitianId) {
         dietitianService.deleteDietitianById(dietitianId);
 
         return ResponseEntity

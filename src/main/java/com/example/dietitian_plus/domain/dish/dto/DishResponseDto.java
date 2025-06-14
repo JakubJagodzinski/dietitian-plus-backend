@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -41,6 +43,6 @@ public class DishResponseDto {
     private Float glycemicLoad;
 
     @JsonProperty("dietitian_id")
-    private Long dietitianId;
+    private UUID dietitianId;
 
 }

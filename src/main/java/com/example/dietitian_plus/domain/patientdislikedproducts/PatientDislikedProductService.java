@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class PatientDislikedProductService {
     private final ProductDtoMapper productDtoMapper;
 
     @Transactional
-    public List<ProductResponseDto> getPatientAllDislikedProducts(Long patientId) throws EntityNotFoundException {
+    public List<ProductResponseDto> getPatientAllDislikedProducts(UUID patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
@@ -45,7 +46,7 @@ public class PatientDislikedProductService {
     }
 
     @Transactional
-    public PatientDislikedProductResponseDto assignDislikedProductToPatient(Long patientId, AssignDislikedProductToPatientRequestDto assignDislikedProductToPatientRequestDto) throws EntityNotFoundException, EntityExistsException {
+    public PatientDislikedProductResponseDto assignDislikedProductToPatient(UUID patientId, AssignDislikedProductToPatientRequestDto assignDislikedProductToPatientRequestDto) throws EntityNotFoundException, EntityExistsException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
@@ -75,7 +76,7 @@ public class PatientDislikedProductService {
     }
 
     @Transactional
-    public void unassignDislikedProductFromPatient(Long patientId, Long productId) throws EntityNotFoundException {
+    public void unassignDislikedProductFromPatient(UUID patientId, Long productId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }

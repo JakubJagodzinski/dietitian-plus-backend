@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class PatientService {
     }
 
     @Transactional
-    public PatientResponseDto getPatientById(Long patientId) throws EntityNotFoundException {
+    public PatientResponseDto getPatientById(UUID patientId) throws EntityNotFoundException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
@@ -39,7 +40,7 @@ public class PatientService {
     }
 
     @Transactional
-    public List<PatientResponseDto> getDietitianAllPatients(Long dietitianId) throws EntityNotFoundException {
+    public List<PatientResponseDto> getDietitianAllPatients(UUID dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
@@ -48,7 +49,7 @@ public class PatientService {
     }
 
     @Transactional
-    public PatientResponseDto updatePatientById(Long patientId, PatientResponseDto patientResponseDto) throws EntityNotFoundException {
+    public PatientResponseDto updatePatientById(UUID patientId, PatientResponseDto patientResponseDto) throws EntityNotFoundException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
@@ -85,7 +86,7 @@ public class PatientService {
     }
 
     @Transactional
-    public void assignDietitianToPatient(Long patientId, AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+    public void assignDietitianToPatient(UUID patientId, AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
@@ -108,7 +109,7 @@ public class PatientService {
     }
 
     @Transactional
-    public void unassignDietitianFromPatient(Long patientId) throws EntityNotFoundException, IllegalArgumentException {
+    public void unassignDietitianFromPatient(UUID patientId) throws EntityNotFoundException, IllegalArgumentException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
@@ -125,7 +126,7 @@ public class PatientService {
     }
 
     @Transactional
-    public void deletePatientById(Long patientId) throws EntityNotFoundException {
+    public void deletePatientById(UUID patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -23,7 +24,7 @@ public class PatientDislikedProductController {
 
     @CheckPermission(Permission.PATIENT_DISLIKED_PRODUCT_READ_ALL)
     @GetMapping("/patients/{patientId}/disliked-products")
-    public ResponseEntity<List<ProductResponseDto>> getPatientAllDislikedProducts(@PathVariable Long patientId) {
+    public ResponseEntity<List<ProductResponseDto>> getPatientAllDislikedProducts(@PathVariable UUID patientId) {
         List<ProductResponseDto> productResponseDtoList = patientDislikedProductService.getPatientAllDislikedProducts(patientId);
 
         return ResponseEntity
@@ -33,7 +34,7 @@ public class PatientDislikedProductController {
 
     @CheckPermission(Permission.PATIENT_DISLIKED_PRODUCT_ASSIGN)
     @PostMapping("/patients/{patientId}/disliked-products")
-    public ResponseEntity<PatientDislikedProductResponseDto> assignDislikedProductToPatient(@PathVariable Long patientId, @RequestBody AssignDislikedProductToPatientRequestDto assignDislikedProductToPatientRequestDto) {
+    public ResponseEntity<PatientDislikedProductResponseDto> assignDislikedProductToPatient(@PathVariable UUID patientId, @RequestBody AssignDislikedProductToPatientRequestDto assignDislikedProductToPatientRequestDto) {
         PatientDislikedProductResponseDto createdPatientDislikedProductResponseDto = patientDislikedProductService.assignDislikedProductToPatient(patientId, assignDislikedProductToPatientRequestDto);
 
         return ResponseEntity
@@ -44,7 +45,7 @@ public class PatientDislikedProductController {
 
     @CheckPermission(Permission.PATIENT_DISLIKED_PRODUCT_UNASSIGN)
     @DeleteMapping("/patients/{patientId}/disliked-products/{productId}")
-    public ResponseEntity<MessageResponseDto> unassignDislikedProductFromPatient(@PathVariable Long patientId, @PathVariable Long productId) {
+    public ResponseEntity<MessageResponseDto> unassignDislikedProductFromPatient(@PathVariable UUID patientId, @PathVariable Long productId) {
         patientDislikedProductService.unassignDislikedProductFromPatient(patientId, productId);
 
         return ResponseEntity

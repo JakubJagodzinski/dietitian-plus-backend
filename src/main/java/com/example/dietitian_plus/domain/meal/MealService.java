@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +45,7 @@ public class MealService {
     }
 
     @Transactional
-    public List<MealResponseDto> getPatientAllMeals(Long patientId) throws EntityNotFoundException {
+    public List<MealResponseDto> getPatientAllMeals(UUID patientId) throws EntityNotFoundException {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
@@ -53,7 +54,7 @@ public class MealService {
     }
 
     @Transactional
-    public List<MealResponseDto> getDietitianAllMeals(Long dietitianId) throws EntityNotFoundException {
+    public List<MealResponseDto> getDietitianAllMeals(UUID dietitianId) throws EntityNotFoundException {
         if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }

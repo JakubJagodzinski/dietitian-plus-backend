@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,9 +17,9 @@ public class CreateNoteRequestDto {
     private String text;
 
     @JsonProperty("patient_id")
-    private Long patientId;
+    private UUID patientId;
 
     @JsonProperty("dietitian_id")
-    private Long dietitianId;
+    private UUID dietitianId;
 
 }

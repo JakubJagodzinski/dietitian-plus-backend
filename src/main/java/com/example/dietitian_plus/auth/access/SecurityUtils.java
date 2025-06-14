@@ -5,6 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class SecurityUtils {
 
@@ -12,7 +14,7 @@ public class SecurityUtils {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public Long getCurrentUserId() {
+    public UUID getCurrentUserId() {
         return getCurrentUser().getUserId();
     }
 
@@ -20,7 +22,7 @@ public class SecurityUtils {
         return (User) getAuthentication().getPrincipal();
     }
 
-    public boolean isOwner(Long expectedUserId) {
+    public boolean isOwner(UUID expectedUserId) {
         return getCurrentUserId().equals(expectedUserId);
     }
 

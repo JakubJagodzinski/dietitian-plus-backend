@@ -2,5 +2,7 @@ package com.example.dietitian_plus.domain.dietitian;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DietitianRepository extends JpaRepository<Dietitian, Long> {
+import java.util.UUID;
+
+public interface DietitianRepository extends JpaRepository<Dietitian, UUID> {
 }

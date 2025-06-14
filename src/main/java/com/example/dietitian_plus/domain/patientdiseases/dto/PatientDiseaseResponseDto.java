@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class PatientDiseaseResponseDto {
 
     @JsonProperty("patient_id")
-    private Long patientId;
+    private UUID patientId;
 
     @JsonProperty("disease_id")
     private Long diseaseId;

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,9 +19,9 @@ public class UpdateMealRequestDto {
     private LocalDateTime datetime;
 
     @JsonProperty("patient_id")
-    private Long patientId;
+    private UUID patientId;
 
     @JsonProperty("dietitian_id")
-    private Long dietitianId;
+    private UUID dietitianId;
 
 }
