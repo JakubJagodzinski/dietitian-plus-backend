@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.dish;
 
+import com.example.dietitian_plus.auth.access.manager.DishAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.common.constants.messages.DishMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
@@ -25,6 +26,8 @@ public class DishService {
 
     private final DishDtoMapper dishDtoMapper;
 
+    private final DishAccessManager dishAccessManager;
+
     public List<DishResponseDto> getAllDishes() {
         return dishDtoMapper.toDtoList(dishRepository.findAll());
     }
@@ -37,16 +40,18 @@ public class DishService {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
+        dishAccessManager.checkCanAccessDish(dish);
+
         return dishDtoMapper.toDto(dish);
     }
 
     @Transactional
     public List<DishResponseDto> getDietitianAllDishes(UUID dietitianId) throws EntityNotFoundException {
-        Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
-
-        if (dietitian == null) {
+        if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
+
+        dishAccessManager.checkCanGetDietitianAllDishes(dietitianId);
 
         return dishDtoMapper.toDtoList(dishRepository.findAllByDietitian_UserId(dietitianId));
     }
@@ -98,6 +103,8 @@ public class DishService {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
+        dishAccessManager.checkCanUpdateDish(dish);
+
         if (updateDishRequestDto.getDishName() != null) {
             if (updateDishRequestDto.getDishName().isEmpty()) {
                 throw new IllegalArgumentException(DishMessages.DISH_NAME_CANNOT_BE_EMPTY);
@@ -123,9 +130,13 @@ public class DishService {
 
     @Transactional
     public void deleteDishById(Long dishId) throws EntityNotFoundException {
-        if (!dishRepository.existsById(dishId)) {
+        Dish dish = dishRepository.findById(dishId).orElse(null);
+
+        if (dish == null) {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
+
+        dishAccessManager.checkCanDeleteDish(dish);
 
         dishRepository.deleteById(dishId);
     }
