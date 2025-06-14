@@ -6,6 +6,14 @@ It allows dietitians to create meal plans, generate shopping lists, and manage c
 <br>
 <br>
 
+
+## Table of Contents
+1. [Application Functionalities](#application-functionalities)
+    - [Patient Website Features](#patient-website-features)
+    - [Dietitian Website Features](#dietitian-website-features)
+2. [Database Scheme](#database-scheme)
+3. [How to Run the Project](#how-to-run-the-project)
+
 # Application Functionalities:
 ## Patient Website Features:
 1. Diet Overview – Access and review meal plans assigned by the dietitian for a specific week.
@@ -32,4 +40,51 @@ It allows dietitians to create meal plans, generate shopping lists, and manage c
 <br>
 
 # Database scheme:
-<img src="assets/database_scheme.png" alt="database_schema">
+<img src="assets/database_scheme.png" alt="database_scheme">
+
+# How to Run the Project:
+### Prerequisites
+
+- Java 21+
+- Docker
+
+### Step-by-step
+
+1. **Clone the repository:**
+
+```powershell
+git clone https://github.com/JakubJagodzinski/dietitian-plus-backend.git
+cd dietitian-plus-backend
+```
+
+2. **Prepare .env file from template**
+   <br><br>
+
+3. **Load environment variables from the `.env` file**
+
+```powershell
+Get-Content .env | ForEach-Object {
+    if ($_ -match '^\s*([^#][\w\.\-]+)\s*=\s*(.*)$') {
+        $name = $matches[1]
+        $value = $matches[2].Trim('"')
+        [System.Environment]::SetEnvironmentVariable($name, $value, 'Process')
+    }
+}
+```
+3. **Create containers**
+
+```powershell
+docker-compose up -d
+```
+
+4. **Build the project:**
+
+```powershell
+./mvnw clean package
+```
+
+5. **Run the application:**
+
+```powershell
+./mvnw spring-boot:run
+```
