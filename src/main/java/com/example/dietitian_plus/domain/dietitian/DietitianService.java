@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.dietitian;
 
+import com.example.dietitian_plus.auth.access.manager.DietitianAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianDtoMapper;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
@@ -18,9 +19,11 @@ import java.util.UUID;
 public class DietitianService {
 
     private final DietitianRepository dietitianRepository;
+    private final MealDishRepository mealDishRepository;
 
     private final DietitianDtoMapper dietitianDtoMapper;
-    private final MealDishRepository mealDishRepository;
+
+    private final DietitianAccessManager dietitianAccessManager;
 
     public List<DietitianResponseDto> getAllDietitians() {
         return dietitianDtoMapper.toDtoList(dietitianRepository.findAll());
@@ -34,6 +37,8 @@ public class DietitianService {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
+        dietitianAccessManager.checkCanAccessDietitian(dietitianId);
+
         return dietitianDtoMapper.toDto(dietitian);
     }
 
@@ -44,6 +49,8 @@ public class DietitianService {
         if (dietitian == null) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
+
+        dietitianAccessManager.checkCanUpdateDietitian(dietitian.getUserId());
 
         if (updateDietitianRequestDto.getTitle() != null) {
             dietitian.setTitle(updateDietitianRequestDto.getTitle());
@@ -57,6 +64,8 @@ public class DietitianService {
         if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
+
+        dietitianAccessManager.checkCanDeleteDietitian(dietitianId);
 
         mealDishRepository.deleteAllByDietitianId(dietitianId);
 
