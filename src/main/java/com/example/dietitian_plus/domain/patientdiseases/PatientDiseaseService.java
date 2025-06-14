@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.patientdiseases;
 
+import com.example.dietitian_plus.auth.access.manager.PatientDiseaseAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DiseaseMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.disease.Disease;
@@ -31,11 +32,17 @@ public class PatientDiseaseService {
     private final PatientDiseaseDtoMapper patientDiseaseDtoMapper;
     private final DiseaseDtoMapper diseaseDtoMapper;
 
+    private final PatientDiseaseAccessManager patientDiseaseAccessManager;
+
     @Transactional
     public List<DiseaseResponseDto> getPatientAllDiseases(UUID patientId) throws EntityNotFoundException {
-        if (!patientRepository.existsById(patientId)) {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientDiseaseAccessManager.checkCanAccessPatientDiseases(patient);
 
         List<PatientDisease> patientDiseaseList = patientDiseaseRepository.findAllByPatient_UserId(patientId);
 
@@ -52,6 +59,8 @@ public class PatientDiseaseService {
         if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientDiseaseAccessManager.checkCanAssignDiseaseToPatient(patient.getUserId());
 
         Long diseaseId = assignDiseaseToPatientRequestDto.getDiseaseId();
         Disease disease = diseaseRepository.findById(diseaseId).orElse(null);
@@ -80,6 +89,8 @@ public class PatientDiseaseService {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientDiseaseAccessManager.checkCanUnassignDiseaseFromPatient(patientId);
 
         if (!diseaseRepository.existsById(diseaseId)) {
             throw new EntityNotFoundException(DiseaseMessages.DISEASE_NOT_FOUND);
