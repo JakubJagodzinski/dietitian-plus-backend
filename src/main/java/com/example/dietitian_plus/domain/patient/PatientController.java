@@ -67,7 +67,7 @@ public class PatientController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Dietitian with id " + assignDietitianToPatientRequestDto.getDietitianId() + " successfully assigned to patient with id "));
+                .body(new MessageResponseDto("Dietitian with id " + assignDietitianToPatientRequestDto.getDietitianId() + " successfully assigned to patient with id " + patientId));
     }
 
     @CheckPermission(Permission.PATIENT_DIETITIAN_UNASSIGN)
