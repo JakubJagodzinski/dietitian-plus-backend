@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.patientdislikedproducts;
 
+import com.example.dietitian_plus.auth.access.manager.PatientDislikedProductAccessManager;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.common.constants.messages.ProductMessages;
 import com.example.dietitian_plus.domain.patient.Patient;
@@ -31,11 +32,17 @@ public class PatientDislikedProductService {
     private final PatientDislikedProductDtoMapper patientDislikedProductDtoMapper;
     private final ProductDtoMapper productDtoMapper;
 
+    private final PatientDislikedProductAccessManager patientDislikedProductAccessManager;
+
     @Transactional
     public List<ProductResponseDto> getPatientAllDislikedProducts(UUID patientId) throws EntityNotFoundException {
-        if (!patientRepository.existsById(patientId)) {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientDislikedProductAccessManager.checkCanAccessPatientDislikedProducts(patient);
 
         List<PatientDislikedProduct> patientDislikedProductList = patientDislikedProductRepository.findAllByPatient_UserId(patientId);
 
@@ -52,6 +59,8 @@ public class PatientDislikedProductService {
         if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientDislikedProductAccessManager.checkCanAssignDislikedProductToPatient(patientId);
 
         Long productId = assignDislikedProductToPatientRequestDto.getProductId();
         Product product = productRepository.findById(productId).orElse(null);
@@ -80,6 +89,8 @@ public class PatientDislikedProductService {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientDislikedProductAccessManager.checkCanUnassignDislikedProductFromPatient(patientId);
 
         if (!productRepository.existsById(productId)) {
             throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
