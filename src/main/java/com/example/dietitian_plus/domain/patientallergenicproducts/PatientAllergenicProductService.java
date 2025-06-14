@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.patientallergenicproducts;
 
+import com.example.dietitian_plus.auth.access.manager.PatientAllergenicProductAccessManager;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.common.constants.messages.ProductMessages;
 import com.example.dietitian_plus.domain.patient.Patient;
@@ -31,11 +32,17 @@ public class PatientAllergenicProductService {
     private final PatientAllergenicProductDtoMapper patientAllergenicProductDtoMapper;
     private final ProductDtoMapper productDtoMapper;
 
+    private final PatientAllergenicProductAccessManager patientAllergenicProductAccessManager;
+
     @Transactional
     public List<ProductResponseDto> getPatientAllAllergenicProducts(UUID patientId) throws EntityNotFoundException {
-        if (!patientRepository.existsById(patientId)) {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientAllergenicProductAccessManager.checkCanAccessPatientAllergenicProducts(patient);
 
         List<PatientAllergenicProduct> patientAllergenicProductList = patientAllergenicProductRepository.findAllByPatient_UserId(patientId);
 
@@ -52,6 +59,8 @@ public class PatientAllergenicProductService {
         if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientAllergenicProductAccessManager.checkCanAssignAllergenicProductToPatient(patientId);
 
         Long productId = assignAllergenicProductToPatientRequestDto.getProductId();
         Product product = productRepository.findById(productId).orElse(null);
@@ -80,6 +89,8 @@ public class PatientAllergenicProductService {
         if (!patientRepository.existsById(patientId)) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientAllergenicProductAccessManager.checkCanUnassignAllergenicProductFromPatient(patientId);
 
         if (!productRepository.existsById(productId)) {
             throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
