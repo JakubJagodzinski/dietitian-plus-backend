@@ -16,11 +16,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NoteAccessManager {
 
-    private final SecurityUtils authenticationService;
+    private final SecurityUtils securityUtils;
 
     public void checkCanCreateNote(Patient patient, Dietitian dietitian) throws AccessDeniedException {
-        UUID currentUserId = authenticationService.getCurrentUserId();
-        boolean isAdmin = authenticationService.isAdmin();
+        UUID currentUserId = securityUtils.getCurrentUserId();
+        boolean isAdmin = securityUtils.isAdmin();
         boolean isDietitianOwner = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(dietitian.getUserId());
         boolean isDietitianOwnerLogged = dietitian.getUserId().equals(currentUserId);
 
@@ -30,8 +30,8 @@ public class NoteAccessManager {
     }
 
     public void checkCanReadPatientNotes(Patient patient) throws AccessDeniedException {
-        UUID currentUserId = authenticationService.getCurrentUserId();
-        boolean isAdmin = authenticationService.isAdmin();
+        UUID currentUserId = securityUtils.getCurrentUserId();
+        boolean isAdmin = securityUtils.isAdmin();
         boolean isDietitianOwner = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(currentUserId);
 
         if (!isAdmin && !isDietitianOwner) {
@@ -40,8 +40,8 @@ public class NoteAccessManager {
     }
 
     public void checkCanReadDietitianNotes(Dietitian dietitian) throws AccessDeniedException {
-        UUID currentUserId = authenticationService.getCurrentUserId();
-        boolean isAdmin = authenticationService.isAdmin();
+        UUID currentUserId = securityUtils.getCurrentUserId();
+        boolean isAdmin = securityUtils.isAdmin();
         boolean isDietitianOwner = dietitian.getUserId().equals(currentUserId);
 
         if (!isAdmin && !isDietitianOwner) {
@@ -50,8 +50,8 @@ public class NoteAccessManager {
     }
 
     public void checkCanReadNote(Note note) throws AccessDeniedException {
-        UUID currentUserId = authenticationService.getCurrentUserId();
-        boolean isAdmin = authenticationService.isAdmin();
+        UUID currentUserId = securityUtils.getCurrentUserId();
+        boolean isAdmin = securityUtils.isAdmin();
         boolean isDietitianOwner = note.getDietitian() != null && note.getDietitian().getUserId().equals(currentUserId);
 
         if (!isAdmin && !isDietitianOwner) {
@@ -60,8 +60,8 @@ public class NoteAccessManager {
     }
 
     public void checkCanUpdateNote(Note note) throws AccessDeniedException {
-        UUID currentUserId = authenticationService.getCurrentUserId();
-        boolean isAdmin = authenticationService.isAdmin();
+        UUID currentUserId = securityUtils.getCurrentUserId();
+        boolean isAdmin = securityUtils.isAdmin();
         boolean isDietitianOwner = note.getDietitian() != null && note.getDietitian().getUserId().equals(currentUserId);
 
         if (!isAdmin && !isDietitianOwner) {
@@ -70,8 +70,8 @@ public class NoteAccessManager {
     }
 
     public void checkCanDeleteNote(Note note) throws AccessDeniedException {
-        UUID currentUserId = authenticationService.getCurrentUserId();
-        boolean isAdmin = authenticationService.isAdmin();
+        UUID currentUserId = securityUtils.getCurrentUserId();
+        boolean isAdmin = securityUtils.isAdmin();
         boolean isDietitianOwner = note.getDietitian() != null && note.getDietitian().getUserId().equals(currentUserId);
 
         if (!isAdmin && !isDietitianOwner) {
