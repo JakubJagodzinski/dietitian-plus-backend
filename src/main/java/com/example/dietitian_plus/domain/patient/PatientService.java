@@ -3,11 +3,13 @@ package com.example.dietitian_plus.domain.patient;
 import com.example.dietitian_plus.auth.access.manager.PatientAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
+import com.example.dietitian_plus.common.constants.messages.UserMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
 import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
+import com.example.dietitian_plus.domain.patient.dto.UpdatePatientRequestDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +58,7 @@ public class PatientService {
     }
 
     @Transactional
-    public PatientResponseDto updatePatientById(UUID patientId, PatientResponseDto patientResponseDto) throws EntityNotFoundException {
+    public PatientResponseDto updatePatientById(UUID patientId, UpdatePatientRequestDto updatePatientRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
@@ -65,30 +67,43 @@ public class PatientService {
 
         patientAccessManager.checkCanUpdatePatient(patient);
 
-        if (patientResponseDto.getHeight() != null) {
-            patient.setHeight(patientResponseDto.getHeight());
+        if (updatePatientRequestDto.getFirstName() != null) {
+            if (updatePatientRequestDto.getFirstName().isBlank()) {
+                throw new IllegalArgumentException(UserMessages.FIRST_NAME_CANNOT_BE_EMPTY);
+            }
+            patient.setFirstName(updatePatientRequestDto.getFirstName());
         }
 
-        if (patientResponseDto.getStartingWeight() != null) {
-            patient.setStartingWeight(patientResponseDto.getStartingWeight());
-        }
-
-        if (patientResponseDto.getCurrentWeight() != null) {
-            patient.setCurrentWeight(patientResponseDto.getCurrentWeight());
-        }
-
-        if (patientResponseDto.getIsActive() != null) {
-            patient.setIsActive(patientResponseDto.getIsActive());
-        }
-
-        if (patientResponseDto.getDietitianId() != null) {
-            Dietitian dietitian = dietitianRepository.findById(patientResponseDto.getDietitianId()).orElse(null);
-
-            if (dietitian == null) {
-                throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
+        if (updatePatientRequestDto.getLastName() != null) {
+            if (updatePatientRequestDto.getLastName().isBlank()) {
+                throw new IllegalArgumentException(UserMessages.LAST_NAME_CANNOT_BE_EMPTY);
             }
 
-            patient.setDietitian(dietitian);
+            patient.setLastName(updatePatientRequestDto.getLastName());
+        }
+
+        if (updatePatientRequestDto.getHeight() != null) {
+            if (updatePatientRequestDto.getHeight() <= 0) {
+                throw new IllegalArgumentException(PatientMessages.HEIGHT_MUST_BE_GREATER_THAN_ZERO);
+            }
+
+            patient.setHeight(updatePatientRequestDto.getHeight());
+        }
+
+        if (updatePatientRequestDto.getStartingWeight() != null) {
+            if (updatePatientRequestDto.getStartingWeight() <= 0) {
+                throw new IllegalArgumentException(PatientMessages.WEIGHT_MUST_BE_GREATER_THAN_ZERO);
+            }
+
+            patient.setStartingWeight(updatePatientRequestDto.getStartingWeight());
+        }
+
+        if (updatePatientRequestDto.getCurrentWeight() != null) {
+            if (updatePatientRequestDto.getCurrentWeight() <= 0) {
+                throw new IllegalArgumentException(PatientMessages.WEIGHT_MUST_BE_GREATER_THAN_ZERO);
+            }
+
+            patient.setCurrentWeight(updatePatientRequestDto.getCurrentWeight());
         }
 
         return patientDtoMapper.toDto(patientRepository.save(patient));

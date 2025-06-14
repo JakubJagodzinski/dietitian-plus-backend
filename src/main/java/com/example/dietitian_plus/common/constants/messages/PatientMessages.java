@@ -8,5 +8,7 @@ public class PatientMessages {
     public static final String YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT = "You have no access to this patient";
     public static final String YOU_HAVE_NO_ACCESS_TO_THIS_DIETITIAN_PATIENTS = "You have no access to this dietitian's patients";
     public static final String YOU_HAVE_NO_ACCESS_TO_ASSIGN_THIS_DIETITIAN_TO_PATIENT = "You have no access to assign this dietitian to patient";
+    public static final String HEIGHT_MUST_BE_GREATER_THAN_ZERO = "Height must be greater than zero";
+    public static final String WEIGHT_MUST_BE_GREATER_THAN_ZERO = "Weight must be greater than zero";
 
 }

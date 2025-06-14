@@ -4,6 +4,7 @@ import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
+import com.example.dietitian_plus.domain.patient.dto.UpdatePatientRequestDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -52,8 +53,8 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_UPDATE)
     @PutMapping("/patients/{patientId}")
-    public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable UUID patientId, @RequestBody PatientResponseDto patientResponseDto) {
-        PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(patientId, patientResponseDto);
+    public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable UUID patientId, @RequestBody UpdatePatientRequestDto updatePatientRequestDto) {
+        PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(patientId, updatePatientRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
