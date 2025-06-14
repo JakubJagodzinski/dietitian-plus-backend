@@ -121,16 +121,6 @@ public class NoteService {
             note.setLastEditedAt(LocalDateTime.now());
         }
 
-        if (updateNoteRequestDto.getPatientId() != null) {
-            Patient patient = patientRepository.findById(updateNoteRequestDto.getPatientId()).orElse(null);
-
-            if (patient == null) {
-                throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
-            }
-
-            note.setPatient(patient);
-        }
-
         return noteDtoMapper.toDto(noteRepository.save(note));
     }
 
