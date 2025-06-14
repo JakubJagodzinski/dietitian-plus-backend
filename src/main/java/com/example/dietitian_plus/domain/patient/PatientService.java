@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.patient;
 
+import com.example.dietitian_plus.auth.access.manager.PatientAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
@@ -24,6 +25,8 @@ public class PatientService {
 
     private final PatientDtoMapper patientDtoMapper;
 
+    private final PatientAccessManager patientAccessManager;
+
     public List<PatientResponseDto> getAllPatients() {
         return patientDtoMapper.toDtoList(patientRepository.findAll());
     }
@@ -36,6 +39,8 @@ public class PatientService {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
+        patientAccessManager.checkCanViewPatient(patient);
+
         return patientDtoMapper.toDto(patient);
     }
 
@@ -44,6 +49,8 @@ public class PatientService {
         if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
+
+        patientAccessManager.checkCanViewDietitianPatients(dietitianId);
 
         return patientDtoMapper.toDtoList(patientRepository.findAllByDietitian_UserId(dietitianId));
     }
@@ -55,6 +62,8 @@ public class PatientService {
         if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        patientAccessManager.checkCanUpdatePatient(patient);
 
         if (patientResponseDto.getHeight() != null) {
             patient.setHeight(patientResponseDto.getHeight());
@@ -103,6 +112,8 @@ public class PatientService {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
+        patientAccessManager.checkCanAssignDietitianToPatient(dietitian);
+
         patient.setDietitian(dietitian);
 
         patientRepository.save(patient);
@@ -120,6 +131,8 @@ public class PatientService {
             throw new IllegalArgumentException(PatientMessages.NO_DIETITIAN_ASSIGNED_TO_PATIENT);
         }
 
+        patientAccessManager.checkCanUnassignDietitianFromPatient(patient);
+
         patient.setDietitian(null);
 
         patientRepository.save(patient);
@@ -127,10 +140,15 @@ public class PatientService {
 
     @Transactional
     public void deletePatientById(UUID patientId) throws EntityNotFoundException {
-        if (!patientRepository.existsById(patientId)) {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
+        patientAccessManager.checkCanDeletePatient(patient);
+
         patientRepository.deleteById(patientId);
     }
+
 }
