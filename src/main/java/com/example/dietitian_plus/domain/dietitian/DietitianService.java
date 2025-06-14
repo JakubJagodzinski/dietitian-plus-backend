@@ -4,6 +4,7 @@ import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianDtoMapper;
 import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dietitian.dto.UpdateDietitianRequestDto;
+import com.example.dietitian_plus.domain.mealsdishes.MealDishRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class DietitianService {
     private final DietitianRepository dietitianRepository;
 
     private final DietitianDtoMapper dietitianDtoMapper;
+    private final MealDishRepository mealDishRepository;
 
     public List<DietitianResponseDto> getAllDietitians() {
         return dietitianDtoMapper.toDtoList(dietitianRepository.findAll());
@@ -55,6 +57,8 @@ public class DietitianService {
         if (!dietitianRepository.existsById(dietitianId)) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
+
+        mealDishRepository.deleteAllByDietitianId(dietitianId);
 
         dietitianRepository.deleteById(dietitianId);
     }
