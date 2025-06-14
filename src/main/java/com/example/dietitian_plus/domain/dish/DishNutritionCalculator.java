@@ -27,8 +27,6 @@ public class DishNutritionCalculator {
         dish.setCarbs(dish.getCarbs() + (product.getCarbs() * grams));
         dish.setProtein(dish.getProtein() + (product.getProtein() * grams));
         dish.setFiber(dish.getFiber() + (product.getFiber() * grams));
-        dish.setGlycemicIndex(dish.getGlycemicIndex() + (product.getGlycemicIndex() * grams));
-        dish.setGlycemicLoad(dish.getGlycemicLoad() + (product.getGlycemicLoad() * grams));
 
         dishRepository.save(dish);
     }
@@ -43,13 +41,11 @@ public class DishNutritionCalculator {
         dish.setCarbs(dish.getCarbs() - (product.getCarbs() * grams));
         dish.setProtein(dish.getProtein() - (product.getProtein() * grams));
         dish.setFiber(dish.getFiber() - (product.getFiber() * grams));
-        dish.setGlycemicIndex(dish.getGlycemicIndex() - (product.getGlycemicIndex() * grams));
-        dish.setGlycemicLoad(dish.getGlycemicLoad() - (product.getGlycemicLoad() * grams));
 
         dishRepository.save(dish);
     }
 
-    public void setDishNutritionValues(Long dishId) throws EntityNotFoundException {
+    public void calculateDishNutritionValues(Long dishId) throws EntityNotFoundException {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
@@ -63,8 +59,6 @@ public class DishNutritionCalculator {
         float carbs = 0.0f;
         float protein = 0.0f;
         float fiber = 0.0f;
-        float glycemicIndex = 0.0f;
-        float glycemicLoad = 0.0f;
 
         for (DishProduct dishProduct : dishProductList) {
             Product product = dishProduct.getProduct();
@@ -76,8 +70,6 @@ public class DishNutritionCalculator {
             carbs += product.getCarbs() * grams;
             protein += product.getProtein() * grams;
             fiber += product.getFiber() * grams;
-            glycemicIndex += product.getGlycemicIndex() * grams;
-            glycemicLoad += product.getGlycemicLoad() * grams;
         }
 
         dish.setKcal(kcal);
@@ -85,6 +77,47 @@ public class DishNutritionCalculator {
         dish.setCarbs(carbs);
         dish.setProtein(protein);
         dish.setFiber(fiber);
+
+        dishRepository.save(dish);
+    }
+
+    public void calculateDishGlycemicIndexAndLoad(Long dishId) {
+        Dish dish = dishRepository.findById(dishId).orElse(null);
+
+        if (dish == null) {
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
+        }
+
+        List<DishProduct> dishProducts = dishProductRepository.findAllByDish_DishId(dishId);
+
+        double totalNetCarbs = 0.0;
+        double weightedSum = 0.0;
+
+        for (DishProduct dishProduct : dishProducts) {
+            Product product = dishProduct.getProduct();
+
+            float totalGrams = dishProduct.getUnitCount() * dishProduct.getUnit().getGrams();
+
+            float carbsPer100g = product.getCarbs();
+            float fiberPer100g = product.getFiber();
+
+            double netCarbs = Math.max((carbsPer100g - fiberPer100g) * (totalGrams / 100.0), 0.0);
+
+            totalNetCarbs += netCarbs;
+            weightedSum += netCarbs * product.getGlycemicIndex();
+        }
+
+        float glycemicIndex;
+        float glycemicLoad;
+
+        if (totalNetCarbs == 0) {
+            glycemicIndex = 0.0f;
+            glycemicLoad = 0.0f;
+        } else {
+            glycemicIndex = (float) (weightedSum / totalNetCarbs);
+            glycemicLoad = (float) ((glycemicIndex * totalNetCarbs) / 100.0);
+        }
+
         dish.setGlycemicIndex(glycemicIndex);
         dish.setGlycemicLoad(glycemicLoad);
 

@@ -94,6 +94,7 @@ public class DishProductService {
         dishProduct.setUnitCount(createDishProductEntryRequestDto.getUnitCount());
 
         dishNutritionCalculator.increaseDishNutritionValues(dishProduct);
+        dishNutritionCalculator.calculateDishGlycemicIndexAndLoad(dish.getDishId());
 
         return dishProductDtoMapper.toDto(dishProductRepository.save(dishProduct));
     }
@@ -124,7 +125,10 @@ public class DishProductService {
             dishProduct.setUnitCount(updateDishProductEntryRequestDto.getUnitCount());
         }
 
-        dishNutritionCalculator.setDishNutritionValues(dishProduct.getDish().getDishId());
+        Long dishId = dishProduct.getDish().getDishId();
+
+        dishNutritionCalculator.calculateDishNutritionValues(dishId);
+        dishNutritionCalculator.calculateDishGlycemicIndexAndLoad(dishId);
 
         return dishProductDtoMapper.toDto(dishProductRepository.save(dishProduct));
     }
@@ -138,6 +142,7 @@ public class DishProductService {
         }
 
         dishNutritionCalculator.decreaseDishNutritionValues(dishProduct);
+        dishNutritionCalculator.calculateDishGlycemicIndexAndLoad(dishProduct.getDish().getDishId());
 
         dishProductRepository.deleteById(dishProductId);
     }
