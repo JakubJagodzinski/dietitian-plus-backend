@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.auth.access;
 
+import com.example.dietitian_plus.user.Role;
 import com.example.dietitian_plus.user.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,8 +23,8 @@ public class SecurityUtils {
         return (User) getAuthentication().getPrincipal();
     }
 
-    public boolean isOwner(UUID expectedUserId) {
-        return getCurrentUserId().equals(expectedUserId);
+    public boolean isAdmin() {
+        return hasRole(Role.ADMIN.name());
     }
 
     public boolean hasRole(String role) {

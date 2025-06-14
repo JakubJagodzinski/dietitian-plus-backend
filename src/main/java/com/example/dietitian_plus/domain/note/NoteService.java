@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.note;
 
+import com.example.dietitian_plus.auth.access.manager.NoteAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.common.constants.messages.NoteMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
@@ -30,6 +31,8 @@ public class NoteService {
 
     private final NoteDtoMapper noteDtoMapper;
 
+    private final NoteAccessManager noteAccessManager;
+
     public List<NoteResponseDto> getAllNotes() {
         return noteDtoMapper.toDtoList(noteRepository.findAll());
     }
@@ -42,23 +45,33 @@ public class NoteService {
             throw new EntityNotFoundException(NoteMessages.NOTE_NOT_FOUND);
         }
 
+        noteAccessManager.checkCanReadNote(note);
+
         return noteDtoMapper.toDto(note);
     }
 
     @Transactional
     public List<NoteResponseDto> getPatientAllNotes(UUID patientId) throws EntityNotFoundException {
-        if (!patientRepository.existsById(patientId)) {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        noteAccessManager.checkCanReadPatientNotes(patient);
 
         return noteDtoMapper.toDtoList(noteRepository.findAllByPatient_UserId(patientId));
     }
 
     @Transactional
     public List<NoteResponseDto> getDietitianAllNotes(UUID dietitianId) throws EntityNotFoundException {
-        if (!dietitianRepository.existsById(dietitianId)) {
+        Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
+
+        if (dietitian == null) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
+
+        noteAccessManager.checkCanReadDietitianNotes(dietitian);
 
         return noteDtoMapper.toDtoList(noteRepository.findAllByDietitian_UserId(dietitianId));
     }
@@ -77,6 +90,8 @@ public class NoteService {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
+        noteAccessManager.checkCanCreateNote(patient, dietitian);
+
         Note note = new Note();
 
         note.setTitle(createNoteRequestDto.getTitle());
@@ -94,6 +109,8 @@ public class NoteService {
         if (note == null) {
             throw new EntityNotFoundException(NoteMessages.NOTE_NOT_FOUND);
         }
+
+        noteAccessManager.checkCanUpdateNote(note);
 
         if (updateNoteRequestDto.getTitle() != null) {
             note.setTitle(updateNoteRequestDto.getTitle());
@@ -122,6 +139,14 @@ public class NoteService {
         if (!noteRepository.existsById(noteId)) {
             throw new EntityNotFoundException(NoteMessages.NOTE_NOT_FOUND);
         }
+
+        Note note = noteRepository.findById(noteId).orElse(null);
+
+        if (note == null) {
+            throw new EntityNotFoundException(NoteMessages.NOTE_NOT_FOUND);
+        }
+
+        noteAccessManager.checkCanDeleteNote(note);
 
         noteRepository.deleteById(noteId);
     }
