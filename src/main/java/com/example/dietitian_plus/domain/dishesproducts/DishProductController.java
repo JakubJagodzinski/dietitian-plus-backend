@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -30,16 +29,6 @@ public class DishProductController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishWithProductsResponseDto);
-    }
-
-    @CheckPermission(Permission.DISH_PRODUCT_READ_ALL)
-    @GetMapping("/products/{productId}/dishes-products")
-    public ResponseEntity<List<DishProductResponseDto>> getAllDishProductEntriesWithGivenProduct(@PathVariable Long productId) {
-        List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.getAllDishProductEntriesWithGivenProduct(productId);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(dishProductResponseDtoList);
     }
 
     @CheckPermission(Permission.DISH_PRODUCT_ASSIGN)

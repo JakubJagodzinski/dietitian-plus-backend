@@ -57,17 +57,6 @@ public class DishProductService {
     }
 
     @Transactional
-    public List<DishProductResponseDto> getAllDishProductEntriesWithGivenProduct(Long productId) throws EntityNotFoundException {
-        if (!productRepository.existsById(productId)) {
-            throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
-        }
-
-        List<DishProduct> dishProductResponseDtoList = dishProductRepository.findAllByProduct_ProductId(productId);
-
-        return dishProductDtoMapper.toDtoList(dishProductResponseDtoList);
-    }
-
-    @Transactional
     public DishProductResponseDto createDishProductEntry(CreateDishProductEntryRequestDto createDishProductEntryRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Dish dish = dishRepository.findById(createDishProductEntryRequestDto.getDishId()).orElse(null);
 
