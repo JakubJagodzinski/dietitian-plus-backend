@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.meal;
 
+import com.example.dietitian_plus.auth.access.manager.MealAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.common.constants.messages.MealMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
@@ -29,6 +30,8 @@ public class MealService {
 
     private final MealDtoMapper mealDtoMapper;
 
+    private final MealAccessManager mealAccessManager;
+
     public List<MealResponseDto> getAllMeals() {
         return mealDtoMapper.toDtoList(mealRepository.findAll());
     }
@@ -41,23 +44,33 @@ public class MealService {
             throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
+        mealAccessManager.checkCanAccessMeal(meal);
+
         return mealDtoMapper.toDto(meal);
     }
 
     @Transactional
     public List<MealResponseDto> getPatientAllMeals(UUID patientId) throws EntityNotFoundException {
-        if (!patientRepository.existsById(patientId)) {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
+
+        mealAccessManager.checkCanGetPatientAllMeals(patient);
 
         return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserId(patientId));
     }
 
     @Transactional
     public List<MealResponseDto> getDietitianAllMeals(UUID dietitianId) throws EntityNotFoundException {
-        if (!dietitianRepository.existsById(dietitianId)) {
+        Dietitian dietitian = dietitianRepository.findById(dietitianId).orElse(null);
+
+        if (dietitian == null) {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
+
+        mealAccessManager.checkCanGetDietitianAllMeals(dietitian);
 
         return mealDtoMapper.toDtoList(mealRepository.findAllByDietitian_UserId(dietitianId));
     }
@@ -102,6 +115,8 @@ public class MealService {
             throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
+        mealAccessManager.checkCanUpdateMeal(meal);
+
         if (updateMealRequestDto.getMealName() != null) {
             if (updateMealRequestDto.getMealName().isEmpty()) {
                 throw new IllegalArgumentException(MealMessages.MEAL_NAME_CANNOT_BE_EMPTY);
@@ -139,9 +154,13 @@ public class MealService {
 
     @Transactional
     public void deleteMealById(Long mealId) throws EntityNotFoundException {
-        if (!mealRepository.existsById(mealId)) {
+        Meal meal = mealRepository.findById(mealId).orElse(null);
+
+        if (meal == null) {
             throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
+
+        mealAccessManager.checkCanDeleteMeal(meal);
 
         mealRepository.deleteById(mealId);
     }
