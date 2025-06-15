@@ -89,6 +89,8 @@ public class MealService {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
+        mealAccessManager.checkCanCreateMeal(patient, dietitian);
+
         if (createMealRequestDto.getMealName() == null) {
             throw new IllegalArgumentException(MealMessages.MEAL_NAME_CANNOT_BE_NULL);
         }

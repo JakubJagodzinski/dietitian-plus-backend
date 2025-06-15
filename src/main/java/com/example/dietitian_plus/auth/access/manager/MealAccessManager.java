@@ -2,6 +2,7 @@ package com.example.dietitian_plus.auth.access.manager;
 
 import com.example.dietitian_plus.auth.access.SecurityUtils;
 import com.example.dietitian_plus.common.constants.messages.MealMessages;
+import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.meal.Meal;
 import com.example.dietitian_plus.domain.patient.Patient;
@@ -16,6 +17,19 @@ import java.util.UUID;
 public class MealAccessManager {
 
     private final SecurityUtils securityUtils;
+
+    public void checkCanCreateMeal(Patient patient, Dietitian dietitian) throws AccessDeniedException {
+        UUID currentUserId = securityUtils.getCurrentUserId();
+
+        boolean isAdmin = securityUtils.isAdmin();
+        boolean isDietitianOwner = dietitian.getUserId().equals(currentUserId);
+        boolean isPatientDietitian = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(dietitian.getUserId());
+        boolean isPatientDietitianOwner = isPatientDietitian && isDietitianOwner;
+
+        if (!isAdmin && !isPatientDietitianOwner) {
+            throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
+        }
+    }
 
     public void checkCanAccessMeal(Meal meal) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
