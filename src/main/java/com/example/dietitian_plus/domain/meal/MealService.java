@@ -131,26 +131,6 @@ public class MealService {
             meal.setDatetime(updateMealRequestDto.getDatetime());
         }
 
-        if (updateMealRequestDto.getPatientId() != null) {
-            Patient patient = patientRepository.findById(updateMealRequestDto.getPatientId()).orElse(null);
-
-            if (patient == null) {
-                throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
-            }
-
-            meal.setPatient(patient);
-        }
-
-        if (updateMealRequestDto.getDietitianId() != null) {
-            Dietitian dietitian = dietitianRepository.findById(updateMealRequestDto.getDietitianId()).orElse(null);
-
-            if (dietitian == null) {
-                throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
-            }
-
-            meal.setDietitian(dietitian);
-        }
-
         return mealDtoMapper.toDto(mealRepository.save(meal));
     }
 
