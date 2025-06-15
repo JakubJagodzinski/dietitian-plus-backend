@@ -1,5 +1,7 @@
 package com.example.dietitian_plus.domain.mealsdishes;
 
+import com.example.dietitian_plus.auth.access.manager.DishAccessManager;
+import com.example.dietitian_plus.auth.access.manager.MealDishAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DishMessages;
 import com.example.dietitian_plus.common.constants.messages.MealMessages;
 import com.example.dietitian_plus.domain.dish.Dish;
@@ -37,11 +39,18 @@ public class MealDishService {
     private final DishDtoMapper dishDtoMapper;
     private final MealDtoMapper mealDtoMapper;
 
+    private final MealDishAccessManager mealDishAccessManager;
+    private final DishAccessManager dishAccessManager;
+
     @Transactional
     public List<DishResponseDto> getMealAllDishes(Long mealId) throws EntityNotFoundException {
-        if (!mealRepository.existsById(mealId)) {
+        Meal meal = mealRepository.findById(mealId).orElse(null);
+
+        if (meal == null) {
             throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
+
+        mealDishAccessManager.checkCanAccessMealAllDishes(meal);
 
         List<MealDish> mealDishList = mealDishRepository.findAllByMeal_MealId(mealId);
 
@@ -58,6 +67,8 @@ public class MealDishService {
         if (meal == null) {
             throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
+
+        mealDishAccessManager.checkCanAccessMealAllDishes(meal);
 
         List<MealDish> mealDishList = mealDishRepository.findAllByMeal_MealId(mealId);
 
@@ -88,6 +99,10 @@ public class MealDishService {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
+        dishAccessManager.checkIsDietitianDishOwner(dish);
+
+        mealDishAccessManager.checkCanAddDishToMeal(meal);
+
         MealDishId mealDishId = new MealDishId(meal.getMealId(), dish.getDishId());
 
         if (mealDishRepository.existsById(mealDishId)) {
@@ -111,6 +126,8 @@ public class MealDishService {
         if (mealDish == null) {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_ASSIGNED_TO_MEAL);
         }
+
+        mealDishAccessManager.checkCanRemoveDishFromMeal(mealDish.getMeal());
 
         mealDishRepository.delete(mealDish);
     }
