@@ -37,7 +37,7 @@ public class DietitianService {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
-        dietitianAccessManager.checkCanAccessDietitian(dietitianId);
+        dietitianAccessManager.checkCanReadDietitian(dietitianId);
 
         return dietitianDtoMapper.toDto(dietitian);
     }

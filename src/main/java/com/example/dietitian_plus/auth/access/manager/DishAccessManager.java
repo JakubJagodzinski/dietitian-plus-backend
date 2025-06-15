@@ -24,51 +24,51 @@ public class DishAccessManager {
         return dish.getDietitian().getUserId().equals(currentUserId);
     }
 
-    public void checkIsDietitianDishOwner(Dish dish) throws AccessDeniedException {
+    public void checkIsDietitianDishOwnerRequest(Dish dish) throws AccessDeniedException {
         if (!isDietitianDishOwner(dish)) {
             throw new AccessDeniedException(DishMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DISH);
         }
     }
 
-    public void checkCanAccessDish(Dish dish) throws AccessDeniedException {
+    public void checkCanReadDish(Dish dish) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
         UUID dietitianId = dish.getDietitian().getUserId();
 
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = isDietitianDishOwner(dish);
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianDishOwnerRequest = isDietitianDishOwner(dish);
         boolean existsInPatientMeals = mealDishRepository.existsByMeal_Patient_UserIdAndDish_Dietitian_UserId(currentUserId, dietitianId);
         boolean isDishPublic = dish.getIsPublic();
 
-        if (!isAdmin && !isDietitianOwner && !existsInPatientMeals && !isDishPublic) {
+        if (!isAdminRequest && !isDietitianDishOwnerRequest && !existsInPatientMeals && !isDishPublic) {
             throw new AccessDeniedException(DishMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DISH);
         }
     }
 
-    public void checkCanGetDietitianAllDishes(UUID dietitianId) throws AccessDeniedException {
+    public void checkCanReadDietitianAllDishes(UUID dietitianId) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
 
-        boolean isAdmin = securityUtils.isAdmin();
+        boolean isAdminRequest = securityUtils.isAdmin();
         boolean isDietitianSelfRequest = dietitianId.equals(currentUserId);
 
-        if (!isAdmin && !isDietitianSelfRequest) {
+        if (!isAdminRequest && !isDietitianSelfRequest) {
             throw new AccessDeniedException(DishMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DISH);
         }
     }
 
     public void checkCanUpdateDish(Dish dish) throws AccessDeniedException {
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = isDietitianDishOwner(dish);
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianDishOwnerRequest = isDietitianDishOwner(dish);
 
-        if (!isAdmin && !isDietitianOwner) {
+        if (!isAdminRequest && !isDietitianDishOwnerRequest) {
             throw new AccessDeniedException(DishMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DISH);
         }
     }
 
     public void checkCanDeleteDish(Dish dish) throws AccessDeniedException {
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = isDietitianDishOwner(dish);
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianDishOwnerRequest = isDietitianDishOwner(dish);
 
-        if (!isAdmin && !isDietitianOwner) {
+        if (!isAdminRequest && !isDietitianDishOwnerRequest) {
             throw new AccessDeniedException(DishMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DISH);
         }
     }

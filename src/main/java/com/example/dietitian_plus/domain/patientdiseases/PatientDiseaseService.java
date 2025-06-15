@@ -42,7 +42,7 @@ public class PatientDiseaseService {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
-        patientDiseaseAccessManager.checkCanAccessPatientDiseases(patient);
+        patientDiseaseAccessManager.checkCanReadPatientDiseases(patient);
 
         List<PatientDisease> patientDiseaseList = patientDiseaseRepository.findAllByPatient_UserId(patientId);
 

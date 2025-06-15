@@ -16,64 +16,70 @@ public class PatientAccessManager {
 
     private final SecurityUtils securityUtils;
 
-    public void checkCanViewPatient(Patient patient) throws AccessDeniedException {
+    public void checkCanReadPatient(Patient patient) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isPatientOwner = patient.getUserId().equals(currentUserId);
-        boolean isPatientDietitianOwner = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(currentUserId);
 
-        if (!isAdmin && !isPatientOwner && !isPatientDietitianOwner) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isPatientSelfRequest = patient.getUserId().equals(currentUserId);
+        boolean isPatientDietitianRequest = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(currentUserId);
+
+        if (!isAdminRequest && !isPatientSelfRequest && !isPatientDietitianRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
         }
     }
 
-    public void checkCanViewDietitianPatients(UUID dietitianId) throws AccessDeniedException {
+    public void checkCanReadDietitianPatients(UUID dietitianId) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitian = dietitianId.equals(currentUserId);
 
-        if (!isAdmin && !isDietitian) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianSelfRequest = dietitianId.equals(currentUserId);
+
+        if (!isAdminRequest && !isDietitianSelfRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DIETITIAN_PATIENTS);
         }
     }
 
     public void checkCanUpdatePatient(Patient patient) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isPatientOwner = patient.getUserId().equals(currentUserId);
 
-        if (!isAdmin && !isPatientOwner) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isPatientSelfRequest = patient.getUserId().equals(currentUserId);
+
+        if (!isAdminRequest && !isPatientSelfRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
         }
     }
 
     public void checkCanAssignDietitianToPatient(Dietitian dietitian) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = dietitian.getUserId().equals(currentUserId);
 
-        if (!isAdmin && !isDietitianOwner) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianSelfRequest = dietitian.getUserId().equals(currentUserId);
+
+        if (!isAdminRequest && !isDietitianSelfRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_ASSIGN_THIS_DIETITIAN_TO_PATIENT);
         }
     }
 
     public void checkCanUnassignDietitianFromPatient(Patient patient) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isPatientOwner = patient.getUserId().equals(currentUserId);
-        boolean isDietitianOwner = patient.getDietitian().getUserId().equals(currentUserId);
 
-        if (!isAdmin && !isPatientOwner && !isDietitianOwner) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isPatientSelfRequest = patient.getUserId().equals(currentUserId);
+        boolean isDietitianSelfRequest = patient.getDietitian().getUserId().equals(currentUserId);
+
+        if (!isAdminRequest && !isPatientSelfRequest && !isDietitianSelfRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
         }
     }
 
     public void checkCanDeletePatient(Patient patient) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isPatientOwner = patient.getUserId().equals(currentUserId);
 
-        if (!isAdmin && !isPatientOwner) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isPatientSelfRequest = patient.getUserId().equals(currentUserId);
+
+        if (!isAdminRequest && !isPatientSelfRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
         }
     }

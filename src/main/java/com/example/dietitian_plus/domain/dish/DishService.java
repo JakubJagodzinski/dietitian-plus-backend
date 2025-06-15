@@ -40,7 +40,7 @@ public class DishService {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
-        dishAccessManager.checkCanAccessDish(dish);
+        dishAccessManager.checkCanReadDish(dish);
 
         return dishDtoMapper.toDto(dish);
     }
@@ -51,7 +51,7 @@ public class DishService {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
-        dishAccessManager.checkCanGetDietitianAllDishes(dietitianId);
+        dishAccessManager.checkCanReadDietitianAllDishes(dietitianId);
 
         return dishDtoMapper.toDtoList(dishRepository.findAllByDietitian_UserId(dietitianId));
     }

@@ -41,7 +41,7 @@ public class PatientService {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
-        patientAccessManager.checkCanViewPatient(patient);
+        patientAccessManager.checkCanReadPatient(patient);
 
         return patientDtoMapper.toDto(patient);
     }
@@ -52,7 +52,7 @@ public class PatientService {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
-        patientAccessManager.checkCanViewDietitianPatients(dietitianId);
+        patientAccessManager.checkCanReadDietitianPatients(dietitianId);
 
         return patientDtoMapper.toDtoList(patientRepository.findAllByDietitian_UserId(dietitianId));
     }

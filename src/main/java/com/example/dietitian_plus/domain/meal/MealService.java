@@ -44,7 +44,7 @@ public class MealService {
             throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
-        mealAccessManager.checkCanAccessMeal(meal);
+        mealAccessManager.checkCanReadMeal(meal);
 
         return mealDtoMapper.toDto(meal);
     }
@@ -57,7 +57,7 @@ public class MealService {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
-        mealAccessManager.checkCanGetPatientAllMeals(patient);
+        mealAccessManager.checkCanReadPatientAllMeals(patient);
 
         return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserId(patientId));
     }
@@ -70,7 +70,7 @@ public class MealService {
             throw new EntityNotFoundException(DietitianMessages.DIETITIAN_NOT_FOUND);
         }
 
-        mealAccessManager.checkCanGetDietitianAllMeals(dietitian);
+        mealAccessManager.checkCanReadDietitianAllMeals(dietitian);
 
         return mealDtoMapper.toDtoList(mealRepository.findAllByDietitian_UserId(dietitianId));
     }

@@ -15,33 +15,36 @@ public class PatientDislikedProductAccessManager {
 
     private final SecurityUtils securityUtils;
 
-    public void checkCanAccessPatientDislikedProducts(Patient patient) throws AccessDeniedException {
+    public void checkCanReadPatientDislikedProducts(Patient patient) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isPatientOwner = patient.getUserId().equals(currentUserId);
-        boolean isPatientDietitianOwner = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(currentUserId);
 
-        if (!isAdmin && !isPatientOwner && !isPatientDietitianOwner) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isPatientSelfRequest = patient.getUserId().equals(currentUserId);
+        boolean isPatientDietitianRequest = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(currentUserId);
+
+        if (!isAdminRequest && !isPatientSelfRequest && !isPatientDietitianRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
         }
     }
 
     public void checkCanAssignDislikedProductToPatient(UUID patientId) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isPatientOwner = patientId.equals(currentUserId);
 
-        if (!isAdmin && !isPatientOwner) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isPatientSelfRequest = patientId.equals(currentUserId);
+
+        if (!isAdminRequest && !isPatientSelfRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
         }
     }
 
     public void checkCanUnassignDislikedProductFromPatient(UUID patientId) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isPatientOwner = patientId.equals(currentUserId);
 
-        if (!isAdmin && !isPatientOwner) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isPatientSelfRequest = patientId.equals(currentUserId);
+
+        if (!isAdminRequest && !isPatientSelfRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
         }
     }

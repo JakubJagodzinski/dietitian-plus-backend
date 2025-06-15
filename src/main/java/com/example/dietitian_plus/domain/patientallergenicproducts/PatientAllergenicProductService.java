@@ -42,7 +42,7 @@ public class PatientAllergenicProductService {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
-        patientAllergenicProductAccessManager.checkCanAccessPatientAllergenicProducts(patient);
+        patientAllergenicProductAccessManager.checkCanReadPatientAllergenicProducts(patient);
 
         List<PatientAllergenicProduct> patientAllergenicProductList = patientAllergenicProductRepository.findAllByPatient_UserId(patientId);
 

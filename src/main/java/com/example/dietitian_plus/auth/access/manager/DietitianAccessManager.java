@@ -14,32 +14,35 @@ public class DietitianAccessManager {
 
     private final SecurityUtils securityUtils;
 
-    public void checkCanAccessDietitian(UUID dietitianId) throws AccessDeniedException {
+    public boolean isDietitianSelfRequest(UUID dietitianId) {
         UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = dietitianId.equals(currentUserId);
 
-        if (!isAdmin && !isDietitianOwner) {
+        return dietitianId.equals(currentUserId);
+    }
+
+    public void checkCanReadDietitian(UUID dietitianId) throws AccessDeniedException {
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianSelfRequest = isDietitianSelfRequest(dietitianId);
+
+        if (!isAdminRequest && !isDietitianSelfRequest) {
             throw new AccessDeniedException(DietitianMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DIETITIAN);
         }
     }
 
     public void checkCanUpdateDietitian(UUID dietitianId) throws AccessDeniedException {
-        UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = dietitianId.equals(currentUserId);
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianSelfRequest = isDietitianSelfRequest(dietitianId);
 
-        if (!isAdmin && !isDietitianOwner) {
+        if (!isAdminRequest && !isDietitianSelfRequest) {
             throw new AccessDeniedException(DietitianMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DIETITIAN);
         }
     }
 
     public void checkCanDeleteDietitian(UUID dietitianId) throws AccessDeniedException {
-        UUID currentUserId = securityUtils.getCurrentUserId();
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = dietitianId.equals(currentUserId);
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianSelfRequest = isDietitianSelfRequest(dietitianId);
 
-        if (!isAdmin && !isDietitianOwner) {
+        if (!isAdminRequest && !isDietitianSelfRequest) {
             throw new AccessDeniedException(DietitianMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DIETITIAN);
         }
     }

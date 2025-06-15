@@ -42,7 +42,7 @@ public class PatientDislikedProductService {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
         }
 
-        patientDislikedProductAccessManager.checkCanAccessPatientDislikedProducts(patient);
+        patientDislikedProductAccessManager.checkCanReadPatientDislikedProducts(patient);
 
         List<PatientDislikedProduct> patientDislikedProductList = patientDislikedProductRepository.findAllByPatient_UserId(patientId);
 

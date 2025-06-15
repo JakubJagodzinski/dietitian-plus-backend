@@ -15,11 +15,13 @@ public class MealDishAccessManager {
 
     private final SecurityUtils securityUtils;
 
-    public void checkCanAccessMealAllDishes(Meal meal) throws AccessDeniedException {
+    private final MealAccessManager mealAccessManager;
+
+    public void checkCanReadMealAllDishes(Meal meal) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
 
         boolean isAdminRequest = securityUtils.isAdmin();
-        boolean isDietitianMealOwnerRequest = meal.getDietitian().getUserId().equals(currentUserId);
+        boolean isDietitianMealOwnerRequest = mealAccessManager.isDietitianMealOwner(meal);
         boolean isDietitianPatientRequest = meal.getPatient().getUserId().equals(currentUserId);
 
         if (!isAdminRequest && !isDietitianMealOwnerRequest && !isDietitianPatientRequest) {
@@ -28,10 +30,8 @@ public class MealDishAccessManager {
     }
 
     public void checkCanAddDishToMeal(Meal meal) throws AccessDeniedException {
-        UUID currentUserId = securityUtils.getCurrentUserId();
-
         boolean isAdminRequest = securityUtils.isAdmin();
-        boolean isDietitianMealOwnerRequest = meal.getDietitian().getUserId().equals(currentUserId);
+        boolean isDietitianMealOwnerRequest = mealAccessManager.isDietitianMealOwner(meal);
 
         if (!isAdminRequest && !isDietitianMealOwnerRequest) {
             throw new AccessDeniedException(MealMessages.YOU_HAVE_NO_ACCESS_TO_THIS_MEAL);
@@ -39,10 +39,8 @@ public class MealDishAccessManager {
     }
 
     public void checkCanRemoveDishFromMeal(Meal meal) throws AccessDeniedException {
-        UUID currentUserId = securityUtils.getCurrentUserId();
-
         boolean isAdminRequest = securityUtils.isAdmin();
-        boolean isDietitianMealOwnerRequest = meal.getDietitian().getUserId().equals(currentUserId);
+        boolean isDietitianMealOwnerRequest = mealAccessManager.isDietitianMealOwner(meal);
 
         if (!isAdminRequest && !isDietitianMealOwnerRequest) {
             throw new AccessDeniedException(MealMessages.YOU_HAVE_NO_ACCESS_TO_THIS_MEAL);

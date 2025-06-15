@@ -18,72 +18,74 @@ public class MealAccessManager {
 
     private final SecurityUtils securityUtils;
 
+    public boolean isDietitianMealOwner(Meal meal) {
+        UUID currentUserId = securityUtils.getCurrentUserId();
+
+        return meal.getDietitian().getUserId().equals(currentUserId);
+    }
+
     public void checkCanCreateMeal(Patient patient, Dietitian dietitian) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
 
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = dietitian.getUserId().equals(currentUserId);
-        boolean isPatientDietitian = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(dietitian.getUserId());
-        boolean isPatientDietitianOwner = isPatientDietitian && isDietitianOwner;
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianMealOwnerRequest = dietitian.getUserId().equals(currentUserId);
+        boolean isDietitianAssignedToPatient = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(dietitian.getUserId());
+        boolean isPatientDietitianRequest = isDietitianAssignedToPatient && isDietitianMealOwnerRequest;
 
-        if (!isAdmin && !isPatientDietitianOwner) {
+        if (!isAdminRequest && !isPatientDietitianRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
         }
     }
 
-    public void checkCanAccessMeal(Meal meal) throws AccessDeniedException {
+    public void checkCanReadMeal(Meal meal) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
 
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = meal.getDietitian().getUserId().equals(currentUserId);
-        boolean isPatientOwner = meal.getPatient().getUserId().equals(currentUserId);
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianMealOwnerRequest = isDietitianMealOwner(meal);
+        boolean isDietitianPatientRequest = meal.getPatient().getUserId().equals(currentUserId);
 
-        if (!isAdmin && !isDietitianOwner && !isPatientOwner) {
+        if (!isAdminRequest && !isDietitianMealOwnerRequest && !isDietitianPatientRequest) {
             throw new AccessDeniedException(MealMessages.YOU_HAVE_NO_ACCESS_TO_THIS_MEAL);
         }
     }
 
-    public void checkCanGetPatientAllMeals(Patient patient) throws AccessDeniedException {
+    public void checkCanReadPatientAllMeals(Patient patient) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
 
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isPatientDietitian = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(currentUserId);
-        boolean isPatientOwner = patient.getUserId().equals(currentUserId);
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isPatientDietitianRequest = patient.getDietitian() != null && patient.getDietitian().getUserId().equals(currentUserId);
+        boolean isPatientSelfRequest = patient.getUserId().equals(currentUserId);
 
-        if (!isAdmin && !isPatientDietitian && !isPatientOwner) {
+        if (!isAdminRequest && !isPatientDietitianRequest && !isPatientSelfRequest) {
             throw new AccessDeniedException(MealMessages.YOU_HAVE_NO_ACCESS_TO_THIS_MEAL);
         }
     }
 
-    public void checkCanGetDietitianAllMeals(Dietitian dietitian) throws AccessDeniedException {
+    public void checkCanReadDietitianAllMeals(Dietitian dietitian) throws AccessDeniedException {
         UUID currentUserId = securityUtils.getCurrentUserId();
 
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = dietitian.getUserId().equals(currentUserId);
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianSelfRequest = dietitian.getUserId().equals(currentUserId);
 
-        if (!isAdmin && !isDietitianOwner) {
+        if (!isAdminRequest && !isDietitianSelfRequest) {
             throw new AccessDeniedException(MealMessages.YOU_HAVE_NO_ACCESS_TO_THIS_MEAL);
         }
     }
 
     public void checkCanUpdateMeal(Meal meal) throws AccessDeniedException {
-        UUID currentUserId = securityUtils.getCurrentUserId();
+        boolean isAdminRequest = securityUtils.isAdmin();
+        boolean isDietitianMealOwnerRequest = isDietitianMealOwner(meal);
 
-        boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = meal.getDietitian().getUserId().equals(currentUserId);
-
-        if (!isAdmin && !isDietitianOwner) {
+        if (!isAdminRequest && !isDietitianMealOwnerRequest) {
             throw new AccessDeniedException(MealMessages.YOU_HAVE_NO_ACCESS_TO_THIS_MEAL);
         }
     }
 
     public void checkCanDeleteMeal(Meal meal) throws AccessDeniedException {
-        UUID currentUserId = securityUtils.getCurrentUserId();
-
         boolean isAdmin = securityUtils.isAdmin();
-        boolean isDietitianOwner = meal.getDietitian().getUserId().equals(currentUserId);
+        boolean isDietitianMealOwnerRequest = isDietitianMealOwner(meal);
 
-        if (!isAdmin && !isDietitianOwner) {
+        if (!isAdmin && !isDietitianMealOwnerRequest) {
             throw new AccessDeniedException(MealMessages.YOU_HAVE_NO_ACCESS_TO_THIS_MEAL);
         }
     }

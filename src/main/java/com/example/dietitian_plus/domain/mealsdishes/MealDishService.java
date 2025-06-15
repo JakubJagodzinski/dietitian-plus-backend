@@ -50,7 +50,7 @@ public class MealDishService {
             throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
-        mealDishAccessManager.checkCanAccessMealAllDishes(meal);
+        mealDishAccessManager.checkCanReadMealAllDishes(meal);
 
         List<MealDish> mealDishList = mealDishRepository.findAllByMeal_MealId(mealId);
 
@@ -68,7 +68,7 @@ public class MealDishService {
             throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
-        mealDishAccessManager.checkCanAccessMealAllDishes(meal);
+        mealDishAccessManager.checkCanReadMealAllDishes(meal);
 
         List<MealDish> mealDishList = mealDishRepository.findAllByMeal_MealId(mealId);
 
@@ -99,7 +99,7 @@ public class MealDishService {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
-        dishAccessManager.checkIsDietitianDishOwner(dish);
+        dishAccessManager.checkIsDietitianDishOwnerRequest(dish);
 
         mealDishAccessManager.checkCanAddDishToMeal(meal);
 
