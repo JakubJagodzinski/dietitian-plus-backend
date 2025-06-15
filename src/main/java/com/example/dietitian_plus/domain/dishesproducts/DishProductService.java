@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.dishesproducts;
 
+import com.example.dietitian_plus.auth.access.manager.DishProductAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DishMessages;
 import com.example.dietitian_plus.common.constants.messages.ProductMessages;
 import com.example.dietitian_plus.common.constants.messages.UnitMessages;
@@ -33,6 +34,8 @@ public class DishProductService {
 
     private final DishNutritionCalculator dishNutritionCalculator;
 
+    private final DishProductAccessManager dishProductAccessManager;
+
     @Transactional
     public DishWithProductsResponseDto getDishWithProducts(Long dishId) throws EntityNotFoundException {
         Dish dish = dishRepository.findById(dishId).orElse(null);
@@ -40,6 +43,8 @@ public class DishProductService {
         if (dish == null) {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
+
+        dishProductAccessManager.checkCanReadDishWithProducts(dish);
 
         List<DishProduct> dishProductList = dishProductRepository.findAllByDish_DishId(dishId);
 
@@ -69,6 +74,8 @@ public class DishProductService {
         if (dish == null) {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
+
+        dishProductAccessManager.checkCanCreateDishProductEntry(dish);
 
         Product product = productRepository.findById(createDishProductEntryRequestDto.getProductId()).orElse(null);
 
@@ -107,6 +114,8 @@ public class DishProductService {
             throw new EntityNotFoundException(DishMessages.DISH_PRODUCT_NOT_FOUND);
         }
 
+        dishProductAccessManager.checkCanUpdateDishProductEntry(dishProduct);
+
         if (updateDishProductEntryRequestDto.getUnitId() != null) {
             Unit unit = unitRepository.findById(updateDishProductEntryRequestDto.getUnitId()).orElse(null);
 
@@ -140,6 +149,8 @@ public class DishProductService {
         if (dishProduct == null) {
             throw new EntityNotFoundException(DishMessages.DISH_PRODUCT_NOT_FOUND);
         }
+
+        dishProductAccessManager.checkCanDeleteDishProductEntry(dishProduct);
 
         dishNutritionCalculator.decreaseDishNutritionValues(dishProduct);
         dishNutritionCalculator.calculateDishGlycemicIndexAndLoad(dishProduct.getDish().getDishId());
