@@ -8,6 +8,4 @@ public interface DishProductRepository extends JpaRepository<DishProduct, Long> 
 
     List<DishProduct> findAllByDish_DishId(Long dishId);
 
-    List<DishProduct> findAllByProduct_ProductId(Long productId);
-
 }
