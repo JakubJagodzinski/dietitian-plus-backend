@@ -77,7 +77,7 @@ public class MealService {
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 
-        return mealDtoMapper.toDtoList(mealRepository.findAllByDatetimeBetween(startOfDay, endOfDay));
+        return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserIdAndDatetimeBetween(patientId, startOfDay, endOfDay));
     }
 
     @Transactional

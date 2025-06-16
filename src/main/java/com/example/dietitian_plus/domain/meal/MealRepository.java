@@ -12,6 +12,6 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
 
     List<Meal> findAllByDietitian_UserId(UUID dietitianId);
 
-    List<Meal> findAllByDatetimeBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
+    List<Meal> findAllByPatient_UserIdAndDatetimeBetween(UUID patientId, LocalDateTime startOfDay, LocalDateTime endOfDay);
 
 }
