@@ -1,9 +1,11 @@
 package com.example.dietitian_plus.domain.mealsdishes;
 
 import com.example.dietitian_plus.auth.access.manager.DishAccessManager;
+import com.example.dietitian_plus.auth.access.manager.MealAccessManager;
 import com.example.dietitian_plus.auth.access.manager.MealDishAccessManager;
 import com.example.dietitian_plus.common.constants.messages.DishMessages;
 import com.example.dietitian_plus.common.constants.messages.MealMessages;
+import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.dish.DishRepository;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
@@ -11,19 +13,25 @@ import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.DishProductService;
 import com.example.dietitian_plus.domain.dishesproducts.dto.DishWithProductsResponseDto;
 import com.example.dietitian_plus.domain.meal.Meal;
+import com.example.dietitian_plus.domain.meal.MealNutritionCalculator;
 import com.example.dietitian_plus.domain.meal.MealRepository;
 import com.example.dietitian_plus.domain.meal.dto.MealDtoMapper;
-import com.example.dietitian_plus.domain.mealsdishes.dto.CreateMealDishRequestDto;
-import com.example.dietitian_plus.domain.mealsdishes.dto.MealDishDtoMapper;
-import com.example.dietitian_plus.domain.mealsdishes.dto.MealDishResponseDto;
-import com.example.dietitian_plus.domain.mealsdishes.dto.MealWithDishesResponseDto;
+import com.example.dietitian_plus.domain.meal.dto.NutritionValuesDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.*;
+import com.example.dietitian_plus.domain.patient.Patient;
+import com.example.dietitian_plus.domain.patient.PatientRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +40,7 @@ public class MealDishService {
     private final MealDishRepository mealDishRepository;
     private final MealRepository mealRepository;
     private final DishRepository dishRepository;
+    private final PatientRepository patientRepository;
 
     private final DishProductService dishProductService;
 
@@ -41,6 +50,9 @@ public class MealDishService {
 
     private final MealDishAccessManager mealDishAccessManager;
     private final DishAccessManager dishAccessManager;
+    private final MealAccessManager mealAccessManager;
+
+    private final MealNutritionCalculator mealNutritionCalculator;
 
     @Transactional
     public List<DishResponseDto> getMealAllDishes(Long mealId) throws EntityNotFoundException {
@@ -58,6 +70,41 @@ public class MealDishService {
                 .map(MealDish::getDish)
                 .map(dishDtoMapper::toDto)
                 .toList();
+    }
+
+    @Transactional
+    public PatientDayMealsWithDishesResponseDto getPatientDayMeals(LocalDate date, UUID patientId) throws EntityNotFoundException {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
+        }
+
+        mealAccessManager.checkCanReadPatientAllMeals(patient);
+
+        PatientDayMealsWithDishesResponseDto patientDayMealsWithDishesResponseDto = new PatientDayMealsWithDishesResponseDto();
+
+        patientDayMealsWithDishesResponseDto.setPatientId(patientId);
+        patientDayMealsWithDishesResponseDto.setDate(date);
+
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+
+        List<MealWithDishesResponseDto> mealWithDishesResponseDtoList = new ArrayList<>();
+
+        List<Meal> meals = mealRepository.findAllByPatient_UserIdAndDatetimeBetween(patientId, startOfDay, endOfDay);
+
+        for (Meal meal : meals) {
+            mealWithDishesResponseDtoList.add(getMealAllDishesWithProducts(meal.getMealId()));
+        }
+
+        patientDayMealsWithDishesResponseDto.setMeals(mealWithDishesResponseDtoList);
+
+        NutritionValuesDto dailyNutritionValues = mealNutritionCalculator.calculateMealsNutritionValues(meals);
+
+        patientDayMealsWithDishesResponseDto.setDailyNutritionValues(dailyNutritionValues);
+
+        return patientDayMealsWithDishesResponseDto;
     }
 
     @Transactional

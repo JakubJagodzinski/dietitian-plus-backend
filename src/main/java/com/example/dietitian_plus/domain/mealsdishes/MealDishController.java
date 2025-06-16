@@ -6,14 +6,18 @@ import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.CreateMealDishRequestDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.MealDishResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.MealWithDishesResponseDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.PatientDayMealsWithDishesResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -40,6 +44,16 @@ public class MealDishController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(mealWithDishesResponseDto);
+    }
+
+    @CheckPermission(Permission.PATIENT_MEAL_READ_ALL)
+    @GetMapping("/patients/{patientId}/meals/dishes")
+    public ResponseEntity<PatientDayMealsWithDishesResponseDto> getPatientDayMealsWithDishes(@RequestParam(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @PathVariable UUID patientId) {
+        PatientDayMealsWithDishesResponseDto patientDayMealsWithDishesResponseDto = mealDishService.getPatientDayMeals(date, patientId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(patientDayMealsWithDishesResponseDto);
     }
 
     @CheckPermission(Permission.MEAL_DISH_ADD)
