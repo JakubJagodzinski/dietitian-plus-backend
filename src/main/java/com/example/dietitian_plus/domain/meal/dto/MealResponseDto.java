@@ -21,6 +21,22 @@ public class MealResponseDto {
 
     private LocalDateTime datetime;
 
+    private Float kcal;
+
+    private Float fats;
+
+    private Float carbs;
+
+    private Float protein;
+
+    private Float fiber;
+
+    @JsonProperty("glycemic_index")
+    private Float glycemicIndex;
+
+    @JsonProperty("glycemic_load")
+    private Float glycemicLoad;
+
     @JsonProperty("patient_id")
     private UUID patientId;
 

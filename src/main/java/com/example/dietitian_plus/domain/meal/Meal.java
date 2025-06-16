@@ -29,6 +29,27 @@ public class Meal {
     @Column(nullable = false)
     private LocalDateTime datetime;
 
+    @Column(nullable = false)
+    private Float kcal = 0.0f;
+
+    @Column(nullable = false)
+    private Float fats = 0.0f;
+
+    @Column(nullable = false)
+    private Float carbs = 0.0f;
+
+    @Column(nullable = false)
+    private Float protein = 0.0f;
+
+    @Column(nullable = false)
+    private Float fiber = 0.0f;
+
+    @Column(name = "glycemic_index", nullable = false)
+    private Float glycemicIndex = 0.0f;
+
+    @Column(name = "glycemic_load", nullable = false)
+    private Float glycemicLoad = 0.0f;
+
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false, foreignKey = @ForeignKey(name = "fk_meals_patient_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
