@@ -32,6 +32,10 @@ public class NoteAccessManager {
         boolean isDietitianSelfRequest = dietitian.getUserId().equals(currentUserId);
         boolean isDietitianPatientRequest = isDietitianAssignedToPatient && isDietitianSelfRequest;
 
+        if (!isDietitianAssignedToPatient) {
+            throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
+        }
+
         if (!isAdminRequest && !isDietitianPatientRequest) {
             throw new AccessDeniedException(PatientMessages.YOU_HAVE_NO_ACCESS_TO_THIS_PATIENT);
         }
