@@ -25,7 +25,9 @@ public class DishAccessManager {
     }
 
     public void checkIsDietitianDishOwnerRequest(Dish dish) throws AccessDeniedException {
-        if (!isDietitianDishOwner(dish)) {
+        boolean isAdminRequest = securityUtils.isAdmin();
+
+        if (!isAdminRequest && !isDietitianDishOwner(dish)) {
             throw new AccessDeniedException(DishMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DISH);
         }
     }
