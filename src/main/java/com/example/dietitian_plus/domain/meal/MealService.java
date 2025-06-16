@@ -17,6 +17,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,6 +63,21 @@ public class MealService {
         mealAccessManager.checkCanReadPatientAllMeals(patient);
 
         return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserId(patientId));
+    }
+
+    public List<MealResponseDto> getPatientMeals(LocalDate date, UUID patientId) throws EntityNotFoundException {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
+        }
+
+        mealAccessManager.checkCanReadPatientAllMeals(patient);
+
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+
+        return mealDtoMapper.toDtoList(mealRepository.findAllByDatetimeBetween(startOfDay, endOfDay));
     }
 
     @Transactional
@@ -146,5 +164,4 @@ public class MealService {
 
         mealRepository.deleteById(mealId);
     }
-
 }

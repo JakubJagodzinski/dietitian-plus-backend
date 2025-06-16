@@ -7,11 +7,13 @@ import com.example.dietitian_plus.domain.meal.dto.MealResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.UpdateMealRequestDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,8 +46,14 @@ public class MealController {
 
     @CheckPermission(Permission.PATIENT_MEAL_READ_ALL)
     @GetMapping("/patients/{patientId}/meals")
-    public ResponseEntity<List<MealResponseDto>> getPatientAllMeals(@PathVariable UUID patientId) {
-        List<MealResponseDto> mealResponseDtoList = mealService.getPatientAllMeals(patientId);
+    public ResponseEntity<List<MealResponseDto>> getPatientMeals(@RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @PathVariable UUID patientId) {
+        List<MealResponseDto> mealResponseDtoList;
+
+        if (date != null) {
+            mealResponseDtoList = mealService.getPatientMeals(date, patientId);
+        } else {
+            mealResponseDtoList = mealService.getPatientAllMeals(patientId);
+        }
 
         return ResponseEntity
                 .status(HttpStatus.OK)
