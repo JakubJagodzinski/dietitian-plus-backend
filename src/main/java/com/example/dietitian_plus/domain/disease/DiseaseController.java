@@ -53,7 +53,7 @@ public class DiseaseController {
     }
 
     @CheckPermission(Permission.DISEASE_UPDATE)
-    @PutMapping("/diseases/{diseaseId}")
+    @PatchMapping("/diseases/{diseaseId}")
     public ResponseEntity<DiseaseResponseDto> updateDiseaseById(@PathVariable Long diseaseId, @RequestBody UpdateDiseaseRequestDto updateDiseaseRequestDto) {
         DiseaseResponseDto updatedDiseaseResponseDto = diseaseService.updateDiseaseById(diseaseId, updateDiseaseRequestDto);
 

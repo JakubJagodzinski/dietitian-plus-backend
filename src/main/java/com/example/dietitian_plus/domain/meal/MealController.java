@@ -82,7 +82,7 @@ public class MealController {
     }
 
     @CheckPermission(Permission.MEAL_UPDATE)
-    @PutMapping("/meals/{mealId}")
+    @PatchMapping("/meals/{mealId}")
     public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long mealId, @RequestBody UpdateMealRequestDto updateMealRequestDto) {
         MealResponseDto updatedMealResponseDto = mealService.updateMealById(mealId, updateMealRequestDto);
 

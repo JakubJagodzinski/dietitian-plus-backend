@@ -64,7 +64,7 @@ public class DishController {
     }
 
     @CheckPermission(Permission.DISH_UPDATE)
-    @PutMapping("/dishes/{dishId}")
+    @PatchMapping("/dishes/{dishId}")
     public ResponseEntity<DishResponseDto> updateDishById(@PathVariable Long dishId, @RequestBody UpdateDishRequestDto updateDishRequestDto) {
         DishResponseDto dishResponseDto = dishService.updateDishById(dishId, updateDishRequestDto);
 

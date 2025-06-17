@@ -74,7 +74,7 @@ public class NoteController {
     }
 
     @CheckPermission(Permission.NOTE_UPDATE)
-    @PutMapping("/notes/{noteId}")
+    @PatchMapping("/notes/{noteId}")
     public ResponseEntity<NoteResponseDto> updateNoteById(@PathVariable Long noteId, @RequestBody UpdateNoteRequestDto updateNoteRequestDto) {
         NoteResponseDto updatedNoteResponseDto = noteService.updateNoteById(noteId, updateNoteRequestDto);
 

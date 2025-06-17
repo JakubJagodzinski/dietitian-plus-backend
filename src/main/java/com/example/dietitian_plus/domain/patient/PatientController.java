@@ -52,7 +52,7 @@ public class PatientController {
     }
 
     @CheckPermission(Permission.PATIENT_UPDATE)
-    @PutMapping("/patients/{patientId}")
+    @PatchMapping("/patients/{patientId}")
     public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable UUID patientId, @RequestBody UpdatePatientRequestDto updatePatientRequestDto) {
         PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(patientId, updatePatientRequestDto);
 
