@@ -1,13 +1,18 @@
 package com.example.dietitian_plus.domain.dish.dto;
 
 import com.example.dietitian_plus.domain.dish.Dish;
+import com.example.dietitian_plus.domain.dish.DishNutritionCalculator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class DishDtoMapper {
+
+    private final DishNutritionCalculator dishNutritionCalculator;
 
     public DishResponseDto toDto(Dish dish) {
         DishResponseDto dto = new DishResponseDto();
@@ -17,13 +22,7 @@ public class DishDtoMapper {
         dto.setIsTemplate(dish.getIsTemplate());
         dto.setIsPublic(dish.getIsPublic());
         dto.setRecipe(dish.getRecipe());
-        dto.setKcal(dish.getKcal());
-        dto.setFats(dish.getFats());
-        dto.setCarbs(dish.getCarbs());
-        dto.setProtein(dish.getProtein());
-        dto.setFiber(dish.getFiber());
-        dto.setGlycemicIndex(dish.getGlycemicIndex());
-        dto.setGlycemicLoad(dish.getGlycemicLoad());
+        dto.setNutritionValues(dishNutritionCalculator.calculateDishNutritionValues(dish.getDishId()));
         dto.setDietitianId(dish.getDietitian().getUserId());
 
         return dto;
