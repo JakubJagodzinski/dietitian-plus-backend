@@ -1,6 +1,8 @@
 package com.example.dietitian_plus.auth;
 
 import com.example.dietitian_plus.auth.dto.*;
+import com.example.dietitian_plus.common.MessageResponseDto;
+import com.example.dietitian_plus.common.constants.messages.UserMessages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,12 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
-        AuthenticationResponseDto authenticationResponseDto = service.register(registerRequestDto);
+    public ResponseEntity<MessageResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
+        service.register(registerRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(authenticationResponseDto);
+                .body(new MessageResponseDto(UserMessages.USER_CREATED_SUCCESSFULLY));
     }
 
     @PostMapping("/authenticate")

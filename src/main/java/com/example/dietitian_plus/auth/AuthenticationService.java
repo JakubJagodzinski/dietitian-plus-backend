@@ -52,7 +52,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponseDto register(RegisterRequestDto registerRequestDto) throws IllegalArgumentException {
+    public void register(RegisterRequestDto registerRequestDto) throws IllegalArgumentException {
         if (userRepository.existsByEmail(registerRequestDto.getEmail())) {
             throw new IllegalArgumentException(UserMessages.USER_ALREADY_EXISTS);
         }
@@ -61,9 +61,8 @@ public class AuthenticationService {
         User user = createUserInstance(userRole);
 
         populateCommonUserFields(user, registerRequestDto);
-        user = userRepository.save(user);
 
-        return generateUserToken(user);
+        userRepository.save(user);
     }
 
     private Role parseRole(String role) {
