@@ -41,7 +41,7 @@ public class DietitianController {
     }
 
     @CheckPermission(Permission.DIETITIAN_UPDATE)
-    @PutMapping("/dietitians/{dietitianId}")
+    @PatchMapping("/dietitians/{dietitianId}")
     public ResponseEntity<DietitianResponseDto> updateDietitianById(@PathVariable UUID dietitianId, @RequestBody UpdateDietitianRequestDto updateDietitianRequestDto) {
         DietitianResponseDto dietitianResponseDto = dietitianService.updateDietitianById(dietitianId, updateDietitianRequestDto);
 

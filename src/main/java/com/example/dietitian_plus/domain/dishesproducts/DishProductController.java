@@ -43,7 +43,7 @@ public class DishProductController {
     }
 
     @CheckPermission(Permission.DISH_PRODUCT_UPDATE)
-    @PutMapping("/dishes-products/{dishProductId}")
+    @PatchMapping("/dishes-products/{dishProductId}")
     public ResponseEntity<DishProductResponseDto> updateDishProductEntryById(@PathVariable Long dishProductId, @RequestBody UpdateDishProductEntryRequestDto updateDishProductEntryRequestDto) {
         DishProductResponseDto updatedDishProductResponseDto = dishProductService.updateDishProductEntryById(dishProductId, updateDishProductEntryRequestDto);
 

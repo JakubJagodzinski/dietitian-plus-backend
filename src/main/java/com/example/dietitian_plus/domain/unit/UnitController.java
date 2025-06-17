@@ -53,7 +53,7 @@ public class UnitController {
     }
 
     @CheckPermission(Permission.UNIT_UPDATE)
-    @PutMapping("/units/{unitId}")
+    @PatchMapping("/units/{unitId}")
     public ResponseEntity<UnitResponseDto> updateUnitById(@PathVariable Long unitId, @RequestBody UpdateUnitRequestDto updateUnitRequestDto) {
         UnitResponseDto updatedUnitResponseDto = unitService.updateUnitById(unitId, updateUnitRequestDto);
 

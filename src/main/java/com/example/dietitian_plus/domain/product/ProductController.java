@@ -53,7 +53,7 @@ public class ProductController {
     }
 
     @CheckPermission(Permission.PRODUCT_UPDATE)
-    @PutMapping("/products/{productId}")
+    @PatchMapping("/products/{productId}")
     public ResponseEntity<ProductResponseDto> updateProductById(@PathVariable Long productId, @RequestBody UpdateProductRequestDto updateProductRequestDto) {
         ProductResponseDto updatedProductResponseDto = productService.updateProductById(productId, updateProductRequestDto);
 
