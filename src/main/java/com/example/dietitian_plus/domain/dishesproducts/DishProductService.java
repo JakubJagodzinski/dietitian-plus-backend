@@ -5,7 +5,6 @@ import com.example.dietitian_plus.common.constants.messages.DishMessages;
 import com.example.dietitian_plus.common.constants.messages.ProductMessages;
 import com.example.dietitian_plus.common.constants.messages.UnitMessages;
 import com.example.dietitian_plus.domain.dish.Dish;
-import com.example.dietitian_plus.domain.dish.DishNutritionCalculator;
 import com.example.dietitian_plus.domain.dish.DishRepository;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
 import com.example.dietitian_plus.domain.dishesproducts.dto.*;
@@ -31,8 +30,6 @@ public class DishProductService {
 
     private final DishProductDtoMapper dishProductDtoMapper;
     private final DishDtoMapper dishDtoMapper;
-
-    private final DishNutritionCalculator dishNutritionCalculator;
 
     private final DishProductAccessManager dishProductAccessManager;
 
@@ -89,9 +86,6 @@ public class DishProductService {
         dishProduct.setUnit(unit);
         dishProduct.setUnitCount(createDishProductEntryRequestDto.getUnitCount());
 
-        dishNutritionCalculator.increaseDishNutritionValues(dishProduct);
-        dishNutritionCalculator.calculateDishGlycemicIndexAndLoad(dish.getDishId());
-
         return dishProductDtoMapper.toDto(dishProductRepository.save(dishProduct));
     }
 
@@ -123,11 +117,6 @@ public class DishProductService {
             dishProduct.setUnitCount(updateDishProductEntryRequestDto.getUnitCount());
         }
 
-        Long dishId = dishProduct.getDish().getDishId();
-
-        dishNutritionCalculator.calculateDishNutritionValues(dishId);
-        dishNutritionCalculator.calculateDishGlycemicIndexAndLoad(dishId);
-
         return dishProductDtoMapper.toDto(dishProductRepository.save(dishProduct));
     }
 
@@ -140,9 +129,6 @@ public class DishProductService {
         }
 
         dishProductAccessManager.checkCanDeleteDishProductEntry(dishProduct);
-
-        dishNutritionCalculator.decreaseDishNutritionValues(dishProduct);
-        dishNutritionCalculator.calculateDishGlycemicIndexAndLoad(dishProduct.getDish().getDishId());
 
         dishProductRepository.deleteById(dishProductId);
     }

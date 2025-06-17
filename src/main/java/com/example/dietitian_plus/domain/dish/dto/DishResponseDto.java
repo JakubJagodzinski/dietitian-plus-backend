@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.dish.dto;
 
+import com.example.dietitian_plus.domain.meal.dto.NutritionValuesDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,21 +27,8 @@ public class DishResponseDto {
 
     private String recipe;
 
-    private Float kcal;
-
-    private Float fats;
-
-    private Float carbs;
-
-    private Float protein;
-
-    private Float fiber;
-
-    @JsonProperty("glycemic_index")
-    private Float glycemicIndex;
-
-    @JsonProperty("glycemic_load")
-    private Float glycemicLoad;
+    @JsonProperty("nutrition_values")
+    private NutritionValuesDto nutritionValues;
 
     @JsonProperty("dietitian_id")
     private UUID dietitianId;
