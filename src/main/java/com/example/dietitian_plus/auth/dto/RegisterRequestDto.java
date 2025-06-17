@@ -18,6 +18,9 @@ public class RegisterRequestDto {
 
     private String email;
 
+    @JsonProperty("phone_number")
+    private String phoneNumber;
+
     private String password;
 
     private String role;
