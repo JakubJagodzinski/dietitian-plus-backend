@@ -33,6 +33,13 @@ public class DishService {
     }
 
     @Transactional
+    public List<DishResponseDto> getAllPublicDishes() {
+        List<Dish> publicDishes = dishRepository.findAllByIsPublic_True();
+
+        return dishDtoMapper.toDtoList(publicDishes);
+    }
+
+    @Transactional
     public DishResponseDto getDishById(Long dishId) throws EntityNotFoundException {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 

@@ -32,6 +32,15 @@ public class DishController {
                 .body(dishResponseDtoList);
     }
 
+    @GetMapping("/dishes/public")
+    public ResponseEntity<List<DishResponseDto>> getAllPublicDishes() {
+        List<DishResponseDto> dishResponseDtoList = dishService.getAllPublicDishes();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dishResponseDtoList);
+    }
+
     @CheckPermission(Permission.DISH_READ)
     @GetMapping("/dishes/{dishId}")
     public ResponseEntity<DishResponseDto> getDishById(@PathVariable Long dishId) {
