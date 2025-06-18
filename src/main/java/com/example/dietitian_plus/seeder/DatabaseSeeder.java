@@ -11,6 +11,9 @@ import com.example.dietitian_plus.user.User;
 import com.example.dietitian_plus.user.UserRepository;
 import com.example.dietitian_plus.utils.FloatParser;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -126,18 +129,20 @@ public class DatabaseSeeder implements ApplicationRunner {
                 throw new FileNotFoundException("File not found: " + filePath);
             }
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-                String line;
-                boolean isHeaderRead = false;
+            try (Reader reader = new InputStreamReader(inputStream)) {
+                CSVFormat format = CSVFormat.Builder.create()
+                        .setHeader()
+                        .setSkipHeaderRecord(true)
+                        .setIgnoreHeaderCase(true)
+                        .setTrim(true)
+                        .build();
 
-                while ((line = reader.readLine()) != null) {
-                    if (!isHeaderRead) {
-                        isHeaderRead = true;
-                        continue;
-                    }
-
-                    String[] parts = line.split(",");
-                    if (parts.length == expectedColumns) {
+                try (CSVParser csvParser = new CSVParser(reader, format)) {
+                    for (CSVRecord csvRecord : csvParser) {
+                        String[] parts = new String[expectedColumns];
+                        for (int i = 0; i < expectedColumns; i++) {
+                            parts[i] = csvRecord.get(i);
+                        }
                         result.add(mapper.apply(parts));
                     }
                 }

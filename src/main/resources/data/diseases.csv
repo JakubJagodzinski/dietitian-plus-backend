@@ -1,21 +1,69 @@
-name,description
-Type 1 Diabetes,Affects carbohydrate intake and insulin management; requires careful blood sugar monitoring and consistent meal planning.
-Type 2 Diabetes,Requires reduced sugar and refined carbs; promotes high-fiber, low-glycemic foods and weight management.
-Hypertension,Necessitates a low-sodium diet; emphasizes fruits, vegetables, and whole grains (e.g., DASH diet).
-Hypothyroidism,May benefit from sufficient iodine, selenium, and limiting goitrogens; supports balanced, low-calorie diet for weight control.
-Hyperthyroidism,Often requires higher calorie intake due to increased metabolism; may benefit from calcium and vitamin D support.
-Celiac Disease,Requires strict gluten-free diet; avoidance of wheat, barley, rye, and cross-contaminated foods is essential.
-Lactose Intolerance,Requires avoidance of lactose-containing dairy; can use lactose-free or plant-based alternatives.
-Food Allergy,Requires complete elimination of allergenic foods (e.g., peanuts, shellfish); careful label reading is necessary.
-Hashimoto's Thyroiditis,Benefits from anti-inflammatory diet; may require avoiding gluten or soy and ensuring adequate nutrients like selenium.
-Irritable Bowel Syndrome,Often involves low-FODMAP diet; triggers vary and may include dairy, gluten, or high-fiber foods.
-Anemia,Needs iron-rich foods and vitamin C for absorption; may involve limiting calcium near iron meals.
-Obesity,Requires calorie reduction and nutrient-dense foods; portion control and physical activity are key.
-High Cholesterol,Encourages low saturated fat intake; promotes fiber, omega-3s, and plant sterols.
-Coronary Artery Disease,Favors heart-healthy diet (e.g., Mediterranean); low in saturated fat and high in fruits and vegetables.
-Polycystic Ovary Syndrome,Supports low-GI, anti-inflammatory foods; may benefit from reduced dairy and processed carbs.
-Depression,May benefit from omega-3s, B vitamins, and consistent meals; avoid excessive sugar and alcohol.
-Anxiety Disorder,Balanced meals and stable blood sugar help; may benefit from magnesium and reducing caffeine.
-Asthma,Diet rich in antioxidants and omega-3s may support management; avoid known triggers if food-related.
-Gastroesophageal Reflux Disease,Requires avoiding trigger foods (e.g., spicy, acidic, fatty foods); smaller, frequent meals are recommended.
-Arthritis,Anti-inflammatory diet with omega-3s and antioxidants can help; limit processed foods and added sugars.
+"name","description"
+"Type 1 Diabetes","Affects carbohydrate intake and insulin management; requires careful blood sugar monitoring and consistent meal planning."
+"Type 2 Diabetes","Requires reduced sugar and refined carbs; promotes high-fiber, low-glycemic foods and weight management."
+"Hypertension","Necessitates a low-sodium diet; emphasizes fruits, vegetables, and whole grains (e.g., DASH diet)."
+"Hypothyroidism","May benefit from sufficient iodine, selenium, and limiting goitrogens; supports balanced, low-calorie diet for weight control."
+"Hyperthyroidism","Often requires higher calorie intake due to increased metabolism; may benefit from calcium and vitamin D support."
+"Celiac Disease","Requires strict gluten-free diet; avoidance of wheat, barley, rye, and cross-contaminated foods is essential."
+"Lactose Intolerance","Requires avoidance of lactose-containing dairy; can use lactose-free or plant-based alternatives."
+"Food Allergy","Requires complete elimination of allergenic foods (e.g., peanuts, shellfish); careful label reading is necessary."
+"Hashimoto's Thyroiditis","Benefits from anti-inflammatory diet; may require avoiding gluten or soy and ensuring adequate nutrients like selenium."
+"Irritable Bowel Syndrome","Often involves low-FODMAP diet; triggers vary and may include dairy, gluten, or high-fiber foods."
+"Anemia","Needs iron-rich foods and vitamin C for absorption; may involve limiting calcium near iron meals."
+"Obesity","Requires calorie reduction and nutrient-dense foods; portion control and physical activity are key."
+"High Cholesterol","Encourages low saturated fat intake; promotes fiber, omega-3s, and plant sterols."
+"Coronary Artery Disease","Favors heart-healthy diet (e.g., Mediterranean); low in saturated fat and high in fruits and vegetables."
+"Polycystic Ovary Syndrome","Supports low-GI, anti-inflammatory foods; may benefit from reduced dairy and processed carbs."
+"Depression","May benefit from omega-3s, B vitamins, and consistent meals; avoid excessive sugar and alcohol."
+"Anxiety Disorder","Balanced meals and stable blood sugar help; may benefit from magnesium and reducing caffeine."
+"Asthma","Diet rich in antioxidants and omega-3s may support management; avoid known triggers if food-related."
+"Gastroesophageal Reflux Disease","Requires avoiding trigger foods (e.g., spicy, acidic, fatty foods); smaller, frequent meals are recommended."
+"Arthritis","Anti-inflammatory diet with omega-3s and antioxidants can help; limit processed foods and added sugars."
+"Chronic Kidney Disease","Controls protein, sodium, potassium, and phosphorus intake; fluid management important."
+"Liver Disease","May require low-sodium and high-protein diet; avoid alcohol and saturated fats."
+"Parkinson's Disease","Focus on fiber-rich foods to prevent constipation; adequate hydration needed."
+"Multiple Sclerosis","Balanced diet with vitamin D, omega-3s; manage fatigue with small, frequent meals."
+"Alzheimer's Disease","Supports antioxidant-rich foods; maintain stable blood sugar."
+"Epilepsy","Ketogenic diet may be prescribed; avoid foods that trigger seizures."
+"Osteoporosis","Calcium and vitamin D rich diet; limit caffeine and sodium."
+"Chronic Obstructive Pulmonary Disease","High-calorie, nutrient-dense foods; small, frequent meals to reduce breathlessness."
+"Fibromyalgia","Anti-inflammatory diet; avoid processed foods and sugars."
+"Gluten Ataxia","Strict gluten-free diet similar to celiac disease."
+"Gallstones","Low-fat diet; avoid rapid weight loss."
+"Pancreatitis","Low-fat diet; small, frequent meals."
+"Ulcerative Colitis","Low-residue diet during flare-ups; avoid trigger foods."
+"Crohn's Disease","Individualized diet; avoid high-fiber during flares."
+"Diverticulitis","Low-fiber diet during acute phase; high-fiber during remission."
+"Rheumatoid Arthritis","Anti-inflammatory foods; omega-3 fatty acids."
+"Psoriasis","Anti-inflammatory diet; avoid trigger foods."
+"Systemic Lupus Erythematosus","Balanced diet; vitamin D and calcium important."
+"Schizophrenia","Balanced meals; avoid excessive sugar and caffeine."
+"Bipolar Disorder","Consistent meal timing; omega-3 fatty acids."
+"Chronic Fatigue Syndrome","Balanced nutrient-dense foods; manage blood sugar."
+"Restless Leg Syndrome","Iron-rich diet; avoid caffeine."
+"Endometriosis","Anti-inflammatory diet; reduce processed foods."
+"Attention Deficit Hyperactivity Disorder","Balanced diet; avoid artificial additives."
+"Autism Spectrum Disorder","Individualized diet; may avoid gluten and casein."
+"Stroke Recovery","High-protein, nutrient-dense foods; manage blood pressure."
+"Heart Failure","Low-sodium diet; fluid restriction as needed."
+"Peripheral Artery Disease","Heart-healthy diet; avoid smoking and high cholesterol foods."
+"Non-Alcoholic Fatty Liver Disease","Weight management and reduced saturated fat intake; monitor sugar consumption."
+"Chronic Pancreatitis","Low-fat, easily digestible foods; avoid alcohol."
+"Anorexia Nervosa","High-calorie, nutrient-dense meals; monitor eating behavior closely."
+"Bulemia Nervosa","Balanced meals; focus on electrolyte and nutrient restoration."
+"Gout","Low-purine diet; limit red meat and alcohol."
+"Polymyalgia Rheumatica","Anti-inflammatory diet with omega-3s; balanced nutrition."
+"Wilson's Disease","Low copper diet; avoid shellfish, nuts, chocolate."
+"Phenylketonuria","Strict low-phenylalanine diet; medical formula supplementation."
+"Cystic Fibrosis","High-calorie, high-fat diet; enzyme supplementation often needed."
+"Pregnancy","Balanced diet with folic acid, iron, calcium; avoid certain fish and alcohol."
+"Lactation","Increased calorie and fluid needs; focus on nutrient-dense foods."
+"Infant Nutrition","Age-appropriate complementary feeding; avoid allergens early."
+"Eating Disorders","Individualized nutrition therapy; psychological support important."
+"Chronic Migraine","Avoid trigger foods (e.g., tyramine, caffeine); maintain hydration."
+"Post-Surgical Nutrition","High-protein, nutrient-dense foods; tailored to surgery type."
+"Vitamin D Deficiency","Increase vitamin D-rich foods and safe sun exposure."
+"Vitamin B12 Deficiency","Increase B12-rich foods; supplementation often necessary."
+"Iron Deficiency","Iron-rich diet plus vitamin C to enhance absorption."
+"Zinc Deficiency","Foods rich in zinc; supplements if needed."
+"Magnesium Deficiency","Magnesium-rich foods; consider supplements."
