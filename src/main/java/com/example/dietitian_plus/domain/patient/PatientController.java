@@ -2,9 +2,8 @@ package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;
-import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
-import com.example.dietitian_plus.domain.patient.dto.UpdatePatientRequestDto;
+import com.example.dietitian_plus.common.constants.messages.PatientMessages;
+import com.example.dietitian_plus.domain.patient.dto.*;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,6 +40,16 @@ public class PatientController {
                 .body(patientResponseDto);
     }
 
+    @CheckPermission(Permission.PATIENT_READ)
+    @GetMapping("/patients/{patientId}/questionnaire-status")
+    public ResponseEntity<PatientQuestionnaireStatusResponseDto> getPatientQuestionnaireStatus(@PathVariable UUID patientId) {
+        PatientQuestionnaireStatusResponseDto patientQuestionnaireStatusResponseDto = patientService.getPatientQuestionnaireStatus(patientId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(patientQuestionnaireStatusResponseDto);
+    }
+
     @CheckPermission(Permission.DIETITIAN_PATIENT_READ_ALL)
     @GetMapping("/dietitians/{dietitianId}/patients")
     public ResponseEntity<List<PatientResponseDto>> getDietitianAllPatients(@PathVariable UUID dietitianId) {
@@ -49,6 +58,16 @@ public class PatientController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(patientResponseDtoList);
+    }
+
+    @CheckPermission(Permission.PATIENT_UPDATE)
+    @PatchMapping("/patients/{patientId}/questionnaire")
+    public ResponseEntity<MessageResponseDto> fillPatientQuestionnaire(@PathVariable UUID patientId, @RequestBody PatientQuestionnaireRequestDto patientQuestionnaireRequestDto) {
+        patientService.fillPatientQuestionnaire(patientId, patientQuestionnaireRequestDto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new MessageResponseDto(PatientMessages.PATIENT_QUESTIONNAIRE_FILLED_SUCCESSFULLY));
     }
 
     @CheckPermission(Permission.PATIENT_UPDATE)

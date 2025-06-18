@@ -6,15 +6,13 @@ import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
-import com.example.dietitian_plus.domain.patient.dto.AssignDietitianToPatientRequestDto;
-import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
-import com.example.dietitian_plus.domain.patient.dto.PatientResponseDto;
-import com.example.dietitian_plus.domain.patient.dto.UpdatePatientRequestDto;
+import com.example.dietitian_plus.domain.patient.dto.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -175,6 +173,80 @@ public class PatientService {
         patientAccessManager.checkCanDeletePatient(patient);
 
         patientRepository.deleteById(patientId);
+    }
+
+    @Transactional
+    public void fillPatientQuestionnaire(UUID patientId, PatientQuestionnaireRequestDto patientQuestionnaireRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
+        }
+
+        patientAccessManager.checkCanUpdatePatient(patient);
+
+        if (patient.getIsQuestionnaireCompleted()) {
+            throw new IllegalArgumentException(PatientMessages.PATIENT_QUESTIONNAIRE_ALREADY_FILLED);
+        }
+
+        if (patientQuestionnaireRequestDto.getBirthdate() == null) {
+            throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_NULL);
+        }
+
+        if (patientQuestionnaireRequestDto.getBirthdate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_FUTURE_DATE);
+        }
+
+        patient.setBirthdate(patientQuestionnaireRequestDto.getBirthdate());
+
+        if (patientQuestionnaireRequestDto.getHeight() == null) {
+            throw new IllegalArgumentException(PatientMessages.HEIGHT_CANNOT_BE_NULL);
+        }
+
+        if (patientQuestionnaireRequestDto.getHeight() <= 0) {
+            throw new IllegalArgumentException(PatientMessages.HEIGHT_MUST_BE_GREATER_THAN_ZERO);
+        }
+
+        patient.setHeight(patientQuestionnaireRequestDto.getHeight());
+
+        if (patientQuestionnaireRequestDto.getStartingWeight() == null) {
+            throw new IllegalArgumentException(PatientMessages.WEIGHT_CANNOT_BE_NULL);
+        }
+
+        if (patientQuestionnaireRequestDto.getStartingWeight() <= 0) {
+            throw new IllegalArgumentException(PatientMessages.WEIGHT_CANNOT_BE_NULL);
+        }
+
+        patient.setStartingWeight(patientQuestionnaireRequestDto.getStartingWeight());
+        patient.setCurrentWeight(patientQuestionnaireRequestDto.getStartingWeight());
+
+        if (patientQuestionnaireRequestDto.getPal() == null) {
+            throw new IllegalArgumentException(PatientMessages.PAL_CANNOT_BE_NULL);
+        }
+
+        if (patientQuestionnaireRequestDto.getPal() <= 0) {
+            throw new IllegalArgumentException(PatientMessages.PAL_MUST_BE_GREATER_THAN_ZERO);
+        }
+
+        patient.setPal(patientQuestionnaireRequestDto.getPal());
+
+        patient.setIsQuestionnaireCompleted(true);
+    }
+
+    public PatientQuestionnaireStatusResponseDto getPatientQuestionnaireStatus(UUID patientId) throws EntityNotFoundException {
+        Patient patient = patientRepository.findById(patientId).orElse(null);
+
+        if (patient == null) {
+            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
+        }
+
+        patientAccessManager.checkCanReadPatient(patient);
+
+        PatientQuestionnaireStatusResponseDto patientQuestionnaireStatusResponseDto = new PatientQuestionnaireStatusResponseDto();
+
+        patientQuestionnaireStatusResponseDto.setIsQuestionnaireCompleted(patientRepository.existsByUserIdAndIsQuestionnaireCompletedIsTrue(patientId));
+
+        return patientQuestionnaireStatusResponseDto;
     }
 
 }
