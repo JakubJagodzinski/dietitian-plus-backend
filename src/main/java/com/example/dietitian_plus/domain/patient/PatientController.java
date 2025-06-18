@@ -62,13 +62,13 @@ public class PatientController {
     }
 
     @CheckPermission(Permission.PATIENT_DIETITIAN_ASSIGN)
-    @PostMapping("/patients/{patientId}/dietitians")
-    public ResponseEntity<MessageResponseDto> assignDietitianToPatient(@PathVariable UUID patientId, @RequestBody AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) {
-        patientService.assignDietitianToPatient(patientId, assignDietitianToPatientRequestDto);
+    @PostMapping("/patients/dietitians")
+    public ResponseEntity<MessageResponseDto> assignDietitianToPatient(@RequestParam(value = "patient_email") String patientEmail, @RequestBody AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) {
+        patientService.assignDietitianToPatient(patientEmail, assignDietitianToPatientRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Dietitian with id " + assignDietitianToPatientRequestDto.getDietitianId() + " successfully assigned to patient with id " + patientId));
+                .body(new MessageResponseDto("Dietitian with id " + assignDietitianToPatientRequestDto.getDietitianId() + " successfully assigned to patient with email " + patientEmail));
     }
 
     @CheckPermission(Permission.PATIENT_DIETITIAN_UNASSIGN)

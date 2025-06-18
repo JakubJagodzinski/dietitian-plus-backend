@@ -110,8 +110,8 @@ public class PatientService {
     }
 
     @Transactional
-    public void assignDietitianToPatient(UUID patientId, AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) throws EntityNotFoundException, IllegalArgumentException {
-        Patient patient = patientRepository.findById(patientId).orElse(null);
+    public void assignDietitianToPatient(String patientEmail, AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+        Patient patient = patientRepository.findByEmail(patientEmail).orElse(null);
 
         if (patient == null) {
             throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
