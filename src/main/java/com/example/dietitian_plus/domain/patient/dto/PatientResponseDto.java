@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -28,6 +29,10 @@ public class PatientResponseDto {
 
     @JsonProperty("current_weight")
     private Float currentWeight;
+
+    private Float pal;
+
+    private LocalDate birthdate;
 
     @JsonProperty("is_active")
     private Boolean isActive;

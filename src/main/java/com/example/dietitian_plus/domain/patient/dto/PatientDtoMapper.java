@@ -18,6 +18,8 @@ public class PatientDtoMapper {
         patientResponseDto.setHeight(patient.getHeight());
         patientResponseDto.setStartingWeight(patient.getStartingWeight());
         patientResponseDto.setCurrentWeight(patient.getCurrentWeight());
+        patientResponseDto.setPal(patient.getPal());
+        patientResponseDto.setBirthdate(patient.getBirthdate());
 
         if (patient.getDietitian() != null) {
             patientResponseDto.setDietitianId(patient.getDietitian().getUserId());

@@ -106,6 +106,17 @@ public class PatientService {
             patient.setCurrentWeight(updatePatientRequestDto.getCurrentWeight());
         }
 
+        if (updatePatientRequestDto.getPal() != null) {
+            patient.setPal(updatePatientRequestDto.getPal());
+        }
+
+        if (updatePatientRequestDto.getBirthdate() != null) {
+            if (updatePatientRequestDto.getBirthdate().isAfter(java.time.LocalDate.now())) {
+                throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_FUTURE_DATE);
+            }
+            patient.setBirthdate(updatePatientRequestDto.getBirthdate());
+        }
+
         return patientDtoMapper.toDto(patientRepository.save(patient));
     }
 

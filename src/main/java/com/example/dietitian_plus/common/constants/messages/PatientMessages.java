@@ -10,5 +10,6 @@ public class PatientMessages {
     public static final String YOU_HAVE_NO_ACCESS_TO_ASSIGN_THIS_DIETITIAN_TO_PATIENT = "You have no access to assign this dietitian to patient";
     public static final String HEIGHT_MUST_BE_GREATER_THAN_ZERO = "Height must be greater than zero";
     public static final String WEIGHT_MUST_BE_GREATER_THAN_ZERO = "Weight must be greater than zero";
+    public static final String BIRTHDATE_CANNOT_BE_FUTURE_DATE = "Birthdate cannot be future date";
 
 }

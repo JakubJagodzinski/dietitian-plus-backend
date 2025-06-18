@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +26,10 @@ public class Patient extends User {
 
     @Column(name = "current_weight")
     private Float currentWeight;
+
+    private Float pal; // Physical Activity Level
+
+    private LocalDate birthdate;
 
     @Column(name = "is_active")
     private Boolean isActive = false;
