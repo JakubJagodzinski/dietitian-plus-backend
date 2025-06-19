@@ -21,4 +21,6 @@ public class PatientQuestionnaireRequestDto {
 
     private LocalDate birthdate;
 
+    private String gender;
+
 }

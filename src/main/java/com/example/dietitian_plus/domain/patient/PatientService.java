@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.auth.access.manager.PatientAccessManager;
+import com.example.dietitian_plus.common.Gender;
 import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
@@ -189,16 +190,6 @@ public class PatientService {
             throw new IllegalArgumentException(PatientMessages.PATIENT_QUESTIONNAIRE_ALREADY_FILLED);
         }
 
-        if (patientQuestionnaireRequestDto.getBirthdate() == null) {
-            throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_NULL);
-        }
-
-        if (patientQuestionnaireRequestDto.getBirthdate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_FUTURE_DATE);
-        }
-
-        patient.setBirthdate(patientQuestionnaireRequestDto.getBirthdate());
-
         if (patientQuestionnaireRequestDto.getHeight() == null) {
             throw new IllegalArgumentException(PatientMessages.HEIGHT_CANNOT_BE_NULL);
         }
@@ -229,6 +220,26 @@ public class PatientService {
         }
 
         patient.setPal(patientQuestionnaireRequestDto.getPal());
+
+        if (patientQuestionnaireRequestDto.getBirthdate() == null) {
+            throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_NULL);
+        }
+
+        if (patientQuestionnaireRequestDto.getBirthdate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_FUTURE_DATE);
+        }
+
+        patient.setBirthdate(patientQuestionnaireRequestDto.getBirthdate());
+
+        if (patientQuestionnaireRequestDto.getGender() == null) {
+            throw new IllegalArgumentException(PatientMessages.GENDER_CANNOT_BE_NULL);
+        }
+
+        if (!Gender.isValidGender(patientQuestionnaireRequestDto.getGender().toUpperCase())) {
+            throw new IllegalArgumentException(PatientMessages.INVALID_GENDER_SPECIFIED);
+        }
+
+        patient.setGender(Gender.valueOf(patientQuestionnaireRequestDto.getGender().toUpperCase()));
 
         patient.setIsQuestionnaireCompleted(true);
     }

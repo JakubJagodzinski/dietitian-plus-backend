@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.patient;
 
+import com.example.dietitian_plus.common.Gender;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.user.User;
 import jakarta.persistence.*;
@@ -30,6 +31,8 @@ public class Patient extends User {
     private Float pal; // Physical Activity Level
 
     private LocalDate birthdate;
+
+    private Gender gender;
 
     @Column(name = "is_active")
     private Boolean isActive = false;

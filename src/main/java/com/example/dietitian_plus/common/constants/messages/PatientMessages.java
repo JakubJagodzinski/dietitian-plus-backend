@@ -18,5 +18,7 @@ public class PatientMessages {
     public static final String PAL_CANNOT_BE_NULL = "PAL cannot be null";
     public static final String PAL_MUST_BE_GREATER_THAN_ZERO = "PAL must be greater than zero";
     public static final String PATIENT_QUESTIONNAIRE_ALREADY_FILLED = "Patient questionnaire already filled";
+    public static final String GENDER_CANNOT_BE_NULL = "Gender cannot be null";
+    public static final String INVALID_GENDER_SPECIFIED = "Invalid gender specified";
 
 }
