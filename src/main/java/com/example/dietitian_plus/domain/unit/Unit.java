@@ -21,6 +21,6 @@ public class Unit {
     private String unitName;
 
     @Column(nullable = false)
-    private Float grams;
+    private Double grams;
 
 }

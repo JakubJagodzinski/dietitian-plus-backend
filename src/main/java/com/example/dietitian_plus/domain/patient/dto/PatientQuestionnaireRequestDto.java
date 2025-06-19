@@ -12,12 +12,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PatientQuestionnaireRequestDto {
 
-    private Float height;
+    private Double height;
 
     @JsonProperty("starting_weight")
-    private Float startingWeight;
+    private Double startingWeight;
 
-    private Float pal;
+    private Double pal;
 
     private LocalDate birthdate;
 

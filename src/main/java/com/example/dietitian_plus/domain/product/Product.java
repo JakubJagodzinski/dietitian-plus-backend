@@ -21,24 +21,24 @@ public class Product {
     private String productName;
 
     @Column(nullable = false)
-    private Float kcal = 0.0f;
+    private Double kcal = 0.0;
 
     @Column(nullable = false)
-    private Float fats = 0.0f;
+    private Double fats = 0.0;
 
     @Column(nullable = false)
-    private Float carbs = 0.0f;
+    private Double carbs = 0.0;
 
     @Column(nullable = false)
-    private Float protein = 0.0f;
+    private Double protein = 0.0;
 
     @Column(nullable = false)
-    private Float fiber = 0.0f;
+    private Double fiber = 0.0;
 
     @Column(name = "glycemic_index", nullable = false)
-    private Float glycemicIndex = 0.0f;
+    private Double glycemicIndex = 0.0;
 
     @Column(name = "glycemic_load", nullable = false)
-    private Float glycemicLoad = 0.0f;
+    private Double glycemicLoad = 0.0;
 
 }

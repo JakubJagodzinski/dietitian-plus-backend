@@ -27,11 +27,11 @@ public class DishNutritionCalculator {
 
         List<DishProduct> dishProductList = dishProductRepository.findAllByDish_DishId(dishId);
 
-        float kcal = 0.0f;
-        float fats = 0.0f;
-        float carbs = 0.0f;
-        float protein = 0.0f;
-        float fiber = 0.0f;
+        double kcal = 0.0;
+        double fats = 0.0;
+        double carbs = 0.0;
+        double protein = 0.0;
+        double fiber = 0.0;
 
         double totalNetCarbs = 0.0;
         double weightedSum = 0.0;
@@ -39,12 +39,12 @@ public class DishNutritionCalculator {
         for (DishProduct dishProduct : dishProductList) {
             Product product = dishProduct.getProduct();
 
-            float grams = dishProduct.getUnit().getGrams() * dishProduct.getUnitCount() / 100.0f;
+            double grams = dishProduct.getUnit().getGrams() * dishProduct.getUnitCount() / 100.0;
 
-            float totalGrams = dishProduct.getUnitCount() * dishProduct.getUnit().getGrams();
+            double totalGrams = dishProduct.getUnitCount() * dishProduct.getUnit().getGrams();
 
-            float carbsPer100g = product.getCarbs();
-            float fiberPer100g = product.getFiber();
+            double carbsPer100g = product.getCarbs();
+            double fiberPer100g = product.getFiber();
 
             double netCarbs = Math.max((carbsPer100g - fiberPer100g) * (totalGrams / 100.0), 0.0);
 
@@ -58,15 +58,15 @@ public class DishNutritionCalculator {
             fiber += product.getFiber() * grams;
         }
 
-        float glycemicIndex;
-        float glycemicLoad;
+        double glycemicIndex;
+        double glycemicLoad;
 
         if (totalNetCarbs == 0) {
-            glycemicIndex = 0.0f;
-            glycemicLoad = 0.0f;
+            glycemicIndex = 0.0;
+            glycemicLoad = 0.0;
         } else {
-            glycemicIndex = (float) (weightedSum / totalNetCarbs);
-            glycemicLoad = (float) ((glycemicIndex * totalNetCarbs) / 100.0);
+            glycemicIndex = weightedSum / totalNetCarbs;
+            glycemicLoad = (glycemicIndex * totalNetCarbs) / 100.0;
         }
 
         NutritionValuesDto nutritionValuesDto = new NutritionValuesDto();

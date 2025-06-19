@@ -10,20 +10,20 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NutritionValuesDto {
 
-    private Float kcal;
+    private Double kcal;
 
-    private Float fats;
+    private Double fats;
 
-    private Float carbs;
+    private Double carbs;
 
-    private Float protein;
+    private Double protein;
 
-    private Float fiber;
+    private Double fiber;
 
     @JsonProperty("glycemic_index")
-    private Float glycemicIndex;
+    private Double glycemicIndex;
 
     @JsonProperty("glycemic_load")
-    private Float glycemicLoad;
+    private Double glycemicLoad;
 
 }

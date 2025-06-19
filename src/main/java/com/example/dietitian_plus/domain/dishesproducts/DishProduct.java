@@ -38,6 +38,6 @@ public class DishProduct {
     private Unit unit;
 
     @Column(name = "unit_count", nullable = false)
-    private Float unitCount = 0.0f;
+    private Double unitCount = 0.0;
 
 }

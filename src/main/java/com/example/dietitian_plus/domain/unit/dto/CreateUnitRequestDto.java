@@ -13,6 +13,6 @@ public class CreateUnitRequestDto {
     @JsonProperty("unit_name")
     private String unitName;
 
-    private Float grams;
+    private Double grams;
 
 }

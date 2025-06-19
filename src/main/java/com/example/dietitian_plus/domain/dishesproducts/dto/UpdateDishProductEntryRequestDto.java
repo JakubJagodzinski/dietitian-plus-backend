@@ -14,6 +14,6 @@ public class UpdateDishProductEntryRequestDto {
     private Long unitId;
 
     @JsonProperty("unit_count")
-    private Float unitCount;
+    private Double unitCount;
 
 }

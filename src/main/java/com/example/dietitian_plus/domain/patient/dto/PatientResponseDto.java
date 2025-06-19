@@ -22,15 +22,15 @@ public class PatientResponseDto {
     @JsonProperty("last_name")
     private String lastName;
 
-    private Float height;
+    private Double height;
 
     @JsonProperty("starting_weight")
-    private Float startingWeight;
+    private Double startingWeight;
 
     @JsonProperty("current_weight")
-    private Float currentWeight;
+    private Double currentWeight;
 
-    private Float pal;
+    private Double pal;
 
     private LocalDate birthdate;
 

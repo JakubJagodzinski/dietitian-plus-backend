@@ -20,6 +20,6 @@ public class CreateDishProductEntryRequestDto {
     private Long unitId;
 
     @JsonProperty("unit_count")
-    private Float unitCount;
+    private Double unitCount;
 
 }

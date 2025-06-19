@@ -20,15 +20,15 @@ import java.time.LocalDate;
 @PrimaryKeyJoinColumn(name = "patient_id", foreignKey = @ForeignKey(name = "fk_patients_user_id"))
 public class Patient extends User {
 
-    private Float height;
+    private Double height;
 
     @Column(name = "starting_weight")
-    private Float startingWeight;
+    private Double startingWeight;
 
     @Column(name = "current_weight")
-    private Float currentWeight;
+    private Double currentWeight;
 
-    private Float pal; // Physical Activity Level
+    private Double pal; // Physical Activity Level
 
     private LocalDate birthdate;
 

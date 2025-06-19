@@ -9,7 +9,7 @@ import com.example.dietitian_plus.domain.unit.UnitRepository;
 import com.example.dietitian_plus.user.Role;
 import com.example.dietitian_plus.user.User;
 import com.example.dietitian_plus.user.UserRepository;
-import com.example.dietitian_plus.utils.FloatParser;
+import com.example.dietitian_plus.utils.DoubleParser;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -72,13 +72,13 @@ public class DatabaseSeeder implements ApplicationRunner {
                 parts -> {
                     Product product = new Product();
                     product.setProductName(parts[0].trim());
-                    product.setKcal(FloatParser.parse(parts[1]));
-                    product.setFats(FloatParser.parse(parts[2]));
-                    product.setCarbs(FloatParser.parse(parts[3]));
-                    product.setProtein(FloatParser.parse(parts[4]));
-                    product.setFiber(FloatParser.parse(parts[5]));
-                    product.setGlycemicIndex(FloatParser.parse(parts[6]));
-                    product.setGlycemicLoad(FloatParser.parse(parts[7]));
+                    product.setKcal(DoubleParser.parse(parts[1]));
+                    product.setFats(DoubleParser.parse(parts[2]));
+                    product.setCarbs(DoubleParser.parse(parts[3]));
+                    product.setProtein(DoubleParser.parse(parts[4]));
+                    product.setFiber(DoubleParser.parse(parts[5]));
+                    product.setGlycemicIndex(DoubleParser.parse(parts[6]));
+                    product.setGlycemicLoad(DoubleParser.parse(parts[7]));
                     return product;
                 },
                 productRepository::saveAll,
@@ -111,7 +111,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     Unit unit = new Unit();
 
                     unit.setUnitName(parts[0].trim());
-                    unit.setGrams(FloatParser.parse(parts[1]));
+                    unit.setGrams(DoubleParser.parse(parts[1]));
 
                     return unit;
                 },

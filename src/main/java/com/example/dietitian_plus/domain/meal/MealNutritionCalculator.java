@@ -19,13 +19,13 @@ public class MealNutritionCalculator {
     private final DishDtoMapper dishDtoMapper;
 
     public NutritionValuesDto calculateMealsNutritionValues(List<Meal> meals) {
-        float kcal = 0;
-        float fats = 0;
-        float carbs = 0;
-        float protein = 0;
-        float fiber = 0;
-        float glycemicIndex = 0;
-        float glycemicLoad = 0;
+        double kcal = 0;
+        double fats = 0;
+        double carbs = 0;
+        double protein = 0;
+        double fiber = 0;
+        double glycemicIndex = 0;
+        double glycemicLoad = 0;
 
         for (Meal meal : meals) {
             NutritionValuesDto mealNutritionValues = calculateMealNutritionValues(meal);
@@ -64,13 +64,13 @@ public class MealNutritionCalculator {
     public NutritionValuesDto calculateMealNutritionValues(Meal meal) {
         List<DishResponseDto> mealDishes = getMealAllDishes(meal.getMealId());
 
-        float kcal = 0;
-        float fats = 0;
-        float carbs = 0;
-        float protein = 0;
-        float fiber = 0;
-        float glycemicIndex = 0;
-        float glycemicLoad = 0;
+        double kcal = 0;
+        double fats = 0;
+        double carbs = 0;
+        double protein = 0;
+        double fiber = 0;
+        double glycemicIndex = 0;
+        double glycemicLoad = 0;
 
         for (DishResponseDto dish : mealDishes) {
             NutritionValuesDto dishNutritionValues = dish.getNutritionValues();

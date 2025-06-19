@@ -25,6 +25,6 @@ public class DishProductResponseDto {
     private UnitResponseDto unit;
 
     @JsonProperty("unit_count")
-    private Float unitCount;
+    private Double unitCount;
 
 }
