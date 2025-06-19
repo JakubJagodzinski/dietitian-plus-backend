@@ -61,7 +61,7 @@ public class PatientController {
     }
 
     @CheckPermission(Permission.PATIENT_UPDATE)
-    @PatchMapping("/patients/{patientId}/questionnaire")
+    @PostMapping("/patients/{patientId}/questionnaire")
     public ResponseEntity<MessageResponseDto> fillPatientQuestionnaire(@PathVariable UUID patientId, @RequestBody PatientQuestionnaireRequestDto patientQuestionnaireRequestDto) {
         patientService.fillPatientQuestionnaire(patientId, patientQuestionnaireRequestDto);
 
