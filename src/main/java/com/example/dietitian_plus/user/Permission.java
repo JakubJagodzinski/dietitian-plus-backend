@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Permission {
 
-    DIETITIAN_CREATE("dietitian:create"),
     DIETITIAN_READ("dietitian:read"),
     DIETITIAN_READ_ALL("dietitian:read_all"),
     DIETITIAN_UPDATE("dietitian:update"),
@@ -54,7 +53,6 @@ public enum Permission {
     NOTE_UPDATE("note:update"),
     NOTE_DELETE("note:delete"),
 
-    PATIENT_CREATE("patient:create"),
     PATIENT_READ("patient:read"),
     PATIENT_READ_ALL("patient:read_all"),
     PATIENT_UPDATE("patient:update"),

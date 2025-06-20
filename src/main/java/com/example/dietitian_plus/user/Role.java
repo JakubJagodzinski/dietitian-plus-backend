@@ -27,7 +27,6 @@ public enum Role {
 
                     MEAL_DISH_READ_ALL,
 
-                    PATIENT_CREATE,
                     PATIENT_READ,
                     PATIENT_UPDATE,
                     PATIENT_DELETE,
@@ -58,7 +57,6 @@ public enum Role {
 
     DIETITIAN(
             Set.of(
-                    DIETITIAN_CREATE,
                     DIETITIAN_READ,
                     DIETITIAN_UPDATE,
                     DIETITIAN_DELETE,
