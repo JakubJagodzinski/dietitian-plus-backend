@@ -1,16 +1,12 @@
 package com.example.dietitian_plus.config;
 
 import com.example.dietitian_plus.common.constants.ApiConstants;
-import com.example.dietitian_plus.common.constants.HttpStatusConstants;
 import com.example.dietitian_plus.common.constants.SecurityConstants;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,42 +28,11 @@ public class OpenApiConfig {
                                 .addSecuritySchemes(
                                         SecurityConstants.SECURITY_SCHEME_NAME,
                                         new SecurityScheme()
-                                                .name(SecurityConstants.SECURITY_SCHEME_NAME)
                                                 .type(SecurityScheme.Type.HTTP)
-                                                .scheme("bearer")
-                                                .bearerFormat("JWT")
+                                                .scheme(SecurityConstants.BEARER_SCHEME)
+                                                .bearerFormat(SecurityConstants.BEARER_FORMAT_JWT)
                                 )
                 );
-    }
-
-    @Bean
-    public OpenApiCustomizer globalResponsesCustomizer() {
-        return openApi -> openApi.getPaths().forEach((path, pathItem) ->
-                pathItem.readOperations().forEach(operation -> {
-                    ApiResponses responses = operation.getResponses();
-
-                    if (!responses.containsKey(HttpStatusConstants.HTTP_STATUS_BAD_REQUEST)) {
-                        responses.addApiResponse(
-                                HttpStatusConstants.HTTP_STATUS_BAD_REQUEST,
-                                new ApiResponse().description(HttpStatusConstants.HTTP_DESCRIPTION_BAD_REQUEST)
-                        );
-                    }
-
-                    if (!responses.containsKey(HttpStatusConstants.HTTP_STATUS_FORBIDDEN)) {
-                        responses.addApiResponse(
-                                HttpStatusConstants.HTTP_STATUS_FORBIDDEN,
-                                new ApiResponse().description(HttpStatusConstants.HTTP_DESCRIPTION_FORBIDDEN)
-                        );
-                    }
-
-                    if (!responses.containsKey(HttpStatusConstants.HTTP_STATUS_NOT_FOUND)) {
-                        responses.addApiResponse(
-                                HttpStatusConstants.HTTP_STATUS_NOT_FOUND,
-                                new ApiResponse().description(HttpStatusConstants.HTTP_DESCRIPTION_NOT_FOUND)
-                        );
-                    }
-                })
-        );
     }
 
 }
