@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.auth.jwt;
+package com.example.dietitian_plus.auth.token;
 
 import com.example.dietitian_plus.user.User;
 import jakarta.persistence.*;
@@ -26,15 +26,13 @@ public class Token {
     private TokenType tokenType;
 
     @Column(name = "is_revoked")
-    @Builder.Default
     private Boolean isRevoked = false;
 
     @Column(name = "is_expired")
-    @Builder.Default
     private Boolean isExpired = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_tokens_user_id"))
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tokens_user_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 

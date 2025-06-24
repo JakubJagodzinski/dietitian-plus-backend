@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.auth.jwt;
+package com.example.dietitian_plus.auth.token;
 
 public enum TokenType {
 
