@@ -2,8 +2,8 @@ package com.example.dietitian_plus.domain.dietitian;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.dietitian.dto.DietitianResponseDto;
-import com.example.dietitian_plus.domain.dietitian.dto.UpdateDietitianRequestDto;
+import com.example.dietitian_plus.domain.dietitian.dto.response.DietitianResponseDto;
+import com.example.dietitian_plus.domain.dietitian.dto.request.UpdateDietitianRequestDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

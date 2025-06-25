@@ -1,10 +1,14 @@
 package com.example.dietitian_plus.auth;
 
-import com.example.dietitian_plus.auth.dto.*;
+import com.example.dietitian_plus.auth.dto.request.AuthenticationRequestDto;
+import com.example.dietitian_plus.auth.dto.request.RefreshTokenRequestDto;
+import com.example.dietitian_plus.auth.dto.request.RegisterRequestDto;
+import com.example.dietitian_plus.auth.dto.response.AuthenticationResponseDto;
+import com.example.dietitian_plus.auth.dto.response.RefreshTokenResponseDto;
 import com.example.dietitian_plus.auth.jwt.JwtService;
-import com.example.dietitian_plus.auth.jwt.Token;
-import com.example.dietitian_plus.auth.jwt.TokenRepository;
-import com.example.dietitian_plus.auth.jwt.TokenType;
+import com.example.dietitian_plus.auth.token.Token;
+import com.example.dietitian_plus.auth.token.TokenRepository;
+import com.example.dietitian_plus.auth.token.TokenType;
 import com.example.dietitian_plus.common.constants.messages.TokenMessages;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;

@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.unit.dto;
 
 import com.example.dietitian_plus.domain.unit.Unit;
+import com.example.dietitian_plus.domain.unit.dto.response.UnitResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

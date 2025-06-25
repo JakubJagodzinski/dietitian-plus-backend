@@ -1,10 +1,10 @@
 package com.example.dietitian_plus.domain.product;
 
 import com.example.dietitian_plus.common.constants.messages.ProductMessages;
-import com.example.dietitian_plus.domain.product.dto.CreateProductRequestDto;
+import com.example.dietitian_plus.domain.product.dto.request.CreateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
-import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
-import com.example.dietitian_plus.domain.product.dto.UpdateProductRequestDto;
+import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
+import com.example.dietitian_plus.domain.product.dto.request.UpdateProductRequestDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

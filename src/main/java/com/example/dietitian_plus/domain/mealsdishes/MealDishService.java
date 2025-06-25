@@ -9,15 +9,19 @@ import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.dish.DishRepository;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
+import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.DishProductService;
-import com.example.dietitian_plus.domain.dishesproducts.dto.DishWithProductsResponseDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishWithProductsResponseDto;
 import com.example.dietitian_plus.domain.meal.Meal;
 import com.example.dietitian_plus.domain.meal.MealNutritionCalculator;
 import com.example.dietitian_plus.domain.meal.MealRepository;
 import com.example.dietitian_plus.domain.meal.dto.MealDtoMapper;
-import com.example.dietitian_plus.domain.meal.dto.NutritionValuesDto;
+import com.example.dietitian_plus.domain.meal.dto.response.NutritionValuesResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.*;
+import com.example.dietitian_plus.domain.mealsdishes.dto.request.CreateMealDishRequestDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealDishResponseDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealWithDishesResponseDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.response.PatientDayMealsWithDishesResponseDto;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import jakarta.persistence.EntityExistsException;
@@ -100,7 +104,7 @@ public class MealDishService {
 
         patientDayMealsWithDishesResponseDto.setMeals(mealWithDishesResponseDtoList);
 
-        NutritionValuesDto dailyNutritionValues = mealNutritionCalculator.calculateMealsNutritionValues(meals);
+        NutritionValuesResponseDto dailyNutritionValues = mealNutritionCalculator.calculateMealsNutritionValues(meals);
 
         patientDayMealsWithDishesResponseDto.setDailyNutritionValues(dailyNutritionValues);
 

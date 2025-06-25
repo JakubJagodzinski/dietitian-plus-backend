@@ -2,9 +2,9 @@ package com.example.dietitian_plus.domain.patientallergenicproducts;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.patientallergenicproducts.dto.AssignAllergenicProductToPatientRequestDto;
-import com.example.dietitian_plus.domain.patientallergenicproducts.dto.PatientAllergenicProductResponseDto;
-import com.example.dietitian_plus.domain.product.dto.ProductResponseDto;
+import com.example.dietitian_plus.domain.patientallergenicproducts.dto.request.AssignAllergenicProductToPatientRequestDto;
+import com.example.dietitian_plus.domain.patientallergenicproducts.dto.response.PatientAllergenicProductResponseDto;
+import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

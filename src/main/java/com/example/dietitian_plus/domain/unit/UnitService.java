@@ -1,10 +1,10 @@
 package com.example.dietitian_plus.domain.unit;
 
 import com.example.dietitian_plus.common.constants.messages.UnitMessages;
-import com.example.dietitian_plus.domain.unit.dto.CreateUnitRequestDto;
+import com.example.dietitian_plus.domain.unit.dto.request.CreateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.UnitDtoMapper;
-import com.example.dietitian_plus.domain.unit.dto.UnitResponseDto;
-import com.example.dietitian_plus.domain.unit.dto.UpdateUnitRequestDto;
+import com.example.dietitian_plus.domain.unit.dto.response.UnitResponseDto;
+import com.example.dietitian_plus.domain.unit.dto.request.UpdateUnitRequestDto;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

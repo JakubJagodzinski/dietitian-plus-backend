@@ -2,9 +2,9 @@ package com.example.dietitian_plus.domain.dish;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.dish.dto.CreateDishRequestDto;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
-import com.example.dietitian_plus.domain.dish.dto.UpdateDishRequestDto;
+import com.example.dietitian_plus.domain.dish.dto.request.CreateDishRequestDto;
+import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
+import com.example.dietitian_plus.domain.dish.dto.request.UpdateDishRequestDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

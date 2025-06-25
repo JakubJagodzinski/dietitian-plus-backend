@@ -2,11 +2,11 @@ package com.example.dietitian_plus.domain.mealsdishes;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
-import com.example.dietitian_plus.domain.mealsdishes.dto.CreateMealDishRequestDto;
-import com.example.dietitian_plus.domain.mealsdishes.dto.MealDishResponseDto;
-import com.example.dietitian_plus.domain.mealsdishes.dto.MealWithDishesResponseDto;
-import com.example.dietitian_plus.domain.mealsdishes.dto.PatientDayMealsWithDishesResponseDto;
+import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.request.CreateMealDishRequestDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealDishResponseDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealWithDishesResponseDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.response.PatientDayMealsWithDishesResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;

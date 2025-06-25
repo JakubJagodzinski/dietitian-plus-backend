@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.auth;
 
-import com.example.dietitian_plus.auth.jwt.Token;
-import com.example.dietitian_plus.auth.jwt.TokenRepository;
+import com.example.dietitian_plus.auth.token.Token;
+import com.example.dietitian_plus.auth.token.TokenRepository;
 import com.example.dietitian_plus.common.constants.SecurityConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

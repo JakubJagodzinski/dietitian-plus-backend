@@ -1,10 +1,10 @@
 package com.example.dietitian_plus.domain.disease;
 
 import com.example.dietitian_plus.common.constants.messages.DiseaseMessages;
-import com.example.dietitian_plus.domain.disease.dto.CreateDiseaseRequestDto;
+import com.example.dietitian_plus.domain.disease.dto.request.CreateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseDtoMapper;
-import com.example.dietitian_plus.domain.disease.dto.DiseaseResponseDto;
-import com.example.dietitian_plus.domain.disease.dto.UpdateDiseaseRequestDto;
+import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto;
+import com.example.dietitian_plus.domain.disease.dto.request.UpdateDiseaseRequestDto;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

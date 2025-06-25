@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.dishesproducts.dto;
 
 import com.example.dietitian_plus.domain.dishesproducts.DishProduct;
+import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
 import com.example.dietitian_plus.domain.unit.dto.UnitDtoMapper;
 import lombok.RequiredArgsConstructor;

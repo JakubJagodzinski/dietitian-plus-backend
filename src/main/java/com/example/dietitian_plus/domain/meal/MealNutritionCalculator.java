@@ -1,8 +1,8 @@
 package com.example.dietitian_plus.domain.meal;
 
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
-import com.example.dietitian_plus.domain.dish.dto.DishResponseDto;
-import com.example.dietitian_plus.domain.meal.dto.NutritionValuesDto;
+import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
+import com.example.dietitian_plus.domain.meal.dto.response.NutritionValuesResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.MealDish;
 import com.example.dietitian_plus.domain.mealsdishes.MealDishRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class MealNutritionCalculator {
 
     private final DishDtoMapper dishDtoMapper;
 
-    public NutritionValuesDto calculateMealsNutritionValues(List<Meal> meals) {
+    public NutritionValuesResponseDto calculateMealsNutritionValues(List<Meal> meals) {
         double kcal = 0;
         double fats = 0;
         double carbs = 0;
@@ -28,7 +28,7 @@ public class MealNutritionCalculator {
         double glycemicLoad = 0;
 
         for (Meal meal : meals) {
-            NutritionValuesDto mealNutritionValues = calculateMealNutritionValues(meal);
+            NutritionValuesResponseDto mealNutritionValues = calculateMealNutritionValues(meal);
 
             kcal += mealNutritionValues.getKcal();
             fats += mealNutritionValues.getFats();
@@ -39,17 +39,17 @@ public class MealNutritionCalculator {
             glycemicLoad += mealNutritionValues.getGlycemicLoad();
         }
 
-        NutritionValuesDto nutritionValuesDto = new NutritionValuesDto();
+        NutritionValuesResponseDto nutritionValuesResponseDto = new NutritionValuesResponseDto();
 
-        nutritionValuesDto.setKcal(kcal);
-        nutritionValuesDto.setFats(fats);
-        nutritionValuesDto.setCarbs(carbs);
-        nutritionValuesDto.setProtein(protein);
-        nutritionValuesDto.setFiber(fiber);
-        nutritionValuesDto.setGlycemicIndex(glycemicIndex);
-        nutritionValuesDto.setGlycemicLoad(glycemicLoad);
+        nutritionValuesResponseDto.setKcal(kcal);
+        nutritionValuesResponseDto.setFats(fats);
+        nutritionValuesResponseDto.setCarbs(carbs);
+        nutritionValuesResponseDto.setProtein(protein);
+        nutritionValuesResponseDto.setFiber(fiber);
+        nutritionValuesResponseDto.setGlycemicIndex(glycemicIndex);
+        nutritionValuesResponseDto.setGlycemicLoad(glycemicLoad);
 
-        return nutritionValuesDto;
+        return nutritionValuesResponseDto;
     }
 
     private List<DishResponseDto> getMealAllDishes(Long mealId) {
@@ -61,7 +61,7 @@ public class MealNutritionCalculator {
                 .toList();
     }
 
-    public NutritionValuesDto calculateMealNutritionValues(Meal meal) {
+    public NutritionValuesResponseDto calculateMealNutritionValues(Meal meal) {
         List<DishResponseDto> mealDishes = getMealAllDishes(meal.getMealId());
 
         double kcal = 0;
@@ -73,7 +73,7 @@ public class MealNutritionCalculator {
         double glycemicLoad = 0;
 
         for (DishResponseDto dish : mealDishes) {
-            NutritionValuesDto dishNutritionValues = dish.getNutritionValues();
+            NutritionValuesResponseDto dishNutritionValues = dish.getNutritionValues();
 
             kcal += dishNutritionValues.getKcal();
             fats += dishNutritionValues.getFats();
@@ -84,17 +84,17 @@ public class MealNutritionCalculator {
             glycemicLoad += dishNutritionValues.getGlycemicLoad();
         }
 
-        NutritionValuesDto nutritionValuesDto = new NutritionValuesDto();
+        NutritionValuesResponseDto nutritionValuesResponseDto = new NutritionValuesResponseDto();
 
-        nutritionValuesDto.setKcal(kcal);
-        nutritionValuesDto.setFats(fats);
-        nutritionValuesDto.setCarbs(carbs);
-        nutritionValuesDto.setProtein(protein);
-        nutritionValuesDto.setFiber(fiber);
-        nutritionValuesDto.setGlycemicIndex(glycemicIndex);
-        nutritionValuesDto.setGlycemicLoad(glycemicLoad);
+        nutritionValuesResponseDto.setKcal(kcal);
+        nutritionValuesResponseDto.setFats(fats);
+        nutritionValuesResponseDto.setCarbs(carbs);
+        nutritionValuesResponseDto.setProtein(protein);
+        nutritionValuesResponseDto.setFiber(fiber);
+        nutritionValuesResponseDto.setGlycemicIndex(glycemicIndex);
+        nutritionValuesResponseDto.setGlycemicLoad(glycemicLoad);
 
-        return nutritionValuesDto;
+        return nutritionValuesResponseDto;
     }
 
 }

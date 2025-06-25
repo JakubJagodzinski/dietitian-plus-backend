@@ -3,7 +3,7 @@ package com.example.dietitian_plus.domain.dish;
 import com.example.dietitian_plus.common.constants.messages.DishMessages;
 import com.example.dietitian_plus.domain.dishesproducts.DishProduct;
 import com.example.dietitian_plus.domain.dishesproducts.DishProductRepository;
-import com.example.dietitian_plus.domain.meal.dto.NutritionValuesDto;
+import com.example.dietitian_plus.domain.meal.dto.response.NutritionValuesResponseDto;
 import com.example.dietitian_plus.domain.product.Product;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class DishNutritionCalculator {
     private final DishRepository dishRepository;
     private final DishProductRepository dishProductRepository;
 
-    public NutritionValuesDto calculateDishNutritionValues(Long dishId) throws EntityNotFoundException {
+    public NutritionValuesResponseDto calculateDishNutritionValues(Long dishId) throws EntityNotFoundException {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
@@ -69,17 +69,17 @@ public class DishNutritionCalculator {
             glycemicLoad = (glycemicIndex * totalNetCarbs) / 100.0;
         }
 
-        NutritionValuesDto nutritionValuesDto = new NutritionValuesDto();
+        NutritionValuesResponseDto nutritionValuesResponseDto = new NutritionValuesResponseDto();
 
-        nutritionValuesDto.setKcal(kcal);
-        nutritionValuesDto.setFats(fats);
-        nutritionValuesDto.setCarbs(carbs);
-        nutritionValuesDto.setProtein(protein);
-        nutritionValuesDto.setFiber(fiber);
-        nutritionValuesDto.setGlycemicIndex(glycemicIndex);
-        nutritionValuesDto.setGlycemicLoad(glycemicLoad);
+        nutritionValuesResponseDto.setKcal(kcal);
+        nutritionValuesResponseDto.setFats(fats);
+        nutritionValuesResponseDto.setCarbs(carbs);
+        nutritionValuesResponseDto.setProtein(protein);
+        nutritionValuesResponseDto.setFiber(fiber);
+        nutritionValuesResponseDto.setGlycemicIndex(glycemicIndex);
+        nutritionValuesResponseDto.setGlycemicLoad(glycemicLoad);
 
-        return nutritionValuesDto;
+        return nutritionValuesResponseDto;
     }
 
 }

@@ -1,6 +1,10 @@
 package com.example.dietitian_plus.auth;
 
-import com.example.dietitian_plus.auth.dto.*;
+import com.example.dietitian_plus.auth.dto.request.AuthenticationRequestDto;
+import com.example.dietitian_plus.auth.dto.request.RefreshTokenRequestDto;
+import com.example.dietitian_plus.auth.dto.request.RegisterRequestDto;
+import com.example.dietitian_plus.auth.dto.response.AuthenticationResponseDto;
+import com.example.dietitian_plus.auth.dto.response.RefreshTokenResponseDto;
 import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
 import lombok.RequiredArgsConstructor;

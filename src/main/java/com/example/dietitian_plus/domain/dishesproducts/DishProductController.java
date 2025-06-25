@@ -2,10 +2,10 @@ package com.example.dietitian_plus.domain.dishesproducts;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.CreateDishProductEntryRequestDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.DishProductResponseDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.DishWithProductsResponseDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.UpdateDishProductEntryRequestDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.request.CreateDishProductEntryRequestDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishProductResponseDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishWithProductsResponseDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.request.UpdateDishProductEntryRequestDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

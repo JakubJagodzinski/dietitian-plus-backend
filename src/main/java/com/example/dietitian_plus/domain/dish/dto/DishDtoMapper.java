@@ -2,6 +2,7 @@ package com.example.dietitian_plus.domain.dish.dto;
 
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.dish.DishNutritionCalculator;
+import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
