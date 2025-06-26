@@ -27,7 +27,7 @@ public class MealDish {
     @JoinColumn(name = "dish_id", foreignKey = @ForeignKey(name = "fk_meals_dishes_dish_id"))
     private Dish dish;
 
-    @Column(name = "dish_quantity")
-    private Integer dishQuantity;
+    @Column(name = "dish_quantity", nullable = false)
+    private Integer dishQuantity = 1;
 
 }

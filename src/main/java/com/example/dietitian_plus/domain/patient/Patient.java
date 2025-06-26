@@ -34,8 +34,8 @@ public class Patient extends User {
 
     private Gender gender;
 
-    @Column(name = "is_active")
-    private boolean isActive = false;
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
 
     @Column(name = "is_questionnaire_completed")
     private boolean isQuestionnaireCompleted = false;

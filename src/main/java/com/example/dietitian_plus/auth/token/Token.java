@@ -19,16 +19,17 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tokenId;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String token;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TokenType tokenType;
 
-    @Column(name = "is_revoked")
+    @Column(name = "is_revoked", nullable = false)
     private Boolean isRevoked = false;
 
-    @Column(name = "is_expired")
+    @Column(name = "is_expired", nullable = false)
     private Boolean isExpired = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

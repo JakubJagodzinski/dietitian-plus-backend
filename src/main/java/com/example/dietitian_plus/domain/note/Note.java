@@ -24,12 +24,12 @@ public class Note {
     private Long noteId;
 
     @Column(length = 100)
-    private String title;
+    private String title = null;
 
-    @Column(length = 1_000)
+    @Column(length = 1_000, nullable = false)
     private String text;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "last_edited_at")
