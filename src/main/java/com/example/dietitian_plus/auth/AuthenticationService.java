@@ -16,11 +16,10 @@ import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.user.Role;
 import com.example.dietitian_plus.user.User;
 import com.example.dietitian_plus.user.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +57,7 @@ public class AuthenticationService {
 
     public void register(RegisterRequestDto registerRequestDto) throws IllegalArgumentException {
         if (userRepository.existsByEmail(registerRequestDto.getEmail())) {
-            throw new IllegalArgumentException(UserMessages.USER_ALREADY_EXISTS);
+            throw new IllegalArgumentException(UserMessages.EMAIL_IS_ALREADY_TAKEN);
         }
 
         Role userRole = parseRole(registerRequestDto.getRole());
@@ -69,7 +68,7 @@ public class AuthenticationService {
         userRepository.save(user);
     }
 
-    private Role parseRole(String role) {
+    private Role parseRole(String role) throws IllegalArgumentException {
         try {
             return Role.valueOf(role.toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -77,10 +76,10 @@ public class AuthenticationService {
         }
     }
 
-    private User createUserInstance(Role role) {
+    private User createUserInstance(Role role) throws IllegalArgumentException {
         return switch (role) {
-            case PATIENT -> new Patient();
             case DIETITIAN -> new Dietitian();
+            case PATIENT -> new Patient();
             default -> throw new IllegalArgumentException(UserMessages.INVALID_USER_ROLE);
         };
     }
@@ -89,23 +88,26 @@ public class AuthenticationService {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
-        user.setPhoneNumber(dto.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole(Role.valueOf(dto.getRole().toUpperCase()));
     }
 
-    public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) throws EntityNotFoundException {
+    public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) throws AccessDeniedException {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
         );
 
-        authenticationManager.authenticate(authenticationToken);
+        try {
+            authenticationManager.authenticate(authenticationToken);
+        } catch (Exception e) {
+            throw new AccessDeniedException(UserMessages.WRONG_USERNAME_OR_PASSWORD);
+        }
 
         User user = userRepository.findByEmail(request.getEmail()).orElse(null);
 
         if (user == null) {
-            throw new EntityNotFoundException(UserMessages.USER_NOT_FOUND);
+            throw new AccessDeniedException(UserMessages.WRONG_USERNAME_OR_PASSWORD);
         }
 
         revokeAllUserTokens(user);
@@ -140,37 +142,37 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-    public RefreshTokenResponseDto refreshToken(RefreshTokenRequestDto requestDto) throws IllegalArgumentException, UsernameNotFoundException {
+    public RefreshTokenResponseDto refreshToken(RefreshTokenRequestDto requestDto) throws IllegalArgumentException {
         String refreshToken = requestDto.getRefreshToken();
 
         if (refreshToken == null || refreshToken.isBlank()) {
-            throw new IllegalArgumentException(TokenMessages.REFRESH_TOKEN_IS_MISSING);
+            throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
         String userEmail = jwtService.extractUsername(refreshToken);
 
         if (userEmail == null) {
-            throw new IllegalArgumentException(TokenMessages.TOKEN_SUBJECT_IS_INVALID_OR_MISSING);
+            throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
         User user = userRepository.findByEmail(userEmail).orElse(null);
 
         if (user == null) {
-            throw new UsernameNotFoundException(UserMessages.USER_NOT_FOUND);
+            throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
         Token token = tokenRepository.findByToken(refreshToken).orElse(null);
 
         if (token == null) {
-            throw new IllegalArgumentException(TokenMessages.TOKEN_NOT_FOUND);
+            throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
         if (token.getTokenType() != TokenType.REFRESH) {
-            throw new IllegalArgumentException(TokenMessages.PROVIDED_TOKEN_IS_NOT_A_REFRESH_TOKEN);
+            throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
         if (!jwtService.isTokenValid(refreshToken, user) || token.getIsExpired() || token.getIsRevoked()) {
-            throw new IllegalArgumentException(TokenMessages.INVALID_OR_EXPIRED_REFRESH_TOKEN);
+            throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
         revokeAllUserTokens(user);
