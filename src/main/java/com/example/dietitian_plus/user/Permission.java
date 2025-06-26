@@ -32,10 +32,10 @@ public enum Permission {
     DISH_UPDATE("dish:update"),
     DISH_DELETE("dish:delete"),
 
-    DISH_PRODUCT_ASSIGN("dish:product:assign"),
+    DISH_PRODUCT_ADD("dish:product:add"),
     DISH_PRODUCT_READ_ALL("dish:product:read:all"),
     DISH_PRODUCT_UPDATE("dish:product:update"),
-    DISH_PRODUCT_UNASSIGN("dish:product:unassign"),
+    DISH_PRODUCT_REMOVE("dish:product:remove"),
 
     MEAL_CREATE("meal:create"),
     MEAL_READ("meal:read"),

@@ -8,7 +8,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UpdateDishProductEntryRequestDto {
+public class AddProductToDishRequestDto {
+
+    @JsonProperty("dish_id")
+    private Long dishId;
+
+    @JsonProperty("product_id")
+    private Long productId;
 
     @JsonProperty("unit_id")
     private Long unitId;

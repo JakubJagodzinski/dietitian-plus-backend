@@ -77,10 +77,10 @@ public enum Role {
                     DISH_UPDATE,
                     DISH_DELETE,
 
-                    DISH_PRODUCT_ASSIGN,
+                    DISH_PRODUCT_ADD,
                     DISH_PRODUCT_READ_ALL,
                     DISH_PRODUCT_UPDATE,
-                    DISH_PRODUCT_UNASSIGN,
+                    DISH_PRODUCT_REMOVE,
 
                     MEAL_CREATE,
                     MEAL_READ,

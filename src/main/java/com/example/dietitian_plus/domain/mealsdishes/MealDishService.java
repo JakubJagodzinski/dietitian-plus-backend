@@ -77,7 +77,7 @@ public class MealDishService {
     }
 
     @Transactional
-    public PatientDayMealsWithDishesResponseDto getPatientDayMeals(LocalDate date, UUID patientId) throws EntityNotFoundException {
+    public PatientDayMealsWithDishesResponseDto getPatientDayMealsWithDishes(LocalDate date, UUID patientId) throws EntityNotFoundException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {

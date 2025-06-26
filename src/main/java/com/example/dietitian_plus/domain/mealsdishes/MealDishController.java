@@ -48,7 +48,7 @@ public class MealDishController {
     @CheckPermission(Permission.PATIENT_MEAL_READ_ALL)
     @GetMapping("/patients/{patientId}/meals/dishes")
     public ResponseEntity<PatientDayMealsWithDishesResponseDto> getPatientDayMealsWithDishes(@RequestParam(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @PathVariable UUID patientId) {
-        PatientDayMealsWithDishesResponseDto patientDayMealsWithDishesResponseDto = mealDishService.getPatientDayMeals(date, patientId);
+        PatientDayMealsWithDishesResponseDto patientDayMealsWithDishesResponseDto = mealDishService.getPatientDayMealsWithDishes(date, patientId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

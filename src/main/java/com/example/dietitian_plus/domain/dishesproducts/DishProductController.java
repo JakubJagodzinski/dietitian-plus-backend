@@ -1,8 +1,8 @@
 package com.example.dietitian_plus.domain.dishesproducts;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.domain.dishesproducts.dto.request.CreateDishProductEntryRequestDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.request.UpdateDishProductEntryRequestDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.request.AddProductToDishRequestDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.request.UpdateDishProductRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishProductResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishWithProductsResponseDto;
 import com.example.dietitian_plus.user.Permission;
@@ -30,10 +30,10 @@ public class DishProductController {
                 .body(dishWithProductsResponseDto);
     }
 
-    @CheckPermission(Permission.DISH_PRODUCT_ASSIGN)
+    @CheckPermission(Permission.DISH_PRODUCT_ADD)
     @PostMapping("/dishes-products")
-    public ResponseEntity<DishProductResponseDto> createDishProductEntry(@RequestBody CreateDishProductEntryRequestDto createDishProductEntryRequestDto) {
-        DishProductResponseDto createdDishProductResponseDto = dishProductService.createDishProductEntry(createDishProductEntryRequestDto);
+    public ResponseEntity<DishProductResponseDto> addProductToDish(@RequestBody AddProductToDishRequestDto addProductToDishRequestDto) {
+        DishProductResponseDto createdDishProductResponseDto = dishProductService.addProductToDish(addProductToDishRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -43,18 +43,18 @@ public class DishProductController {
 
     @CheckPermission(Permission.DISH_PRODUCT_UPDATE)
     @PatchMapping("/dishes-products/{dishProductId}")
-    public ResponseEntity<DishProductResponseDto> updateDishProductEntryById(@PathVariable Long dishProductId, @RequestBody UpdateDishProductEntryRequestDto updateDishProductEntryRequestDto) {
-        DishProductResponseDto updatedDishProductResponseDto = dishProductService.updateDishProductEntryById(dishProductId, updateDishProductEntryRequestDto);
+    public ResponseEntity<DishProductResponseDto> updateDishProductById(@PathVariable Long dishProductId, @RequestBody UpdateDishProductRequestDto updateDishProductRequestDto) {
+        DishProductResponseDto updatedDishProductResponseDto = dishProductService.updateDishProductById(dishProductId, updateDishProductRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedDishProductResponseDto);
     }
 
-    @CheckPermission(Permission.DISH_PRODUCT_UNASSIGN)
+    @CheckPermission(Permission.DISH_PRODUCT_REMOVE)
     @DeleteMapping("/dishes-products/{dishProductId}")
-    public ResponseEntity<Void> deleteDishProductEntryById(@PathVariable Long dishProductId) {
-        dishProductService.deleteDishProductEntryById(dishProductId);
+    public ResponseEntity<Void> removeProductFromDish(@PathVariable Long dishProductId) {
+        dishProductService.removeProductFromDish(dishProductId);
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)

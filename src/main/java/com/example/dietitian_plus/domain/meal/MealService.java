@@ -6,10 +6,10 @@ import com.example.dietitian_plus.common.constants.messages.MealMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
-import com.example.dietitian_plus.domain.meal.dto.request.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.MealDtoMapper;
-import com.example.dietitian_plus.domain.meal.dto.response.MealResponseDto;
+import com.example.dietitian_plus.domain.meal.dto.request.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.request.UpdateMealRequestDto;
+import com.example.dietitian_plus.domain.meal.dto.response.MealResponseDto;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -52,8 +52,7 @@ public class MealService {
         return mealDtoMapper.toDto(meal);
     }
 
-    @Transactional
-    public List<MealResponseDto> getPatientAllMeals(UUID patientId) throws EntityNotFoundException {
+    public List<MealResponseDto> getPatientAllMeals(LocalDate date, UUID patientId) throws EntityNotFoundException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
@@ -62,22 +61,14 @@ public class MealService {
 
         mealAccessManager.checkCanReadPatientAllMeals(patient);
 
-        return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserId(patientId));
-    }
+        if (date == null) {
+            return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserId(patientId));
+        } else {
+            LocalDateTime startOfDay = date.atStartOfDay();
+            LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 
-    public List<MealResponseDto> getPatientMeals(LocalDate date, UUID patientId) throws EntityNotFoundException {
-        Patient patient = patientRepository.findById(patientId).orElse(null);
-
-        if (patient == null) {
-            throw new EntityNotFoundException(PatientMessages.PATIENT_NOT_FOUND);
+            return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserIdAndDatetimeBetween(patientId, startOfDay, endOfDay));
         }
-
-        mealAccessManager.checkCanReadPatientAllMeals(patient);
-
-        LocalDateTime startOfDay = date.atStartOfDay();
-        LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
-
-        return mealDtoMapper.toDtoList(mealRepository.findAllByPatient_UserIdAndDatetimeBetween(patientId, startOfDay, endOfDay));
     }
 
     @Transactional
