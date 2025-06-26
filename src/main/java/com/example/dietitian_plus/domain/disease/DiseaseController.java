@@ -1,10 +1,9 @@
 package com.example.dietitian_plus.domain.disease;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.disease.dto.request.CreateDiseaseRequestDto;
-import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto;
 import com.example.dietitian_plus.domain.disease.dto.request.UpdateDiseaseRequestDto;
+import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -64,12 +63,12 @@ public class DiseaseController {
 
     @CheckPermission(Permission.DISEASE_DELETE)
     @DeleteMapping("/diseases/{diseaseId}")
-    public ResponseEntity<MessageResponseDto> deleteDiseaseById(@PathVariable Long diseaseId) {
+    public ResponseEntity<Void> deleteDiseaseById(@PathVariable Long diseaseId) {
         diseaseService.deleteDiseaseById(diseaseId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Disease with id " + diseaseId + " deleted successfully"));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

@@ -1,7 +1,6 @@
 package com.example.dietitian_plus.domain.mealsdishes;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.request.CreateMealDishRequestDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealDishResponseDto;
@@ -69,12 +68,12 @@ public class MealDishController {
 
     @CheckPermission(Permission.MEAL_DISH_REMOVE)
     @DeleteMapping("/meals/{mealId}/dishes/{dishId}")
-    public ResponseEntity<MessageResponseDto> removeDishFromMeal(@PathVariable Long mealId, @PathVariable Long dishId) {
+    public ResponseEntity<Void> removeDishFromMeal(@PathVariable Long mealId, @PathVariable Long dishId) {
         mealDishService.removeDishFromMeal(mealId, dishId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Dish with id " + dishId + " successfully removed from meal with id " + mealId));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

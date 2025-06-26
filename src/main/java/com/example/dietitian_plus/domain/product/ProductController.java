@@ -1,10 +1,9 @@
 package com.example.dietitian_plus.domain.product;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.product.dto.request.CreateProductRequestDto;
-import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.request.UpdateProductRequestDto;
+import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -64,12 +63,12 @@ public class ProductController {
 
     @CheckPermission(Permission.PRODUCT_DELETE)
     @DeleteMapping("/products/{productId}")
-    public ResponseEntity<MessageResponseDto> deleteProductById(@PathVariable Long productId) {
+    public ResponseEntity<Void> deleteProductById(@PathVariable Long productId) {
         productService.deleteProductById(productId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Product with id " + productId + " deleted successfully"));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

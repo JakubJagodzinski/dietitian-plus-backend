@@ -1,9 +1,8 @@
 package com.example.dietitian_plus.domain.dietitian;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
-import com.example.dietitian_plus.domain.dietitian.dto.response.DietitianResponseDto;
 import com.example.dietitian_plus.domain.dietitian.dto.request.UpdateDietitianRequestDto;
+import com.example.dietitian_plus.domain.dietitian.dto.response.DietitianResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -52,12 +51,12 @@ public class DietitianController {
 
     @CheckPermission(Permission.DIETITIAN_DELETE)
     @DeleteMapping("/dietitians/{dietitianId}")
-    public ResponseEntity<MessageResponseDto> deleteDietitianById(@PathVariable UUID dietitianId) {
+    public ResponseEntity<Void> deleteDietitianById(@PathVariable UUID dietitianId) {
         dietitianService.deleteDietitianById(dietitianId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Dietitian with id " + dietitianId + " delete successfully"));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

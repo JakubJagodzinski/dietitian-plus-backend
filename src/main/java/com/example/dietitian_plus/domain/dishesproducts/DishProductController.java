@@ -1,11 +1,10 @@
 package com.example.dietitian_plus.domain.dishesproducts;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.request.CreateDishProductEntryRequestDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.request.UpdateDishProductEntryRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishProductResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishWithProductsResponseDto;
-import com.example.dietitian_plus.domain.dishesproducts.dto.request.UpdateDishProductEntryRequestDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -54,12 +53,12 @@ public class DishProductController {
 
     @CheckPermission(Permission.DISH_PRODUCT_UNASSIGN)
     @DeleteMapping("/dishes-products/{dishProductId}")
-    public ResponseEntity<MessageResponseDto> deleteDishProductEntryById(@PathVariable Long dishProductId) {
+    public ResponseEntity<Void> deleteDishProductEntryById(@PathVariable Long dishProductId) {
         dishProductService.deleteDishProductEntryById(dishProductId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Dish product entry with id " + dishProductId + " deleted successfully"));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

@@ -1,10 +1,9 @@
 package com.example.dietitian_plus.domain.note;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.note.dto.request.CreateNoteRequestDto;
-import com.example.dietitian_plus.domain.note.dto.response.NoteResponseDto;
 import com.example.dietitian_plus.domain.note.dto.request.UpdateNoteRequestDto;
+import com.example.dietitian_plus.domain.note.dto.response.NoteResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -85,12 +84,12 @@ public class NoteController {
 
     @CheckPermission(Permission.NOTE_DELETE)
     @DeleteMapping("/notes/{noteId}")
-    public ResponseEntity<MessageResponseDto> deleteNoteById(@PathVariable Long noteId) {
+    public ResponseEntity<Void> deleteNoteById(@PathVariable Long noteId) {
         noteService.deleteNoteById(noteId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Note with id " + noteId + " deleted successfully"));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

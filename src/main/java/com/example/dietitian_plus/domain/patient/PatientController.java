@@ -106,12 +106,12 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_DELETE)
     @DeleteMapping("/patients/{patientId}")
-    public ResponseEntity<MessageResponseDto> deletePatientById(@PathVariable UUID patientId) {
+    public ResponseEntity<Void> deletePatientById(@PathVariable UUID patientId) {
         patientService.deletePatientById(patientId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Patient with id " + patientId + " deleted successfully"));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

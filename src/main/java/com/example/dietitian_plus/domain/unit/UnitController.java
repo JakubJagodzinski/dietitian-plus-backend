@@ -1,10 +1,9 @@
 package com.example.dietitian_plus.domain.unit;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.unit.dto.request.CreateUnitRequestDto;
-import com.example.dietitian_plus.domain.unit.dto.response.UnitResponseDto;
 import com.example.dietitian_plus.domain.unit.dto.request.UpdateUnitRequestDto;
+import com.example.dietitian_plus.domain.unit.dto.response.UnitResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -64,12 +63,12 @@ public class UnitController {
 
     @CheckPermission(Permission.UNIT_DELETE)
     @DeleteMapping("/units/{unitId}")
-    public ResponseEntity<MessageResponseDto> deleteUnitById(@PathVariable Long unitId) {
+    public ResponseEntity<Void> deleteUnitById(@PathVariable Long unitId) {
         unitService.deleteUnitById(unitId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Unit with id " + unitId + " deleted successfully"));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

@@ -1,10 +1,9 @@
 package com.example.dietitian_plus.domain.meal;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.request.CreateMealRequestDto;
-import com.example.dietitian_plus.domain.meal.dto.response.MealResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.request.UpdateMealRequestDto;
+import com.example.dietitian_plus.domain.meal.dto.response.MealResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -93,12 +92,12 @@ public class MealController {
 
     @CheckPermission(Permission.MEAL_DELETE)
     @DeleteMapping("/meals/{mealId}")
-    public ResponseEntity<MessageResponseDto> deleteMealById(@PathVariable Long mealId) {
+    public ResponseEntity<Void> deleteMealById(@PathVariable Long mealId) {
         mealService.deleteMealById(mealId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Meal with id " + mealId + " deleted successfully"));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

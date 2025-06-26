@@ -1,7 +1,6 @@
 package com.example.dietitian_plus.domain.patientdiseases;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
 import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.request.AssignDiseaseToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.response.PatientDiseaseResponseDto;
@@ -45,12 +44,12 @@ public class PatientDiseaseController {
 
     @CheckPermission(Permission.PATIENT_DISEASE_UNASSIGN)
     @DeleteMapping("/patients/{patientId}/diseases/{diseaseId}")
-    public ResponseEntity<MessageResponseDto> unassignDiseaseFromPatient(@PathVariable UUID patientId, @PathVariable Long diseaseId) {
+    public ResponseEntity<Void> unassignDiseaseFromPatient(@PathVariable UUID patientId, @PathVariable Long diseaseId) {
         patientDiseaseService.unassignDiseaseFromPatient(patientId, diseaseId);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new MessageResponseDto("Disease with id " + diseaseId + " successfully unassigned from patient with id " + patientId));
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }
