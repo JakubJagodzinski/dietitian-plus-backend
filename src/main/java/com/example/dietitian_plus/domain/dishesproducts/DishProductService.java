@@ -7,7 +7,7 @@ import com.example.dietitian_plus.common.constants.messages.UnitMessages;
 import com.example.dietitian_plus.domain.dish.Dish;
 import com.example.dietitian_plus.domain.dish.DishRepository;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
-import com.example.dietitian_plus.domain.dishesproducts.dto.*;
+import com.example.dietitian_plus.domain.dishesproducts.dto.DishProductDtoMapper;
 import com.example.dietitian_plus.domain.dishesproducts.dto.request.AddProductToDishRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.request.UpdateDishProductRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishProductResponseDto;
@@ -58,14 +58,14 @@ public class DishProductService {
     }
 
     @Transactional
-    public DishProductResponseDto addProductToDish(AddProductToDishRequestDto addProductToDishRequestDto) throws EntityNotFoundException, IllegalArgumentException {
-        Dish dish = dishRepository.findById(addProductToDishRequestDto.getDishId()).orElse(null);
+    public DishProductResponseDto addProductToDish(Long dishId, AddProductToDishRequestDto addProductToDishRequestDto) throws EntityNotFoundException {
+        Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
-        dishProductAccessManager.checkCanCreateDishProductEntry(dish);
+        dishProductAccessManager.checkCanAddProductToDish(dish);
 
         Product product = productRepository.findById(addProductToDishRequestDto.getProductId()).orElse(null);
 
@@ -77,10 +77,6 @@ public class DishProductService {
 
         if (unit == null) {
             throw new EntityNotFoundException(UnitMessages.UNIT_NOT_FOUND);
-        }
-
-        if (addProductToDishRequestDto.getUnitCount() <= 0) {
-            throw new IllegalArgumentException(UnitMessages.UNIT_COUNT_MUST_BE_POSITIVE);
         }
 
         DishProduct dishProduct = new DishProduct();
@@ -114,10 +110,6 @@ public class DishProductService {
         }
 
         if (updateDishProductRequestDto.getUnitCount() != null) {
-            if (updateDishProductRequestDto.getUnitCount() <= 0) {
-                throw new IllegalArgumentException(UnitMessages.UNIT_COUNT_MUST_BE_POSITIVE);
-            }
-
             dishProduct.setUnitCount(updateDishProductRequestDto.getUnitCount());
         }
 

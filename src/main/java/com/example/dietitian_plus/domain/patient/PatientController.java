@@ -9,9 +9,11 @@ import com.example.dietitian_plus.domain.patient.dto.request.UpdatePatientReques
 import com.example.dietitian_plus.domain.patient.dto.response.PatientQuestionnaireStatusResponseDto;
 import com.example.dietitian_plus.domain.patient.dto.response.PatientResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class PatientController {
 
     private final PatientService patientService;
@@ -66,7 +69,7 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_UPDATE)
     @PostMapping("/patients/{patientId}/questionnaire")
-    public ResponseEntity<MessageResponseDto> fillPatientQuestionnaire(@PathVariable UUID patientId, @RequestBody PatientQuestionnaireRequestDto patientQuestionnaireRequestDto) {
+    public ResponseEntity<MessageResponseDto> fillPatientQuestionnaire(@PathVariable UUID patientId, @Valid @RequestBody PatientQuestionnaireRequestDto patientQuestionnaireRequestDto) {
         patientService.fillPatientQuestionnaire(patientId, patientQuestionnaireRequestDto);
 
         return ResponseEntity
@@ -76,7 +79,7 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_UPDATE)
     @PatchMapping("/patients/{patientId}")
-    public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable UUID patientId, @RequestBody UpdatePatientRequestDto updatePatientRequestDto) {
+    public ResponseEntity<PatientResponseDto> updatePatientById(@PathVariable UUID patientId, @Valid @RequestBody UpdatePatientRequestDto updatePatientRequestDto) {
         PatientResponseDto updatedPatientResponseDto = patientService.updatePatientById(patientId, updatePatientRequestDto);
 
         return ResponseEntity
@@ -86,7 +89,7 @@ public class PatientController {
 
     @CheckPermission(Permission.PATIENT_DIETITIAN_ASSIGN)
     @PostMapping("/patients/dietitians")
-    public ResponseEntity<MessageResponseDto> assignDietitianToPatient(@RequestParam(value = "patient_email") String patientEmail, @RequestBody AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) {
+    public ResponseEntity<MessageResponseDto> assignDietitianToPatient(@RequestParam(value = "patient_email") String patientEmail, @Valid @RequestBody AssignDietitianToPatientRequestDto assignDietitianToPatientRequestDto) {
         patientService.assignDietitianToPatient(patientEmail, assignDietitianToPatientRequestDto);
 
         return ResponseEntity

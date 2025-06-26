@@ -31,9 +31,9 @@ public class DishProductController {
     }
 
     @CheckPermission(Permission.DISH_PRODUCT_ADD)
-    @PostMapping("/dishes-products")
-    public ResponseEntity<DishProductResponseDto> addProductToDish(@RequestBody AddProductToDishRequestDto addProductToDishRequestDto) {
-        DishProductResponseDto createdDishProductResponseDto = dishProductService.addProductToDish(addProductToDishRequestDto);
+    @PostMapping("/dishes/{dishId}/products")
+    public ResponseEntity<DishProductResponseDto> addProductToDish(@PathVariable Long dishId, @RequestBody AddProductToDishRequestDto addProductToDishRequestDto) {
+        DishProductResponseDto createdDishProductResponseDto = dishProductService.addProductToDish(dishId, addProductToDishRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

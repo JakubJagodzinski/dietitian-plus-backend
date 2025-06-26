@@ -4,9 +4,11 @@ import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.domain.dietitian.dto.request.UpdateDietitianRequestDto;
 import com.example.dietitian_plus.domain.dietitian.dto.response.DietitianResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class DietitianController {
 
     private final DietitianService dietitianService;
@@ -41,7 +44,7 @@ public class DietitianController {
 
     @CheckPermission(Permission.DIETITIAN_UPDATE)
     @PatchMapping("/dietitians/{dietitianId}")
-    public ResponseEntity<DietitianResponseDto> updateDietitianById(@PathVariable UUID dietitianId, @RequestBody UpdateDietitianRequestDto updateDietitianRequestDto) {
+    public ResponseEntity<DietitianResponseDto> updateDietitianById(@PathVariable UUID dietitianId, @Valid @RequestBody UpdateDietitianRequestDto updateDietitianRequestDto) {
         DietitianResponseDto dietitianResponseDto = dietitianService.updateDietitianById(dietitianId, updateDietitianRequestDto);
 
         return ResponseEntity

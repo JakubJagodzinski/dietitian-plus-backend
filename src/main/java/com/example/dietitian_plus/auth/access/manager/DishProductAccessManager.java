@@ -25,7 +25,7 @@ public class DishProductAccessManager {
         }
     }
 
-    public void checkCanCreateDishProductEntry(Dish dish) throws AccessDeniedException {
+    public void checkCanAddProductToDish(Dish dish) throws AccessDeniedException {
         boolean isAdminRequest = securityUtils.isAdmin();
         boolean isDietitianDishOwnerRequest = dishAccessManager.isDietitianDishOwner(dish);
 

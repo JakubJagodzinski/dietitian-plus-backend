@@ -35,10 +35,10 @@ public class Patient extends User {
     private Gender gender;
 
     @Column(name = "is_active")
-    private Boolean isActive = false;
+    private boolean isActive = false;
 
     @Column(name = "is_questionnaire_completed")
-    private Boolean isQuestionnaireCompleted = false;
+    private boolean isQuestionnaireCompleted = false;
 
     @ManyToOne
     @JoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_patients_dietitian_id"))

@@ -1,10 +1,10 @@
 package com.example.dietitian_plus.domain.product;
 
 import com.example.dietitian_plus.common.constants.messages.ProductMessages;
-import com.example.dietitian_plus.domain.product.dto.request.CreateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.ProductDtoMapper;
-import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
+import com.example.dietitian_plus.domain.product.dto.request.CreateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.request.UpdateProductRequestDto;
+import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -36,64 +36,36 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponseDto createProduct(CreateProductRequestDto createProductRequestDto) throws IllegalArgumentException {
+    public ProductResponseDto createProduct(CreateProductRequestDto createProductRequestDto) {
         Product product = new Product();
 
         product.setProductName(createProductRequestDto.getProductName());
 
         if (createProductRequestDto.getKcal() != null) {
-            if (createProductRequestDto.getKcal() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setKcal(createProductRequestDto.getKcal());
         }
 
         if (createProductRequestDto.getFats() != null) {
-            if (createProductRequestDto.getFats() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setFats(createProductRequestDto.getFats());
         }
 
         if (createProductRequestDto.getCarbs() != null) {
-            if (createProductRequestDto.getCarbs() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setCarbs(createProductRequestDto.getCarbs());
         }
 
         if (createProductRequestDto.getProtein() != null) {
-            if (createProductRequestDto.getProtein() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setProtein(createProductRequestDto.getProtein());
         }
 
         if (createProductRequestDto.getFiber() != null) {
-            if (createProductRequestDto.getFiber() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setFiber(createProductRequestDto.getFiber());
         }
 
         if (createProductRequestDto.getGlycemicIndex() != null) {
-            if (createProductRequestDto.getGlycemicIndex() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setGlycemicIndex(createProductRequestDto.getGlycemicIndex());
         }
 
         if (createProductRequestDto.getGlycemicLoad() != null) {
-            if (createProductRequestDto.getGlycemicLoad() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setGlycemicLoad(createProductRequestDto.getGlycemicLoad());
         }
 
@@ -109,66 +81,34 @@ public class ProductService {
         }
 
         if (updateProductRequestDto.getProductName() != null) {
-            if (updateProductRequestDto.getProductName().isEmpty()) {
-                throw new IllegalArgumentException(ProductMessages.PRODUCT_NAME_CANNOT_BE_EMPTY);
-            }
-
             product.setProductName(updateProductRequestDto.getProductName());
         }
 
         if (updateProductRequestDto.getKcal() != null) {
-            if (updateProductRequestDto.getKcal() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setKcal(updateProductRequestDto.getKcal());
         }
 
         if (updateProductRequestDto.getFats() != null) {
-            if (updateProductRequestDto.getFats() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setFats(updateProductRequestDto.getFats());
         }
 
         if (updateProductRequestDto.getCarbs() != null) {
-            if (updateProductRequestDto.getCarbs() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setCarbs(updateProductRequestDto.getCarbs());
         }
 
         if (updateProductRequestDto.getProtein() != null) {
-            if (updateProductRequestDto.getProtein() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setProtein(updateProductRequestDto.getProtein());
         }
 
         if (updateProductRequestDto.getFiber() != null) {
-            if (updateProductRequestDto.getFiber() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setFiber(updateProductRequestDto.getFiber());
         }
 
         if (updateProductRequestDto.getGlycemicIndex() != null) {
-            if (updateProductRequestDto.getGlycemicIndex() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setGlycemicIndex(updateProductRequestDto.getGlycemicIndex());
         }
 
         if (updateProductRequestDto.getGlycemicLoad() != null) {
-            if (updateProductRequestDto.getGlycemicLoad() < 0) {
-                throw new IllegalArgumentException(ProductMessages.NUTRITIONAL_VALUES_CANNOT_BE_NEGATIVE);
-            }
-
             product.setGlycemicLoad(updateProductRequestDto.getGlycemicLoad());
         }
 

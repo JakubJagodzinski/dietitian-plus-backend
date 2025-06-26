@@ -4,10 +4,9 @@ import com.example.dietitian_plus.auth.access.manager.PatientAccessManager;
 import com.example.dietitian_plus.common.Gender;
 import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
-import com.example.dietitian_plus.common.constants.messages.UserMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
-import com.example.dietitian_plus.domain.patient.dto.*;
+import com.example.dietitian_plus.domain.patient.dto.PatientDtoMapper;
 import com.example.dietitian_plus.domain.patient.dto.request.AssignDietitianToPatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.request.PatientQuestionnaireRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.request.UpdatePatientRequestDto;
@@ -18,7 +17,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,7 +60,7 @@ public class PatientService {
     }
 
     @Transactional
-    public PatientResponseDto updatePatientById(UUID patientId, UpdatePatientRequestDto updatePatientRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+    public PatientResponseDto updatePatientById(UUID patientId, UpdatePatientRequestDto updatePatientRequestDto) throws EntityNotFoundException {
         Patient patient = patientRepository.findById(patientId).orElse(null);
 
         if (patient == null) {
@@ -72,53 +70,23 @@ public class PatientService {
         patientAccessManager.checkCanUpdatePatient(patient);
 
         if (updatePatientRequestDto.getFirstName() != null) {
-            if (updatePatientRequestDto.getFirstName().isBlank()) {
-                throw new IllegalArgumentException(UserMessages.FIRST_NAME_CANNOT_BE_EMPTY);
-            }
             patient.setFirstName(updatePatientRequestDto.getFirstName());
         }
 
         if (updatePatientRequestDto.getLastName() != null) {
-            if (updatePatientRequestDto.getLastName().isBlank()) {
-                throw new IllegalArgumentException(UserMessages.LAST_NAME_CANNOT_BE_EMPTY);
-            }
-
             patient.setLastName(updatePatientRequestDto.getLastName());
         }
 
         if (updatePatientRequestDto.getHeight() != null) {
-            if (updatePatientRequestDto.getHeight() <= 0) {
-                throw new IllegalArgumentException(PatientMessages.HEIGHT_MUST_BE_GREATER_THAN_ZERO);
-            }
-
             patient.setHeight(updatePatientRequestDto.getHeight());
         }
 
-        if (updatePatientRequestDto.getStartingWeight() != null) {
-            if (updatePatientRequestDto.getStartingWeight() <= 0) {
-                throw new IllegalArgumentException(PatientMessages.WEIGHT_MUST_BE_GREATER_THAN_ZERO);
-            }
-
-            patient.setStartingWeight(updatePatientRequestDto.getStartingWeight());
-        }
-
         if (updatePatientRequestDto.getCurrentWeight() != null) {
-            if (updatePatientRequestDto.getCurrentWeight() <= 0) {
-                throw new IllegalArgumentException(PatientMessages.WEIGHT_MUST_BE_GREATER_THAN_ZERO);
-            }
-
             patient.setCurrentWeight(updatePatientRequestDto.getCurrentWeight());
         }
 
         if (updatePatientRequestDto.getPal() != null) {
             patient.setPal(updatePatientRequestDto.getPal());
-        }
-
-        if (updatePatientRequestDto.getBirthdate() != null) {
-            if (updatePatientRequestDto.getBirthdate().isAfter(java.time.LocalDate.now())) {
-                throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_FUTURE_DATE);
-            }
-            patient.setBirthdate(updatePatientRequestDto.getBirthdate());
         }
 
         return patientDtoMapper.toDto(patientRepository.save(patient));
@@ -191,54 +159,15 @@ public class PatientService {
 
         patientAccessManager.checkCanUpdatePatient(patient);
 
-        if (patient.getIsQuestionnaireCompleted()) {
+        if (patient.isQuestionnaireCompleted()) {
             throw new IllegalArgumentException(PatientMessages.PATIENT_QUESTIONNAIRE_ALREADY_FILLED);
         }
 
-        if (patientQuestionnaireRequestDto.getHeight() == null) {
-            throw new IllegalArgumentException(PatientMessages.HEIGHT_CANNOT_BE_NULL);
-        }
-
-        if (patientQuestionnaireRequestDto.getHeight() <= 0) {
-            throw new IllegalArgumentException(PatientMessages.HEIGHT_MUST_BE_GREATER_THAN_ZERO);
-        }
-
         patient.setHeight(patientQuestionnaireRequestDto.getHeight());
-
-        if (patientQuestionnaireRequestDto.getStartingWeight() == null) {
-            throw new IllegalArgumentException(PatientMessages.WEIGHT_CANNOT_BE_NULL);
-        }
-
-        if (patientQuestionnaireRequestDto.getStartingWeight() <= 0) {
-            throw new IllegalArgumentException(PatientMessages.WEIGHT_CANNOT_BE_NULL);
-        }
-
         patient.setStartingWeight(patientQuestionnaireRequestDto.getStartingWeight());
         patient.setCurrentWeight(patientQuestionnaireRequestDto.getStartingWeight());
-
-        if (patientQuestionnaireRequestDto.getPal() == null) {
-            throw new IllegalArgumentException(PatientMessages.PAL_CANNOT_BE_NULL);
-        }
-
-        if (patientQuestionnaireRequestDto.getPal() <= 0) {
-            throw new IllegalArgumentException(PatientMessages.PAL_MUST_BE_GREATER_THAN_ZERO);
-        }
-
         patient.setPal(patientQuestionnaireRequestDto.getPal());
-
-        if (patientQuestionnaireRequestDto.getBirthdate() == null) {
-            throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_NULL);
-        }
-
-        if (patientQuestionnaireRequestDto.getBirthdate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException(PatientMessages.BIRTHDATE_CANNOT_BE_FUTURE_DATE);
-        }
-
         patient.setBirthdate(patientQuestionnaireRequestDto.getBirthdate());
-
-        if (patientQuestionnaireRequestDto.getGender() == null) {
-            throw new IllegalArgumentException(PatientMessages.GENDER_CANNOT_BE_NULL);
-        }
 
         if (!Gender.isValidGender(patientQuestionnaireRequestDto.getGender().toUpperCase())) {
             throw new IllegalArgumentException(PatientMessages.INVALID_GENDER_SPECIFIED);
@@ -246,7 +175,7 @@ public class PatientService {
 
         patient.setGender(Gender.valueOf(patientQuestionnaireRequestDto.getGender().toUpperCase()));
 
-        patient.setIsQuestionnaireCompleted(true);
+        patient.setQuestionnaireCompleted(true);
     }
 
     public PatientQuestionnaireStatusResponseDto getPatientQuestionnaireStatus(UUID patientId) throws EntityNotFoundException {

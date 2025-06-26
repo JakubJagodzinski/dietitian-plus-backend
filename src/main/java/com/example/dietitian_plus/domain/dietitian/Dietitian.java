@@ -1,10 +1,7 @@
 package com.example.dietitian_plus.domain.dietitian;
 
 import com.example.dietitian_plus.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +14,7 @@ import lombok.Setter;
 @PrimaryKeyJoinColumn(name = "dietitian_id", foreignKey = @ForeignKey(name = "fk_dietitians_user_id"))
 public class Dietitian extends User {
 
+    @Column(length = 50)
     private String title;
 
 }

@@ -5,10 +5,10 @@ import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.common.constants.messages.DishMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
-import com.example.dietitian_plus.domain.dish.dto.request.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
-import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
+import com.example.dietitian_plus.domain.dish.dto.request.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.request.UpdateDishRequestDto;
+import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -65,10 +65,6 @@ public class DishService {
 
     @Transactional
     public DishResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException, IllegalArgumentException {
-        if (createDishRequestDto.getDietitianId() == null) {
-            throw new IllegalArgumentException(DietitianMessages.DIETITIAN_CANNOT_BE_NULL);
-        }
-
         Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
@@ -77,33 +73,17 @@ public class DishService {
 
         Dish dish = new Dish();
 
-        if (createDishRequestDto.getDishName() == null) {
-            throw new IllegalArgumentException(DishMessages.DISH_NAME_CANNOT_BE_NULL);
-        }
-
-        if (createDishRequestDto.getDishName().isEmpty()) {
-            throw new IllegalArgumentException(DishMessages.DISH_NAME_CANNOT_BE_EMPTY);
-        }
-
-        dish.setDishName(createDishRequestDto.getDishName());
-
-        if (createDishRequestDto.getIsTemplate() != null) {
-            dish.setIsTemplate(createDishRequestDto.getIsTemplate());
-        }
-
-        if (createDishRequestDto.getIsPublic() != null) {
-            dish.setIsPublic(createDishRequestDto.getIsPublic());
-        }
-
-        dish.setRecipe(createDishRequestDto.getRecipe());
-
+        dish.setDishName(createDishRequestDto.getDishName().trim());
+        dish.setTemplate(createDishRequestDto.isTemplate());
+        dish.setPublic(createDishRequestDto.isPublic());
+        dish.setRecipe(createDishRequestDto.getRecipe().trim());
         dish.setDietitian(dietitian);
 
         return dishDtoMapper.toDto(dishRepository.save(dish));
     }
 
     @Transactional
-    public DishResponseDto updateDishById(Long dishId, UpdateDishRequestDto updateDishRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+    public DishResponseDto updateDishById(Long dishId, UpdateDishRequestDto updateDishRequestDto) throws EntityNotFoundException {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
@@ -113,23 +93,19 @@ public class DishService {
         dishAccessManager.checkCanUpdateDish(dish);
 
         if (updateDishRequestDto.getDishName() != null) {
-            if (updateDishRequestDto.getDishName().isEmpty()) {
-                throw new IllegalArgumentException(DishMessages.DISH_NAME_CANNOT_BE_EMPTY);
-            }
-
-            dish.setDishName(updateDishRequestDto.getDishName());
+            dish.setDishName(updateDishRequestDto.getDishName().trim());
         }
 
         if (updateDishRequestDto.getIsTemplate() != null) {
-            dish.setIsTemplate(updateDishRequestDto.getIsTemplate());
+            dish.setTemplate(updateDishRequestDto.getIsTemplate());
         }
 
         if (updateDishRequestDto.getIsPublic() != null) {
-            dish.setIsPublic(updateDishRequestDto.getIsPublic());
+            dish.setPublic(updateDishRequestDto.getIsPublic());
         }
 
         if (updateDishRequestDto.getRecipe() != null) {
-            dish.setRecipe(updateDishRequestDto.getRecipe());
+            dish.setRecipe(updateDishRequestDto.getRecipe().trim());
         }
 
         return dishDtoMapper.toDto(dishRepository.save(dish));

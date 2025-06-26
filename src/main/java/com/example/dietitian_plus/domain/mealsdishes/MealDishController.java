@@ -2,15 +2,17 @@ package com.example.dietitian_plus.domain.mealsdishes;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
-import com.example.dietitian_plus.domain.mealsdishes.dto.request.CreateMealDishRequestDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.request.AddDishToMealRequestDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealDishResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealWithDishesResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.PatientDayMealsWithDishesResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -21,6 +23,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class MealDishController {
 
     private final MealDishService mealDishService;
@@ -57,8 +60,8 @@ public class MealDishController {
 
     @CheckPermission(Permission.MEAL_DISH_ADD)
     @PostMapping("/meals/{mealId}/dishes")
-    public ResponseEntity<MealDishResponseDto> addDishToMeal(@PathVariable Long mealId, @RequestBody CreateMealDishRequestDto createMealDishRequestDto) {
-        MealDishResponseDto createdMealDishResponseDto = mealDishService.addDishToMeal(mealId, createMealDishRequestDto);
+    public ResponseEntity<MealDishResponseDto> addDishToMeal(@PathVariable Long mealId, @Valid @RequestBody AddDishToMealRequestDto addDishToMealRequestDto) {
+        MealDishResponseDto createdMealDishResponseDto = mealDishService.addDishToMeal(mealId, addDishToMealRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

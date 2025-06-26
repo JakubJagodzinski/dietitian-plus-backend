@@ -26,7 +26,7 @@ public class PatientDtoMapper {
             patientResponseDto.setDietitianId(patient.getDietitian().getUserId());
         }
 
-        patientResponseDto.setIsActive(patient.getIsActive());
+        patientResponseDto.setIsActive(patient.isActive());
 
         return patientResponseDto;
     }

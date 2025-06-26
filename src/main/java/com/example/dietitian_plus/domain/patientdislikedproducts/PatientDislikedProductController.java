@@ -5,9 +5,11 @@ import com.example.dietitian_plus.domain.patientdislikedproducts.dto.request.Ass
 import com.example.dietitian_plus.domain.patientdislikedproducts.dto.response.PatientDislikedProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class PatientDislikedProductController {
 
     private final PatientDislikedProductService patientDislikedProductService;
@@ -33,7 +36,7 @@ public class PatientDislikedProductController {
 
     @CheckPermission(Permission.PATIENT_DISLIKED_PRODUCT_ASSIGN)
     @PostMapping("/patients/{patientId}/disliked-products")
-    public ResponseEntity<PatientDislikedProductResponseDto> assignDislikedProductToPatient(@PathVariable UUID patientId, @RequestBody AssignDislikedProductToPatientRequestDto assignDislikedProductToPatientRequestDto) {
+    public ResponseEntity<PatientDislikedProductResponseDto> assignDislikedProductToPatient(@PathVariable UUID patientId, @Valid @RequestBody AssignDislikedProductToPatientRequestDto assignDislikedProductToPatientRequestDto) {
         PatientDislikedProductResponseDto createdPatientDislikedProductResponseDto = patientDislikedProductService.assignDislikedProductToPatient(patientId, assignDislikedProductToPatientRequestDto);
 
         return ResponseEntity

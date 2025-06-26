@@ -1,10 +1,10 @@
 package com.example.dietitian_plus.domain.disease;
 
 import com.example.dietitian_plus.common.constants.messages.DiseaseMessages;
-import com.example.dietitian_plus.domain.disease.dto.request.CreateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.DiseaseDtoMapper;
-import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto;
+import com.example.dietitian_plus.domain.disease.dto.request.CreateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.request.UpdateDiseaseRequestDto;
+import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -38,20 +38,22 @@ public class DiseaseService {
 
     @Transactional
     public DiseaseResponseDto createDisease(CreateDiseaseRequestDto createDiseaseRequestDto) throws EntityExistsException {
-        if (diseaseRepository.existsByDiseaseName(createDiseaseRequestDto.getDiseaseName())) {
+        String diseaseName = createDiseaseRequestDto.getDiseaseName().trim();
+
+        if (diseaseRepository.existsByDiseaseName(diseaseName)) {
             throw new EntityExistsException(DiseaseMessages.DISEASE_ALREADY_EXISTS);
         }
 
         Disease disease = new Disease();
 
-        disease.setDiseaseName(createDiseaseRequestDto.getDiseaseName());
-        disease.setDescription(createDiseaseRequestDto.getDescription());
+        disease.setDiseaseName(diseaseName);
+        disease.setDescription(createDiseaseRequestDto.getDescription().trim());
 
         return diseaseDtoMapper.toDto(diseaseRepository.save(disease));
     }
 
     @Transactional
-    public DiseaseResponseDto updateDiseaseById(Long diseaseId, UpdateDiseaseRequestDto updateDiseaseRequestDto) throws EntityNotFoundException {
+    public DiseaseResponseDto updateDiseaseById(Long diseaseId, UpdateDiseaseRequestDto updateDiseaseRequestDto) throws EntityNotFoundException, EntityExistsException {
         Disease disease = diseaseRepository.findById(diseaseId).orElse(null);
 
         if (disease == null) {
@@ -59,11 +61,17 @@ public class DiseaseService {
         }
 
         if (updateDiseaseRequestDto.getDiseaseName() != null) {
-            disease.setDiseaseName(updateDiseaseRequestDto.getDiseaseName());
+            String diseaseName = updateDiseaseRequestDto.getDiseaseName().trim();
+
+            if (diseaseRepository.existsByDiseaseName(diseaseName)) {
+                throw new EntityExistsException(DiseaseMessages.DISEASE_ALREADY_EXISTS);
+            }
+
+            disease.setDiseaseName(diseaseName);
         }
 
         if (updateDiseaseRequestDto.getDescription() != null) {
-            disease.setDescription(updateDiseaseRequestDto.getDescription());
+            disease.setDescription(updateDiseaseRequestDto.getDescription().trim());
         }
 
         return diseaseDtoMapper.toDto(diseaseRepository.save(disease));

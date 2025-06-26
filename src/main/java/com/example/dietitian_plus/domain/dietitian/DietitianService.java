@@ -53,7 +53,7 @@ public class DietitianService {
         dietitianAccessManager.checkCanUpdateDietitian(dietitian.getUserId());
 
         if (updateDietitianRequestDto.getTitle() != null) {
-            dietitian.setTitle(updateDietitianRequestDto.getTitle());
+            dietitian.setTitle(updateDietitianRequestDto.getTitle().trim());
         }
 
         return dietitianDtoMapper.toDto(dietitianRepository.save(dietitian));

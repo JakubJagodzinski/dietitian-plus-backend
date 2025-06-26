@@ -5,9 +5,11 @@ import com.example.dietitian_plus.domain.patientallergenicproducts.dto.request.A
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.response.PatientAllergenicProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class PatientAllergenicProductController {
 
     private final PatientAllergenicProductService patientAllergenicProductService;
@@ -33,7 +36,7 @@ public class PatientAllergenicProductController {
 
     @CheckPermission(Permission.PATIENT_ALLERGENIC_PRODUCT_ASSIGN)
     @PostMapping("/patients/{patientId}/allergenic-products")
-    public ResponseEntity<PatientAllergenicProductResponseDto> assignAllergenicProductToPatient(@PathVariable UUID patientId, @RequestBody AssignAllergenicProductToPatientRequestDto assignAllergenicProductToPatientRequestDto) {
+    public ResponseEntity<PatientAllergenicProductResponseDto> assignAllergenicProductToPatient(@PathVariable UUID patientId, @Valid @RequestBody AssignAllergenicProductToPatientRequestDto assignAllergenicProductToPatientRequestDto) {
         PatientAllergenicProductResponseDto createdPatientAllergenicProductResponseDto = patientAllergenicProductService.assignAllergenicProductToPatient(patientId, assignAllergenicProductToPatientRequestDto);
 
         return ResponseEntity

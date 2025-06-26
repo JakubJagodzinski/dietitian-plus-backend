@@ -28,6 +28,6 @@ public class MealDish {
     private Dish dish;
 
     @Column(name = "dish_quantity")
-    private Long dishQuantity;
+    private Integer dishQuantity;
 
 }

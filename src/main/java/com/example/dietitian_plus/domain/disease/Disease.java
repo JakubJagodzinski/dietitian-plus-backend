@@ -17,9 +17,10 @@ public class Disease {
     @Column(name = "disease_id")
     private Long diseaseId;
 
-    @Column(name = "disease_name", nullable = false, unique = true)
+    @Column(name = "disease_name", nullable = false, unique = true, length = 100)
     private String diseaseName;
 
+    @Column(length = 1000)
     private String description;
 
 }

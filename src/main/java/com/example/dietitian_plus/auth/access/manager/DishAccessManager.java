@@ -39,7 +39,7 @@ public class DishAccessManager {
         boolean isAdminRequest = securityUtils.isAdmin();
         boolean isDietitianDishOwnerRequest = isDietitianDishOwner(dish);
         boolean existsInPatientMeals = mealDishRepository.existsByMeal_Patient_UserIdAndDish_Dietitian_UserId(currentUserId, dietitianId);
-        boolean isDishPublic = dish.getIsPublic();
+        boolean isDishPublic = dish.isPublic();
 
         if (!isAdminRequest && !isDietitianDishOwnerRequest && !existsInPatientMeals && !isDishPublic) {
             throw new AccessDeniedException(DishMessages.YOU_HAVE_NO_ACCESS_TO_THIS_DISH);

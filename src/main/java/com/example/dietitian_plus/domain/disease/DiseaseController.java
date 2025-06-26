@@ -5,9 +5,11 @@ import com.example.dietitian_plus.domain.disease.dto.request.CreateDiseaseReques
 import com.example.dietitian_plus.domain.disease.dto.request.UpdateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class DiseaseController {
 
     private final DiseaseService diseaseService;
@@ -42,7 +45,7 @@ public class DiseaseController {
 
     @CheckPermission(Permission.DISEASE_CREATE)
     @PostMapping("/diseases")
-    public ResponseEntity<DiseaseResponseDto> createDisease(@RequestBody CreateDiseaseRequestDto createDiseaseRequestDto) {
+    public ResponseEntity<DiseaseResponseDto> createDisease(@Valid @RequestBody CreateDiseaseRequestDto createDiseaseRequestDto) {
         DiseaseResponseDto createdDiseaseResponseDto = diseaseService.createDisease(createDiseaseRequestDto);
 
         return ResponseEntity
@@ -53,7 +56,7 @@ public class DiseaseController {
 
     @CheckPermission(Permission.DISEASE_UPDATE)
     @PatchMapping("/diseases/{diseaseId}")
-    public ResponseEntity<DiseaseResponseDto> updateDiseaseById(@PathVariable Long diseaseId, @RequestBody UpdateDiseaseRequestDto updateDiseaseRequestDto) {
+    public ResponseEntity<DiseaseResponseDto> updateDiseaseById(@PathVariable Long diseaseId, @Valid @RequestBody UpdateDiseaseRequestDto updateDiseaseRequestDto) {
         DiseaseResponseDto updatedDiseaseResponseDto = diseaseService.updateDiseaseById(diseaseId, updateDiseaseRequestDto);
 
         return ResponseEntity

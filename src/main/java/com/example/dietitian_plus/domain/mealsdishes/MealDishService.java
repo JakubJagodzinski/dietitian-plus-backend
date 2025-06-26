@@ -18,7 +18,7 @@ import com.example.dietitian_plus.domain.meal.MealRepository;
 import com.example.dietitian_plus.domain.meal.dto.MealDtoMapper;
 import com.example.dietitian_plus.domain.meal.dto.response.NutritionValuesResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.*;
-import com.example.dietitian_plus.domain.mealsdishes.dto.request.CreateMealDishRequestDto;
+import com.example.dietitian_plus.domain.mealsdishes.dto.request.AddDishToMealRequestDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealDishResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealWithDishesResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.PatientDayMealsWithDishesResponseDto;
@@ -137,14 +137,14 @@ public class MealDishService {
     }
 
     @Transactional
-    public MealDishResponseDto addDishToMeal(Long mealId, CreateMealDishRequestDto createMealDishRequestDto) throws EntityNotFoundException, EntityExistsException {
+    public MealDishResponseDto addDishToMeal(Long mealId, AddDishToMealRequestDto addDishToMealRequestDto) throws EntityNotFoundException, EntityExistsException {
         Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
             throw new EntityNotFoundException(MealMessages.MEAL_NOT_FOUND);
         }
 
-        Dish dish = dishRepository.findById(createMealDishRequestDto.getDishId()).orElse(null);
+        Dish dish = dishRepository.findById(addDishToMealRequestDto.getDishId()).orElse(null);
 
         if (dish == null) {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
@@ -165,7 +165,7 @@ public class MealDishService {
         mealDish.setMealDishId(mealDishId);
         mealDish.setMeal(meal);
         mealDish.setDish(dish);
-        mealDish.setDishQuantity(createMealDishRequestDto.getDishQuantity());
+        mealDish.setDishQuantity(addDishToMealRequestDto.getDishQuantity());
 
         return mealDishDtoMapper.toDto(mealDishRepository.save(mealDish));
     }

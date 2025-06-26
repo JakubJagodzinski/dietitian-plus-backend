@@ -17,7 +17,7 @@ public class Unit {
     @Column(name = "unit_id")
     private Long unitId;
 
-    @Column(name = "unit_name", nullable = false)
+    @Column(name = "unit_name", nullable = false, length = 50)
     private String unitName;
 
     @Column(nullable = false)

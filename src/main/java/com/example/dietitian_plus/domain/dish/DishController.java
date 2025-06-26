@@ -5,9 +5,11 @@ import com.example.dietitian_plus.domain.dish.dto.request.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.request.UpdateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class DishController {
 
     private final DishService dishService;
@@ -62,7 +65,7 @@ public class DishController {
 
     @CheckPermission(Permission.DISH_CREATE)
     @PostMapping("/dishes")
-    public ResponseEntity<DishResponseDto> createDish(@RequestBody CreateDishRequestDto createDishRequestDto) {
+    public ResponseEntity<DishResponseDto> createDish(@Valid @RequestBody CreateDishRequestDto createDishRequestDto) {
         DishResponseDto createdDishResponseDto = dishService.createDish(createDishRequestDto);
 
         return ResponseEntity
@@ -73,7 +76,7 @@ public class DishController {
 
     @CheckPermission(Permission.DISH_UPDATE)
     @PatchMapping("/dishes/{dishId}")
-    public ResponseEntity<DishResponseDto> updateDishById(@PathVariable Long dishId, @RequestBody UpdateDishRequestDto updateDishRequestDto) {
+    public ResponseEntity<DishResponseDto> updateDishById(@PathVariable Long dishId, @Valid @RequestBody UpdateDishRequestDto updateDishRequestDto) {
         DishResponseDto dishResponseDto = dishService.updateDishById(dishId, updateDishRequestDto);
 
         return ResponseEntity

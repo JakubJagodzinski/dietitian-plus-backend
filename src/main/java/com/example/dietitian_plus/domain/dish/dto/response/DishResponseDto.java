@@ -25,10 +25,10 @@ public class DishResponseDto {
     private String dishName;
 
     @JsonProperty("is_template")
-    private Boolean isTemplate;
+    private boolean isTemplate;
 
     @JsonProperty("is_public")
-    private Boolean isPublic;
+    private boolean isPublic;
 
     private String recipe;
 

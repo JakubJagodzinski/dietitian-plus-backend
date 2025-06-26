@@ -5,9 +5,11 @@ import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto
 import com.example.dietitian_plus.domain.patientdiseases.dto.request.AssignDiseaseToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.response.PatientDiseaseResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class PatientDiseaseController {
 
     private final PatientDiseaseService patientDiseaseService;
@@ -33,7 +36,7 @@ public class PatientDiseaseController {
 
     @CheckPermission(Permission.PATIENT_DISEASE_ASSIGN)
     @PostMapping("/patients/{patientId}/diseases")
-    public ResponseEntity<PatientDiseaseResponseDto> assignDiseaseToPatient(@PathVariable UUID patientId, @RequestBody AssignDiseaseToPatientRequestDto assignDiseaseToPatientRequestDto) {
+    public ResponseEntity<PatientDiseaseResponseDto> assignDiseaseToPatient(@PathVariable UUID patientId, @Valid @RequestBody AssignDiseaseToPatientRequestDto assignDiseaseToPatientRequestDto) {
         PatientDiseaseResponseDto createdPatientDiseaseResponseDto = patientDiseaseService.assignDiseaseToPatient(patientId, assignDiseaseToPatientRequestDto);
 
         return ResponseEntity

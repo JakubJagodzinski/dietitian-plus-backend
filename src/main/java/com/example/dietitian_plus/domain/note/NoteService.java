@@ -6,10 +6,10 @@ import com.example.dietitian_plus.common.constants.messages.NoteMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.dietitian.DietitianRepository;
-import com.example.dietitian_plus.domain.note.dto.request.CreateNoteRequestDto;
 import com.example.dietitian_plus.domain.note.dto.NoteDtoMapper;
-import com.example.dietitian_plus.domain.note.dto.response.NoteResponseDto;
+import com.example.dietitian_plus.domain.note.dto.request.CreateNoteRequestDto;
 import com.example.dietitian_plus.domain.note.dto.request.UpdateNoteRequestDto;
+import com.example.dietitian_plus.domain.note.dto.response.NoteResponseDto;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.domain.patient.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -94,8 +94,8 @@ public class NoteService {
 
         Note note = new Note();
 
-        note.setTitle(createNoteRequestDto.getTitle());
-        note.setText(createNoteRequestDto.getText());
+        note.setTitle(createNoteRequestDto.getTitle().trim());
+        note.setText(createNoteRequestDto.getText().trim());
         note.setPatient(patient);
         note.setDietitian(dietitian);
 
@@ -113,11 +113,11 @@ public class NoteService {
         noteAccessManager.checkCanUpdateNote(note);
 
         if (updateNoteRequestDto.getTitle() != null) {
-            note.setTitle(updateNoteRequestDto.getTitle());
+            note.setTitle(updateNoteRequestDto.getTitle().trim());
         }
 
         if (updateNoteRequestDto.getText() != null) {
-            note.setText(updateNoteRequestDto.getText());
+            note.setText(updateNoteRequestDto.getText().trim());
             note.setLastEditedAt(LocalDateTime.now());
         }
 
@@ -126,10 +126,6 @@ public class NoteService {
 
     @Transactional
     public void deleteNoteById(Long noteId) throws EntityNotFoundException {
-        if (!noteRepository.existsById(noteId)) {
-            throw new EntityNotFoundException(NoteMessages.NOTE_NOT_FOUND);
-        }
-
         Note note = noteRepository.findById(noteId).orElse(null);
 
         if (note == null) {

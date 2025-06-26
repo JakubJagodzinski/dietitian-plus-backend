@@ -20,15 +20,16 @@ public class Dish {
     @Column(name = "dish_id")
     private Long dishId;
 
-    @Column(name = "dish_name", nullable = false)
+    @Column(name = "dish_name", nullable = false, length = 100)
     private String dishName;
 
     @Column(name = "is_template", nullable = false)
-    private Boolean isTemplate = false;
+    private boolean isTemplate = false;
 
     @Column(name = "is_public", nullable = false)
-    private Boolean isPublic = false;
+    private boolean isPublic = false;
 
+    @Column(length = 1000)
     private String recipe = null;
 
     @ManyToOne

@@ -5,10 +5,12 @@ import com.example.dietitian_plus.domain.meal.dto.request.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.request.UpdateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.response.MealResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class MealController {
 
     private final MealService mealService;
@@ -65,7 +68,7 @@ public class MealController {
 
     @CheckPermission(Permission.MEAL_CREATE)
     @PostMapping("/meals")
-    public ResponseEntity<MealResponseDto> createMeal(@RequestBody CreateMealRequestDto createMealRequestDto) {
+    public ResponseEntity<MealResponseDto> createMeal(@Valid @RequestBody CreateMealRequestDto createMealRequestDto) {
         MealResponseDto createdMealResponseDto = mealService.createMeal(createMealRequestDto);
 
         return ResponseEntity
@@ -76,7 +79,7 @@ public class MealController {
 
     @CheckPermission(Permission.MEAL_UPDATE)
     @PatchMapping("/meals/{mealId}")
-    public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long mealId, @RequestBody UpdateMealRequestDto updateMealRequestDto) {
+    public ResponseEntity<MealResponseDto> updateMealById(@PathVariable Long mealId, @Valid @RequestBody UpdateMealRequestDto updateMealRequestDto) {
         MealResponseDto updatedMealResponseDto = mealService.updateMealById(mealId, updateMealRequestDto);
 
         return ResponseEntity

@@ -3,6 +3,7 @@ package com.example.dietitian_plus.user.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,17 +23,21 @@ public class ChangePasswordRequestDto {
 
     @Schema(
             description = "New password the user wants to set",
-            example = "NewP@ssw0rd456"
+            example = "NewP@ssw0rd456",
+            maxLength = 100
     )
     @NotBlank
+    @Size(max = 100)
     @JsonProperty("new_password")
     private String newPassword;
 
     @Schema(
             description = "Confirmation of the new password, must match exactly with newPassword field",
-            example = "NewP@ssw0rd456"
+            example = "NewP@ssw0rd456",
+            maxLength = 100
     )
     @NotBlank
+    @Size(max = 100)
     @JsonProperty("confirmation_password")
     private String confirmationPassword;
 

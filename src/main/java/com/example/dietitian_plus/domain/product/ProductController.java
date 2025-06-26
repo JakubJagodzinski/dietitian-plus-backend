@@ -5,9 +5,11 @@ import com.example.dietitian_plus.domain.product.dto.request.CreateProductReques
 import com.example.dietitian_plus.domain.product.dto.request.UpdateProductRequestDto;
 import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class ProductController {
 
     private final ProductService productService;
@@ -42,7 +45,7 @@ public class ProductController {
 
     @CheckPermission(Permission.PRODUCT_CREATE)
     @PostMapping("/products")
-    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody CreateProductRequestDto createProductRequestDto) {
+    public ResponseEntity<ProductResponseDto> createProduct(@Valid @RequestBody CreateProductRequestDto createProductRequestDto) {
         ProductResponseDto createdProductResponseDto = productService.createProduct(createProductRequestDto);
 
         return ResponseEntity
@@ -53,7 +56,7 @@ public class ProductController {
 
     @CheckPermission(Permission.PRODUCT_UPDATE)
     @PatchMapping("/products/{productId}")
-    public ResponseEntity<ProductResponseDto> updateProductById(@PathVariable Long productId, @RequestBody UpdateProductRequestDto updateProductRequestDto) {
+    public ResponseEntity<ProductResponseDto> updateProductById(@PathVariable Long productId, @Valid @RequestBody UpdateProductRequestDto updateProductRequestDto) {
         ProductResponseDto updatedProductResponseDto = productService.updateProductById(productId, updateProductRequestDto);
 
         return ResponseEntity

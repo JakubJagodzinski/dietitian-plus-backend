@@ -5,9 +5,11 @@ import com.example.dietitian_plus.domain.note.dto.request.CreateNoteRequestDto;
 import com.example.dietitian_plus.domain.note.dto.request.UpdateNoteRequestDto;
 import com.example.dietitian_plus.domain.note.dto.response.NoteResponseDto;
 import com.example.dietitian_plus.user.Permission;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class NoteController {
 
     private final NoteService noteService;
@@ -63,7 +66,7 @@ public class NoteController {
 
     @CheckPermission(Permission.NOTE_CREATE)
     @PostMapping("/notes")
-    public ResponseEntity<NoteResponseDto> createNote(@RequestBody CreateNoteRequestDto createNoteRequestDto) {
+    public ResponseEntity<NoteResponseDto> createNote(@Valid @RequestBody CreateNoteRequestDto createNoteRequestDto) {
         NoteResponseDto createdNoteResponseDto = noteService.createNote(createNoteRequestDto);
 
         return ResponseEntity
@@ -74,7 +77,7 @@ public class NoteController {
 
     @CheckPermission(Permission.NOTE_UPDATE)
     @PatchMapping("/notes/{noteId}")
-    public ResponseEntity<NoteResponseDto> updateNoteById(@PathVariable Long noteId, @RequestBody UpdateNoteRequestDto updateNoteRequestDto) {
+    public ResponseEntity<NoteResponseDto> updateNoteById(@PathVariable Long noteId, @Valid @RequestBody UpdateNoteRequestDto updateNoteRequestDto) {
         NoteResponseDto updatedNoteResponseDto = noteService.updateNoteById(noteId, updateNoteRequestDto);
 
         return ResponseEntity

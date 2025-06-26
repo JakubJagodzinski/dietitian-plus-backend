@@ -1,10 +1,10 @@
 package com.example.dietitian_plus.domain.unit;
 
 import com.example.dietitian_plus.common.constants.messages.UnitMessages;
-import com.example.dietitian_plus.domain.unit.dto.request.CreateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.UnitDtoMapper;
-import com.example.dietitian_plus.domain.unit.dto.response.UnitResponseDto;
+import com.example.dietitian_plus.domain.unit.dto.request.CreateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.request.UpdateUnitRequestDto;
+import com.example.dietitian_plus.domain.unit.dto.response.UnitResponseDto;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -37,27 +37,16 @@ public class UnitService {
     }
 
     @Transactional
-    public UnitResponseDto createUnit(CreateUnitRequestDto createUnitRequestDto) throws EntityExistsException, IllegalArgumentException {
-        if (unitRepository.existsByUnitName(createUnitRequestDto.getUnitName())) {
+    public UnitResponseDto createUnit(CreateUnitRequestDto createUnitRequestDto) throws EntityExistsException {
+        String unitName = createUnitRequestDto.getUnitName().trim();
+
+        if (unitRepository.existsByUnitName(unitName)) {
             throw new EntityExistsException(UnitMessages.UNIT_ALREADY_EXISTS);
         }
 
         Unit unit = new Unit();
 
-        if (createUnitRequestDto.getUnitName() == null) {
-            throw new IllegalArgumentException(UnitMessages.UNIT_NAME_CANNOT_BE_NULL);
-        }
-
-        if (createUnitRequestDto.getUnitName().isEmpty()) {
-            throw new IllegalArgumentException(UnitMessages.UNIT_NAME_CANNOT_BE_EMPTY);
-        }
-
-        unit.setUnitName(createUnitRequestDto.getUnitName());
-
-        if (createUnitRequestDto.getGrams() <= 0) {
-            throw new IllegalArgumentException(UnitMessages.UNIT_GRAMS_MUST_BE_POSITIVE);
-        }
-
+        unit.setUnitName(unitName);
         unit.setGrams(createUnitRequestDto.getGrams());
 
         return unitDtoMapper.toDto(unitRepository.save(unit));
@@ -72,11 +61,7 @@ public class UnitService {
         }
 
         if (updateUnitRequestDto.getUnitName() != null) {
-            String unitName = updateUnitRequestDto.getUnitName();
-
-            if (updateUnitRequestDto.getUnitName().isEmpty()) {
-                throw new IllegalArgumentException(UnitMessages.UNIT_NAME_CANNOT_BE_EMPTY);
-            }
+            String unitName = updateUnitRequestDto.getUnitName().trim();
 
             Unit otherUnit = unitRepository.findByUnitName(unitName).orElse(null);
 
@@ -88,10 +73,6 @@ public class UnitService {
         }
 
         if (updateUnitRequestDto.getGrams() != null) {
-            if (updateUnitRequestDto.getGrams() <= 0) {
-                throw new IllegalArgumentException(UnitMessages.UNIT_GRAMS_MUST_BE_POSITIVE);
-            }
-
             unit.setGrams(updateUnitRequestDto.getGrams());
         }
 

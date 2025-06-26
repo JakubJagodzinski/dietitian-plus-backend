@@ -85,7 +85,7 @@ public class MealService {
     }
 
     @Transactional
-    public MealResponseDto createMeal(CreateMealRequestDto createMealRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+    public MealResponseDto createMeal(CreateMealRequestDto createMealRequestDto) throws EntityNotFoundException {
         Patient patient = patientRepository.findById(createMealRequestDto.getPatientId()).orElse(null);
 
         if (patient == null) {
@@ -100,17 +100,9 @@ public class MealService {
 
         mealAccessManager.checkCanCreateMeal(patient, dietitian);
 
-        if (createMealRequestDto.getMealName() == null) {
-            throw new IllegalArgumentException(MealMessages.MEAL_NAME_CANNOT_BE_NULL);
-        }
-
-        if (createMealRequestDto.getMealName().isEmpty()) {
-            throw new IllegalArgumentException(MealMessages.MEAL_NAME_CANNOT_BE_EMPTY);
-        }
-
         Meal meal = new Meal();
 
-        meal.setMealName(createMealRequestDto.getMealName());
+        meal.setMealName(createMealRequestDto.getMealName().trim());
         meal.setDatetime(createMealRequestDto.getDatetime());
         meal.setPatient(patient);
         meal.setDietitian(dietitian);
@@ -119,7 +111,7 @@ public class MealService {
     }
 
     @Transactional
-    public MealResponseDto updateMealById(Long mealId, UpdateMealRequestDto updateMealRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+    public MealResponseDto updateMealById(Long mealId, UpdateMealRequestDto updateMealRequestDto) throws EntityNotFoundException {
         Meal meal = mealRepository.findById(mealId).orElse(null);
 
         if (meal == null) {
@@ -129,11 +121,7 @@ public class MealService {
         mealAccessManager.checkCanUpdateMeal(meal);
 
         if (updateMealRequestDto.getMealName() != null) {
-            if (updateMealRequestDto.getMealName().isEmpty()) {
-                throw new IllegalArgumentException(MealMessages.MEAL_NAME_CANNOT_BE_EMPTY);
-            }
-
-            meal.setMealName(updateMealRequestDto.getMealName());
+            meal.setMealName(updateMealRequestDto.getMealName().trim());
         }
 
         if (updateMealRequestDto.getDatetime() != null) {
@@ -155,4 +143,5 @@ public class MealService {
 
         mealRepository.deleteById(mealId);
     }
+
 }

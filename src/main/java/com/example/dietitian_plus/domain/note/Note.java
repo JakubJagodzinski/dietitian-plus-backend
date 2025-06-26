@@ -23,8 +23,10 @@ public class Note {
     @Column(name = "note_id")
     private Long noteId;
 
+    @Column(length = 100)
     private String title;
 
+    @Column(length = 1_000)
     private String text;
 
     @Column(name = "created_at")

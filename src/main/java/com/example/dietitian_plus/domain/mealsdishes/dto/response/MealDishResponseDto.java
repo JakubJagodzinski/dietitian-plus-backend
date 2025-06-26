@@ -19,6 +19,6 @@ public class MealDishResponseDto {
     private DishResponseDto dish;
 
     @JsonProperty("dish_quantity")
-    private Long dishQuantity;
+    private Integer dishQuantity;
 
 }
