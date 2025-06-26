@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.auth.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 
 @Getter
@@ -8,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@JsonPropertyOrder({"access_token", "refresh_token"})
 public class RefreshTokenResponseDto {
 
     @JsonProperty("access_token")
@@ -17,4 +19,3 @@ public class RefreshTokenResponseDto {
     private String refreshToken;
 
 }
-

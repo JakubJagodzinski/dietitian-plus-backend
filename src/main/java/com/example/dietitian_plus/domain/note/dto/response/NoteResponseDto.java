@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.note.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,14 +12,17 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({ "note_id", "patient_id", "dietitian_id", "created_at", "last_edited_at", "title", "text" })
 public class NoteResponseDto {
 
     @JsonProperty("note_id")
     private Long noteId;
 
-    private String title;
+    @JsonProperty("patient_id")
+    private UUID patientId;
 
-    private String text;
+    @JsonProperty("dietitian_id")
+    private UUID dietitianId;
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
@@ -26,10 +30,8 @@ public class NoteResponseDto {
     @JsonProperty("last_edited_at")
     private LocalDateTime lastEditedAt;
 
-    @JsonProperty("patient_id")
-    private UUID patientId;
+    private String title;
 
-    @JsonProperty("dietitian_id")
-    private UUID dietitianId;
+    private String text;
 
 }

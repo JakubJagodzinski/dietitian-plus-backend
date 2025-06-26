@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.domain.product.dto;
 
+import com.example.dietitian_plus.domain.meal.dto.response.NutritionValuesResponseDto;
 import com.example.dietitian_plus.domain.product.Product;
 import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
 import org.springframework.stereotype.Component;
@@ -15,13 +16,17 @@ public class ProductDtoMapper {
 
         dto.setProductId(product.getProductId());
         dto.setProductName(product.getProductName());
-        dto.setKcal(product.getKcal());
-        dto.setFats(product.getFats());
-        dto.setCarbs(product.getCarbs());
-        dto.setProtein(product.getProtein());
-        dto.setFiber(product.getFiber());
-        dto.setGlycemicIndex(product.getGlycemicIndex());
-        dto.setGlycemicLoad(product.getGlycemicLoad());
+        NutritionValuesResponseDto nutritionValues = new NutritionValuesResponseDto();
+
+        nutritionValues.setKcal(product.getKcal());
+        nutritionValues.setFats(product.getFats());
+        nutritionValues.setCarbs(product.getCarbs());
+        nutritionValues.setProtein(product.getProtein());
+        nutritionValues.setFiber(product.getFiber());
+        nutritionValues.setGlycemicIndex(product.getGlycemicIndex());
+        nutritionValues.setGlycemicLoad(product.getGlycemicLoad());
+
+        dto.setNutritionValues(nutritionValues);
 
         return dto;
     }

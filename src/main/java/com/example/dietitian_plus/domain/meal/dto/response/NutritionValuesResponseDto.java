@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.meal.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"kcal", "fats", "carbs", "protein", "fiber", "glycemic_index", "glycemic_load"})
 public class NutritionValuesResponseDto {
 
     private Double kcal;
