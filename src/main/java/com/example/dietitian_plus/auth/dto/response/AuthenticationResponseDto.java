@@ -18,6 +18,7 @@ public class AuthenticationResponseDto {
     @JsonProperty("user_id")
     private UUID userId;
 
+    @JsonProperty("role")
     private Role role;
 
     @JsonProperty("first_name")

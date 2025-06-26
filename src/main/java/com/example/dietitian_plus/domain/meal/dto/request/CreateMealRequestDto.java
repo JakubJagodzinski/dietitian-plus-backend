@@ -3,6 +3,7 @@ package com.example.dietitian_plus.domain.meal.dto.request;
 import com.example.dietitian_plus.common.constants.messages.MealMessages;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"meal_name", "datetime", "patient_id", "dietitian_id"})
 public class CreateMealRequestDto {
 
     @Schema(

@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({ "note_id", "patient_id", "dietitian_id", "created_at", "last_edited_at", "title", "text" })
+@JsonPropertyOrder({"note_id", "patient_id", "dietitian_id", "created_at", "last_edited_at", "title", "text"})
 public class NoteResponseDto {
 
     @JsonProperty("note_id")
@@ -30,8 +30,10 @@ public class NoteResponseDto {
     @JsonProperty("last_edited_at")
     private LocalDateTime lastEditedAt;
 
+    @JsonProperty("title")
     private String title;
 
+    @JsonProperty("text")
     private String text;
 
 }

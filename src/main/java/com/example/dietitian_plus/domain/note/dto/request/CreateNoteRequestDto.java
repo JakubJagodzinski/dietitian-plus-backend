@@ -2,6 +2,7 @@ package com.example.dietitian_plus.domain.note.dto.request;
 
 import com.example.dietitian_plus.common.validation.NotEmptyIfPresent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"dietitian_id", "patient_id", "title", "text"})
 public class CreateNoteRequestDto {
 
     @Schema(

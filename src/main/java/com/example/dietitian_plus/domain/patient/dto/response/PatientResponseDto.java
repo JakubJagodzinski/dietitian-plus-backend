@@ -24,6 +24,7 @@ public class PatientResponseDto {
     @JsonProperty("last_name")
     private String lastName;
 
+    @JsonProperty("height")
     private Double height;
 
     @JsonProperty("starting_weight")
@@ -32,8 +33,10 @@ public class PatientResponseDto {
     @JsonProperty("current_weight")
     private Double currentWeight;
 
+    @JsonProperty("pal")
     private Double pal;
 
+    @JsonProperty("birthdate")
     private LocalDate birthdate;
 
     @JsonProperty("is_active")

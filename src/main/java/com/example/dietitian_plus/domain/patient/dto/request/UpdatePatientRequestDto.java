@@ -3,6 +3,7 @@ package com.example.dietitian_plus.domain.patient.dto.request;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.common.validation.NotEmptyIfPresent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"first_name", "last_name", "height", "current_weight", "pal"})
 public class UpdatePatientRequestDto {
 
     @Schema(

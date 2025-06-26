@@ -2,6 +2,7 @@ package com.example.dietitian_plus.domain.product.dto.request;
 
 import com.example.dietitian_plus.common.constants.messages.ProductMessages;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -13,6 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"product_name", "kcal", "fats", "carbs", "protein", "fiber", "glycemic_index", "glycemic_load"})
 public class CreateProductRequestDto {
 
     @Schema(

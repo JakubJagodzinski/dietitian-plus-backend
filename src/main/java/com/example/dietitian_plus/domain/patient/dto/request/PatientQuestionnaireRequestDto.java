@@ -3,6 +3,7 @@ package com.example.dietitian_plus.domain.patient.dto.request;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"height", "starting_weight", "pal", "birthdate", "gender"})
 public class PatientQuestionnaireRequestDto {
 
     @Schema(

@@ -18,6 +18,7 @@ public class UnitResponseDto {
     @JsonProperty("unit_name")
     private String unitName;
 
+    @JsonProperty("grams")
     private Double grams;
 
 }

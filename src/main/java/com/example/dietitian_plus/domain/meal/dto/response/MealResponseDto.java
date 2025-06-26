@@ -27,6 +27,7 @@ public class MealResponseDto {
     @JsonProperty("meal_name")
     private String mealName;
 
+    @JsonProperty("datetime")
     private LocalDateTime datetime;
 
     @JsonProperty("nutrition_values")

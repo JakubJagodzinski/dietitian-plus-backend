@@ -23,6 +23,7 @@ public class DietitianResponseDto {
     @JsonProperty("last_name")
     private String lastName;
 
+    @JsonProperty("title")
     private String title;
 
 }

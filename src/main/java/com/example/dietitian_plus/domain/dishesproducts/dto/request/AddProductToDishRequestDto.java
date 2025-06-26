@@ -2,6 +2,7 @@ package com.example.dietitian_plus.domain.dishesproducts.dto.request;
 
 import com.example.dietitian_plus.common.constants.messages.UnitMessages;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"product_id", "unit_id", "unit_count"})
 public class AddProductToDishRequestDto {
 
     @Schema(

@@ -17,6 +17,7 @@ import java.util.UUID;
 @JsonPropertyOrder({"date", "patient_id", "daily_nutrition_values", "meals"})
 public class PatientDayMealsWithDishesResponseDto {
 
+    @JsonProperty("date")
     LocalDate date;
 
     @JsonProperty("patient_id")
@@ -25,6 +26,7 @@ public class PatientDayMealsWithDishesResponseDto {
     @JsonProperty("daily_nutrition_values")
     private NutritionValuesResponseDto dailyNutritionValues;
 
+    @JsonProperty("meals")
     private List<MealWithDishesResponseDto> meals;
 
 }

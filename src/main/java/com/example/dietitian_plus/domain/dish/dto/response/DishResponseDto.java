@@ -30,6 +30,7 @@ public class DishResponseDto {
     @JsonProperty("is_public")
     private boolean isPublic;
 
+    @JsonProperty("recipe")
     private String recipe;
 
     @JsonProperty("nutrition_values")

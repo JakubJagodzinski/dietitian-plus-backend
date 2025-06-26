@@ -18,6 +18,7 @@ public class DiseaseResponseDto {
     @JsonProperty("disease_name")
     private String diseaseName;
 
+    @JsonProperty("description")
     private String description;
 
 }

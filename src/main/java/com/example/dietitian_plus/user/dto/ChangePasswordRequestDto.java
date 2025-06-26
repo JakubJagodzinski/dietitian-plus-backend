@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@JsonPropertyOrder({"current_password", "new_password", "confirmation_password"})
 public class ChangePasswordRequestDto {
 
     @Schema(

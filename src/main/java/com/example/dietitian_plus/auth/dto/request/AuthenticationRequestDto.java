@@ -1,5 +1,7 @@
 package com.example.dietitian_plus.auth.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@JsonPropertyOrder({"email", "password"})
 public class AuthenticationRequestDto {
 
     @Schema(
@@ -18,6 +21,7 @@ public class AuthenticationRequestDto {
     )
     @Email(message = "Invalid email format")
     @NotBlank
+    @JsonProperty("email")
     private String email;
 
     @Schema(
@@ -25,6 +29,7 @@ public class AuthenticationRequestDto {
             example = "P@ssw0rd123"
     )
     @NotBlank
+    @JsonProperty("password")
     private String password;
 
 }

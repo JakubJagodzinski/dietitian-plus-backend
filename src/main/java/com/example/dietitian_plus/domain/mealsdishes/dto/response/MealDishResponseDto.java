@@ -10,12 +10,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({"meal_id", "dish_id", "dish_quantity"})
+@JsonPropertyOrder({"meal_id", "dish", "dish_quantity"})
 public class MealDishResponseDto {
 
     @JsonProperty("meal_id")
     private Long mealId;
 
+    @JsonProperty("dish")
     private DishResponseDto dish;
 
     @JsonProperty("dish_quantity")
