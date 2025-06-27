@@ -1,20 +1,22 @@
 package com.example.dietitian_plus.domain.dishesproducts;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.request.AddProductToDishRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.request.UpdateDishProductRequestDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishProductResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishWithProductsResponseDto;
-import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -22,6 +24,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Validated
 public class DishProductController {
 
     private final DishProductService dishProductService;
@@ -106,7 +109,7 @@ public class DishProductController {
     })
     @CheckPermission(Permission.DISH_PRODUCT_ADD)
     @PostMapping("/dishes/{dishId}/products")
-    public ResponseEntity<DishProductResponseDto> addProductToDish(@PathVariable Long dishId, @RequestBody AddProductToDishRequestDto addProductToDishRequestDto) {
+    public ResponseEntity<DishProductResponseDto> addProductToDish(@PathVariable Long dishId, @Valid @RequestBody AddProductToDishRequestDto addProductToDishRequestDto) {
         DishProductResponseDto createdDishProductResponseDto = dishProductService.addProductToDish(dishId, addProductToDishRequestDto);
 
         return ResponseEntity
@@ -151,7 +154,7 @@ public class DishProductController {
     })
     @CheckPermission(Permission.DISH_PRODUCT_UPDATE)
     @PatchMapping("/dishes-products/{dishProductId}")
-    public ResponseEntity<DishProductResponseDto> updateDishProductById(@PathVariable Long dishProductId, @RequestBody UpdateDishProductRequestDto updateDishProductRequestDto) {
+    public ResponseEntity<DishProductResponseDto> updateDishProductById(@PathVariable Long dishProductId, @Valid @RequestBody UpdateDishProductRequestDto updateDishProductRequestDto) {
         DishProductResponseDto updatedDishProductResponseDto = dishProductService.updateDishProductById(dishProductId, updateDishProductRequestDto);
 
         return ResponseEntity
