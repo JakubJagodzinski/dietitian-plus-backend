@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.auth.dto.request;
 
+import com.example.dietitian_plus.common.validation.NotEmptyIfPresent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -69,9 +70,10 @@ public class RegisterRequestDto {
     @Schema(
             description = "User's phone number",
             example = "+48 123 456 789",
-            defaultValue = "+48 123 456 789"
+            defaultValue = "+48 123 456 789",
+            nullable = true
     )
-    @NotBlank
+    @NotEmptyIfPresent
     @JsonProperty("phone_number")
     private String phoneNumber;
 

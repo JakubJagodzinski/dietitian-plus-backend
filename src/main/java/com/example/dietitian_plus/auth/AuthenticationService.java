@@ -90,6 +90,7 @@ public class AuthenticationService {
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole(Role.valueOf(dto.getRole().toUpperCase()));
+        user.setPhoneNumber(dto.getPhoneNumber());
     }
 
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) throws AccessDeniedException {
