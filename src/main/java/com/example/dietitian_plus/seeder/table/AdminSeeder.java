@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Component
 @RequiredArgsConstructor
 public class AdminSeeder implements DataSeeder {
@@ -24,7 +22,7 @@ public class AdminSeeder implements DataSeeder {
     private final static String ADMIN_PASSWORD = "admin";
 
     @Override
-    public void seed() throws IOException {
+    public void seed() {
         if (!userRepository.existsByEmail(ADMIN_EMAIL)) {
             User admin = new User();
 
