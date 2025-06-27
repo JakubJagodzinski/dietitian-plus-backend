@@ -1,8 +1,8 @@
 package com.example.dietitian_plus.user;
 
-import com.example.dietitian_plus.common.MessageResponseDto;
+import com.example.dietitian_plus.common.dto.MessageResponseDto;
 import com.example.dietitian_plus.common.constants.messages.PasswordMessages;
-import com.example.dietitian_plus.exception.ApiError;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.dto.ChangePasswordRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,7 +37,7 @@ public class UserController {
                     description = "Failed to change password",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })

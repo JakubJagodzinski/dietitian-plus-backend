@@ -1,7 +1,6 @@
 package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.auth.access.manager.PatientAccessManager;
-import com.example.dietitian_plus.common.Gender;
 import com.example.dietitian_plus.common.constants.messages.DietitianMessages;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;

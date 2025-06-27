@@ -4,7 +4,7 @@ import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.domain.disease.dto.request.CreateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.request.UpdateDiseaseRequestDto;
 import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto;
-import com.example.dietitian_plus.exception.ApiError;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -79,7 +79,7 @@ public class DiseaseController {
                     description = "Disease not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -110,7 +110,7 @@ public class DiseaseController {
                     description = "Disease with that name already exists",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -123,7 +123,7 @@ public class DiseaseController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -155,7 +155,7 @@ public class DiseaseController {
                     description = "Disease with that name already exists",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -168,7 +168,7 @@ public class DiseaseController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -176,7 +176,7 @@ public class DiseaseController {
                     description = "Disease not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -208,7 +208,7 @@ public class DiseaseController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -216,7 +216,7 @@ public class DiseaseController {
                     description = "Disease not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })

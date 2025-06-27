@@ -1,14 +1,14 @@
 package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.MessageResponseDto;
+import com.example.dietitian_plus.common.dto.MessageResponseDto;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
 import com.example.dietitian_plus.domain.patient.dto.request.AssignDietitianToPatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.request.PatientQuestionnaireRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.request.UpdatePatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.response.PatientQuestionnaireStatusResponseDto;
 import com.example.dietitian_plus.domain.patient.dto.response.PatientResponseDto;
-import com.example.dietitian_plus.exception.ApiError;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -55,7 +55,7 @@ public class PatientController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -91,7 +91,7 @@ public class PatientController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -99,7 +99,7 @@ public class PatientController {
                     description = "Patient not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -135,7 +135,7 @@ public class PatientController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -143,7 +143,7 @@ public class PatientController {
                     description = "Patient not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -180,7 +180,7 @@ public class PatientController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -188,7 +188,7 @@ public class PatientController {
                     description = "Dietitian not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -219,7 +219,7 @@ public class PatientController {
                     description = "Patient questionnaire is already filled",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -232,7 +232,7 @@ public class PatientController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -240,7 +240,7 @@ public class PatientController {
                     description = "Patient not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -276,7 +276,7 @@ public class PatientController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -284,7 +284,7 @@ public class PatientController {
                     description = "Patient not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -315,7 +315,7 @@ public class PatientController {
                     description = "Patient already has a dietitian assigned",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -328,7 +328,7 @@ public class PatientController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -336,7 +336,7 @@ public class PatientController {
                     description = "Patient / dietitian not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -367,7 +367,7 @@ public class PatientController {
                     description = "Dietitian is not assigned to this patient",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -380,7 +380,7 @@ public class PatientController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -388,7 +388,7 @@ public class PatientController {
                     description = "Patient / dietitian not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -420,7 +420,7 @@ public class PatientController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -428,7 +428,7 @@ public class PatientController {
                     description = "Patient not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })

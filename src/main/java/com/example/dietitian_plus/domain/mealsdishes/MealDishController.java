@@ -6,7 +6,7 @@ import com.example.dietitian_plus.domain.mealsdishes.dto.request.AddDishToMealRe
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealDishResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.MealWithDishesResponseDto;
 import com.example.dietitian_plus.domain.mealsdishes.dto.response.PatientDayMealsWithDishesResponseDto;
-import com.example.dietitian_plus.exception.ApiError;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -58,7 +58,7 @@ public class MealDishController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -66,7 +66,7 @@ public class MealDishController {
                     description = "Meal not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -102,7 +102,7 @@ public class MealDishController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -110,7 +110,7 @@ public class MealDishController {
                     description = "Meal not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -154,7 +154,7 @@ public class MealDishController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -162,7 +162,7 @@ public class MealDishController {
                     description = "Patient not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -193,7 +193,7 @@ public class MealDishController {
                     description = "Dish is already added to meal",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -206,7 +206,7 @@ public class MealDishController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -214,7 +214,7 @@ public class MealDishController {
                     description = "Meal / dish not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -242,7 +242,7 @@ public class MealDishController {
                     description = "Dish is not added to meal",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -255,7 +255,7 @@ public class MealDishController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -263,7 +263,7 @@ public class MealDishController {
                     description = "Meal / dish not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })

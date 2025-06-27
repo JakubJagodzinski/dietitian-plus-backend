@@ -3,7 +3,7 @@ package com.example.dietitian_plus.domain.dietitian;
 import com.example.dietitian_plus.auth.access.CheckPermission;
 import com.example.dietitian_plus.domain.dietitian.dto.request.UpdateDietitianRequestDto;
 import com.example.dietitian_plus.domain.dietitian.dto.response.DietitianResponseDto;
-import com.example.dietitian_plus.exception.ApiError;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -50,7 +50,7 @@ public class DietitianController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -86,7 +86,7 @@ public class DietitianController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -94,7 +94,7 @@ public class DietitianController {
                     description = "Dietitian not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -130,7 +130,7 @@ public class DietitianController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -138,7 +138,7 @@ public class DietitianController {
                     description = "Dietitian not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -170,7 +170,7 @@ public class DietitianController {
                     description = "Access Denied",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -178,7 +178,7 @@ public class DietitianController {
                     description = "Dietitian not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })

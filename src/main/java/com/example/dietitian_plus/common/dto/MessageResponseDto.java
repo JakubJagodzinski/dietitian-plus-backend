@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.common;
+package com.example.dietitian_plus.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -5,9 +5,9 @@ import com.example.dietitian_plus.auth.dto.request.RefreshTokenRequestDto;
 import com.example.dietitian_plus.auth.dto.request.RegisterRequestDto;
 import com.example.dietitian_plus.auth.dto.response.AuthenticationResponseDto;
 import com.example.dietitian_plus.auth.dto.response.RefreshTokenResponseDto;
-import com.example.dietitian_plus.common.MessageResponseDto;
+import com.example.dietitian_plus.common.dto.MessageResponseDto;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
-import com.example.dietitian_plus.exception.ApiError;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -39,7 +39,7 @@ public class AuthenticationController {
                     description = "Email is already taken",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -63,7 +63,7 @@ public class AuthenticationController {
                     description = "Wrong username or password",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })
@@ -91,7 +91,7 @@ public class AuthenticationController {
                     description = "Provided refresh token is invalid or expired",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ApiError.class)
+                            schema = @Schema(implementation = ApiErrorResponseDto.class)
                     )
             )
     })

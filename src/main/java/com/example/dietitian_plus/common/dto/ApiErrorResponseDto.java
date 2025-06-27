@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.exception;
+package com.example.dietitian_plus.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.util.Map;
 @Getter
 @Builder
 @JsonPropertyOrder({"status", "message", "timestamp", "errors"})
-public class ApiError {
+public class ApiErrorResponseDto {
 
     private final int status;
 

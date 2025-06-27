@@ -1,5 +1,6 @@
 package com.example.dietitian_plus.exception;
 
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.utils.SnakeCaseConverter;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,14 +20,14 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> handleValidationExceptions(MethodArgumentNotValidException e) {
+    public ResponseEntity<ApiErrorResponseDto> handleValidationExceptions(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
 
         e.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(SnakeCaseConverter.convertToSnakeCase(error.getField()), error.getDefaultMessage())
         );
 
-        ApiError response = ApiError.builder()
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message("Validation error")
                 .timestamp(LocalDateTime.now())
@@ -39,8 +40,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError> handleGlobalException(Exception e) {
-        ApiError response = ApiError.builder()
+    public ResponseEntity<ApiErrorResponseDto> handleGlobalException(Exception e) {
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message("Unexpected error occurred: " + e.getMessage())
                 .timestamp(LocalDateTime.now())
@@ -52,8 +53,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException e) {
-        ApiError response = ApiError.builder()
+    public ResponseEntity<ApiErrorResponseDto> handleAccessDeniedException(AccessDeniedException e) {
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.FORBIDDEN.value())
                 .message("Access denied: " + e.getMessage())
                 .timestamp(LocalDateTime.now())
@@ -65,8 +66,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiError> handleEntityNotFound(EntityNotFoundException e) {
-        ApiError response = ApiError.builder()
+    public ResponseEntity<ApiErrorResponseDto> handleEntityNotFound(EntityNotFoundException e) {
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
@@ -78,8 +79,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityExistsException.class)
-    public ResponseEntity<ApiError> handleEntityExists(EntityExistsException e) {
-        ApiError response = ApiError.builder()
+    public ResponseEntity<ApiErrorResponseDto> handleEntityExists(EntityExistsException e) {
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
@@ -91,8 +92,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ApiError> handleUsernameNotFound(UsernameNotFoundException e) {
-        ApiError response = ApiError.builder()
+    public ResponseEntity<ApiErrorResponseDto> handleUsernameNotFound(UsernameNotFoundException e) {
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
@@ -104,8 +105,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiError> handleIllegalArgument(IllegalArgumentException e) {
-        ApiError response = ApiError.builder()
+    public ResponseEntity<ApiErrorResponseDto> handleIllegalArgument(IllegalArgumentException e) {
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
