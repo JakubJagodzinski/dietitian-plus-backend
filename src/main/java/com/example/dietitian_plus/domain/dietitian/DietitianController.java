@@ -28,7 +28,9 @@ public class DietitianController {
 
     private final DietitianService dietitianService;
 
-    @Operation(summary = "Get all dietitians")
+    @Operation(
+            summary = "Get all dietitians"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -37,6 +39,11 @@ public class DietitianController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DietitianResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -57,7 +64,9 @@ public class DietitianController {
                 .body(dietitianResponseDtoList);
     }
 
-    @Operation(summary = "Get dietitian by id")
+    @Operation(
+            summary = "Get dietitian by id"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -66,6 +75,11 @@ public class DietitianController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DietitianResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -94,7 +108,9 @@ public class DietitianController {
                 .body(dietitianResponseDto);
     }
 
-    @Operation(summary = "Update dietitian by id")
+    @Operation(
+            summary = "Update dietitian by id"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -103,6 +119,11 @@ public class DietitianController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DietitianResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -131,11 +152,18 @@ public class DietitianController {
                 .body(dietitianResponseDto);
     }
 
-    @Operation(summary = "Delete dietitian by id")
+    @Operation(
+            summary = "Delete dietitian by id"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "204",
                     description = "Dietitian deleted successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",

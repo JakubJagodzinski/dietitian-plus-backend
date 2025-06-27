@@ -29,7 +29,9 @@ public class DiseaseController {
 
     private final DiseaseService diseaseService;
 
-    @Operation(summary = "Get all diseases")
+    @Operation(
+            summary = "Get all diseases"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -38,6 +40,11 @@ public class DiseaseController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DiseaseResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             )
     })
     @CheckPermission(Permission.DISEASE_READ_ALL)
@@ -50,7 +57,9 @@ public class DiseaseController {
                 .body(diseaseResponseDtoList);
     }
 
-    @Operation(summary = "Get disease by id")
+    @Operation(
+            summary = "Get disease by id"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -59,6 +68,11 @@ public class DiseaseController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DiseaseResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -79,7 +93,9 @@ public class DiseaseController {
                 .body(diseaseResponseDto);
     }
 
-    @Operation(summary = "Create new disease")
+    @Operation(
+            summary = "Create new disease"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "201",
@@ -96,6 +112,11 @@ public class DiseaseController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -117,7 +138,9 @@ public class DiseaseController {
                 .body(createdDiseaseResponseDto);
     }
 
-    @Operation(summary = "Update disease by id")
+    @Operation(
+            summary = "Update disease by id"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -134,6 +157,11 @@ public class DiseaseController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -162,11 +190,18 @@ public class DiseaseController {
                 .body(updatedDiseaseResponseDto);
     }
 
-    @Operation(summary = "Delete disease by id")
+    @Operation(
+            summary = "Delete disease by id"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "204",
                     description = "Disease deleted successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",

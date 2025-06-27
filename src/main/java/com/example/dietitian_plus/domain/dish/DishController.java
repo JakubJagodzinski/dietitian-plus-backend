@@ -30,7 +30,9 @@ public class DishController {
 
     private final DishService dishService;
 
-    @Operation(summary = "Get all dishes")
+    @Operation(
+            summary = "Get all dishes"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -39,6 +41,11 @@ public class DishController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DishResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -59,7 +66,9 @@ public class DishController {
                 .body(dishResponseDtoList);
     }
 
-    @Operation(summary = "Get all public dishes")
+    @Operation(
+            summary = "Get all public dishes"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -68,6 +77,11 @@ public class DishController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DishResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             )
     })
     @GetMapping("/dishes/public")
@@ -79,7 +93,9 @@ public class DishController {
                 .body(dishResponseDtoList);
     }
 
-    @Operation(summary = "Get dish by id")
+    @Operation(
+            summary = "Get dish by id"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -88,6 +104,11 @@ public class DishController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DishResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -116,7 +137,9 @@ public class DishController {
                 .body(dishResponseDto);
     }
 
-    @Operation(summary = "Get dietitian all dishes")
+    @Operation(
+            summary = "Get dietitian all dishes"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -125,6 +148,11 @@ public class DishController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DishResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -153,7 +181,9 @@ public class DishController {
                 .body(dishResponseDtoList);
     }
 
-    @Operation(summary = "Create new dish")
+    @Operation(
+            summary = "Create new dish"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -162,6 +192,11 @@ public class DishController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DishResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -191,7 +226,9 @@ public class DishController {
                 .body(createdDishResponseDto);
     }
 
-    @Operation(summary = "Update dish by id")
+    @Operation(
+            summary = "Update dish by id"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -200,6 +237,11 @@ public class DishController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = DishResponseDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
@@ -228,11 +270,18 @@ public class DishController {
                 .body(dishResponseDto);
     }
 
-    @Operation(summary = "Delete dish by id")
+    @Operation(
+            summary = "Delete dish by id"
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "204",
                     description = "Dish deleted successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "403",
