@@ -11,9 +11,9 @@ spring:
 
   datasource:
     url: ${DATASOURCE_URL}
-    username: sa
-    password: ${SA_PASSWORD}
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
@@ -24,7 +24,7 @@ spring:
       hibernate:
         format_sql: true
         default_schema: app
-    database: sql_server
+    database: postgresql
 
 server:
   port: ${SERVER_PORT}

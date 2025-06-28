@@ -1,33 +1,17 @@
 services:
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  postgres:
+    image: postgres:15
     container_name: dietitian-plus-db
     environment:
-      - ACCEPT_EULA=${ACCEPT_EULA}
-      - SA_PASSWORD=${SA_PASSWORD}
-      - MSSQL_PID=${MSSQL_PID}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "1433:1433"
+      - "5433:5432"
     volumes:
-      - sql_data:/var/opt/mssql
+      - postgres_data:/var/lib/postgresql/data
+      - ./db-init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     restart: unless-stopped
 
-  db-init:
-    image: mcr.microsoft.com/mssql-tools
-    container_name: dietitian-plus-db-init
-    depends_on:
-      - mssql
-    entrypoint: /bin/bash -c "
-      echo 'Waiting for SQL Server to be ready...';
-      until /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P ${SA_PASSWORD} -Q 'SELECT 1' &> /dev/null; do
-      echo 'Still waiting...';
-      sleep 2;
-      done;
-      echo 'SQL Server is ready.';
-      /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P ${SA_PASSWORD} -i /init.sql;
-      echo 'Init script done.';"
-    volumes:
-      - ./db-init/init.sql:/init.sql
-
 volumes:
-  sql_data: { }
+  postgres_data:
