@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({"patient_id", "first_name", "last_name", "height", "starting_weight", "current_weight", "pal", "birthdate", "is_verified", "is_subscription_paid", "dietitian_id"})
+@JsonPropertyOrder({"patient_id", "first_name", "last_name", "height", "starting_weight", "current_weight", "pal", "birthdate", "is_verified", "dietitian_id"})
 public class PatientResponseDto {
 
     @JsonProperty("patient_id")
@@ -41,9 +41,6 @@ public class PatientResponseDto {
 
     @JsonProperty("is_verified")
     private boolean isVerified;
-
-    @JsonProperty("is_subscription_paid")
-    private boolean isSubscriptionPaid;
 
     @JsonProperty("dietitian_id")
     private UUID dietitianId;

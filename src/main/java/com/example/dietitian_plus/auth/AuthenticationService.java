@@ -9,9 +9,9 @@ import com.example.dietitian_plus.auth.jwt.JwtService;
 import com.example.dietitian_plus.auth.token.Token;
 import com.example.dietitian_plus.auth.token.TokenRepository;
 import com.example.dietitian_plus.auth.token.TokenType;
+import com.example.dietitian_plus.common.constants.messages.EmailMessages;
 import com.example.dietitian_plus.common.constants.messages.TokenMessages;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
-import com.example.dietitian_plus.common.constants.messages.VerificationEmailMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.patient.Patient;
 import com.example.dietitian_plus.email.EmailService;
@@ -84,7 +84,7 @@ public class AuthenticationService {
         try {
             emailService.sendRegistrationEmail(savedUser.getEmail(), savedUser.getFirstName(), savedUser.getRole(), verificationToken);
         } catch (Exception e) {
-            throw new MailSendException(VerificationEmailMessages.FAILED_TO_SEND_VERIFICATION_EMAIL);
+            throw new MailSendException(EmailMessages.FAILED_TO_SEND_VERIFICATION_EMAIL);
         }
     }
 
