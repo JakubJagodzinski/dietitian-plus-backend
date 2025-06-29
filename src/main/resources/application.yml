@@ -11,9 +11,13 @@ spring:
 
   datasource:
     url: ${DATASOURCE_URL}
-    username: sa
-    password: ${SA_PASSWORD}
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 5
 
   jpa:
     hibernate:
@@ -24,7 +28,20 @@ spring:
       hibernate:
         format_sql: true
         default_schema: app
-    database: sql_server
+    database: postgresql
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: ${SERVER_PORT}
+  address: ${SERVER_ADDRESS}

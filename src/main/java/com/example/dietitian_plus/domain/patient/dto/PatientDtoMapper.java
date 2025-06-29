@@ -26,7 +26,8 @@ public class PatientDtoMapper {
             patientResponseDto.setDietitianId(patient.getDietitian().getUserId());
         }
 
-        patientResponseDto.setIsActive(patient.isActive());
+        patientResponseDto.setVerified(patient.isVerified());
+        patientResponseDto.setSubscriptionPaid(patient.isSubscriptionPaid());
 
         return patientResponseDto;
     }
