@@ -11,18 +11,25 @@ import com.example.dietitian_plus.auth.token.TokenRepository;
 import com.example.dietitian_plus.auth.token.TokenType;
 import com.example.dietitian_plus.common.constants.messages.TokenMessages;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
+import com.example.dietitian_plus.common.constants.messages.VerificationEmailMessages;
 import com.example.dietitian_plus.domain.dietitian.Dietitian;
 import com.example.dietitian_plus.domain.patient.Patient;
+import com.example.dietitian_plus.email.EmailService;
 import com.example.dietitian_plus.user.Role;
 import com.example.dietitian_plus.user.User;
 import com.example.dietitian_plus.user.UserRepository;
+import com.example.dietitian_plus.verification.VerificationTokenService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,6 +44,10 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationManager authenticationManager;
+
+    private final EmailService emailService;
+
+    private final VerificationTokenService verificationTokenService;
 
     private AuthenticationResponseDto generateUserToken(User user) {
         String jwtToken = jwtService.generateToken(user);
@@ -55,7 +66,8 @@ public class AuthenticationService {
                 .build();
     }
 
-    public void register(RegisterRequestDto registerRequestDto) throws IllegalArgumentException {
+    @Transactional
+    public void register(RegisterRequestDto registerRequestDto) throws IllegalArgumentException, MailException {
         if (userRepository.existsByEmail(registerRequestDto.getEmail())) {
             throw new IllegalArgumentException(UserMessages.EMAIL_IS_ALREADY_TAKEN);
         }
@@ -65,7 +77,15 @@ public class AuthenticationService {
 
         populateCommonUserFields(user, registerRequestDto);
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        String verificationToken = verificationTokenService.createVerificationToken(savedUser);
+
+        try {
+            emailService.sendRegistrationEmail(savedUser.getEmail(), savedUser.getFirstName(), savedUser.getRole(), verificationToken);
+        } catch (Exception e) {
+            throw new MailSendException(VerificationEmailMessages.FAILED_TO_SEND_VERIFICATION_EMAIL);
+        }
     }
 
     private Role parseRole(String role) throws IllegalArgumentException {
@@ -93,6 +113,7 @@ public class AuthenticationService {
         user.setPhoneNumber(dto.getPhoneNumber());
     }
 
+    @Transactional
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) throws AccessDeniedException {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
@@ -111,12 +132,19 @@ public class AuthenticationService {
             throw new AccessDeniedException(UserMessages.WRONG_USERNAME_OR_PASSWORD);
         }
 
+        if (!user.isVerified()) {
+            throw new AccessDeniedException(UserMessages.ACCOUNT_NOT_VERIFIED);
+        }
+
+        user.setLastLoggedIn(LocalDateTime.now());
+        userRepository.save(user);
+
         revokeAllUserTokens(user);
 
         return generateUserToken(user);
     }
 
-    public void saveUserToken(User user, String tokenValue, TokenType tokenType) {
+    private void saveUserToken(User user, String tokenValue, TokenType tokenType) {
         Token token = new Token();
 
         token.setToken(tokenValue);
@@ -143,6 +171,7 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
+    @Transactional
     public RefreshTokenResponseDto refreshToken(RefreshTokenRequestDto requestDto) throws IllegalArgumentException {
         String refreshToken = requestDto.getRefreshToken();
 

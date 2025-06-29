@@ -58,7 +58,7 @@ public class AuthenticationController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto(UserMessages.USER_CREATED_SUCCESSFULLY));
+                .body(new MessageResponseDto(UserMessages.ACCOUNT_CREATED_SUCCESSFULLY));
     }
 
     @Operation(

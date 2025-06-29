@@ -31,6 +31,8 @@ public class AdminSeeder implements DataSeeder {
             admin.setLastName(ADMIN_LAST_NAME);
             admin.setPassword(passwordEncoder.encode(ADMIN_PASSWORD));
             admin.setRole(Role.ADMIN);
+            admin.setVerified(true);
+            admin.setSubscriptionPaid(true);
 
             userRepository.save(admin);
         }
