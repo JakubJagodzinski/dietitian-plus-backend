@@ -6,9 +6,9 @@ import com.example.dietitian_plus.auth.dto.request.RegisterRequestDto;
 import com.example.dietitian_plus.auth.dto.response.AuthenticationResponseDto;
 import com.example.dietitian_plus.auth.dto.response.RefreshTokenResponseDto;
 import com.example.dietitian_plus.auth.jwt.JwtService;
-import com.example.dietitian_plus.auth.token.Token;
-import com.example.dietitian_plus.auth.token.TokenRepository;
-import com.example.dietitian_plus.auth.token.TokenType;
+import com.example.dietitian_plus.auth.authtoken.AuthToken;
+import com.example.dietitian_plus.auth.authtoken.AuthTokenRepository;
+import com.example.dietitian_plus.auth.authtoken.AuthTokenType;
 import com.example.dietitian_plus.common.constants.messages.EmailMessages;
 import com.example.dietitian_plus.common.constants.messages.TokenMessages;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
@@ -37,7 +37,7 @@ import java.util.List;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-    private final TokenRepository tokenRepository;
+    private final AuthTokenRepository authTokenRepository;
 
     private final JwtService jwtService;
 
@@ -51,10 +51,10 @@ public class AuthenticationService {
 
     private AuthenticationResponseDto generateUserToken(User user) {
         String jwtToken = jwtService.generateToken(user);
-        saveUserToken(user, jwtToken, TokenType.ACCESS);
+        saveUserAuthToken(user, jwtToken, AuthTokenType.ACCESS);
 
         String refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(user, refreshToken, TokenType.REFRESH);
+        saveUserAuthToken(user, refreshToken, AuthTokenType.REFRESH);
 
         return AuthenticationResponseDto.builder()
                 .accessToken(jwtToken)
@@ -139,40 +139,40 @@ public class AuthenticationService {
         user.setLastLoggedIn(LocalDateTime.now());
         userRepository.save(user);
 
-        revokeAllUserTokens(user);
+        revokeAllUserAuthTokens(user);
 
         return generateUserToken(user);
     }
 
-    private void saveUserToken(User user, String tokenValue, TokenType tokenType) {
-        Token token = new Token();
+    private void saveUserAuthToken(User user, String tokenValue, AuthTokenType authTokenType) {
+        AuthToken authToken = new AuthToken();
 
-        token.setToken(tokenValue);
-        token.setTokenType(tokenType);
-        token.setUser(user);
+        authToken.setAuthToken(tokenValue);
+        authToken.setAuthTokenType(authTokenType);
+        authToken.setUser(user);
 
-        tokenRepository.save(token);
+        authTokenRepository.save(authToken);
     }
 
-    private void revokeAllUserTokens(User user) {
-        List<Token> validUserTokens = tokenRepository.findAllByUser_UserIdAndIsExpiredFalseOrIsRevokedFalse(user.getUserId());
+    private void revokeAllUserAuthTokens(User user) {
+        List<AuthToken> validUserAuthTokens = authTokenRepository.findAllByUser_UserIdAndIsExpiredFalseOrIsRevokedFalse(user.getUserId());
 
-        if (validUserTokens.isEmpty()) {
+        if (validUserAuthTokens.isEmpty()) {
             return;
         }
 
-        validUserTokens.forEach(
-                token -> {
-                    token.setIsExpired(true);
-                    token.setIsRevoked(true);
+        validUserAuthTokens.forEach(
+                authToken -> {
+                    authToken.setIsExpired(true);
+                    authToken.setIsRevoked(true);
                 }
         );
 
-        tokenRepository.saveAll(validUserTokens);
+        authTokenRepository.saveAll(validUserAuthTokens);
     }
 
     @Transactional
-    public RefreshTokenResponseDto refreshToken(RefreshTokenRequestDto requestDto) throws IllegalArgumentException {
+    public RefreshTokenResponseDto refreshAuthToken(RefreshTokenRequestDto requestDto) throws IllegalArgumentException {
         String refreshToken = requestDto.getRefreshToken();
 
         if (refreshToken == null || refreshToken.isBlank()) {
@@ -191,27 +191,27 @@ public class AuthenticationService {
             throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
-        Token token = tokenRepository.findByToken(refreshToken).orElse(null);
+        AuthToken authToken = authTokenRepository.findByAuthToken(refreshToken).orElse(null);
 
-        if (token == null) {
+        if (authToken == null) {
             throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
-        if (token.getTokenType() != TokenType.REFRESH) {
+        if (authToken.getAuthTokenType() != AuthTokenType.REFRESH) {
             throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
-        if (!jwtService.isTokenValid(refreshToken, user) || token.getIsExpired() || token.getIsRevoked()) {
+        if (!jwtService.isTokenValid(refreshToken, user) || authToken.getIsExpired() || authToken.getIsRevoked()) {
             throw new IllegalArgumentException(TokenMessages.PROVIDED_REFRESH_TOKEN_IS_INVALID_OR_EXPIRED);
         }
 
-        revokeAllUserTokens(user);
+        revokeAllUserAuthTokens(user);
 
         String newAccessToken = jwtService.generateToken(user);
-        saveUserToken(user, newAccessToken, TokenType.ACCESS);
+        saveUserAuthToken(user, newAccessToken, AuthTokenType.ACCESS);
 
         String newRefreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(user, newRefreshToken, TokenType.REFRESH);
+        saveUserAuthToken(user, newRefreshToken, AuthTokenType.REFRESH);
 
         return RefreshTokenResponseDto.builder()
                 .accessToken(newAccessToken)

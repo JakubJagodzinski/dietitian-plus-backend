@@ -97,7 +97,7 @@ public class AuthenticationController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Token refreshed successfully",
+                    description = "Tokens refreshed successfully",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = RefreshTokenResponseDto.class)
@@ -114,7 +114,7 @@ public class AuthenticationController {
     })
     @PostMapping("/refresh-token")
     public ResponseEntity<RefreshTokenResponseDto> refreshToken(@Valid @RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
-        RefreshTokenResponseDto refreshTokenResponseDto = service.refreshToken(refreshTokenRequestDto);
+        RefreshTokenResponseDto refreshTokenResponseDto = service.refreshAuthToken(refreshTokenRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

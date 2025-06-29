@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.auth;
 
-import com.example.dietitian_plus.auth.token.Token;
-import com.example.dietitian_plus.auth.token.TokenRepository;
+import com.example.dietitian_plus.auth.authtoken.AuthToken;
+import com.example.dietitian_plus.auth.authtoken.AuthTokenRepository;
 import com.example.dietitian_plus.common.constants.SecurityConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LogoutService implements LogoutHandler {
 
-    private final TokenRepository tokenRepository;
+    private final AuthTokenRepository authTokenRepository;
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
@@ -28,13 +28,13 @@ public class LogoutService implements LogoutHandler {
 
         final String jwt = authHeader.substring(SecurityConstants.HEADER_START.length());
 
-        Token storedToken = tokenRepository.findByToken(jwt).orElse(null);
+        AuthToken storedAuthToken = authTokenRepository.findByAuthToken(jwt).orElse(null);
 
-        if (storedToken != null) {
-            storedToken.setIsExpired(true);
-            storedToken.setIsRevoked(true);
+        if (storedAuthToken != null) {
+            storedAuthToken.setIsExpired(true);
+            storedAuthToken.setIsRevoked(true);
 
-            tokenRepository.save(storedToken);
+            authTokenRepository.save(storedAuthToken);
 
             SecurityContextHolder.clearContext();
         }

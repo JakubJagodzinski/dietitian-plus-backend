@@ -1,6 +1,6 @@
 package com.example.dietitian_plus.auth.jwt;
 
-import com.example.dietitian_plus.auth.token.TokenService;
+import com.example.dietitian_plus.auth.authtoken.AuthTokenService;
 import com.example.dietitian_plus.common.constants.SecurityConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final TokenService tokenService;
+    private final AuthTokenService authTokenService;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -55,7 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            if (jwtService.isTokenValid(jwt, userDetails) && tokenService.isTokenValidInDatabase(jwt)) {
+            if (jwtService.isTokenValid(jwt, userDetails) && authTokenService.isAuthTokenValidInDatabase(jwt)) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
