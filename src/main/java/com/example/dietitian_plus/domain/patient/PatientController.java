@@ -1,16 +1,18 @@
 package com.example.dietitian_plus.domain.patient;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
-import com.example.dietitian_plus.common.dto.MessageResponseDto;
 import com.example.dietitian_plus.common.constants.messages.PatientMessages;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
+import com.example.dietitian_plus.common.dto.MessageResponseDto;
 import com.example.dietitian_plus.domain.patient.dto.request.AssignDietitianToPatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.request.PatientQuestionnaireRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.request.UpdatePatientRequestDto;
 import com.example.dietitian_plus.domain.patient.dto.response.PatientQuestionnaireStatusResponseDto;
 import com.example.dietitian_plus.domain.patient.dto.response.PatientResponseDto;
-import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -299,7 +301,15 @@ public class PatientController {
     }
 
     @Operation(
-            summary = "Assign dietitian to patient"
+            summary = "Assign dietitian to patient",
+            parameters = {
+                    @Parameter(
+                            name = "patient_email",
+                            description = "Patient's email to assign dietitian to",
+                            in = ParameterIn.QUERY,
+                            schema = @Schema(type = "string", format = "email", example = "john.doe@gmail.com")
+                    ),
+            }
     )
     @ApiResponses({
             @ApiResponse(

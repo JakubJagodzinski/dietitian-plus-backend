@@ -43,9 +43,21 @@ public class User implements UserDetails {
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "last_logged_in")
+    @Builder.Default
+    private LocalDateTime lastLoggedIn = null;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @Column(name = "is_verified", nullable = false)
+    @Builder.Default
+    private boolean isVerified = false;
+
+    @Column(name = "is_subscription_paid", nullable = false)
+    @Builder.Default
+    private boolean isSubscriptionPaid = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
