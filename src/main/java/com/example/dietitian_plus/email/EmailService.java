@@ -23,15 +23,11 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    @Value("${server.address}")
-    private String serverAddress;
-
-    @Value("${server.port}")
-    private String serverPort;
+    @Value("${app.frontend-full-url}")
+    private String frontendFullUrl;
 
     private String generateVerificationLink(String verificationToken) {
-        String protocol = serverAddress.contains("localhost") ? "http" : "https";
-        return protocol + "://" + serverAddress + ":" + serverPort + "/api/v1/auth/verify?token=" + verificationToken;
+        return frontendFullUrl + "/api/v1/auth/verify?token=" + verificationToken;
     }
 
     @Async
