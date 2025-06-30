@@ -13,5 +13,20 @@ services:
       - ./db-init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     restart: unless-stopped
 
+  app:
+    container_name: dietitian-plus-app
+    build:
+      context: .
+      args:
+        JAR_FILE: target/dietitian_plus-0.0.1-SNAPSHOT.jar
+    env_file:
+      - .env
+    ports:
+      - "8090:8090"
+    depends_on:
+      - postgres
+    command: [ "./mvnw", "clean", "package", "-DskipTests", "&&", "java", "-jar", "target/dietitian_plus-0.0.1-SNAPSHOT.jar" ]
+    restart: unless-stopped
+
 volumes:
   postgres_data:
