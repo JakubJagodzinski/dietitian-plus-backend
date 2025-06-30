@@ -2,6 +2,7 @@ package com.example.dietitian_plus.config;
 
 import com.example.dietitian_plus.auth.jwt.JwtAuthenticationEntryPoint;
 import com.example.dietitian_plus.auth.jwt.JwtAuthenticationFilter;
+import com.example.dietitian_plus.paywall.PaywallFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] WHITE_LIST_URL = {
+    private static final String[] PUBLIC_API_ENDPOINTS = {
             "/api/v1/payments/**",
             "/api/v1/subscriptions/webhook",
             "/api/v1/auth/**",
@@ -40,6 +41,8 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
 
+    private final PaywallFilter paywallFilter;
+
     private final AuthenticationProvider authenticationProvider;
 
     private final LogoutHandler logoutHandler;
@@ -52,7 +55,7 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers(WHITE_LIST_URL)
+                        req.requestMatchers(PUBLIC_API_ENDPOINTS)
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
@@ -60,6 +63,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(paywallFilter, JwtAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )

@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.user;
 
 import com.example.dietitian_plus.accountsubscription.AccountSubscription;
-import com.example.dietitian_plus.accountsubscription.AccountSubscriptionRepository;
+import com.example.dietitian_plus.accountsubscription.AccountSubscriptionService;
 import com.example.dietitian_plus.accountsubscription.AccountSubscriptionStatus;
 import com.example.dietitian_plus.common.constants.messages.PasswordMessages;
 import com.example.dietitian_plus.user.dto.request.ChangePasswordRequestDto;
@@ -23,7 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final AccountSubscriptionRepository accountSubscriptionRepository;
+    private final AccountSubscriptionService accountSubscriptionService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -33,7 +33,7 @@ public class UserService {
 
         AccountSubscriptionStatusResponseDto accountSubscriptionStatusResponseDto = new AccountSubscriptionStatusResponseDto();
 
-        AccountSubscription accountSubscription = accountSubscriptionRepository.findByUser_UserIdAndAccountSubscriptionStatus(user.getUserId(), AccountSubscriptionStatus.ACTIVE).orElse(null);
+        AccountSubscription accountSubscription = accountSubscriptionService.getSubscriptionWithTimeLeft(user.getUserId());
 
         if (accountSubscription == null) {
             accountSubscriptionStatusResponseDto.setAccountSubscriptionStatus(AccountSubscriptionStatus.NO_SUBSCRIPTION);

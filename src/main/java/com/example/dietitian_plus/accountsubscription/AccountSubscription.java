@@ -33,7 +33,7 @@ public class AccountSubscription {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_subscription_status", nullable = false)
-    private AccountSubscriptionStatus accountSubscriptionStatus;
+    private AccountSubscriptionStatus accountSubscriptionStatus = AccountSubscriptionStatus.ACTIVE;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

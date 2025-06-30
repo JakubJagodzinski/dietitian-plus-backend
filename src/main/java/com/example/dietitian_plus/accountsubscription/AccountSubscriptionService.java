@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +28,36 @@ public class AccountSubscriptionService {
 
     private final EmailService emailService;
 
+    public boolean hasUserSubscriptionTimeLeft(UUID userId) {
+        List<AccountSubscription> accountSubscription = accountSubscriptionRepository.findAllByUser_UserIdAndBillingPeriodEndGreaterThanEqual(userId, LocalDateTime.now());
+
+        return !accountSubscription.isEmpty();
+    }
+
+    public boolean hasUserActiveSubscription(UUID userId) {
+        AccountSubscription accountSubscription = accountSubscriptionRepository.findByUser_UserIdAndAccountSubscriptionStatus(userId, AccountSubscriptionStatus.ACTIVE).orElse(null);
+
+        return accountSubscription != null;
+    }
+
+    public AccountSubscription getSubscriptionWithTimeLeft(UUID userId) {
+        List<AccountSubscription> accountSubscriptionList = accountSubscriptionRepository.findAllByUser_UserIdAndBillingPeriodEndGreaterThanEqual(userId, LocalDateTime.now());
+
+        if (accountSubscriptionList.isEmpty()) {
+            return null;
+        }
+
+        return accountSubscriptionList.getFirst();
+    }
+
+    public AccountSubscription getUserActiveSubscription(UUID userId) {
+        return accountSubscriptionRepository.findByUser_UserIdAndAccountSubscriptionStatus(userId, AccountSubscriptionStatus.ACTIVE).orElse(null);
+    }
+
     @Transactional
     public void cancelSubscription(User user) throws IllegalStateException, MessagingException {
         try {
-            AccountSubscription accountSubscription = accountSubscriptionRepository.findByUser_UserIdAndAccountSubscriptionStatus(user.getUserId(), AccountSubscriptionStatus.ACTIVE).orElse(null);
+            AccountSubscription accountSubscription = getUserActiveSubscription(user.getUserId());
 
             if (accountSubscription == null) {
                 throw new IllegalStateException(AccountSubscriptionMessages.NO_SUBSCRIPTION_ACTIVE_ON_THIS_ACCOUNT);
@@ -58,15 +86,16 @@ public class AccountSubscriptionService {
 
     @Transactional
     public LocalDateTime extendSubscription(User user, Session session) {
-        AccountSubscription accountSubscription = accountSubscriptionRepository.findByUser_UserIdAndAccountSubscriptionStatus(user.getUserId(), AccountSubscriptionStatus.ACTIVE).orElse(null);
+        AccountSubscription accountSubscription = getUserActiveSubscription(user.getUserId());
 
         if (accountSubscription == null) {
             accountSubscription = new AccountSubscription();
 
-            accountSubscription.setAccountSubscriptionStatus(AccountSubscriptionStatus.ACTIVE);
             accountSubscription.setUser(user);
+
             try {
                 Subscription stripeSubscription = Subscription.retrieve(session.getSubscription());
+
                 accountSubscription.setStripeSubscriptionId(stripeSubscription.getId());
             } catch (Exception e) {
                 throw new RuntimeException(AccountSubscriptionMessages.FAILED_TO_EXTEND_SUBSCRIPTION);

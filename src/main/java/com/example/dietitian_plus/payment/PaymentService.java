@@ -1,9 +1,7 @@
 package com.example.dietitian_plus.payment;
 
-import com.example.dietitian_plus.accountsubscription.AccountSubscription;
-import com.example.dietitian_plus.accountsubscription.AccountSubscriptionRepository;
 import com.example.dietitian_plus.accountsubscription.AccountSubscriptionService;
-import com.example.dietitian_plus.accountsubscription.AccountSubscriptionStatus;
+import com.example.dietitian_plus.auth.access.SecurityUtils;
 import com.example.dietitian_plus.common.constants.messages.AccountSubscriptionMessages;
 import com.example.dietitian_plus.common.constants.messages.PaymentMessages;
 import com.example.dietitian_plus.config.StripeConfig;
@@ -31,11 +29,12 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final UserRepository userRepository;
-    private final AccountSubscriptionRepository accountSubscriptionRepository;
 
     private final AccountSubscriptionService accountSubscriptionService;
 
     private final StripeConfig stripeConfig;
+
+    private final SecurityUtils securityUtils;
 
     private static final String userIdMetadata = "userId";
 
@@ -45,10 +44,12 @@ public class PaymentService {
     }
 
     public Map<String, String> activateSubscription(User user) throws StripeException, IllegalArgumentException {
-        AccountSubscription accountSubscription = accountSubscriptionRepository.findByUser_UserIdAndAccountSubscriptionStatus(user.getUserId(), AccountSubscriptionStatus.ACTIVE).orElse(null);
-
-        if (accountSubscription != null) {
+        if (accountSubscriptionService.hasUserActiveSubscription(user.getUserId())) {
             throw new IllegalArgumentException(AccountSubscriptionMessages.ACCOUNT_ALREADY_HAS_AN_ACTIVE_SUBSCRIPTION);
+        }
+
+        if (securityUtils.isAdmin()) {
+            throw new IllegalArgumentException(AccountSubscriptionMessages.YOU_CANNOT_ACTIVATE_SUBSCRIPTION_FOR_ADMIN_ACCOUNT);
         }
 
         SessionCreateParams params = SessionCreateParams.builder()
