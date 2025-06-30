@@ -60,7 +60,7 @@ public class AccountSubscriptionService {
             AccountSubscription accountSubscription = getUserActiveSubscription(user.getUserId());
 
             if (accountSubscription == null) {
-                throw new IllegalStateException(AccountSubscriptionMessages.NO_SUBSCRIPTION_ACTIVE_ON_THIS_ACCOUNT);
+                throw new IllegalStateException(AccountSubscriptionMessages.NO_ACTIVE_SUBSCRIPTION_ON_THIS_ACCOUNT);
             }
 
             Subscription stripeSubscription = Subscription.retrieve(accountSubscription.getStripeSubscriptionId());

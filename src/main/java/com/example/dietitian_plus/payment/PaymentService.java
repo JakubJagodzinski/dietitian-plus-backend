@@ -5,6 +5,7 @@ import com.example.dietitian_plus.auth.access.SecurityUtils;
 import com.example.dietitian_plus.common.constants.messages.AccountSubscriptionMessages;
 import com.example.dietitian_plus.common.constants.messages.PaymentMessages;
 import com.example.dietitian_plus.config.StripeConfig;
+import com.example.dietitian_plus.payment.dto.ActivateSubscriptionResponseDto;
 import com.example.dietitian_plus.user.User;
 import com.example.dietitian_plus.user.UserRepository;
 import com.stripe.Stripe;
@@ -20,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -43,7 +43,7 @@ public class PaymentService {
         Stripe.apiKey = stripeConfig.getApiKey();
     }
 
-    public Map<String, String> activateSubscription(User user) throws StripeException, IllegalArgumentException {
+    public ActivateSubscriptionResponseDto activateSubscription(User user) throws StripeException, IllegalArgumentException {
         if (accountSubscriptionService.hasUserActiveSubscription(user.getUserId())) {
             throw new IllegalArgumentException(AccountSubscriptionMessages.ACCOUNT_ALREADY_HAS_AN_ACTIVE_SUBSCRIPTION);
         }
@@ -67,7 +67,11 @@ public class PaymentService {
 
         Session session = Session.create(params);
 
-        return Map.of("checkoutUrl", session.getUrl());
+        ActivateSubscriptionResponseDto activateSubscriptionResponseDto = new ActivateSubscriptionResponseDto();
+
+        activateSubscriptionResponseDto.setCheckoutUrl(session.getUrl());
+
+        return activateSubscriptionResponseDto;
     }
 
     @Transactional

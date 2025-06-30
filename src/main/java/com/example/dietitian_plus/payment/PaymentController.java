@@ -3,6 +3,7 @@ package com.example.dietitian_plus.payment;
 import com.example.dietitian_plus.common.constants.messages.PaymentMessages;
 import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.common.dto.MessageResponseDto;
+import com.example.dietitian_plus.payment.dto.ActivateSubscriptionResponseDto;
 import com.example.dietitian_plus.user.User;
 import com.stripe.exception.StripeException;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -46,8 +47,12 @@ public class PaymentController {
             )
     })
     @PostMapping("/subscriptions/activate")
-    public Map<String, String> activateSubscription(@AuthenticationPrincipal User user) throws StripeException {
-        return paymentService.activateSubscription(user);
+    public ResponseEntity<ActivateSubscriptionResponseDto> activateSubscription(@AuthenticationPrincipal User user) throws StripeException {
+        ActivateSubscriptionResponseDto activateSubscriptionResponseDto = paymentService.activateSubscription(user);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(activateSubscriptionResponseDto);
     }
 
     @PostMapping("/subscriptions/webhook")
