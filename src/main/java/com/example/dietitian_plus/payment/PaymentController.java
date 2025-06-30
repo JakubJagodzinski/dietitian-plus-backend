@@ -34,7 +34,7 @@ public class PaymentController {
                     description = "Subscription activated successfully",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = Map.class)
+                            schema = @Schema(implementation = ActivateSubscriptionResponseDto.class)
                     )
             ),
             @ApiResponse(
