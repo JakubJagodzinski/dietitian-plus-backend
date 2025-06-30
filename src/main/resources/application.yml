@@ -43,8 +43,10 @@ spring:
             enable: true
 
 server:
-  port: ${SERVER_PORT}
-  address: ${SERVER_ADDRESS}
+  port: ${SERVER_PORT:8090}
+
+app:
+  frontend-full-url: ${FRONTEND_FULL_URL:http://localhost:3000}
 
 stripe:
   apiKey: ${STRIPE_API_KEY}
