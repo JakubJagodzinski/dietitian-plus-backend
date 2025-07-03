@@ -79,33 +79,19 @@ cd dietitian-plus-backend
 2. **Prepare .env file from template**
    <br><br>
 
-3. **Load environment variables from the `.env` file**
-
+3. build docker image
 ```powershell
-Get-Content .env | ForEach-Object {
-    if ($_ -match '^\s*([^#][\w\.\-]+)\s*=\s*(.*)$') {
-        $name = $matches[1]
-        $value = $matches[2].Trim('"')
-        [System.Environment]::SetEnvironmentVariable($name, $value, 'Process')
-    }
-}
+docker build --build-arg JAR_FILE=target/dietitian_plus-0.0.1.jar -t dietitian-plus-app .
 ```
-3. **Create containers**
+4. **Create and run containers**
 
 ```powershell
-docker-compose up -d
+docker compose up -d
 ```
 
-4. **Build the project:**
-
+5. run backend
 ```powershell
-./mvnw clean package
-```
 
-5. **Run the application:**
-
-```powershell
-./mvnw spring-boot:run
 ```
 
 ---
