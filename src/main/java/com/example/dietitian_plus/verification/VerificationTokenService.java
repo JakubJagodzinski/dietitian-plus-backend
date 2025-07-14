@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.verification;
 
+import com.example.dietitian_plus.common.constants.messages.EmailMessages;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
-import com.example.dietitian_plus.common.constants.messages.VerificationEmailMessages;
 import com.example.dietitian_plus.common.constants.messages.VerificationTokenMessages;
 import com.example.dietitian_plus.email.EmailService;
 import com.example.dietitian_plus.user.User;
@@ -92,7 +92,7 @@ public class VerificationTokenService {
         try {
             emailService.sendRegistrationEmail(user.getEmail(), user.getFirstName(), user.getRole(), newToken);
         } catch (Exception e) {
-            throw new MailSendException(VerificationEmailMessages.FAILED_TO_SEND_VERIFICATION_EMAIL, e);
+            throw new MailSendException(EmailMessages.FAILED_TO_SEND_VERIFICATION_EMAIL, e);
         }
     }
 

@@ -1,10 +1,11 @@
 package com.example.dietitian_plus.domain.dish;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.domain.dish.dto.request.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.request.UpdateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
-import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishWithProductsResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -190,7 +191,7 @@ public class DishController {
                     description = "Dish created successfully",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = DishResponseDto.class)
+                            schema = @Schema(implementation = DishWithProductsResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -208,7 +209,7 @@ public class DishController {
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Dietitian not found",
+                    description = "Dietitian / product / unit not found",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponseDto.class)
@@ -217,13 +218,13 @@ public class DishController {
     })
     @CheckPermission(Permission.DISH_CREATE)
     @PostMapping("/dishes")
-    public ResponseEntity<DishResponseDto> createDish(@Valid @RequestBody CreateDishRequestDto createDishRequestDto) {
-        DishResponseDto createdDishResponseDto = dishService.createDish(createDishRequestDto);
+    public ResponseEntity<DishWithProductsResponseDto> createDish(@Valid @RequestBody CreateDishRequestDto createDishRequestDto) {
+        DishWithProductsResponseDto dishWithProductsResponseDto = dishService.createDish(createDishRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(URI.create("/api/v1/dishes/" + createdDishResponseDto.getDishId()))
-                .body(createdDishResponseDto);
+                .location(URI.create("/api/v1/dishes/" + dishWithProductsResponseDto.getDish().getDishId()))
+                .body(dishWithProductsResponseDto);
     }
 
     @Operation(

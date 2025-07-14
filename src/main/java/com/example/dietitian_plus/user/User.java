@@ -55,10 +55,6 @@ public class User implements UserDetails {
     @Builder.Default
     private boolean isVerified = false;
 
-    @Column(name = "is_subscription_paid", nullable = false)
-    @Builder.Default
-    private boolean isSubscriptionPaid = true;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();

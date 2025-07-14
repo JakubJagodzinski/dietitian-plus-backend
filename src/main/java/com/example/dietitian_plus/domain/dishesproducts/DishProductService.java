@@ -21,6 +21,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -87,6 +88,46 @@ public class DishProductService {
         dishProduct.setUnitCount(addProductToDishRequestDto.getUnitCount());
 
         return dishProductDtoMapper.toDto(dishProductRepository.save(dishProduct));
+    }
+
+    @Transactional
+    public List<DishProductResponseDto> addManyProductsToDish(Long dishId, List<AddProductToDishRequestDto> addProductToDishRequestDtoList) throws EntityNotFoundException {
+        Dish dish = dishRepository.findById(dishId).orElse(null);
+
+        if (dish == null) {
+            throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
+        }
+
+        dishProductAccessManager.checkCanAddProductToDish(dish);
+
+        List<DishProductResponseDto> dishProductResponseDtoList = new ArrayList<>();
+
+        for (AddProductToDishRequestDto addProductToDishRequestDto : addProductToDishRequestDtoList) {
+            Product product = productRepository.findById(addProductToDishRequestDto.getProductId()).orElse(null);
+
+            if (product == null) {
+                throw new EntityNotFoundException(ProductMessages.PRODUCT_NOT_FOUND);
+            }
+
+            Unit unit = unitRepository.findById(addProductToDishRequestDto.getUnitId()).orElse(null);
+
+            if (unit == null) {
+                throw new EntityNotFoundException(UnitMessages.UNIT_NOT_FOUND);
+            }
+
+            DishProduct dishProduct = new DishProduct();
+
+            dishProduct.setDish(dish);
+            dishProduct.setProduct(product);
+            dishProduct.setUnit(unit);
+            dishProduct.setUnitCount(addProductToDishRequestDto.getUnitCount());
+
+            DishProduct savedDishProduct = dishProductRepository.save(dishProduct);
+
+            dishProductResponseDtoList.add(dishProductDtoMapper.toDto(savedDishProduct));
+        }
+
+        return dishProductResponseDtoList;
     }
 
     @Transactional

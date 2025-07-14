@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.dish.dto.request;
 
 import com.example.dietitian_plus.common.validation.NotEmptyIfPresent;
+import com.example.dietitian_plus.domain.dishesproducts.dto.request.AddProductToDishRequestDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,12 +12,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({"dish_name", "is_template", "is_public", "recipe", "dietitian_id"})
+@JsonPropertyOrder({"dish_name", "is_template", "is_public", "recipe", "dietitian_id", "products"})
 public class CreateDishRequestDto {
 
     @Schema(
@@ -65,5 +67,12 @@ public class CreateDishRequestDto {
     @NotNull
     @JsonProperty("dietitian_id")
     private UUID dietitianId;
+
+    @Schema(
+            description = "Optional list of product ids to add to dish with unit type and unit count",
+            nullable = true
+    )
+    @JsonProperty("products")
+    private List<AddProductToDishRequestDto> products;
 
 }
