@@ -96,10 +96,10 @@ available [here](http://51.21.186.125:8090/swagger-ui/index.html).
     cd dietitian-plus-backend
     ```
 
-3. **Copy the `.env.template` file to `.env` and fill in the required environment variables:**
+3. **Copy the `.env.example` file to `.env` and fill in the required environment variables:**
 
     ```powershell
-    copy .env.template .env
+    copy .env.example .env
     ```
 
 4. build docker image
