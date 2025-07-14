@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.user.dto;
+package com.example.dietitian_plus.user.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

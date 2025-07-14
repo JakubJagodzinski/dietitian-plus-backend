@@ -18,7 +18,6 @@ public class DietitianDtoMapper {
         dto.setFirstName(dietitian.getFirstName());
         dto.setLastName(dietitian.getLastName());
         dto.setVerified(dietitian.isVerified());
-        dto.setSubscriptionPaid(dietitian.isSubscriptionPaid());
 
         return dto;
     }

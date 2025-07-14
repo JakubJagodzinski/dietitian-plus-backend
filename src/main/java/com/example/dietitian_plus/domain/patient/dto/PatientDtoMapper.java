@@ -27,7 +27,6 @@ public class PatientDtoMapper {
         }
 
         patientResponseDto.setVerified(patient.isVerified());
-        patientResponseDto.setSubscriptionPaid(patient.isSubscriptionPaid());
 
         return patientResponseDto;
     }

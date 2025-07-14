@@ -9,6 +9,9 @@ import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
 import com.example.dietitian_plus.domain.dish.dto.request.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.request.UpdateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
+import com.example.dietitian_plus.domain.dishesproducts.DishProductService;
+import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishProductResponseDto;
+import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishWithProductsResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,8 @@ public class DishService {
     private final DietitianRepository dietitianRepository;
 
     private final DishDtoMapper dishDtoMapper;
+
+    private final DishProductService dishProductService;
 
     private final DishAccessManager dishAccessManager;
 
@@ -64,7 +69,7 @@ public class DishService {
     }
 
     @Transactional
-    public DishResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException, IllegalArgumentException {
+    public DishWithProductsResponseDto createDish(CreateDishRequestDto createDishRequestDto) throws EntityNotFoundException, IllegalArgumentException {
         Dietitian dietitian = dietitianRepository.findById(createDishRequestDto.getDietitianId()).orElse(null);
 
         if (dietitian == null) {
@@ -79,7 +84,16 @@ public class DishService {
         dish.setRecipe(createDishRequestDto.getRecipe().trim());
         dish.setDietitian(dietitian);
 
-        return dishDtoMapper.toDto(dishRepository.save(dish));
+        Dish savedDish = dishRepository.save(dish);
+
+        List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.addManyProductsToDish(savedDish.getDishId(), createDishRequestDto.getProducts());
+
+        DishWithProductsResponseDto dishWithProductsResponseDto = new DishWithProductsResponseDto();
+
+        dishWithProductsResponseDto.setDish(dishDtoMapper.toDto(savedDish));
+        dishWithProductsResponseDto.setProducts(dishProductResponseDtoList);
+
+        return dishWithProductsResponseDto;
     }
 
     @Transactional

@@ -1,4 +1,4 @@
-package com.example.dietitian_plus.auth.token;
+package com.example.dietitian_plus.auth.authtoken;
 
 import com.example.dietitian_plus.user.User;
 import jakarta.persistence.*;
@@ -12,19 +12,20 @@ import org.hibernate.annotations.OnDeleteAction;
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "tokens")
-public class Token {
+@Table(name = "auth_tokens")
+public class AuthToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tokenId;
+    @Column(name = "auth_token_id")
+    private Long authTokenId;
 
-    @Column(unique = true, nullable = false)
-    private String token;
+    @Column(name = "auth_token", unique = true, nullable = false)
+    private String authToken;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TokenType tokenType;
+    @Column(name = "auth_token_type", nullable = false)
+    private AuthTokenType authTokenType;
 
     @Column(name = "is_revoked", nullable = false)
     @Builder.Default
@@ -35,7 +36,7 @@ public class Token {
     private Boolean isExpired = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tokens_user_id"))
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_auth_tokens_user_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 

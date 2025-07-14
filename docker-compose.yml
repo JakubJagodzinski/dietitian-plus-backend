@@ -1,17 +1,26 @@
 services:
-  postgres:
+  dietitian-plus-db:
     image: postgres:15
-    container_name: dietitian-plus-db
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+    env_file:
+      - .env
     ports:
       - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - dietitian-plus-data:/var/lib/postgresql/data
       - ./db-init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     restart: unless-stopped
 
+  dietitian-plus-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8090:8090"
+    depends_on:
+      - dietitian-plus-db
+    restart: unless-stopped
+
 volumes:
-  postgres_data:
+  dietitian-plus-data:

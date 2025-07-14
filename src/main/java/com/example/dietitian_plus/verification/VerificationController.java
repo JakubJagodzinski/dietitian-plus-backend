@@ -1,7 +1,7 @@
 package com.example.dietitian_plus.verification;
 
+import com.example.dietitian_plus.common.constants.messages.EmailMessages;
 import com.example.dietitian_plus.common.constants.messages.UserMessages;
-import com.example.dietitian_plus.common.constants.messages.VerificationEmailMessages;
 import com.example.dietitian_plus.common.dto.MessageResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -95,7 +95,7 @@ public class VerificationController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponseDto(VerificationEmailMessages.VERIFICATION_EMAIL_RESEND));
+                .body(new MessageResponseDto(EmailMessages.VERIFICATION_EMAIL_RESEND));
     }
 
 }

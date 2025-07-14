@@ -16,11 +16,23 @@ public class SecurityUtils {
     }
 
     public UUID getCurrentUserId() {
-        return getCurrentUser().getUserId();
+        User user = getCurrentUser();
+
+        if (user == null) {
+            return null;
+        }
+
+        return user.getUserId();
     }
 
     public User getCurrentUser() {
-        return (User) getAuthentication().getPrincipal();
+        Authentication auth = getAuthentication();
+
+        if (auth == null || !(auth.getPrincipal() instanceof User)) {
+            return null;
+        }
+
+        return (User) auth.getPrincipal();
     }
 
     public boolean isAdmin() {
@@ -28,12 +40,24 @@ public class SecurityUtils {
     }
 
     public boolean hasRole(String role) {
-        return getAuthentication().getAuthorities().stream()
+        Authentication auth = getAuthentication();
+
+        if (auth == null) {
+            return false;
+        }
+
+        return auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_" + role));
     }
 
     public boolean hasPermission(String authority) {
-        return getAuthentication().getAuthorities().stream()
+        Authentication auth = getAuthentication();
+
+        if (auth == null) {
+            return false;
+        }
+
+        return auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals(authority));
     }
 

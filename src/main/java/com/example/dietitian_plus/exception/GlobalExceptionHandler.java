@@ -2,6 +2,7 @@ package com.example.dietitian_plus.exception;
 
 import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.utils.SnakeCaseConverter;
+import com.stripe.exception.StripeException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiErrorResponseDto> handleValidationExceptions(MethodArgumentNotValidException e) {
+    public ResponseEntity<ApiErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
 
         e.getBindingResult().getFieldErrors().forEach(error ->
@@ -66,6 +67,19 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
+    @ExceptionHandler(StripeException.class)
+    public ResponseEntity<ApiErrorResponseDto> handleStripeException(StripeException e) {
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
+                .status(HttpStatus.BAD_GATEWAY.value())
+                .message("A payment processing error occurred. Please try again or contact support.")
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_GATEWAY)
+                .body(response);
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiErrorResponseDto> handleAccessDeniedException(AccessDeniedException e) {
         ApiErrorResponseDto response = ApiErrorResponseDto.builder()
@@ -80,7 +94,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiErrorResponseDto> handleEntityNotFound(EntityNotFoundException e) {
+    public ResponseEntity<ApiErrorResponseDto> handleEntityNotFoundException(EntityNotFoundException e) {
         ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message(e.getMessage())
@@ -93,7 +107,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityExistsException.class)
-    public ResponseEntity<ApiErrorResponseDto> handleEntityExists(EntityExistsException e) {
+    public ResponseEntity<ApiErrorResponseDto> handleEntityExistsException(EntityExistsException e) {
         ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(e.getMessage())
@@ -106,7 +120,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ApiErrorResponseDto> handleUsernameNotFound(UsernameNotFoundException e) {
+    public ResponseEntity<ApiErrorResponseDto> handleUsernameNotFoundException(UsernameNotFoundException e) {
         ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message(e.getMessage())
@@ -119,7 +133,20 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiErrorResponseDto> handleIllegalArgument(IllegalArgumentException e) {
+    public ResponseEntity<ApiErrorResponseDto> handleIllegalArgumentException(IllegalArgumentException e) {
+        ApiErrorResponseDto response = ApiErrorResponseDto.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(response);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiErrorResponseDto> handleIllegalStateException(IllegalStateException e) {
         ApiErrorResponseDto response = ApiErrorResponseDto.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(e.getMessage())
