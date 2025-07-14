@@ -1,4 +1,4 @@
-# Dietitian+ (Backend)
+# Dietitian+ (backend)
 
 A comprehensive website application designed for people looking to lose weight and professional dietitians.
 It allows dietitians to create meal plans, generate shopping lists, and manage client progress, while users can access
@@ -8,11 +8,11 @@ via email, and automated email notifications related to subscription status.
 The application is hosted on AWS, and the Swagger API documentation is
 available [here](http://51.21.186.125:8090/swagger-ui/index.html).
 
-[Dietitian+ (Frontend)](https://github.com/BartlomiejJaruga/dietitian-plus-frontend)
+[Dietitian+ (frontend)](https://github.com/BartlomiejJaruga/dietitian-plus-frontend)
 
 ---
 
-## Table of Contents
+# Table of Contents
 
 1. [Application Functionalities](#application-functionalities)
     - [Patient Website Features](#patient-website-features)
@@ -47,7 +47,7 @@ available [here](http://51.21.186.125:8090/swagger-ui/index.html).
 4. Patient Interview — conduct a structured interview with the patient, collecting essential information such as
    personal details, medical history, allergies and intolerances.
 5. Patient Management – Store and monitor patient data, including weight, height and BMI calculations over time.
-6. Easy Note's System — Create notes about every patient to store various additional data about them.
+6. Easy Notes System — Create notes about every patient to store various additional data about them.
 7. Diet Customization – Adjust meal plans according to individual patient preferences and progress.
 8. Public Dish Library — Share created dishes for other dietitians so they can use it as a template for their meals.
 9. Extensive Product Library — Take advantage of an extensive product database containing all specialized data needed to
@@ -55,7 +55,7 @@ available [here](http://51.21.186.125:8090/swagger-ui/index.html).
 
 ---
 
-## Tech Stack
+# Tech Stack
 
 - **Backend:** Java SpringBoot
 - **Database:** Postgres
@@ -77,12 +77,12 @@ available [here](http://51.21.186.125:8090/swagger-ui/index.html).
 
 # How to Run the Project:
 
-### Prerequisites
+## Prerequisites
 
 - Java 21+
 - Docker
 
-### Step-by-step
+## Step-by-step
 
 1. **Clone the repository:**
 
@@ -116,6 +116,6 @@ available [here](http://51.21.186.125:8090/swagger-ui/index.html).
 
 ---
 
-## Author
+# Author
 
 Jakub Jagodziński
