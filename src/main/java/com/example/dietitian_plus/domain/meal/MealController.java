@@ -1,14 +1,15 @@
 package com.example.dietitian_plus.domain.meal;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.domain.meal.dto.request.CreateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.request.UpdateMealRequestDto;
 import com.example.dietitian_plus.domain.meal.dto.response.MealResponseDto;
-import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,7 +44,7 @@ public class MealController {
                     description = "List of all meals",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = MealResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = MealResponseDto.class))
                     )
             ),
             @ApiResponse(
@@ -131,7 +132,7 @@ public class MealController {
                     description = "List of patient all meals",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = MealResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = MealResponseDto.class))
                     )
             ),
             @ApiResponse(
@@ -175,7 +176,7 @@ public class MealController {
                     description = "List of dietitian all meals",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = MealResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = MealResponseDto.class))
                     )
             ),
             @ApiResponse(

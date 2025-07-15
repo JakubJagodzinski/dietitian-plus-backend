@@ -1,12 +1,13 @@
 package com.example.dietitian_plus.domain.unit;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.domain.unit.dto.request.CreateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.request.UpdateUnitRequestDto;
 import com.example.dietitian_plus.domain.unit.dto.response.UnitResponseDto;
-import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,7 +39,7 @@ public class UnitController {
                     description = "List of all units",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = UnitResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = UnitResponseDto.class))
                     )
             ),
             @ApiResponse(

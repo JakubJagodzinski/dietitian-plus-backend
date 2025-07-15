@@ -13,6 +13,7 @@ import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -44,7 +45,7 @@ public class PatientController {
                     description = "List of all patients",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = PatientResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = PatientResponseDto.class))
                     )
             ),
             @ApiResponse(
@@ -169,7 +170,7 @@ public class PatientController {
                     description = "List of dietitian all patients",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = PatientResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = PatientResponseDto.class))
                     )
             ),
             @ApiResponse(

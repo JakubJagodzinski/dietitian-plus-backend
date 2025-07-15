@@ -1,12 +1,13 @@
 package com.example.dietitian_plus.domain.patientdiseases;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.domain.disease.dto.response.DiseaseResponseDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.request.AssignDiseaseToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientdiseases.dto.response.PatientDiseaseResponseDto;
-import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,7 +40,7 @@ public class PatientDiseaseController {
                     description = "List of patient all diseases",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = DiseaseResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = DiseaseResponseDto.class))
                     )
             ),
             @ApiResponse(

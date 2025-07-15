@@ -1,12 +1,13 @@
 package com.example.dietitian_plus.domain.patientallergenicproducts;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.request.AssignAllergenicProductToPatientRequestDto;
 import com.example.dietitian_plus.domain.patientallergenicproducts.dto.response.PatientAllergenicProductResponseDto;
 import com.example.dietitian_plus.domain.product.dto.response.ProductResponseDto;
-import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,7 +40,7 @@ public class PatientAllergenicProductController {
                     description = "List of patient all allergenic products",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ProductResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDto.class))
                     )
             ),
             @ApiResponse(

@@ -8,6 +8,7 @@ import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishWithProductsResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -40,7 +41,7 @@ public class DishController {
                     description = "List of all dishes",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = DishResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = DishResponseDto.class))
                     )
             ),
             @ApiResponse(
@@ -76,7 +77,7 @@ public class DishController {
                     description = "List of all public dishes",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = DishResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = DishResponseDto.class))
                     )
             ),
             @ApiResponse(
@@ -147,7 +148,7 @@ public class DishController {
                     description = "List of dietitian all dishes",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = DishResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = DishResponseDto.class))
                     )
             ),
             @ApiResponse(

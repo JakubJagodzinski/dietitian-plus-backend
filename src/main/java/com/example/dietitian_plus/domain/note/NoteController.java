@@ -1,12 +1,13 @@
 package com.example.dietitian_plus.domain.note;
 
 import com.example.dietitian_plus.auth.access.CheckPermission;
+import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.domain.note.dto.request.CreateNoteRequestDto;
 import com.example.dietitian_plus.domain.note.dto.request.UpdateNoteRequestDto;
 import com.example.dietitian_plus.domain.note.dto.response.NoteResponseDto;
-import com.example.dietitian_plus.common.dto.ApiErrorResponseDto;
 import com.example.dietitian_plus.user.Permission;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,7 +40,7 @@ public class NoteController {
                     description = "List of all notes",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = NoteResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = NoteResponseDto.class))
                     )
             ),
             @ApiResponse(
@@ -119,7 +120,7 @@ public class NoteController {
                     description = "List of patient all notes",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = NoteResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = NoteResponseDto.class))
                     )
             ),
             @ApiResponse(
@@ -163,7 +164,7 @@ public class NoteController {
                     description = "List of dietitian all notes",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = NoteResponseDto.class)
+                            array = @ArraySchema(schema = @Schema(implementation = NoteResponseDto.class))
                     )
             ),
             @ApiResponse(
