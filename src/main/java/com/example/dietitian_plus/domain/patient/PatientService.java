@@ -188,7 +188,7 @@ public class PatientService {
 
         PatientQuestionnaireStatusResponseDto patientQuestionnaireStatusResponseDto = new PatientQuestionnaireStatusResponseDto();
 
-        patientQuestionnaireStatusResponseDto.setIsQuestionnaireCompleted(patientRepository.existsByUserIdAndIsQuestionnaireCompletedIsTrue(patientId));
+        patientQuestionnaireStatusResponseDto.setIsQuestionnaireCompleted(patientRepository.existsByUserIdAndQuestionnaireCompletedIsTrue(patientId));
 
         return patientQuestionnaireStatusResponseDto;
     }

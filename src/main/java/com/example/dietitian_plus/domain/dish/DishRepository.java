@@ -9,6 +9,6 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
 
     List<Dish> findAllByDietitian_UserId(UUID dietitianId);
 
-    List<Dish> findAllByIsPublic_True();
+    List<Dish> findAllByPublic_True();
 
 }
