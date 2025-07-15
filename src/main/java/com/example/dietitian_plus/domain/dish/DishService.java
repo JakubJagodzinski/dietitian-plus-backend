@@ -39,7 +39,7 @@ public class DishService {
 
     @Transactional
     public List<DishResponseDto> getAllPublicDishes() {
-        List<Dish> publicDishes = dishRepository.findAllByPublic_True();
+        List<Dish> publicDishes = dishRepository.findAllByIsPublic_True();
 
         return dishDtoMapper.toDtoList(publicDishes);
     }

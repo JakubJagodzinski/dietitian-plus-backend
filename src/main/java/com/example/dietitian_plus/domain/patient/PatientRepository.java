@@ -12,6 +12,6 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     Optional<Patient> findByEmail(String email);
 
-    boolean existsByUserIdAndQuestionnaireCompletedIsTrue(UUID patientId);
+    boolean existsByUserIdAndIsQuestionnaireCompletedIsTrue(UUID patientId);
 
 }
