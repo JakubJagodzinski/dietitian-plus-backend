@@ -98,6 +98,10 @@ public class DishProductService {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
+        if (addProductToDishRequestDtoList == null) {
+            return null;
+        }
+
         dishProductAccessManager.checkCanAddProductToDish(dish);
 
         List<DishProductResponseDto> dishProductResponseDtoList = new ArrayList<>();

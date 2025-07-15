@@ -81,7 +81,11 @@ public class DishService {
         dish.setDishName(createDishRequestDto.getDishName().trim());
         dish.setTemplate(createDishRequestDto.isTemplate());
         dish.setPublic(createDishRequestDto.isPublic());
-        dish.setRecipe(createDishRequestDto.getRecipe().trim());
+
+        if (createDishRequestDto.getRecipe() != null) {
+            dish.setRecipe(createDishRequestDto.getRecipe().trim());
+        }
+
         dish.setDietitian(dietitian);
 
         Dish savedDish = dishRepository.save(dish);
