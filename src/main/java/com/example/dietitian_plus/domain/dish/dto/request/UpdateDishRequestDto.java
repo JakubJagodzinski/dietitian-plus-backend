@@ -1,6 +1,7 @@
 package com.example.dietitian_plus.domain.dish.dto.request;
 
 import com.example.dietitian_plus.common.validation.NotEmptyIfPresent;
+import com.example.dietitian_plus.domain.dishesproducts.dto.request.AddProductToDishRequestDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,6 +9,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -52,5 +55,12 @@ public class UpdateDishRequestDto {
     @Size(max = 1_000)
     @JsonProperty("recipe")
     private String recipe;
+
+    @Schema(
+            description = "Optional list of product ids that will replace current products in dish with unit type and unit count",
+            nullable = true
+    )
+    @JsonProperty("products")
+    private List<AddProductToDishRequestDto> products;
 
 }

@@ -21,7 +21,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -91,20 +90,18 @@ public class DishProductService {
     }
 
     @Transactional
-    public List<DishProductResponseDto> addManyProductsToDish(Long dishId, List<AddProductToDishRequestDto> addProductToDishRequestDtoList) throws EntityNotFoundException {
+    public void addManyProductsToDish(Long dishId, List<AddProductToDishRequestDto> addProductToDishRequestDtoList) throws EntityNotFoundException {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
             throw new EntityNotFoundException(DishMessages.DISH_NOT_FOUND);
         }
 
-        if (addProductToDishRequestDtoList == null) {
-            return null;
+        if (addProductToDishRequestDtoList == null || addProductToDishRequestDtoList.isEmpty()) {
+            return;
         }
 
         dishProductAccessManager.checkCanAddProductToDish(dish);
-
-        List<DishProductResponseDto> dishProductResponseDtoList = new ArrayList<>();
 
         for (AddProductToDishRequestDto addProductToDishRequestDto : addProductToDishRequestDtoList) {
             Product product = productRepository.findById(addProductToDishRequestDto.getProductId()).orElse(null);
@@ -126,12 +123,8 @@ public class DishProductService {
             dishProduct.setUnit(unit);
             dishProduct.setUnitCount(addProductToDishRequestDto.getUnitCount());
 
-            DishProduct savedDishProduct = dishProductRepository.save(dishProduct);
-
-            dishProductResponseDtoList.add(dishProductDtoMapper.toDto(savedDishProduct));
+            dishProductRepository.save(dishProduct);
         }
-
-        return dishProductResponseDtoList;
     }
 
     @Transactional

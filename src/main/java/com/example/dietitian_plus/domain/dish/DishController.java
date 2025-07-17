@@ -237,7 +237,7 @@ public class DishController {
                     description = "Dish updated successfully",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = DishResponseDto.class)
+                            schema = @Schema(implementation = DishWithProductsResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -264,12 +264,12 @@ public class DishController {
     })
     @CheckPermission(Permission.DISH_UPDATE)
     @PatchMapping("/dishes/{dishId}")
-    public ResponseEntity<DishResponseDto> updateDishById(@PathVariable Long dishId, @Valid @RequestBody UpdateDishRequestDto updateDishRequestDto) {
-        DishResponseDto dishResponseDto = dishService.updateDishById(dishId, updateDishRequestDto);
+    public ResponseEntity<DishWithProductsResponseDto> updateDishById(@PathVariable Long dishId, @Valid @RequestBody UpdateDishRequestDto updateDishRequestDto) {
+        DishWithProductsResponseDto dishWithProductsResponseDto = dishService.updateDishById(dishId, updateDishRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(dishResponseDto);
+                .body(dishWithProductsResponseDto);
     }
 
     @Operation(

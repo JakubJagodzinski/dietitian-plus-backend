@@ -9,8 +9,8 @@ import com.example.dietitian_plus.domain.dish.dto.DishDtoMapper;
 import com.example.dietitian_plus.domain.dish.dto.request.CreateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.request.UpdateDishRequestDto;
 import com.example.dietitian_plus.domain.dish.dto.response.DishResponseDto;
+import com.example.dietitian_plus.domain.dishesproducts.DishProductRepository;
 import com.example.dietitian_plus.domain.dishesproducts.DishProductService;
-import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishProductResponseDto;
 import com.example.dietitian_plus.domain.dishesproducts.dto.response.DishWithProductsResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -32,6 +32,7 @@ public class DishService {
     private final DishProductService dishProductService;
 
     private final DishAccessManager dishAccessManager;
+    private final DishProductRepository dishProductRepository;
 
     public List<DishResponseDto> getAllDishes() {
         return dishDtoMapper.toDtoList(dishRepository.findAll());
@@ -90,18 +91,13 @@ public class DishService {
 
         Dish savedDish = dishRepository.save(dish);
 
-        List<DishProductResponseDto> dishProductResponseDtoList = dishProductService.addManyProductsToDish(savedDish.getDishId(), createDishRequestDto.getProducts());
+        dishProductService.addManyProductsToDish(savedDish.getDishId(), createDishRequestDto.getProducts());
 
-        DishWithProductsResponseDto dishWithProductsResponseDto = new DishWithProductsResponseDto();
-
-        dishWithProductsResponseDto.setDish(dishDtoMapper.toDto(savedDish));
-        dishWithProductsResponseDto.setProducts(dishProductResponseDtoList);
-
-        return dishWithProductsResponseDto;
+        return dishProductService.getDishWithProducts(savedDish.getDishId());
     }
 
     @Transactional
-    public DishResponseDto updateDishById(Long dishId, UpdateDishRequestDto updateDishRequestDto) throws EntityNotFoundException {
+    public DishWithProductsResponseDto updateDishById(Long dishId, UpdateDishRequestDto updateDishRequestDto) throws EntityNotFoundException {
         Dish dish = dishRepository.findById(dishId).orElse(null);
 
         if (dish == null) {
@@ -126,7 +122,12 @@ public class DishService {
             dish.setRecipe(updateDishRequestDto.getRecipe().trim());
         }
 
-        return dishDtoMapper.toDto(dishRepository.save(dish));
+        dishProductRepository.deleteAllByDish_DishId(dish.getDishId());
+        dishProductService.addManyProductsToDish(dish.getDishId(), updateDishRequestDto.getProducts());
+
+        dishRepository.save(dish);
+
+        return dishProductService.getDishWithProducts(dishId);
     }
 
     @Transactional
