@@ -12,11 +12,14 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({"patient_id", "first_name", "last_name", "height", "starting_weight", "current_weight", "pal", "birthdate", "is_verified", "dietitian_id"})
+@JsonPropertyOrder({"patient_id", "email", "first_name", "last_name", "height", "starting_weight", "current_weight", "pal", "birthdate", "is_verified", "dietitian_id"})
 public class PatientResponseDto {
 
     @JsonProperty("patient_id")
     private UUID patientId;
+
+    @JsonProperty("email")
+    private String email;
 
     @JsonProperty("first_name")
     private String firstName;
