@@ -5,8 +5,6 @@ It allows dietitians to create meal plans, generate shopping lists, and manage c
 personalized diets and track their BMI.
 The backend also includes a subscription model with a paywall, Stripe payment gateway integration, account activation
 via email, and automated email notifications related to subscription status.
-The application is hosted on AWS, and the Swagger API documentation is
-available [here](http://51.21.186.125:8090/swagger-ui/index.html).
 
 [Dietitian+ (frontend)](https://github.com/BartlomiejJaruga/dietitian-plus-frontend)
 
